@@ -1,0 +1,27 @@
+<%- include ../header %>
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/job-insert.css">
+	<script type="text/javascript" src="src/script/recruit.js"></script>
+<%- include ../nav %>
+
+   <div class="outer" style="height:300px;border:1px solid red;width:100%;">
+     <div class="inner" style="border:1px solid blue;text-align:center;">
+		<form method="post" style="width:500px;height:800px;">
+			<label>公司名称：</label><input type="text" id="companyName" name="companyName" /><br />
+		    <label>公司地点：</label><input type="text" id="companyLocation" name="companyLocation" /><br />
+		    <label>工作地点：</label><input type="text" id="workLocation" name="workLocation" /><br />
+		    <label>招聘类型：</label><input type="text" id="jobType" name="jobType" /><br />
+		    <label>招聘人数：</label><input type="text" id="jobNum" name="jobNum" /><br />		    
+		    <label>工作经验：</label><input type="text" id="workTime" name="workTime" /><br />
+		    <label>发布时间：</label><input type="text" id="jobTime" name="jobTime" /><br />
+		    <div>
+		    	<label>职位要求：</label><br>
+		    	<textarea rows="15" cols="100" id="jobDetail" name="jobDetail">
+		    	</textarea>
+		    </div>
+		    <input type="submit" value="发布">
+		</form>
+   </div>
+ </div>
+<%- include ../footer %>
+

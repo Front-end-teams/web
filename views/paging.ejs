@@ -1,0 +1,46 @@
+<br />
+<div>
+  <span class="prepage"><a title="首页" href="?p=<%= 1 %>">首页</a></span>
+
+  <% if ((page-1)>=1) { %>
+  <span class="prepage"><a title="上一页" href="?p=<%= page-1 %>">上一页</a></span>
+  <% }else{}%>
+
+  <% if ((page-3)==1) { %> 
+    <span class="prepage"><a title="上两页" href="?p=1">1</a></span>
+  <% }else if ((page-3)>1){%>
+    <span class="prepage"><a title="上两页" href="?p=1">1</a></span>
+    <span class="prepage"><a title="省略">...</a></span>
+  <%}%>
+
+  <% if ((page-2)>=1) { %> 
+  <span class="prepage"><a title="上两页" href="?p=<%= page-2 %>"><%= page-2 %></a></span>
+  <% }else{}%>
+
+  <% if ((page-1)>=1) { %> 
+  <span class="prepage"><a title="上一页" href="?p=<%= page-1 %>"><%= page-1 %></a></span>
+  <% }else{}%>
+
+  <span class="currentpage"><a title="当前页" href="?p=<%= page %>"><%= page %></a></span>
+
+  <% if ((page+1)<=LastPage) { %> 
+  <span class="nextpage"><a title="下一页" href="?p=<%= page+1 %>"><%= page+1 %></a></span>
+  <% }else{}%>
+
+  <% if ((page+2)<=LastPage) { %> 
+  <span class="nextpage"><a title="下两页" href="?p=<%= page+2 %>"><%= page+2 %></a></span>
+  <% }else{}%>
+  
+  <% if ((page+3)== LastPage) { %> 
+    <span class="nextpage"><a title="下三页" href="?p=<%=LastPage%>"><%=LastPage%></a></span>
+  <% }else if((page+3)< LastPage) {%>
+   <span class="nextpage"><a title="省略">...</a></span>
+   <span class="nextpage"><a title="末页" href="?p=<%=LastPage%>"><%=LastPage%></a></span>
+  <% }%>
+
+  <% if ((page+1)<=LastPage) { %>
+    <span class="nextpage"><a title="下一页" href="?p=<%= page+1 %>">下一页</a></span>
+  <% }else{}%>
+
+   <span class="nextpage"><a title="末页" href="?p=<%= LastPage %>">末页</a></span>
+</div>

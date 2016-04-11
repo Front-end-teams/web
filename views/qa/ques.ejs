@@ -1,0 +1,13 @@
+<%- include ../header %>
+<%- include ../nav %>
+<% questions.forEach(function (question) { %>
+  <p><h2><a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a></h2>
+  <a href="#"><img src="<%= question.head %>" class="r_head" /></a></p> 
+  <p><%- question.quesDetail %></p>
+  <p class="info">
+    提问者：<a href="#"><%= question.name %></a> | 
+    日期：<%= question.time.minute %> |
+    已有<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">&nbsp;<%=question.comments.length%>&nbsp;</a>条回答
+  </p>
+<% }) %>
+<%- include ../footer %>

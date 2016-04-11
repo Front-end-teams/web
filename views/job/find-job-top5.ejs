@@ -1,0 +1,89 @@
+<%- include ../header %>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/job.css">
+	<script type="text/javascript" src="src/script/recruit.js"></script>
+
+<%- include ../nav %>
+	<div class="main">
+	    <p class="title">
+			Web前端开发职位招聘信息
+		</p>
+		<!--......................下面是搜索页面的内容，但是如何把这些内容传输到后台....................-->
+		<form action="/job-search" method='post'>
+		<ul class="searchJob clearfix" id="searchJob">
+			<li class="searchJob_li">
+				<input type="text" placeholder="招聘类型" id="recruitType" name="recruitType">
+				<!-- <span></span> -->
+				<ul class="searchJob_li_ul" id="recruitType_ul">
+				    <li>请选择</li>
+					<li><span></span>校园招聘</li>
+					<li><span></span>社会招聘</li>
+					<li><span></span>实习生招聘</li>
+				</ul>
+			</li>
+			<li class="searchJob_li">
+				<input type="text" placeholder="工作地点" id="workPlace" name="workPlace">
+			<!-- 	<span></span> -->
+				<ul class="searchJob_li_ul" id="workPlace_ul">
+				    <li>请选择</li>
+					<li><span></span>北京</li>
+					<li><span></span>上海</li>
+					<li><span></span>广州</li>
+					<li><span></span>深圳</li>
+					<li><span></span>杭州</li>
+					<li><span></span>天津</li>
+					<li><span></span>大连</li>
+					<li><span></span>西安</li>
+					<li><span></span>武汉</li>
+					<li><span></span>南京</li>
+					<li><span></span>郑州</li>
+				</ul>
+			</li>
+			<li class="searchJob_li">
+				<input type="text" placeholder="工作经验" id="experience" name="experience">
+				<!-- <span></span> -->
+				<ul class="searchJob_li_ul" id="experience_ul">
+				    <li>请选择</li>
+					<li><span></span>无工作经验</li>
+					<li><span></span>1年以内工作经验</li>
+					<li><span></span>1-3年工作经验</li>
+					<li><span></span>3年以上工作经验</li>
+				</ul>
+			</li>
+			<li class="searchJob_li">
+				<input type="text" placeholder="排序规则" id="rank" name="rank">
+				<!-- <span></span> -->
+				<ul class="searchJob_li_ul" id="rank_ul" >
+				    <li>请选择</li>
+				    <li><span></span>最新发布</li>
+					<li><span></span>历史发布</li>			
+				</ul>
+			</li>
+		    <li class="searchJob_li"  style="">
+		        <input type="submit" value="搜索"><a style="" href="/job-insert">发布</a>
+		    </li>
+		</ul>	
+		</form>
+        <!--表单提交结束-->
+
+		<div class="content">
+		<% jobs.forEach(function (job, index) { %>
+		   <div class="recruitInfo">
+		        <div class="infoList">
+ 					<label>公司名称：</label><%= job.companyName %><br>
+				    <label>公司地点：</label><%= job.companyLocation %><br>
+				    <label>工作地点：</label><%= job.workLocation %><br>
+				    <label>招聘类型：</label><%= job.jobType %><br>
+				    <label>招聘人数：</label><%= job.jobNum %><br>		    
+				    <label>工作经验：</label><%= job.workTime %><br>
+				    <label>发布时间：</label><%= job.jobTime %><br>
+			    </div>
+			    <div class="jobReq">
+			    &nbsp;职位要求：<br>
+			      <%= job.jobDetail %>
+			    </div>
+			    <a href="#" class="more">点击查看详细信息</a>			    
+		   </div>
+		 <% }) %>
+        </div>
+	</div>		
+<%- include ../footer %>

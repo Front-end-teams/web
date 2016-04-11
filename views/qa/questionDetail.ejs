@@ -1,0 +1,32 @@
+<%- include ../header %>
+
+	<link rel="stylesheet" type="text/css" href="/stylesheet/style.css">
+<%- include ../nav %>
+<h2><%=quesTitle %></h2>
+<p><%=quesDetail %></p>
+<p class="info">
+    提问者：<a href="#"><%= name %></a> | 
+    日期：<%= day %>
+</p>
+<br />
+<form method="post">
+<% if (user) { %>
+  姓名：<input type="text" name="name" value="<%= user.name %>" readOnly='true'/><br />
+  邮箱：<input type="text" name="email" value="<%= user.email %>"  readOnly='true'/><br />
+  网址：<input type="text" name="website" value="/u/<%= user.name %>"  readOnly='true'/><br />
+<% } else { %>
+  姓名：<input type="text" name="name" /><br />
+  邮箱：<input type="text" name="email" /><br />
+  网址：<input type="text" name="website" value="http://" /><br />
+<% } %>
+  <textarea name="content" rows="5" cols="80"></textarea><br />
+  <input type="submit" value="回答" />
+</form>
+<% comments.forEach(function (comment) { %>
+  <div>
+    <p><img src="<%= comment.head %>" class="l_head" /><a href="<%= comment.website %>"><%= comment.name %></a>
+    <span class="info"> 回复于 <%= comment.time %></span></p>
+    <p><%- comment.content %></p>
+  </div>
+<% }) %>
+<%- include ../footer %>

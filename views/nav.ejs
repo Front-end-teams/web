@@ -1,0 +1,28 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+</head>
+<body>
+	<header class="header">
+		<div class="logo">新世界</div>
+		
+		<ul class="index clearfix">
+		<% if (user) { %>
+			<li><%= user %></li>
+			
+			
+			
+			<% } else { %>
+		
+			<li><a href="/login">登录</a></li>
+			<li><a href="/reg">注册</a></li>
+			
+		<% } %>
+			<li><a href="/reading">读书笔记</a></li>
+			<li><a href="/job-top5">工作</a></li>
+			<li><a href='/post'>文章</a></li>
+			<li><a href="/question">问答</a></li>
+			<li><a href="/">首页</a></li>
+			<li class="search"><input type="text" name="search" class="search-text" placeholder="请输入您要搜索的内容"></input>
+		<span class="glyphicon glyphicon-search" aria-hidden="true"></span></li>
+			
+		</ul>
+	</header>
