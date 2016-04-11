@@ -1,0 +1,128 @@
+a{
+	color:#35B4E4;
+	text-decoration: none;
+}
+.button{
+	text-align: center;
+	line-height: 40px;
+	display: inline-block;
+	padding-left: 15px;
+	padding-right:15px;
+	height:40px;
+	background-color: #3EF5DD;
+	color:#fff;
+	border:none;
+	border-radius: 5px;
+	
+}
+
+/* 用户信息显示区样式 */
+.user-info{
+	margin-top: 10px;
+	width:300px;
+	height:120px;
+	/*border: 1px solid red;*/
+}
+.user-info .user-img{
+	width:100px;
+	height:100px;
+	border-radius: 50px;
+
+}
+.user-info .user-detail{
+	top:10px;
+	display: inline-block;
+	vertical-align: top;
+	
+
+}
+.user-info .user-detail span{
+	
+	display: inline-block;
+	margin-left: 10px;
+	padding:5px;
+}
+/* 文章样式 */
+.post-write{
+	width:1050px;
+	margin:0 auto;
+}
+.must{
+	color:red;
+}
+label{
+	width:80px;
+	height:30px;
+	display: inline-block;
+	padding-right: 5px;
+	text-align: right;
+}
+.post-input{
+	margin:10px;
+}
+.post-cont{
+	display: inline-block;
+}
+.text-input{
+	width:500px;
+	height:30px;
+	box-sizing: border-box;
+}
+.rich-text{
+	width:900px;
+	height:800px;
+	padding-left: 0
+	margin:0;
+}
+.tips{
+	display: inline-block;
+	padding-left: 10px;
+	color:#ccc;
+}
+.submit{
+	text-align: center;
+	
+}
+/* 弹出的常用标签样式 */
+.common-tags,.common-cates{
+	display: none;
+	
+}
+.common-tags .tags-show{
+	width:500px;
+
+}
+
+.tag-style{
+	cursor: pointer;
+	/*background-color: #EEEB7E;*/
+	border-radius: 5px;
+	border: 1px solid #73AFFB;
+	height:20px;
+	display: inline-block;
+	padding-left:5px;
+	padding-right:5px;
+	margin-left:10px;
+
+}
+.post-tags{
+	position: relative;
+	display: inline-block;
+}
+#tags-div{
+	top:5px;
+	position: absolute;
+	display:inline-block;
+}
+.cates-show{
+
+	width:500px;
+}
+.post-cates-input{
+	display: inline-block;
+	position: relative;
+}
+
+.cates-show td{
+	width:100px;
+}

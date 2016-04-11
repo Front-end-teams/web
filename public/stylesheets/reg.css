@@ -1,0 +1,99 @@
+/*
+* @Author: Administrator
+* @Date:   2016-04-09 12:47:20
+* @Last Modified by:   Administrator
+* @Last Modified time: 2016-04-09 13:23:18
+*/
+
+.regWrap{
+		width:957px;
+		height:420px;
+		margin:0 auto;
+	}
+	.regTitle{
+		width:100%;
+		height:50px;
+		background: #afbfff scroll 0 0;
+		position:relative;
+	}
+	.regTitle h3{
+		line-height: 50px;
+		margin-left: 20px;
+		display: inline;
+	}
+	.regTitle span{
+		position:absolute;
+		right:20px;
+		font-size: 14px;
+		line-height: 50px;
+	}
+	.regTitle span a{
+		text-decoration: none;
+	}
+	.formWrap{
+		border:1px solid #afbfff;
+	}
+	.formWrap .hidden{
+		height:60px;
+	}
+	form{
+		width:100%;
+	}
+	form .rfm{
+		height:60px;
+	}
+	form .rfm table tr th{
+		width:200px;
+		text-align: right;
+		padding-right: 10px;
+	}
+	form .rfm table tr th span{
+		color:red;
+	}
+	form .rfm table tr th label{
+		cursor:pointer;
+	}
+	form .rfm table tr td input{
+		line-height: 24px;
+		padding: 2px 4px;
+		vertical-align: top;
+		width: 320px;
+		background-color: #fdf4f4;
+	}
+	form .rfm table tr td input:focus{
+		background: #fff scroll 0 0;
+	}
+	form .rfm table tr .tip{
+		 line-height: 24px;
+		 padding: 10px 2px;
+		 vertical-align: top;	
+		 font-size:10px;	
+	}
+	form .rfm table tr .tip kbd{
+		color: red;
+		font-family: "微软雅黑",Tahoma,Helvetica,"SimSun",sans-serif;
+		font-weight: 700;
+		padding-left: 10px;
+		position: absolute;
+		width: 390px;
+		z-index: 1;
+	}
+	form .rfm table tr .tip i{
+		background: #fff none repeat scroll 0 0;
+		color: #666;
+		display: none;
+		font-style: normal;
+		padding-left: 10px;
+		position: absolute;
+		width: 390px;
+		z-index: 2;
+	}
+	form .regBtn{
+		width:100%;
+		margin-top: 30px;
+	}
+	form .regBtn input{
+		background: #738ffe;
+		margin-left: 364px;
+
+	}
