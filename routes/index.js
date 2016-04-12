@@ -270,12 +270,12 @@ function checkNotLogin(req, res, next) {
 
 // 发布问题
 	//app.get('/ask', checkLogin);
-  app.get('/ask',function(req,res){
-  	console.log("ask");
-    res.render('ask',{
-    	title:'ask'
-    });
-  });
+  // app.get('/ask',function(req,res){
+  // 	console.log("ask");
+  //   res.render('ask',{
+  //   	title:'ask'
+  //   });
+  // });
   app.post('/ask', checkLogin);
   app.post('/ask',function(req,res){
     var currentUser = req.session.user,
