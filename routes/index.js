@@ -21,7 +21,7 @@ module.exports = function(app) {
 	app.get("/upload",function(req,res){
 
 		res.render("upload",{});
-	})
+	});
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: 'Express',
