@@ -1,4 +1,3 @@
-
 var Post=require("../models/post.js");
 var upload = require('../models/upload.js');
 var Ques=require('../models/ask.js');
@@ -521,9 +520,10 @@ app.get('/job-top5',function(req,res){
     });
   });
 });
-
-
-/*app.get('/job', function (req, res) {
+ // app.get('/reg',function(req,res){
+ //    res.redirect('/reg');
+ //  });
+  /*app.get('/job', function (req, res) {
   var result=geolocation('202.118.66.66',function(err,msg){
     //  console.log('城市: ' + msg.city);
     //console.log('msg: ' + util.inspect(msg, true, 8));
