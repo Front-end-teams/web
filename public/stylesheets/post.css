@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-03-22 13:32:13
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-03-30 19:15:41
+* @Last Modified time: 2016-04-12 21:03:49
 */
 * {
   padding: 0;
@@ -14,22 +14,22 @@ body {
   min-width: 915px; }
 
 .clearfix:after {
-content: "";
-clear: both;
-display: block;
-visibility: hidden;
-height: 0; }
-
-
- /*我的样式*/
+	content: "";
+	clear: both;
+	display: block;
+	visibility: hidden;
+	height: 0; }
  
 .index-wrap{
-	width:100%;
+	width:1100px;
+	margin:0 auto;
+	overflow: hidden;
 }
 .fastSectionList{
 	width:30%;
 	float:left;
 	height:600px;
+	float:left;
 	-webkit-transition: width 1s ease;
 	-moz-transition: width 1s ease;
 	-o-transition: width 1s ease;
@@ -48,10 +48,12 @@ height: 0; }
 .fastSectionNavBar li{
 	float:left;
 	list-style:none;
-	padding:20px 48px 20px 48px;
 	background-color:rgb(244,244,244);
+	width:150px;
+	text-align: center;
 }
 .fastSectionNavBar li a{
+	line-height: 78px;
 	text-decoration: none;
 	font-family: "微软雅黑";
 	font-size:16px;
@@ -96,9 +98,6 @@ height: 0; }
 	font-size: 18px;
 	color:white;
 }
-// .article_bd{
-// 	position:relative;
-// }
 .article_bd .sharer_head{
 	float:left;
 	margin:20px 10px;
@@ -112,7 +111,8 @@ height: 0; }
 	height:80px;
 	background: white scroll 0 0;
 	color:gray;
-	width:100%;
+	width:770px;
+	overflow: hidden;
 }
 .recommand_cat{
 	float:left;
@@ -121,6 +121,7 @@ height: 0; }
 .recommand_cat li{
 	float:left;
 	list-style:none;
+	width:110px;
 }
 .recommand_cat li a{
 	text-decoration: none;
@@ -131,7 +132,6 @@ height: 0; }
 	float:left;
 }
 .recommand_cat li a:hover{
-	font-size: 20px;
 	color:black;
 }
 .recommand_article .title{
@@ -143,7 +143,7 @@ height: 0; }
 	
 }
 .recommand_article .title:hover{
-	color:red;
+	color:#21e7c9;
 }
 .recommand_article p{
 	text-indent: 2em;

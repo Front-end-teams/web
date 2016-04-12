@@ -17,6 +17,7 @@ body {
   height: 0; 
 }
 
+
 .search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:#fff;
     padding-left:10px;  
