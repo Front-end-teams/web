@@ -18,32 +18,30 @@
 				<li id="nav-unanswered"><a href="javascript:void(0)">未答</a></li>
 			</ul>
 			<div id="wenda-list">
+			<% questions.forEach(function (question) { %>
 				<div class="wenda-container">
-<!-- 					<div class="wenda-img"><img class="wenda-img-icon" src="src\image\Koala.jpg"></div>
-					<div class="wenda-content">
-						<div class="wenda-source"><span class="source-user">树袋熊</span>提了一个问题</div>
-						<h2 class="wenda-title">我是问题一</h2>
-						<p class="wenda-description">我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述</p>
-						<div class="action-panel">
-							<a href="">关注问题</a>
-							<a href="">评论</a>
-							<a href="">点赞</a>
-						</div>
-					</div> -->
-					<% questions.forEach(function (question) { %>
-					  <p><h2><a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a></h2>
-					  <a href="#"><img src="<%= question.head %>" class="r_head" /></a></p> 
-					  <p><%- question.quesDetail %></p>
-					  <p class="info">
-					    提问者：<a href="#"><%= question.name %></a> | 
-					    日期：<%= question.time.minute %> |
-					    已有<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">&nbsp;<%=question.comments.length%>&nbsp;</a>条回答
-					  </p>
-					<% }) %>
+					    <div class="wenda-img">
+					       <img class="wenda-img-icon" src="images/7.jpg">
+					       <span><%= question.name %></span>
+					     </div>
+					    <div class="wenda-content">
+							<h1 class="wenda-title">
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
+							</h1>
+							<div class="action-panel">
+							    提问的日期：<%= question.time.minute %> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">评论</a> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
+							</div>
+					    </div>				
 				</div>
+			<% }) %>
 			</div>
 			<!-- 分页 -->
-			<%- include ../paging %>
+			<div id="pageslider">
+			     <%- include ../paging %>
+			</div>
+			
 		</div>
 		<div id="wenda-siderbar">
 			<div id="ask">
@@ -52,11 +50,11 @@
 			<div id="user-about">
 				<div id="user-skin">
 					<div id="headpic">
-						<img id="headpic-img" src="src\image\Koala.jpg">
+						<img id="headpic-img" src="images/7.jpg">
 					</div>
 				</div>
 				<div id="user-wendainfo">
-					<div id="namebox">我是用户一</div>
+					<div id="namebox"><%=user.name%></div>
 					<ul id="user-action">
 						<li><a href=""><strong class="user-action" id="user-question">100</strong><span>提问</span></a></li>
 						<li><a href=""><strong class="user-action" id="user-answer">100</strong><span>回答</span></a></li>

@@ -288,7 +288,7 @@ function checkNotLogin(req, res, next) {
         return res.redirect('/');
          } 
          req.flash('success', '发布成功!');
-         res.redirect('qa/question');//发表成功跳转到主页
+         res.redirect('/question');//发表成功跳转到主页
         });
   });
 
@@ -306,8 +306,8 @@ app.get('/question', function (req, res) {
         questions: questions,
         page: page,
         isFirstPage: (page - 1) == 0,
-        isLastPage: ((page - 1) * 2 + questions.length) == total,
-        LastPage:Math.ceil(total/2),
+        isLastPage: ((page - 1) * 10 + questions.length) == total,
+        LastPage:Math.ceil(total/10),
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()

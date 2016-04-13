@@ -1,17 +1,30 @@
 <%- include ../header %>
-<link rel="stylesheet" href="/stylesheets/style.css">
-<%- include ../nav %> 
-<header>
-<h1>提问</h1>
-</header>
-<article>
-<form method="post">
-        提问:<br />
-		<input type="text" name="quesTitle" /><br />
-		具体内容：<br />
-		<textarea cols="100" rows="15" name="quesDetail" id='content'>
-		</textarea><br />
-		<input type="submit" value="发布" />
-</form>
-</article>
+<link rel="stylesheet" href="/stylesheets/ask.css">
+<%- include ../nav %>
+<div class="main">
+	<article>
+		<form method="post">
+	        <h1>提问:</h1>
+			<input type="text" name="quesTitle" /><br />
+			<h1>具体内容：</h1>
+			<div id="editContent">
+				<textarea name="quesDetail" id='content' rows="15" cols="80"></textarea>
+			</div><br />
+			<input type="submit" value="发布" id="submitQuestion" />
+		</form>
+	</article>
+	<div class="notice">
+		<h1>提问注意事项</h1>
+          <dl>
+            <dd>1、大家每天可以免费提出两个问题，从第三个问题起，每个问题扣除2点积分，请知晓哦；</dd>
+            <dd>2、您是来解决问题？请先搜索是否已经有同类问题吧。这样您就省心少打字。</dd>
+            <dd>3、没找到是么？就在发问题时精确描述你的问题，不要写与问题无关的内容哟；</dd>
+            <dd>4、慕课讨论更热衷于解达您想要的答案。能引起思考和讨论的知识性问题；</dd>
+            <dt>问答禁止这些提问</dt>
+            <dd>1、禁止发布求职、交易、推广、广告类与问答无关信息将一律清理。</dd>
+            <dd>2、尽可能详细描述您的问题，如标题与内容不符，或与问答无关的信息将被删除扣分。</dd>
+            <dd>3、问答刷屏用户一律冻结帐号</dd>
+          </dl>
+	</div>
+</div>
 <%- include ../footer %>

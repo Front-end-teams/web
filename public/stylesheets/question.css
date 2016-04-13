@@ -2,7 +2,6 @@
   padding: 0;
   margin: 0;
   font-family: "microsoft yahei";
-  font-size: 14px; 
   text-decoration: none;
 }
 a{
@@ -46,12 +45,11 @@ body {
 }
 #recommand-list li{
   border-top: 1px solid grey;
-  padding: 8px;
+  padding:8px;
 }
 #wenda-nav{
   border-bottom: 1px solid grey;
   list-style-type: none;
-  margin-bottom: 10px;
   color: #000;
 }
 #wenda-nav:after{
@@ -73,8 +71,7 @@ body {
 .wenda-container{
   border-bottom: 1px solid grey;
   overflow: hidden;
-  margin-bottom: 30px;
-  padding-bottom: 10px;
+  padding:20px 0;
 }
 .wenda-content{
   margin-left: 50px;
@@ -82,8 +79,14 @@ body {
 .wenda-img{
   width: 40px;
   height: 40px;
-  margin-top:3px;
+  margin-right:15px;
   float:left;
+}
+.wenda-img span
+{
+  display: inline-block;
+  width: 40px;
+  text-align: center;
 }
 .wenda-img-icon{
   width: 100%;
@@ -96,10 +99,14 @@ body {
   margin-right: 3px;
 }
 .wenda-title{
+  height: 40px;
   font-weight: bold;
+  font-size: 25px;
+  line-height: 40px;
 }
 .wenda-description{
-  margin-top: 3px;
+  margin: 20px 0;
+  text-indent: 5px;
 }
 
 #pageslider{
@@ -121,12 +128,12 @@ body {
 }
 #ask a{
   display: block;
-  width:130px;
-  height: 40px;
+  width:220px;
+  height: 100px;
   background: #21e7c9;
   font-size: 25px;
   text-align: center;
-  line-height: 40px;
+  line-height: 100px;
   position: absolute;
   top:50%;
   left: 50%;
@@ -135,7 +142,6 @@ body {
 #user-about{
   height: 185px;
   overflow: hidden;
-  background: silver;
 }
 #user-skin{
   height: 75px;
@@ -158,6 +164,8 @@ body {
 }
 #user-wendainfo{
   padding:16px 16px 9px 16px;
+  background-color: #21e7c9;
+  overflow: hidden;
 }
 #namebox{
   text-align: center;
@@ -181,6 +189,10 @@ body {
 .user-action{
   width: 100%;
   display: block;
+}
+.action-panel
+{
+  text-indent: 5px;
 }
 #follow-class{
   margin-top: 20px;

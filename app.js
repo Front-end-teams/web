@@ -31,7 +31,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ uploadDir: "./public/upload" })); 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({
   secret: settings.cookieSecret,//防止篡改cookie
   key: settings.db,//cookie name
