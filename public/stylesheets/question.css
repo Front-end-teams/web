@@ -5,7 +5,9 @@
   font-size: 14px; 
   text-decoration: none;
 }
-
+a{
+  color: #000;
+}
 body {
   min-width: 915px; }
 
@@ -34,11 +36,13 @@ body {
 }
 #wenda-main{
   width: 800px;
-  float:left;
+  float: left;
+  color: #000;
 }
 #recommand-list{
   list-style-type: none;
   margin-bottom: 20px;
+  color: #000;
 }
 #recommand-list li{
   border-top: 1px solid grey;
@@ -48,6 +52,7 @@ body {
   border-bottom: 1px solid grey;
   list-style-type: none;
   margin-bottom: 10px;
+  color: #000;
 }
 #wenda-nav:after{
   display: block;
