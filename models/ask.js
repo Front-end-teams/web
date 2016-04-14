@@ -1,5 +1,4 @@
-var mongodb = require('./db'),
-    markdown = require('markdown').markdown;
+var mongodb = require('./db');
 function Ques(name, head, quesTitle, quesDetail) {
   this.name = name;
   this.head = head;
@@ -89,9 +88,9 @@ Ques.getTen = function(name, page, callback) {
           }
 
           //解析 markdown 为 html
-          docs.forEach(function (doc) {
-            doc.question = markdown.toHTML(doc.question);
-          }); 
+          // docs.forEach(function (doc) {
+          //   doc.question = markdown.toHTML(doc.question);
+          // }); 
 
           callback(null, docs, total);
 
