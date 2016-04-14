@@ -1,31 +1,70 @@
 <%- include ../header %>
-	<link rel="stylesheet" type="text/css" href="/stylesheet/style.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/questionDetail.css">
 <%- include ../nav %>
-<h2><%=quesTitle %></h2>
-<p><%=quesDetail %></p>
-<p class="info">
-    提问者：<a href="#"><%= name %></a> | 
-    日期：<%= day %>
-</p>
-<br />
-<form method="post">
-<% if (user) { %>
-  姓名：<input type="text" name="name" value="<%= user.name %>" readOnly='true'/><br />
-  邮箱：<input type="text" name="email" value="<%= user.email %>"  readOnly='true'/><br />
-  网址：<input type="text" name="website" value="/u/<%= user.name %>"  readOnly='true'/><br />
-<% } else { %>
-  姓名：<input type="text" name="name" /><br />
-  邮箱：<input type="text" name="email" /><br />
-  网址：<input type="text" name="website" value="http://" /><br />
-<% } %>
-  <textarea name="content" rows="5" cols="80"></textarea><br />
-  <input type="submit" value="回答" />
-</form>
-<% comments.forEach(function (comment) { %>
-  <div>
-    <p><img src="<%= comment.head %>" class="l_head" /><a href="<%= comment.website %>"><%= comment.name %></a>
-    <span class="info"> 回复于 <%= comment.time %></span></p>
-    <p><%- comment.content %></p>
-  </div>
-<% }) %>
+<div class="main">
+    <h2 class="quesTitle"><%=quesTitle %></h2>
+    <p class="quesDetail"><%=quesDetail %></p>
+    <p class="info">
+        提问者：<a href="#"><%= name %></a> | 
+        日期：<%= day %>
+    </p>
+    <br />
+    <form method="post">
+      <textarea name="content" rows="5" cols="80"></textarea><br />
+      <input type="submit" value="回答" />
+    </form>
+    <%   var leng=((page*num)<=comments.length)?(page*num):comments.length; for(var i=(page-1)*num;i< leng;i++){ %>
+      <div>   
+        <p><%= comments[i].content %></p>
+        <p><img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" /><a href="<%= comments[i].website %>"><%= comments[i].name %></a>
+        <span class="info"> 回复于 <%= comments[i].time %></span></p>
+      </div>
+    <% } %>
+      <br />
+      <div class="answer">
+        <span class="prepage"><a title="首页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= 1 %>">首页</a></span>
+
+        <% if ((page-1)>=1) { %>
+        <span class="prepage"><a title="上一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>">上一页</a></span>
+        <% }else{}%>
+
+        <% if ((page-3)==1) { %> 
+          <span class="prepage"><a title="上两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=1">1</a></span>
+        <% }else if ((page-3)>1){%>
+          <span class="prepage"><a title="上两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=1">1</a></span>
+          <span class="prepage"><a title="省略">...</a></span>
+        <%}%>
+
+        <% if ((page-2)>=1) { %> 
+        <span class="prepage"><a title="上两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-2 %>"><%= page-2 %></a></span>
+        <% }else{}%>
+
+        <% if ((page-1)>=1) { %> 
+        <span class="prepage"><a title="上一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>"><%= page-1 %></a></span>
+        <% }else{}%>
+
+          <span class="currentpage" style="display: inline-block;background-color: rgb(204,0,0);"><a title="当前页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
+
+        <% if ((page+1)<=LastPage) { %> 
+        <span class="nextpage"><a title="下一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>"><%= page+1 %></a></span>
+        <% }else{}%>
+
+        <% if ((page+2)<=LastPage) { %> 
+        <span class="nextpage"><a title="下两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+2 %>"><%= page+2 %></a></span>
+        <% }else{}%>
+        
+        <% if ((page+3)== LastPage) { %> 
+          <span class="nextpage"><a title="下三页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%=LastPage%>"><%=LastPage%></a></span>
+        <% }else if((page+3)< LastPage) {%>
+         <span class="nextpage"><a title="省略">...</a></span>
+         <span class="nextpage"><a title="末页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%=LastPage%>"><%=LastPage%></a></span>
+        <% }%>
+
+        <% if ((page+1)<=LastPage) { %>
+          <span class="nextpage"><a title="下一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>">下一页</a></span>
+        <% }else{}%>
+
+         <span class="nextpage"><a title="末页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= LastPage %>">末页</a></span>
+      </div>
+</div>
 <%- include ../footer %>
