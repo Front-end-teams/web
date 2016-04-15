@@ -77,8 +77,8 @@ Ques.getTen = function(name, page, callback) {
         //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
 
         collection.find(query, {
-          skip: (page - 1)*10,
-          limit: 10
+          skip: (page - 1)*2,
+          limit: 2
         }).sort({
           time: -1
         }).toArray(function (err, docs) {
@@ -136,10 +136,10 @@ Ques.getOne = function(name, day, title, callback) {
             }
           });
           //解析 markdown 为 html
-          doc.post = markdown.toHTML(doc.post);
-          doc.comments.forEach(function (comment) {
-            comment.content = markdown.toHTML(comment.content);
-          });
+          // doc.post = markdown.toHTML(doc.post);
+          // doc.comments.forEach(function (comment) {
+          //   comment.content = markdown.toHTML(comment.content);
+          // });
           callback(null, doc);//返回查询的一篇文章
         }
       });

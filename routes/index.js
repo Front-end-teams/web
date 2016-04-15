@@ -306,8 +306,8 @@ app.get('/question', function (req, res) {
         questions: questions,
         page: page,
         isFirstPage: (page - 1) == 0,
-        isLastPage: ((page - 1) * 10 + questions.length) == total,
-        LastPage:Math.ceil(total/10),
+        isLastPage: ((page - 1) * 2 + questions.length) == total,
+        LastPage:Math.ceil(total/2),
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
@@ -316,6 +316,8 @@ app.get('/question', function (req, res) {
   });
 //------------------------------显示问题具体内容
   app.get('/questionDetail', function (req, res) {
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    var num=8;
     Ques.getOne(req.query.name, req.query.day, req.query.quesTitle, function (err, question) {
       if (err) {
         req.flash('error', err); 
@@ -330,7 +332,12 @@ app.get('/question', function (req, res) {
         user: req.session.user,
         comments:question.comments,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        page:page,
+        isFirstPage: (page-1)== 0,
+        isLastPage: (page*num)>=(question.comments.length),
+        LastPage:Math.ceil(question.comments.length/num),
+        num:num
       });
     });
   });
@@ -342,7 +349,7 @@ app.post('/questionDetail', function (req, res) {
 
     var md5 = crypto.createHash('md5'),
         email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
-        head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48"; 
+        head = "images/7.jpg"; 
 
     var comment = {
         name: req.body.name,

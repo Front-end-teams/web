@@ -5,12 +5,14 @@
 	<article>
 		<form method="post">
 	        <h1>提问:</h1>
-			<input type="text" name="quesTitle" /><br />
+			<div id="quesTitle">
+			    <input type="text" name="quesTitle" placeholder="请用一句话描述你的问题"/>
+			</div>
 			<h1>具体内容：</h1>
 			<div id="editContent">
-				<textarea name="quesDetail" id='content' rows="15" cols="80"></textarea>
+				<textarea name="quesDetail" id='content' placeholder="请用具体地描述你的问题"></textarea>
 			</div><br />
-			<input type="submit" value="发布" id="submitQuestion" />
+			<input type="submit" value="发布" id="submitQuestion"/>
 		</form>
 	</article>
 	<div class="notice">
