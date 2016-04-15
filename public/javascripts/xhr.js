@@ -27,14 +27,19 @@ function createXHR(){
 	var ajax=function(met,url,mes,callback){
 		var xhr=createXHR();
 		xhr.onreadystatechange=function(){
+			if(xhr.readyState==1){
+				console.log("writing");
+			}
 			if (xhr.readyState==4) {
 				if (xhr.status>=200&&xhr.status<300||xhr.status==304) {
-					callback(JSON.parse(responseText));
+					callback(xhr.responseText);
+				
 				}else{
-					alert("request was unsuccessful:"+xhr.status);
+					console.log("request was unsuccessful:"+xhr.status);
 				}
 			}
 		}
 		xhr.open(met,url,true);
 		xhr.send(mes);
+		console.log(mes);
 	}

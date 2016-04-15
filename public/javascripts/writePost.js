@@ -9,6 +9,7 @@ var catesInput=document.getElementById("cates-input");
 
 var commonCates=document.getElementById("common-cates");
 var catesTable=document.getElementById("cates-table");
+var upload=document.getElementById("upload");
 
 var submit=document.getElementById("submit");
 
@@ -141,7 +142,15 @@ EventUtil.addHandler(catesTable,"click",function(e){
 	if(flag){
 		
 		if(input_arr.length>0){
+
 			input_arr=catesInput.value.split(",");
+		}
+		console.log(input_arr);
+		for(var i = 0; i < input_arr.length; i++){
+			if(!input_arr[i].trim()){
+				input_arr.splice(i,1);
+			}
+		
 		}
 		
 		var val=target.value;
@@ -155,11 +164,10 @@ EventUtil.addHandler(catesTable,"click",function(e){
 		}
 		
 		catesInput.value=input_arr.join(",");
+		console.log(catesInput.value);
 
 	}
-	if(target.tagName.toLowerCase()=="td"){
-		
-	}
+
 })
 
 function tagsNum(){
@@ -180,9 +188,27 @@ EventUtil.addHandler(submit,"click",function(e){
 	EventUtil.preventDefault(e);
 	var form=document.forms[0];
 	var result=seriPost(form);
+	//var formD=new FormData(result);
 	console.log(result);
-	ajax("post","showPost.ejs",result,function(res){
+/*	var jsonR = {};
+	for(var i = 0; i < result.length; i++){
+		var val = result[i].split("=");
+		jsonR[val[0]]=val[1];
+	}
+	console.log(jsonR);*/
 
+	var formD=new FormData();
+
+	for(var i = 0; i < result.length; i++){
+		var val = result[i].split("=");
+		formD.append(val[0],val[1]);
+	}
+
+	formD.append("file",upload.files[0]);
+
+	ajax("post","/upload1",formD,function(res){
+		console.log("success");
+		console.log(res);
 	})
 
 })
