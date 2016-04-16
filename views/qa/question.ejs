@@ -33,6 +33,7 @@
 							    提问的日期：<%= question.time.minute %> |
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">评论</a> |
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
+								<span>赞同 <%=question.agreeNum%></span>
 							</div>
 					    </div>				
 				</div>

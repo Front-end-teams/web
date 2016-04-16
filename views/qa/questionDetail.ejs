@@ -10,21 +10,39 @@
     </p>
     <br />
     <form method="post">
+    <% if (user) { %>
+    <div style="display: none;">
+      姓名：<input type="text" name="name" value="<%= user.name %>"/><br />
+      邮箱：<input type="text" name="email" value="<%= user.email %>"/><br />
+      网址：<input type="text" name="website" value="/u/<%= user.name %>"/><br />
+    </div>
+    <% } else { %>
+      姓名：<input type="text" name="name" /><br />
+      邮箱：<input type="text" name="email" /><br />
+      网址：<input type="text" name="website" value="http://" /><br />
+    <% } %>
       <textarea name="content" rows="5" cols="80"></textarea><br />
-      <input type="submit" value="回答" />
+      <input type="submit" value="回答" id="answer" />
     </form>
-    <%   var leng=((page*num)<=comments.length)?(page*num):comments.length; for(var i=(page-1)*num;i< leng;i++){ %>
-      <div class="comments">
-         <div class="comments">
+    <div class="comments" id="comments">
+    <% var leng=((page*num)<=comments.length)?(page*num):comments.length; for(var i=(page-1)*num;i< leng;i++){ %>
+      <div class="comment">
+         <div class="commHead">
            <img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" />
            <span><a href="<%= comments[i].website %>"><%= comments[i].name %></a></span>
          </div>   
-         <div>
+         <div class="commCont">
            <p><%= comments[i].content %></p>
-           <span class="info"> 回复于 <%= comments[i].time %></span>
+           <span class="info"> <%= comments[i].time %></span>
+         </div>
+         <div class="commAction">
+         <span onclick="agree(<%=i%>)" class="agrees">赞同 <span><%=comments[i].agreeNum%></span></span>
+             <span>反对</span>
+             <span>回复</span>
          </div>
       </div>
     <% } %>
+    </div>
       <br />
       <div class="answer">
         <span class="prepage"><a title="首页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= 1 %>">首页</a></span>
@@ -72,4 +90,69 @@
          <span class="nextpage"><a title="末页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= LastPage %>">末页</a></span>
       </div>
 </div>
+<div class="notice">
+    <h1>提问注意事项</h1>
+    <dl>
+      <dd>1、大家每天可以免费提出两个问题，从第三个问题起，每个问题扣除2点积分，请知晓哦；</dd>
+      <dd>2、您是来解决问题？请先搜索是否已经有同类问题吧。这样您就省心少打字。</dd>
+      <dd>3、没找到是么？就在发问题时精确描述你的问题，不要写与问题无关的内容哟；</dd>
+      <dd>4、慕课讨论更热衷于解达您想要的答案。能引起思考和讨论的知识性问题；</dd>
+      <dt>问答禁止这些提问</dt>
+      <dd>1、禁止发布求职、交易、推广、广告类与问答无关信息将一律清理。</dd>
+      <dd>2、尽可能详细描述您的问题，如标题与内容不符，或与问答无关的信息将被删除扣分。</dd>
+      <dd>3、问答刷屏用户一律冻结帐号</dd>
+    </dl>
+</div>
+<script type="text/javascript" src="/javascripts/xhr.js"></script>
+<script type="text/javascript">
+  function createXHR(){
+    if(typeof XMLHttpRequest!="undefined"){
+      return new XMLHttpRequest();
+    }else if(typeof ActiveXObject!="undefined"){
+      if(typeof arguments.callee.activeXString!="string"){
+        var versions=[
+          "MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"
+        ],
+        i,len;
+        for ( i = 0,len=versions.length; i < len; i++) {
+          try{
+            new ActiveXObject(versions[i]);
+            arguments.callee.activeXString=versions[i];
+            break;
+          }catch(ex){
+
+          }
+        }
+      }
+      return new ActiveXObject(arguments.callee.activeXString);
+    }else{
+      throw new Error("no XHR Object available");
+    }
+
+  }
+  var agrees=document.getElementsByClassName('agrees');
+   function agree(index)
+   {
+     var num=parseInt(agrees[index].getElementsByTagName('span')[0].innerText);
+     num=num+1;
+     senddata(index);
+   }
+   function senddata(index)
+   {
+       var xhr=createXHR();
+       xhr.onreadystatechange=function()
+       {
+        if (xhr.readyState==4) 
+          {
+              if (xhr.status>=200&&xhr.status<300||xhr.status==304) 
+              {
+                txt = xhr.responseText;
+                agrees[index].getElementsByTagName('span')[0].innerText=txt;
+              }
+          }
+       }
+       xhr.open("post","/questionDetail?num=7",true); 
+       xhr.send(null); 
+   }
+</script>
 <%- include ../footer %>
