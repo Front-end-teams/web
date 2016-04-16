@@ -349,8 +349,7 @@ app.post('/questionDetail', function (req, res) {
 
     var md5 = crypto.createHash('md5'),
         email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
-        head = "images/7.jpg"; 
-
+        head = "images/7.jpg";
     var comment = {
         name: req.body.name,
         head: head,
@@ -358,6 +357,7 @@ app.post('/questionDetail', function (req, res) {
         website: req.body.website,
         time:time,
         content: req.body.content,
+        agreeNum:req.body.num?req.body.num:0
     };
  
     var newQuesComment = new quesComment(req.param('name'), req.param('day'), req.param('quesTitle'), comment);
