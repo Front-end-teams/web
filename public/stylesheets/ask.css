@@ -47,6 +47,23 @@ article textarea
 	line-height: 24px;
 	border-radius: 8px;
 }
+article span
+{
+	font-size: 18px;
+}
+article #pubQues
+{
+	outline: none;
+	border: none;
+	width: 100px;
+	height: 40px;
+	line-height: 40px;
+	font-size: 18px;
+	background-color: red;
+	cursor: pointer;
+	color: white;
+	float: right;
+}
 .notice
 {
 	float: right;

@@ -14,10 +14,15 @@
       <input type="submit" value="回答" />
     </form>
     <%   var leng=((page*num)<=comments.length)?(page*num):comments.length; for(var i=(page-1)*num;i< leng;i++){ %>
-      <div>   
-        <p><%= comments[i].content %></p>
-        <p><img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" /><a href="<%= comments[i].website %>"><%= comments[i].name %></a>
-        <span class="info"> 回复于 <%= comments[i].time %></span></p>
+      <div class="comments">
+         <div class="comments">
+           <img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" />
+           <span><a href="<%= comments[i].website %>"><%= comments[i].name %></a></span>
+         </div>   
+         <div>
+           <p><%= comments[i].content %></p>
+           <span class="info"> 回复于 <%= comments[i].time %></span>
+         </div>
       </div>
     <% } %>
       <br />
@@ -43,7 +48,7 @@
         <span class="prepage"><a title="上一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>"><%= page-1 %></a></span>
         <% }else{}%>
 
-          <span class="currentpage" style="display: inline-block;background-color: rgb(204,0,0);"><a title="当前页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
+          <span class="currentpage"><a title="当前页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
 
         <% if ((page+1)<=LastPage) { %> 
         <span class="nextpage"><a title="下一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>"><%= page+1 %></a></span>

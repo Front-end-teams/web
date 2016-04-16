@@ -8,3 +8,39 @@
 	margin: 0 auto;
 	margin-top: 30px;
 }
+.main span
+{
+	display: inline-block;
+}
+.prepage a
+{
+	float: left;
+	text-decoration:none;
+	color:#000;
+	padding: 5px 10px;
+	font-weight:bold;
+}
+.nextpage a
+{
+	float: left;
+	text-decoration:none;
+	color:#000;
+	padding: 5px 10px;
+	font-weight:bold;
+}
+.currentpage a
+{
+	float: left;
+	text-decoration:none;
+	background-color:#f00;
+	color:#fff;
+	padding: 5px 10px;
+	font-weight:bold;
+}
+.prepage a:hover,.nextpage a:hover
+{
+	text-decoration:none;
+	background-color:#f00;
+	color:#f9f9f9;
+	-webkit-transition:color .2s linear;
+}
