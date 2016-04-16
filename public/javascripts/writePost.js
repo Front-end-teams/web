@@ -199,6 +199,9 @@ EventUtil.addHandler(submit,"click",function(e){
 
 	var formD=new FormData();
 
+	var postCont=document.getElementById("post-cont")
+
+
 	for(var i = 0; i < result.length; i++){
 		var val = result[i].split("=");
 		formD.append(val[0],val[1]);
@@ -207,8 +210,7 @@ EventUtil.addHandler(submit,"click",function(e){
 	formD.append("file",upload.files[0]);
 
 	ajax("post","/upload1",formD,function(res){
-		console.log("success");
-		console.log(res);
+		postCont.style.display="block";
 	})
 
 })
