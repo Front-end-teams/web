@@ -1,5 +1,9 @@
 var Post=require("../models/post.js");
-var upload = require('../models/upload.js');
+//中间件multer的配置（实现上传功能）
+var upload = require('../models/multerUtil');
+
+
+
 var Ques=require('../models/ask.js');
 var quesComment=require('../models/quesComment.js');
 
@@ -16,11 +20,26 @@ var util=require('util');
 
 
 module.exports = function(app) {
-	app.post('/upload', upload.upload);  
-	app.get("/upload",function(req,res){
-
-		res.render("upload",{});
-	})
+  //上传的ajax触发的操作
+	app.post('/upload1',upload.single("file"),function(req,res){
+    console.log(req.body);
+    //将信息存入文章数据库
+    console.log(req.file.path);
+    var post = new Post("cheng", req.body.title, req.body.tags,req.body.post,req.body.cates,req.file.path);
+      post.save(function (err) {
+      console.log(post);
+      if (err) {
+        // req.flash('error', err); 
+        console.log("error");
+        //return res.redirect('/');
+      }
+      res.send("send");
+      // req.flash('success', '发布成功!');
+      //req.flash('success',post);
+      //res.redirect('/showPost');//发表成功跳转到主页
+    });
+  });  
+	
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: 'Express',
@@ -173,14 +192,8 @@ function checkNotLogin(req, res, next) {
 }
 
 	//文章
-	app.post('/upload', upload.upload);  
-	app.get("/upload",function(req,res){
-
-		res.render("post/upload",{
-
-      user: req.session.user,
-    });
-	})
+	  
+	
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: 'Express',
@@ -193,7 +206,7 @@ function checkNotLogin(req, res, next) {
 						    review: 23,
 						    post: 'hello world' });
 	});
-	/*需要写文章的页面*/
+	//文章二级页面
     app.get('/post', function (req, res) {
     
     res.render('post/post', {
@@ -203,7 +216,7 @@ function checkNotLogin(req, res, next) {
       error: req.flash('error').toString()
     });
   });
-
+    /*需要写文章的页面*/
 	app.get('/writePost',function(req,res){
 		Post.getTags(function(err,tags){
 			if(err){
@@ -230,23 +243,7 @@ function checkNotLogin(req, res, next) {
 	})
 		
 
-	/*写完文章后的跳转页面*/
-	app.post('/writePost',function(req,res){
-    	//console.log(req);
-        var tags = [req.body.tag1, req.body.tag2, req.body.tag3],
-        	post = new Post("cheng", req.body.title, tags, req.body.post);
-	    	post.save(function (err) {
-	    	console.log(post);
-	      if (err) {
-	        // req.flash('error', err); 
-	        console.log("error");
-	        return res.redirect('/');
-	      }
-	      // req.flash('success', '发布成功!');
-	      req.flash('success',post);
-	      res.redirect('post/showPost');//发表成功跳转到主页
-	    });
-  });
+	
   //显示写完后的文章
 	app.get('/showPost',function(req,res){
 		var post=req.flash("success");

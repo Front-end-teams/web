@@ -14,9 +14,9 @@ function seriPost(form){
 	var tagsDiv=document.getElementById("tags-div");
 	var span=tagsDiv.getElementsByTagName("span");
 	for (var k = 0; k < span.length; k++) {
-				tags[k]=encodeURIComponent(span[k].innerHTML);
+				parts.push("tags"+"="+encodeURIComponent(span[k].innerHTML));
 		}
-	parts.push("tags"+"="+tags);
+	
 
 	for (i = 0; i < form.elements.length; i++) {
 		field=form.elements[i];
@@ -42,9 +42,10 @@ function seriPost(form){
 			break;
 
 			case undefined:
-			case "file":
+			
 			case "reset":
 			case "button":
+			case "file":
 			break;
 			case "radio":
 			case "checkbox":
