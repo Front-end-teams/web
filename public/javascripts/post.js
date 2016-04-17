@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-03-22 15:28:20
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-16 10:03:11
+* @Last Modified time: 2016-04-17 13:55:23
 */
 
 
@@ -17,5 +17,4 @@ $(function(){
 		$(".tags_box>div").eq(index).show().siblings().hide();
 	});
 
-})
-alert(window.location);
+});
