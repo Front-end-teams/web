@@ -56,6 +56,7 @@ jobHunting.prototype.save = function(callback) {
 /*-------------正在开发------------*/
 //一次获取前5条招聘信息,但是因为后面我们可能智能识别用户的地址，所以我们查询本地的前5条招聘信息
 jobHunting.Top5= function(location,callback) {
+  console.log(location);
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {

@@ -1,5 +1,4 @@
-<%- include ../header %>
-	
+<%- include ../header %>	
 	<link rel="stylesheet" type="text/css" href="/stylesheets/question.css">
 <%- include ../nav %>
 	<div id="container">
@@ -19,98 +18,45 @@
 				<li id="nav-unanswered"><a href="javascript:void(0)">未答</a></li>
 			</ul>
 			<div id="wenda-list">
+			<% questions.forEach(function (question) { %>
 				<div class="wenda-container">
-					<div class="wenda-img"><img class="wenda-img-icon" src="src\image\Koala.jpg"></div>
-					<div class="wenda-content">
-						<div class="wenda-source"><span class="source-user">树袋熊</span>提了一个问题</div>
-						<h2 class="wenda-title">我是问题一</h2>
-						<p class="wenda-description">我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述</p>
-						<div class="action-panel">
-							<a href="">关注问题</a>
-							<a href="">评论</a>
-							<a href="">点赞</a>
-						</div>
-					</div>
+					    <div class="wenda-img">
+					       <img class="wenda-img-icon" src="images/7.jpg">
+					       <span><%= question.name %></span>
+					     </div>
+					    <div class="wenda-content">
+							<h1 class="wenda-title">
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
+							</h1>
+							<p class="wenda-description"><%= question.quesDetail %></p>
+							<div class="action-panel">
+							    提问的日期：<%= question.time.minute %> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">评论</a> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
+								<span>赞同 <%=question.agreeNum%></span>
+							</div>
+					    </div>				
 				</div>
-				<div class="wenda-container">
-					<div class="wenda-img"><img class="wenda-img-icon" src="src\image\Koala.jpg"></div>
-					<div class="wenda-content">
-						<div class="wenda-source"><span class="source-user">树袋熊</span>提了一个问题</div>
-						<h2 class="wenda-title">我是问题一</h2>
-						<p class="wenda-description">我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述</p>
-						<div class="action-panel">
-							<a href="">关注问题</a>
-							<a href="">评论</a>
-							<a href="">点赞</a>
-						</div>
-					</div>
-				</div>
-				<div class="wenda-container">
-					<div class="wenda-img"><img class="wenda-img-icon" src="src\image\Koala.jpg"></div>
-					<div class="wenda-content">
-						<div class="wenda-source"><span class="source-user">树袋熊</span>提了一个问题</div>
-						<h2 class="wenda-title">我是问题一</h2>
-						<p class="wenda-description">我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述</p>
-						<div class="action-panel">
-							<a href="">关注问题</a>
-							<a href="">评论</a>
-							<a href="">点赞</a>
-						</div>
-					</div>
-				</div>
-				<div class="wenda-container">
-					<div class="wenda-img"><img class="wenda-img-icon" src="src\image\Koala.jpg"></div>
-					<div class="wenda-content">
-						<div class="wenda-source"><span class="source-user">树袋熊</span>提了一个问题</div>
-						<h2 class="wenda-title">我是问题一</h2>
-						<p class="wenda-description">我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述</p>
-						<div class="action-panel">
-							<a href="">关注问题</a>
-							<a href="">评论</a>
-							<a href="">点赞</a>
-						</div>
-					</div>
-				</div>
-				<div class="wenda-container">
-					<div class="wenda-img"><img class="wenda-img-icon" src="src\image\Koala.jpg"></div>
-					<div class="wenda-content">
-						<div class="wenda-source"><span class="source-user">树袋熊</span>提了一个问题</div>
-						<h2 class="wenda-title">我是问题一</h2>
-						<p class="wenda-description">我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述我是问题描述</p>
-						<div class="action-panel">
-							<a href="">关注问题</a>
-							<a href="">评论</a>
-							<a href="">点赞</a>
-						</div>
-					</div>
-				</div>
-
+			<% }) %>
 			</div>
 			<!-- 分页 -->
 			<div id="pageslider">
-				<a href="">首页</a>
-				<a href="">上一页</a>
-				<a href="">1</a>
-				<a href="">2</a>
-				<a href="">3</a>
-				<a href="">4</a>
-				<a href="">5</a>
-				<a href="">下一页</a>
-				<a href="">尾页</a>
+			     <%- include ../paging %>
 			</div>
+			
 		</div>
 		<div id="wenda-siderbar">
 			<div id="ask">
-				<a href="#">我要提问</a>
+				<a href="/ask">我要提问</a>
 			</div>
 			<div id="user-about">
 				<div id="user-skin">
 					<div id="headpic">
-						<img id="headpic-img" src="src\image\Koala.jpg">
+						<img id="headpic-img" src="images/7.jpg">
 					</div>
 				</div>
 				<div id="user-wendainfo">
-					<div id="namebox">我是用户一</div>
+					<div id="namebox"><%= user.name %></div>
 					<ul id="user-action">
 						<li><a href=""><strong class="user-action" id="user-question">100</strong><span>提问</span></a></li>
 						<li><a href=""><strong class="user-action" id="user-answer">100</strong><span>回答</span></a></li>
