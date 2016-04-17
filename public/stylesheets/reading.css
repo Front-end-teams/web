@@ -86,6 +86,16 @@ body {
   width:700px;
   /* border:1px solid red; */
 }
+.writeNote{
+  background:white scroll 0 0;
+  width:100%;
+  text-align: center;
+}
+.writeNote #write{
+  text-decoration: none;
+  color:#21e7c9;
+  font-size: 20px;
+}
 .main_right{
   position:absolute;
   right:0;

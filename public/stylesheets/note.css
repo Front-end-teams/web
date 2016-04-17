@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-07 19:04:33
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-09 21:48:57
+* @Last Modified time: 2016-04-16 11:36:12
 */
 .back{width:100%;background: rgb(248,248,248) scroll 0 0;}
 .wrap{width:100%;overflow: hidden;margin:0 auto;}
@@ -87,7 +87,15 @@ a:hover {color: #ff0000;}
     margin: auto;
     text-align: left;
 }
-
+/* 富文本编辑器样式*/
+#richEditor {
+    height: 520px;
+}
+.wangeditor{
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
 /*下方的分类*/
  .note .personal table tr td{
 	width:180px;

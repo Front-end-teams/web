@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-07 19:05:05
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-09 10:04:13
+* @Last Modified time: 2016-04-17 10:41:37
 */
 //左上的滚动
 	 var area = document.getElementById('rollBox');
@@ -28,6 +28,13 @@
 
 
 // 富文本编辑器中的div提交数据
+$(function () {
+       var editor = new wangEditor('richEditor');
+       editor.create();
+});	   
+var rich = document.getElementById("richEditor");
+
+
 var btn= document.getElementById("submit"); 
 btn.onclick = function(){
 	if(window.ActiveXObject){
@@ -38,9 +45,7 @@ btn.onclick = function(){
 	if(null != xhr){
 		xhr.open("POST","./models/note.js");
 		xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		var data = $('#edit #fr-view').froalaEditor('html.get');
-		
-console.log(data);
+		var data = rich.innerHTML
 		xhr.send(data);
 		xhr.onreadystatechange=function(){
 			if(xhr.readyState ===4){
