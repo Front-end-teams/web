@@ -265,11 +265,11 @@ function checkNotLogin(req, res, next) {
 	})
 
 // 发布问题
-	app.get('/ask', checkLogin);
+  app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
-  	console.log("ask");
-    res.render('ask',{
-    	title:'ask',
+    console.log("ask");
+    res.render('qa/ask',{
+      title:'ask',
       user: req.session.user
     });
   });
@@ -284,9 +284,10 @@ function checkNotLogin(req, res, next) {
         return res.redirect('/');
          } 
          req.flash('success', '发布成功!');
-         res.redirect('qa/question');//发表成功跳转到主页
+         res.redirect('/question');//发表成功跳转到主页
         });
   });
+
 
   //------------------------------------显示问题
 app.get('/question', function (req, res) {
