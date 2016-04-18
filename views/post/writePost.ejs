@@ -1,17 +1,23 @@
 <%- include ../header %>
 <link rel="stylesheet" type="text/css" href="/stylesheets/writePost.css">
+<link rel="stylesheet" type="text/css" href="/popout/style.css">
+<script type="text/javascript" src="/popout/popular.js"></script>
+<!-- <script type="text/javascript" src="/popout/custom.js"></script> -->
+
+
 <script type="text/javascript" src="/xheditor/jquery/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/xheditor/xheditor.min.js"></script>
 <script type="text/javascript" src="/xheditor/xheditor_lang/zh-cn.js"></script> 
+
 <%- include ../nav %>
 <!-- 弹出框 -->
-<div class="pop-cont" id="pop-cont">
+<div class="pop-cont p2" id="pop-cont">
     <div class="pop">
-      <section class="pop-title">弹出层标题</section>
-      <section class="pop-content">弹出层内容</section>
+      <section class="pop-title"><h3>提示</h3></section>
+      <section class="pop-content">文章上传成功</section>
       <section class="pop-footer">
-        <button class="button-left">按钮</button>
-        <button class="button-right">按钮</button>
+        <a class="confirm" href="/writePost">继续写博客</a>
+        <a class="cancel" >查看博客</a>
       
       </section>
 
@@ -21,7 +27,7 @@
 <div class="user-info">
 	<img class="user-img" src="">
 	<div class="user-detail">
-	<span><%= author %></span><span>积分：100</span>
+	<span class="author"><%= author %></span><span>积分：100</span>
 	<div><a href="">个人主页</a></div>
 	</div>
 </div>
@@ -96,6 +102,6 @@
 </article>
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
- <script type="text/javascript" src="/javascripts/seriPost.js"></script> 
- <script type="text/javascript" src="/javascripts/writePost.js"></script>
+<script type="text/javascript" src="/javascripts/seriPost.js"></script> 
+<script type="text/javascript" src="/javascripts/writePost.js"></script>
 <%- include ../footer %> 

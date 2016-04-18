@@ -199,18 +199,47 @@ EventUtil.addHandler(submit,"click",function(e){
 
 	var formD=new FormData();
 
-	var postCont=document.getElementById("post-cont")
+	var postCont=document.getElementById("pop-cont");
+	var author=document.querySelector(".author").innerHTML;
 
 
 	for(var i = 0; i < result.length; i++){
 		var val = result[i].split("=");
 		formD.append(val[0],val[1]);
 	}
-
-	formD.append("file",upload.files[0]);
+	console.log(upload.files[0]);
+	if(upload.files[0]){
+		formD.append("file",upload.files[0]);
+	}
+	
 
 	ajax("post","/upload1",formD,function(res){
-		postCont.style.display="block";
+		console.log(res);
+		var pop2 = document.querySelector('.p2');
+		console.log(pop2);
+		var p2 = Popuper({
+		    wrap: pop2,
+		    type: 'success',
+		    confirm: function() {
+		    		//继续写博客
+		        //window.location="localhost:3008/showPost?author="+author;
+		    },
+		    cancel: function() {
+		    	//查看博客
+		        var cancel=document.querySelector(".cancel");
+		        cancel.setAttribute("href","/showPost?author="+author&"time")
+		    }
+
+		}).edit({
+
+		    title: '提示',
+		    content: '文章上传成功'
+
+		}).show();
+
+		p2.toggle().edit({
+        type: 'info'
+    });
 	})
 
 })

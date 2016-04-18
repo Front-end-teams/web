@@ -18,8 +18,6 @@ var pagination=require('express-paginate');
 var util=require('util');
 
 
-
-
 module.exports = function(app) {
   //上传的ajax触发的操作
 	app.post('/upload1',upload.single("file"),function(req,res){
