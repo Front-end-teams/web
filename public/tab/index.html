@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="tabcard.css">
+        <script type="text/javascript" src="tabcard.js"></script>
+    </head>
+    <body>
+    	<div id="tab">
+    		<!-- tabHead -->
+    		<ul class="tab-nav">
+    			<li><a href="javascript:void(0)">交易安全</a></li>
+    			<li><a href="javascript:void(0)">淘宝大学</a></li>
+    			<li><a href="javascript:void(0)">爱心</a></li>
+    		</ul>
+    	 
+    		<!-- tabPanel-->
+    		<ul class="tab-bd">
+    			<li>
+                    <form>
+                        <input type="text">
+                    </form>
+                </li>
+    			<li>
+                    <form>
+                        <input type="text">
+                    </form>
+                </li>
+    			<li>
+                    <form>
+                        <input type="text">
+                    </form>
+                </li>
+    		</ul>
+    	</div>
+    	<script type="text/javascript">
+    	tabPanel({"panel":"tab"});//panel为必填项，default、defalutStyle、hoverStyle为选填项
+    	</script>
+    </body>
+</html>
