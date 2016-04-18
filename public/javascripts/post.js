@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-03-22 15:28:20
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-03-22 17:05:02
+* @Last Modified time: 2016-04-17 18:07:36
 */
 
 
@@ -13,8 +13,7 @@ $(function(){
 		$(this).addClass("selected")
 		.siblings().removeClass("selected");
 		var index = $tags_li.index(this);
-		console.log(index);
 		$(".tags_box>div").eq(index).show().siblings().hide();
 	});
 
-})
+});

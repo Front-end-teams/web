@@ -1,6 +1,124 @@
 a{
+<<<<<<< HEAD
+text-decoration: none;
+color:#fff;
+}
+.header {
+color: #fff;
+height: 50px;
+background-color: #21e7c9; }
+.header .logo {
+width: 100px;
+font-size: 30px;
+margin-left: 50px;
+line-height: 50px;
+float: left; }
+.header .index {
+list-style-type: none;
+margin-right: 50px; }
+.header .index li {
+
+float: right;
+padding: 10px;
+
+line-height: 20px;
+cursor: pointer;
+vertical-align: middle; }
+.header .index li a{
+display: inline-block;
+font-size: 16px;
+
+line-height: 20px;
+cursor: pointer;
+}
+.header .index li:hover {
+border-bottom: 2px solid #fff; }
+.header .index li.search:hover {
+border-bottom: 0px; }
+.header .index li.search .search-text {
+background-color: #21e7c9;
+border: 1px solid #fff;
+width: 200px;
+border-radius: 5px;
+font-size: 10px; }
+
+
+#tab{
+    position:fixed;
+    width:360px;
+    height:420px;
+    top:50%;
+    left:50%;
+    margin-left: -180px;
+    margin-top: -210px;
+    opacity: 1;
+    background:white scroll  0 0;
+  }
+  .hide{
+    display:none;
+  }
+  .show{
+    display:block;
+    z-index:10001;
+  }
+  .maskhide{
+    display: none;
+  }
+  .maskshow{
+    display:block;
+    z-index:1000;
+  }
+  #mask{
+    position:fixed;
+      left:0;
+      top:0;
+      right:0;
+      bottom:0;
+      background-color:gray;
+      opacity: 0.5;
+  }
+  .tab-nav .close{
+    background:url(../images/loginclose.png) no-repeat 0 0;
+    width:17px;
+    height:17px;
+    cursor:pointer;
+    position:absolute;
+    top:17px;
+    right:17px;
+    outline: none;
+    border:none;
+  }
+  .tab-bd form{
+    text-align: center;
+  }
+  .tab-bd form div{
+    width:100%;
+    height:50px;
+    margin:20px 0;
+    text-align: center;
+   }
+  
+  .tab-bd form div input{
+      width:280px;
+      height:45px;
+      text-indent: 10px;
+  }
+  .tab-bd form div p{
+    border:none;
+  }
+  .tab-bd form div button{
+    background: #21e7c9 scroll 0 0;
+    width:100px;
+    height:40px;
+    border-radius: 10px;
+    color:white;
+  }
+=======
   text-decoration: none;
-  color:#fff;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 }
 .header {
   color: #fff;
@@ -26,7 +144,12 @@ a{
       .header .index li a{
         display: inline-block;
       font-size: 16px;
+<<<<<<< HEAD
+      color:#fff;
+=======
+        color:#fff;
       
+>>>>>>> origin/master
       line-height: 20px;
       cursor: pointer;
       }
@@ -40,3 +163,4 @@ a{
         width: 200px;
         border-radius: 5px;
         font-size: 10px; }
+>>>>>>> origin/master

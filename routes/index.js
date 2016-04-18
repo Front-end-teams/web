@@ -1,4 +1,3 @@
-
 var Post=require("../models/post.js");
 //中间件multer的配置（实现上传功能）
 var upload = require('../models/multerUtil');
@@ -264,11 +263,12 @@ function checkNotLogin(req, res, next) {
 	})
 
 // 发布问题
-	//app.get('/ask', checkLogin);
+  app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
-  	console.log("ask");
-    res.render('ask',{
-    	title:'ask'
+    console.log("ask");
+    res.render('qa/ask',{
+      title:'ask',
+      user: req.session.user
     });
   });
   app.post('/ask', checkLogin);
@@ -282,9 +282,10 @@ function checkNotLogin(req, res, next) {
         return res.redirect('/');
          } 
          req.flash('success', '发布成功!');
-         res.redirect('qa/question');//发表成功跳转到主页
+         res.redirect('/question');//发表成功跳转到主页
         });
   });
+
 
   //------------------------------------显示问题
 app.get('/question', function (req, res) {
@@ -300,7 +301,8 @@ app.get('/question', function (req, res) {
         questions: questions,
         page: page,
         isFirstPage: (page - 1) == 0,
-        isLastPage: ((page - 1) * 10 + questions.length) == total,
+        isLastPage: ((page - 1) * 2 + questions.length) == total,
+        LastPage:Math.ceil(total/2),
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
@@ -309,12 +311,15 @@ app.get('/question', function (req, res) {
   });
 //------------------------------显示问题具体内容
   app.get('/questionDetail', function (req, res) {
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    var num=8;
     Ques.getOne(req.query.name, req.query.day, req.query.quesTitle, function (err, question) {
       if (err) {
         req.flash('error', err); 
         return res.redirect('/');
       }
       res.render('qa/questionDetail', {
+        title:"具体问题",
         quesTitle: req.query.quesTitle,
         quesDetail: question.quesDetail,
         day:question.time.day,
@@ -322,7 +327,12 @@ app.get('/question', function (req, res) {
         user: req.session.user,
         comments:question.comments,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        page:page,
+        isFirstPage: (page-1)== 0,
+        isLastPage: (page*num)>=(question.comments.length),
+        LastPage:Math.ceil(question.comments.length/num),
+        num:num
       });
     });
   });
@@ -334,7 +344,7 @@ app.post('/questionDetail', function (req, res) {
 
     var md5 = crypto.createHash('md5'),
         email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
-        head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48"; 
+        head = "images/7.jpg"; 
 
     var comment = {
         name: req.body.name,
@@ -343,6 +353,7 @@ app.post('/questionDetail', function (req, res) {
         website: req.body.website,
         time:time,
         content: req.body.content,
+        agreeNum:req.body.num?req.body.num:0
     };
  
     var newQuesComment = new quesComment(req.param('name'), req.param('day'), req.param('quesTitle'), comment);
@@ -438,6 +449,7 @@ app.post('/questionDetail', function (req, res) {
   //app.post('/job-search', checkNotLogin);
 //下面是工作模块,根据用户输入的信息去数据库查询信息
   app.post('/job-search',function(req,res){
+      console.log('job-search被调用');
     var body=req.body;
   //构建需要查询的对象
     var jobH=new jobHunting();
@@ -454,15 +466,21 @@ app.post('/questionDetail', function (req, res) {
      //对结果排名，用于数据的查询语句中
      jobHunting.search(jobH,function(jobs){
       if(!jobs.length){
-           req.flash("jobs","没有相关的招聘信息,您可以继续输入条件进行查询!");
-           res.render("job-search-err",{jobs:req.flash('jobs')});
+        console.log('获取到的工作的数量为0！');
+           res.render("job/job-search",{
+               title:'工作',
+               watch:'根据您输入的条件没有任何招聘信息!',
+               user:req.session.user
+           });
            return;
-      }
+       }else{
           req.flash("jobs",jobs);
-          res.render("job-search",{
+          res.render("job/job-search",{
             user: req.session.user,
             title:"工作",
+            watch:'',
             jobs:req.flash('jobs')});
+       }
      });
   });
   /*------------------工作插入-----------------*/
@@ -478,9 +496,10 @@ app.post('/questionDetail', function (req, res) {
          //如果出错了那么我们直接报错
          if(err){
            req.flash('error',error);
-           return res.redirect('job/job-insert-error');
+           return res.redirect('/job-insert-error');
          }
-          res.redirect('job/job-insert-succ');
+         console.log('-----------------------1');
+          res.redirect('/job-insert-succ');
        });
   });
   //app.get('/job-insert', checkNotLogin);
@@ -492,6 +511,7 @@ app.post('/questionDetail', function (req, res) {
     });
   });
 app.get('/job-insert-succ', function(req, res){
+  console.log('-------------------------');
   //res.render('job-insert-succ', { messages: req.flash('success') });
     res.setHeader('content-type', 'text/html;charset=utf-8');
     //定时器修改DOM的代码,没间隔一秒我们刷新一次页面
@@ -501,34 +521,25 @@ app.get('/job-insert-succ', function(req, res){
     res.end();
 });
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
-//下面模块用获取前5条招聘信息,不用登陆就可以查看的招聘信息
 app.get('/job-top5',function(req,res){
-
-  //首先查询前5条的招聘信息，这五条招聘信息全部会返回到job-top5页面进行渲染
-  //获取到前端传入到这里的地址，如本地就是"大连"
   jobHunting.Top5('北京',function(jobs){
-     req.flash('top5',jobs);
-
-     res.render('job/find-job-top5',{
-      user: req.session.user,
-      title:"工作",
-      jobs:req.flash('top5')
-    });
+    //console.assert(jobs,'这里出错了.....');
+    if((jobs instanceof Array)&&jobs.length==0){
+      res.render('job/find-job-top5',{
+         user:req.session.user,
+         watch:'亲，您所在的城市没有任何招聘信息!',
+         title:"工作"
+      })
+      return;
+    }else{
+           req.flash('top5',jobs);
+           res.render('job/find-job-top5',{
+              user: req.session.user,
+              title:"工作",
+              jobs:req.flash('top5')
+            });
+    }
   });
 });
-
-
-/*app.get('/job', function (req, res) {
-  var result=geolocation('202.118.66.66',function(err,msg){
-    //  console.log('城市: ' + msg.city);
-    //console.log('msg: ' + util.inspect(msg, true, 8));
-       jobHunting.Top5(msg.city,function(jobs){
-       req.flash('top5',jobs);
-       res.render('find-job-top5',{jobs:req.flash('top5')});
-    });
-  });
-  });*/
-/*----------------------/job-top5/:name为待开发模块---------------------------*/
-
 
 }

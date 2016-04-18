@@ -1,0 +1,96 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.main
+{
+	width: 1100px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+article
+{
+	float: left;
+	margin-top: 30px;
+	width: 750px;
+}
+article h1
+{
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+article #quesTitle
+{
+	height: 60px;	
+	margin-bottom: 20px;
+	border-radius: 8px;
+}
+article #quesTitle input
+{
+	display: block;
+	border: 2px solid #eee;
+	height: 60px;
+	width: 746px;
+	outline: none;
+	font-size: 20px;
+	text-indent: 15px;
+	border-radius: 8px;	
+}
+article textarea
+{
+	border: 2px solid #eee;
+	width: 716px;
+	height: 225px;
+	padding: 15px;
+	outline: none;
+	font-size: 16px;
+	line-height: 24px;
+	border-radius: 8px;
+}
+article span
+{
+	font-size: 18px;
+}
+article #pubQues
+{
+	outline: none;
+	border: none;
+	width: 100px;
+	height: 40px;
+	line-height: 40px;
+	font-size: 18px;
+	background-color: red;
+	cursor: pointer;
+	color: white;
+	float: right;
+}
+.notice
+{
+	float: right;
+	width: 280px;
+	margin-top: 30px;
+}
+.notice h1
+{
+	font-size: 18px;
+	font-family: "微软雅黑";
+	text-indent: 60px;
+	height: 60px;
+	line-height: 60px;
+	background: url(../images/attention.png) no-repeat left center;
+}
+.notice dl
+{
+	font-size: 14px;
+	font-family: "微软雅黑";
+}
+.notice dl dt,dd
+{
+	padding: 5px 0;
+	line-height: 24px;
+}
+.notice dl dt
+{
+	font-size: 16px;
+	font-weight: bold;
+}

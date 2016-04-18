@@ -1,6 +1,6 @@
 <%- include ../header %>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/job.css">
-	<script type="text/javascript" src="src/script/recruit.js"></script>
+	<script type="text/javascript" src="javascripts/recruit.js"></script>
 <%- include ../nav %>
 	<div class="main">
 	    <p class="title">
@@ -58,31 +58,37 @@
 				</ul>
 			</li>
 		    <li class="searchJob_li">
-		        <input type="submit" value="搜索"><a style="" href="/job-insert">发布</a>
+		        <input type="submit" value="搜索">
+
+		        <!--<a style="" href="/job-insert">发布</a>-->
 		    </li>
 		</ul>	
 		</form>
         <!--表单提交结束-->
-
-		<div class="content">
-		<% jobs.forEach(function (job, index) { %>
-		   <div class="recruitInfo">
-		        <div class="infoList">
- 					<label>公司名称：</label><%= job.companyName %><br>
-				    <label>公司地点：</label><%= job.companyLocation %><br>
-				    <label>工作地点：</label><%= job.workLocation %><br>
-				    <label>招聘类型：</label><%= job.jobType %><br>
-				    <label>招聘人数：</label><%= job.jobNum %><br>		    
-				    <label>工作经验：</label><%= job.workTime %><br>
-				    <label>发布时间：</label><%= job.jobTime %><br>
-			    </div>
-			    <div class="jobReq">
-			    &nbsp;职位要求：<br>
-			      <%= job.jobDetail %>
-			    </div>
-			    <a href="/job-detail?id=<%=job._id%>" class="more">点击查看详细信息</a>			    
-		   </div>
-		 <% }) %>
-        </div>
-	</div>		
+      
+			<div class="content">
+			 <%if(watch){%>
+	            <%=watch%>
+	       <%}else{%>
+				<% jobs.forEach(function (job, index) { %>
+				   <div class="recruitInfo">
+				        <div class="infoList">
+		 					<label>公司名称：</label><%= job.companyName %><br>
+						    <label>公司地点：</label><%= job.companyLocation %><br>
+						    <label>工作地点：</label><%= job.workLocation %><br>
+						    <label>招聘类型：</label><%= job.jobType %><br>
+						    <label>招聘人数：</label><%= job.jobNum %><br>		    
+						    <label>工作经验：</label><%= job.workTime %><br>
+						    <label>发布时间：</label><%= job.jobTime %><br>
+					    </div>
+					    <div class="jobReq">
+					    &nbsp;职位要求：<br>
+					      <%= job.jobDetail %>
+					    </div>
+					    <a href="/job-detail?id=<%=job._id%>" class="more">点击查看详细信息</a>			    
+				   </div>
+				 <% }) %>
+		        </div>
+				</div>		
+		<%}%>
 <%- include ../footer %>

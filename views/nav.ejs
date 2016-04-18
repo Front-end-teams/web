@@ -1,4 +1,10 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+<link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
+<script type="text/javascript" src="/javascripts/nav.js"></script>
+<script type="text/javascript" src="/javascripts/commonFunc.js"></script>
+<script type="text/javascript" src="/tab/tabcard.js"></script>
+
+
 </head>
 <body>
 	<header class="header">
@@ -6,14 +12,14 @@
 		
 		<ul class="index clearfix">
 		<% if (user) { %>
-			<li><%= user %></li>
+			<li><%= user.name %></li>
 			
 			
 			
 			<% } else { %>
 		
-			<li><a href="/login">登录</a></li>
-			<li><a href="/reg">注册</a></li>
+			<li><a href="#" id="login">登录</a></li>
+			<li><a href="#" id="reg">注册</li>
 			
 		<% } %>
 			<li><a href="/reading">读书笔记</a></li>
@@ -26,3 +32,60 @@
 			
 		</ul>
 	</header>
+
+
+
+
+<div id="mask" class="maskhide"></div>
+<div id="tab" class="hide">
+	<!-- tabHead -->
+	<ul class="tab-nav">
+		<li><a href="javascript:void(0)">登录</a></li>
+		<li><a href="javascript:void(0)">注册</a></li>
+		<button class="close" id="close"></button>
+	</ul>
+ 
+	<!-- tabPanel-->
+	<ul class="tab-bd">
+		<li>
+            <form id="loginForm">
+            	<div>
+            	   <input type="text" name="username" id="name" placeholder="请输入用户名">
+            	   <p class="tip hide">必填，长度为4-15个字符</p>
+            	   
+            	</div>
+            	<div>
+            	   <input type="password" name="password" id="password" placeholder="请输入密码"><p class="tip hide">6~16位数字或字母</p>
+            	  
+            	</div>
+            	<div>
+            		<button type="submit" id="loginsub">立即登录</button>
+            	</div>
+            </form>
+        </li>
+		<li>
+            <form id="regForm">
+				<div>
+				   <input type="text" name="username" id="name" placeholder="请输入用户名">
+				   <p class="tip hide">必填，长度为4-15个字符</p>
+				</div>
+				<div>
+				   <input type="password" name="password" id="password" placeholder="请输入密码">
+				   <p class="tip hide">6~16位数字或字母</p>
+				</div>
+				<div>
+				   <input type="password" name="repassword" id="repassword" placeholder="请重复输入密码">
+				   <p class="tip hide">重复输入密码</p>
+				</div>
+				<div>
+				   <input type="email" name="email" id="email" placeholder="请输入邮箱地址">
+				   <p class="tip hide">输入不能为空</p>
+				</div>
+				<div>
+					<button  type="submit" id="regsub">立即注册</button>
+				</div>
+			</form>
+        </li>
+	</ul>
+</div>
+
