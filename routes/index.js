@@ -451,6 +451,7 @@ app.post('/questionDetail', function (req, res) {
   //app.post('/job-search', checkNotLogin);
 //下面是工作模块,根据用户输入的信息去数据库查询信息
   app.post('/job-search',function(req,res){
+      console.log('job-search被调用');
     var body=req.body;
   //构建需要查询的对象
     var jobH=new jobHunting();
@@ -467,15 +468,21 @@ app.post('/questionDetail', function (req, res) {
      //对结果排名，用于数据的查询语句中
      jobHunting.search(jobH,function(jobs){
       if(!jobs.length){
-           req.flash("jobs","没有相关的招聘信息,您可以继续输入条件进行查询!");
-           res.render("job/job-search-err",{jobs:req.flash('jobs')});
+        console.log('获取到的工作的数量为0！');
+           res.render("job/job-search",{
+               title:'工作',
+               watch:'根据您输入的条件没有任何招聘信息!',
+               user:req.session.user
+           });
            return;
-      }
+       }else{
           req.flash("jobs",jobs);
           res.render("job/job-search",{
             user: req.session.user,
             title:"工作",
+            watch:'',
             jobs:req.flash('jobs')});
+       }
      });
   });
   /*------------------工作插入-----------------*/
@@ -516,35 +523,25 @@ app.get('/job-insert-succ', function(req, res){
     res.end();
 });
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
-//下面模块用获取前5条招聘信息,不用登陆就可以查看的招聘信息
 app.get('/job-top5',function(req,res){
-
-  //首先查询前5条的招聘信息，这五条招聘信息全部会返回到job-top5页面进行渲染
-  //获取到前端传入到这里的地址，如本地就是"大连"
   jobHunting.Top5('北京',function(jobs){
-     req.flash('top5',jobs);
-
-     res.render('job/find-job-top5',{
-      user: req.session.user,
-      title:"工作",
-      jobs:req.flash('top5')
-    });
+    //console.assert(jobs,'这里出错了.....');
+    if((jobs instanceof Array)&&jobs.length==0){
+      res.render('job/find-job-top5',{
+         user:req.session.user,
+         watch:'亲，您所在的城市没有任何招聘信息!',
+         title:"工作"
+      })
+      return;
+    }else{
+           req.flash('top5',jobs);
+           res.render('job/find-job-top5',{
+              user: req.session.user,
+              title:"工作",
+              jobs:req.flash('top5')
+            });
+    }
   });
 });
- // app.get('/reg',function(req,res){
- //    res.redirect('/reg');
- //  });
-  /*app.get('/job', function (req, res) {
-  var result=geolocation('202.118.66.66',function(err,msg){
-    //  console.log('城市: ' + msg.city);
-    //console.log('msg: ' + util.inspect(msg, true, 8));
-       jobHunting.Top5(msg.city,function(jobs){
-       req.flash('top5',jobs);
-       res.render('find-job-top5',{jobs:req.flash('top5')});
-    });
-  });
-  });*/
-/*----------------------/job-top5/:name为待开发模块---------------------------*/
-
 
 }

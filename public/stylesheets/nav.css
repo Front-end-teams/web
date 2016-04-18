@@ -1,6 +1,5 @@
 a{
   text-decoration: none;
-  color:#fff;
 }
 .header {
   color: #fff;
@@ -26,7 +25,7 @@ a{
       .header .index li a{
         display: inline-block;
       font-size: 16px;
-      
+      color:#fff;
       line-height: 20px;
       cursor: pointer;
       }
