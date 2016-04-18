@@ -2,11 +2,11 @@
 * @Author: Administrator
 * @Date:   2016-04-17 18:13:34
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-17 20:37:10
+* @Last Modified time: 2016-04-18 10:03:07
 */
 #tab{border:1px solid #ccc;}
 #tab .tab-bd{border-top:none;margin:0 auto;padding:10px;text-align:left;height:120px;position:relative}
-.tab-nav{margin:0 auto;padding:0;background:#eee;height:50px;}
+.tab-nav{margin:0 auto;padding:0;border-bottom:1px solid #eee;height:50px;}
 .tab-nav li{display:inline;list-style:none outside none;width:90px;height:50px;float:left;line-height:50px;text-align:center;}
 .tab-nav li a{color:#555;display:inline-block;text-decoration: none;}
 .tab-nav li a:hover,.tab-nav li.hover a{text-decoration:none;background:#fff;color:#000;display:block; }

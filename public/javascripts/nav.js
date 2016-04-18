@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-18 09:56:32
+* @Last Modified time: 2016-04-18 10:10:53
 */
 
 'use strict';
@@ -58,6 +58,7 @@ window.onload=function(){
 		inp[i].addEventListener("focus",function(e){
 			var ev = e||window.e;
 			var target = ev.target||ev.srcElement;
+			target.value = "";
 			target.style.border = "1px solid yellow";
 			target.nextElementSibling.style.display = "block";
 		},false);
@@ -67,7 +68,7 @@ window.onload=function(){
 			target.style.border = "1px solid #1AE6E6";
 			check(target);		
 		},false)
-	}
+	};
 	function check(ele){
 		var str = ele.value;
 		if(str.length===0){
@@ -90,7 +91,6 @@ window.onload=function(){
 		if(ele.id==="password"){
 			if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
 	            checkResult.right = true;
-	            ele.nextElementSibling.className="show";
 	            ele.nextElementSibling.innerHTML= '密码格式正确';
 	            ele.nextElementSibling.style.color = "green";
 	        } else {
@@ -123,5 +123,5 @@ window.onload=function(){
 			}
 		}
 
-	}
+	};
 }
