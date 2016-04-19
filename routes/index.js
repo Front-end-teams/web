@@ -60,14 +60,15 @@ module.exports = function(app) {
 	// });
 
 	//注册页面
-  app.get('/', function (req, res) {
+  app.get('/reg', function (req, res) {
      res.render('nav', {
       title: '注册',
       user: req.session.user,
       
     });
    });
-  app.post('/', function (req, res) {
+  app.post('/reg', function (req, res) {
+    res.setHeader('content-type', 'application/json');
     var name = req.body.name,
         password = req.body.password,
    	    repassword = req.body.repassword;
@@ -90,17 +91,17 @@ module.exports = function(app) {
     User.get(newUser.name, function (err, user) {
       if (err) {
         req.flash('error', err);
-        return res.redirect('/');
+        return res.redirect('/reg');
       }
       if (user) {
         req.flash('error', '用户已存在!');
-        return res.redirect('/');//返回注册页
+        return res.redirect('/reg');//返回注册页
       }
       //如果不存在则新增用户
       newUser.save(function (err, user) {
         if (err) {
           req.flash('error', err);
-          return res.redirect('user');//注册失败返回主册页
+          return res.redirect('/reg');//注册失败返回主册页
         }
         req.session.user = newUser;//用户信息存入 session
         req.flash('success', '注册成功!');
@@ -112,7 +113,7 @@ module.exports = function(app) {
 
   //登录页面
    app.get('/login', function (req, res) {
-    res.render('user/login', {
+    res.render('/login', {
         title: '登录',
         user: req.session.user,
         success: req.flash('success').toString(),
@@ -126,12 +127,12 @@ module.exports = function(app) {
   User.get(req.body.name, function (err, user) {
     if (!user) {
       req.flash('error', '用户不存在!'); 
-      return res.redirect('user/login');//用户不存在则跳转到登录页
+      return res.redirect('/login');//用户不存在则跳转到登录页
     }
     //检查密码是否一致
     if (user.password != password) {
       req.flash('error', '密码错误!'); 
-      return res.redirect('user/login');//密码错误则跳转到登录页
+      return res.redirect('/login');//密码错误则跳转到登录页
     }
     //用户名密码都匹配后，将用户信息存入 session
     req.session.user = user;

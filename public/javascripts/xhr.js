@@ -24,7 +24,7 @@ function createXHR(){
 
 	}
 
-	var ajax=function(met,url,mes,callback){
+	var ajax=function(met,url,head,mes,callback){
 		var xhr=createXHR();
 		xhr.onreadystatechange=function(){
 			if(xhr.readyState==1){
@@ -40,6 +40,10 @@ function createXHR(){
 			}
 		}
 		xhr.open(met,url,true);
+		if(head){
+			xhr.setRequestHeader("Content-Type",head);
+		}
+		//xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		
 		xhr.send(mes);
-		console.log(mes);
 	}

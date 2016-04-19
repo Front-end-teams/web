@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 18:11:12
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-19 12:49:12
+* @Last Modified time: 2016-04-19 15:50:55
 */
 
 'use strict';
@@ -14,10 +14,10 @@ function TabCard(panel,deS,clS,moS){
 	this.inps = this.panel.querySelectorAll("input");
 }
 TabCard.prototype.clear = function(){
-	console.log(this.inps);
+	//console.log(this.inps);
 	for(var i=0;i<this.inps.length;i++){
 		this.inps[i].value="";
-		console.log(this.inps);
+		//console.log(this.inps);
 	}
 }
 TabCard.prototype.click = function(){
