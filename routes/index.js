@@ -52,24 +52,26 @@ module.exports = function(app) {
 	});
 
 	//注册页面
-  app.get('/reg', function (req, res) {
-     res.render('user/reg', {
+  app.get('/', function (req, res) {
+     res.render('nav', {
       title: '注册',
       user: req.session.user,
+      
     });
    });
-  app.post('/reg', function (req, res) {
+  app.post('/', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
-   	repassword = req.body.repassword;
+   	    repassword = req.body.repassword;
     //检验用户两次输入的密码是否一致
-    if (repassword!= password) {
+    if (repassword!== password) {
       req.flash('error', '两次输入的密码不一致!'); 
       return res.redirect('/');//返回注册页
     }
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
-        password = md5.update(req.body.password).digest('hex');
+        password = md5.update(req.body.password).digest('hex'),
+        repassword = md5.update(req.body.password).digest('hex');
     var newUser = new User({
         name: name,
         password: password,
@@ -84,17 +86,17 @@ module.exports = function(app) {
       }
       if (user) {
         req.flash('error', '用户已存在!');
-        return res.redirect('user/reg');//返回注册页
+        return res.redirect('/');//返回注册页
       }
       //如果不存在则新增用户
       newUser.save(function (err, user) {
         if (err) {
           req.flash('error', err);
-          return res.redirect('user/reg');//注册失败返回主册页
+          return res.redirect('user');//注册失败返回主册页
         }
         req.session.user = newUser;//用户信息存入 session
         req.flash('success', '注册成功!');
-        res.redirect('/');//注册成功后返回主页
+        res.redirect('/user/personal');//注册成功后跳转到用户填写个人资料的页面
       });
     });
   });
@@ -186,7 +188,7 @@ function checkNotLogin(req, res, next) {
     req.flash('error', '已登录!'); 
     res.redirect('back');//返回之前的页面
   }
-  next();
+  next();//执行下一个路由
 }
 
 	//文章

@@ -42,8 +42,7 @@ width: 200px;
 border-radius: 5px;
 font-size: 10px; }
 
-
-#tab{
+  #regtab{
     position:fixed;
     width:360px;
     height:420px;

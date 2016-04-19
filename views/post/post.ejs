@@ -1,8 +1,10 @@
 <%- include ../header %>
+<%- include ../nav %>
         <link rel="stylesheet" href="/stylesheets/post.css">
         <script type="text/javascript" src="/javascripts/jquery.js"></script>
         <script type="text/javascript" src="/javascripts/post.js"></script>
-<%- include ../nav %>
+        <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
+
     <div class="wrap clearfix">
         <div class="leftsection">
             <div class="leftsectionWrap">
@@ -89,43 +91,24 @@
                 </div>                                    
             </div>
     	</div>
-        <div class="tags fastSectionList">
-            <ul class="tags fastSectionNavBar">
-                <li class="selected"><a href="#">热门</a></li>
-                <li><a href="#">原创</a></li>
+       
+        <div id="sidetab">
+            <!-- tabHead -->
+            <ul class="tab-nav">
+                <li><a href="javascript:void(0)">热门</a></li>
+                <li><a href="javascript:void(0)">原创</a></li>
             </ul>
-            <div class="tags_box">
-                <div class="hot fixcont">
-                    <div class="tags_mobile_hide">
-                        <a href="#">计算机基础</a>
-                        <a href="#">javascript</a>
-                        <a href="#">css</a>
-                        <a href="#">html</a>
-                        <a href="#">html5</a>
-                        <a href="#">css3</a>
-                        <a href="#">jquery</a>
-                        <a href="#">angular.js</a>
-                        <a href="#">react.js</a>
-                    </div>
-                    <div>
-                        <section id=""></section>
-                    </div>
-                </div>
-                <div class="original hide fixcont">
-                    君子阳阳，左执簧，右招我由房，其乐只且！
-                    君子陶陶，左执翿，右招我由敖，其乐只且！
-                    君子阳阳，左执簧，右招我由房，其乐只且！
-                    君子陶陶，左执翿，右招我由敖，其乐只且！
-                    君子阳阳，左执簧，右招我由房，其乐只且！
-                    君子陶陶，左执翿，右招我由敖，其乐只且！
-                    君子阳阳，左执簧，右招我由房，其乐只且！
-                    君子陶陶，左执翿，右招我由敖，其乐只且！
-                    君子阳阳，左执簧，右招我由房，其乐只且！
-                    君子陶陶，左执翿，右招我由敖，其乐只且！
-                    君子阳阳，左执簧，右招我由房，其乐只且！
-                    君子陶陶，左执翿，右招我由敖，其乐只且！
-                </div>
-            </div>
+         
+            <!-- tabPanel-->
+            <ul class="tab-bd">
+                <li class="tabshow">
+                    aiasfhhsfahfhahfah 
+                </li>
+                <li class="tabhide">
+                    safifahkkfakhfakh
+                </li>
+            </ul>
         </div>
-    </div>    
+    </div>   
+    
  <%- include ../footer %>

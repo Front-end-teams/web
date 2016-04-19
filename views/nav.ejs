@@ -1,10 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
 <link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
-<script type="text/javascript" src="/javascripts/nav.js"></script>
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
-<script type="text/javascript" src="/tab/tabcard.js"></script>
-
-
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
 </head>
 <body>
 	<header class="header">
@@ -19,7 +16,7 @@
 			<% } else { %>
 		
 			<li><a href="#" id="login">登录</a></li>
-			<li><a href="#" id="reg">注册</li>
+			<li><a href="#" id="reg">注册</a></li>
 			
 		<% } %>
 			<li><a href="/reading">读书笔记</a></li>
@@ -37,11 +34,11 @@
 
 
 <div id="mask" class="maskhide"></div>
-<div id="tab" class="hide">
+<div id="regtab" class="hide">
 	<!-- tabHead -->
 	<ul class="tab-nav">
-		<li><a href="javascript:void(0)">登录</a></li>
-		<li><a href="javascript:void(0)">注册</a></li>
+		<li><a href="javascript:void(0)" id="aLogin">登录</a></li>
+		<li><a href="javascript:void(0)" id="aReg">注册</a></li>
 		<button class="close" id="close"></button>
 	</ul>
  
@@ -88,4 +85,6 @@
         </li>
 	</ul>
 </div>
+<script type="text/javascript" src="/javascripts/nav.js"></script>
+<script type="text/javascript" src="/tab/tabcard.js"></script>
 

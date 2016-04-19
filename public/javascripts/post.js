@@ -2,18 +2,9 @@
 * @Author: Administrator
 * @Date:   2016-03-22 15:28:20
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-17 18:07:36
+* @Last Modified time: 2016-04-18 22:56:39
 */
-
-
-//tab选项卡的实现
-$(function(){
-	var $tags_li = $(".fastSectionNavBar li");
-	$tags_li.click (function(){
-		$(this).addClass("selected")
-		.siblings().removeClass("selected");
-		var index = $tags_li.index(this);
-		$(".tags_box>div").eq(index).show().siblings().hide();
-	});
-
-});
+window.onload=function(){
+	var postcard = new TabCard("sidetab","defaultStyle",null,"mouseStyle");
+    postcard.mouseover();
+}
