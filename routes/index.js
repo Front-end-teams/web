@@ -23,6 +23,7 @@ module.exports = function(app) {
     console.log(req.body);
     //将信息存入文章数据库
     console.log(req.file.path);
+
     var post = new Post("cheng", req.body.title, req.body.tags,req.body.post,req.body.cates,req.file.path);
       post.save(function (err) {
       console.log(post);
@@ -31,25 +32,32 @@ module.exports = function(app) {
         console.log("error");
         //return res.redirect('/');
       }
-      res.send("send");
+
+     res.send({
+                user: "cheng",
+                title: req.body.title,
+                tags: req.body.tags,
+                post: req.body.post,
+                cates: req.body.cates
+                 });
       // req.flash('success', '发布成功!');
       //req.flash('success',post);
       //res.redirect('/showPost');//发表成功跳转到主页
     });
   });  
 	
-	app.get('/', function(req, res, next) {
+	// app.get('/', function(req, res, next) {
 
-	  res.render('index', { title: 'Express',
-	  						author: '0001',
-	  						tag: 'fort',
-						    time: 'now',
-						    Browse: 100,
-						    user: req.session.user,
-						    agree: 90,
-						    review: 23,
-						    post: 'hello world' });
-	});
+	//   res.render('index', { title: 'Express',
+	//   						author: '0001',
+	//   						tag: 'fort',
+	// 					    time: 'now',
+	// 					    Browse: 100,
+	// 					    user: req.session.user,
+	// 					    agree: 90,
+	// 					    review: 23,
+	// 					    post: 'hello world' });
+	// });
 
 	//注册页面
   app.get('/', function (req, res) {
@@ -197,6 +205,7 @@ function checkNotLogin(req, res, next) {
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: 'Express',
+	  						name: "cheng",
 	  						author: '0001',
 	  						tag: 'fort',
 						    time: 'now',
@@ -208,7 +217,8 @@ function checkNotLogin(req, res, next) {
 	});
 	//文章二级页面
     app.get('/post', function (req, res) {
-    
+
+    //Post.total({author:"cheng"});
     res.render('post/post', {
       title: '文章',
       user: req.session.user,
@@ -217,14 +227,15 @@ function checkNotLogin(req, res, next) {
     });
   });
     /*需要写文章的页面*/
+  app.get('/writePost',checkLogin);
 	app.get('/writePost',function(req,res){
-		Post.getTags(function(err,tags){
+		Post.getTags({author: res.session.user},function(err,tags){
 			if(err){
 				console.log(err);
 				tags=[];
 			}
 			
-			Post.getArchive(function(err,cates){
+			Post.getArchive({author: res.session.user},function(err,cates){
 				if(err){
 					console.log("cates error");
 					cates=[];
@@ -242,7 +253,24 @@ function checkNotLogin(req, res, next) {
 		})
 	})
 		
+  app.get("/detail/:author/:title",function(req,res){
+  	console.log("detail");
 
+    Post.getOne({author: req.params.author,title: req.params.title}, function (err, post) {
+      if (err) {
+        req.flash('error', err); 
+        return res.redirect('/');
+      }
+      res.render('post/showPost', {
+      	author: "cheng",
+        title: req.params.title,
+        post: post,
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+    });
+  })
 	
   //显示写完后的文章
 	app.get('/showPost',function(req,res){
@@ -250,10 +278,10 @@ function checkNotLogin(req, res, next) {
 		console.log(Object.prototype.toString.call(post));
 		res.render("post/showPost",{
 			title: "文章",
-      user: req.session.user,
-			author: post[0].author,
-			title: post[0].title,
-			post: post[0].post,
+      user: "cheng",
+			author: "cheng",
+			title: "post[0].title",
+			post: "post[0].post",
 			tag: "wenzhang",
 			Browse: '0',
 			agree: '0',

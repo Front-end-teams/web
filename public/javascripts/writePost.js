@@ -131,7 +131,9 @@ var input_arr=[];
 EventUtil.addHandler(catesTable,"click",function(e){
 	var e=EventUtil.getEvent(e);
 	var target=EventUtil.getTarget(e);
-	var checkbox=document.forms[0].elements["cates"];
+	console.log(target);
+	var checkbox=document.getElementById("form-article").elements["cates"];
+	console.log(checkbox);
 	var flag=false;
 	for(var i=0;i<checkbox.length;i++){
 		if(target==checkbox[i]){
@@ -186,7 +188,7 @@ function tagsNum(){
 EventUtil.addHandler(submit,"click",function(e){
 
 	EventUtil.preventDefault(e);
-	var form=document.forms[0];
+	var form=document.getElementById("form-article");
 	var result=seriPost(form);
 	//var formD=new FormData(result);
 	console.log(result);
@@ -213,7 +215,7 @@ EventUtil.addHandler(submit,"click",function(e){
 	}
 	
 
-	ajax("post","/upload1",formD,function(res){
+	ajax("post","/upload1",null,formD,function(res){
 		console.log(res);
 		var pop2 = document.querySelector('.p2');
 		console.log(pop2);
@@ -227,7 +229,7 @@ EventUtil.addHandler(submit,"click",function(e){
 		    cancel: function() {
 		    	//查看博客
 		        var cancel=document.querySelector(".cancel");
-		        cancel.setAttribute("href","/showPost?author="+author&"time")
+		        cancel.setAttribute("href","/detail/cheng/"+form.elements["title"].value);
 		    }
 
 		}).edit({

@@ -1,10 +1,12 @@
 var mongodb=require('./db'),
     markdown = require('markdown').markdown;
-function Post(author,title,tags,post){
+function Post(author,title,tags,post,cates,img){
   this.author=author;
   this.title=title;
   this.tags=tags;
   this.post=post;
+  this.cates=cates;
+  this.img=img;
 }
 
 module.exports=Post;
@@ -25,14 +27,16 @@ Post.prototype.save=function(callback){
     title: this.title,
     time: time.year+'-'+time.month+'-'+time.day+'-'+time.hour+'-'+time.minute,
     tags: this.tags,
+    cates: this.cates,
     post: this.post,
+    img: this.img,
     comments: [],
     reprint_info: {},//文章转载情况
     agree: 0,
     pv: 0
 
   };
-  console.log(post);
+  //console.log(post);
   //打开数据库
   mongodb.open(function(err,db){
     if(err){
@@ -136,7 +140,7 @@ Post.getOne = function(query,callback) {
   });
 };
 
-//返回原始发表的内容（markdown 格式）
+//返回原始发表的内容
 Post.edit = function(query, callback) {
   //打开数据库
   mongodb.open(function (err, db) {
@@ -248,8 +252,31 @@ Post.remove = function(query, callback) {
   });
 };
 
+//统计用户的文章分类
+Post.total = function(quary,callback) {
+  mongodb.open(function(err,db) {
+    if (err) {
+      return callback;
+    }
+    db.collection('posts',function(err,collection){
+      if ( err ) {
+        mongodb.close();
+        //return callback(err);
+      }
+      collection.aggregate([{$match:quary},
+                            {$group: {set_id:"cates",count: {$sum: 1 }}}]).toArray(function(err,result){
+                               mongodb.close();
+                               if (err) {
+                                mongodb.close();
+                                return callback(err);
+                                }
+                              console.log(result);
+                            })
+    })
+  })
+}
 //返回所有文章存档信息
-Post.getArchive = function(callback) {
+Post.getArchive = function(quary,callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
@@ -262,9 +289,8 @@ Post.getArchive = function(callback) {
         return callback(err);
       }
       //返回只包含 name、time、title 属性的文档组成的存档数组
-      /*collection.find({}, {
-        "author": "cheng",
-        // "time": 1,
+      collection.find(quary, {
+        "time": 1,
         "title": 1
       }).sort({
         time: -1
@@ -272,7 +298,7 @@ Post.getArchive = function(callback) {
         mongodb.close();
         if (err) {
           return callback(err);
-        }*/
+        }
         collection.distinct("cates", function (err, docs) {
         mongodb.close();
         if (err) {
@@ -281,6 +307,7 @@ Post.getArchive = function(callback) {
         callback(null, docs);
       });
     });
+  });
   });
 };
 
@@ -303,8 +330,9 @@ Post.getTags = function(callback) {
         if (err) {
           return callback(err);
         }
-
+        console.log(docs);
         callback(null, docs);
+
       });
     });
   });
