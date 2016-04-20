@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-09 13:02:40
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-19 15:58:56
+* @Last Modified time: 2016-04-20 18:28:36
 */
 
 'use strict';
@@ -52,7 +52,7 @@ User.prototype.save = function(callback) {
 };
 
 //读取用户信息
-User.get = function(name, callback) {
+User.get = function (name, callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
@@ -69,6 +69,65 @@ User.get = function(name, callback) {
         name: name
       }, function (err, user) {
         mongodb.close();
+        if (err) {
+          return callback(err);//失败！返回 err 信息
+        }
+        callback(null, user);//成功！返回查询的用户信息
+      });
+    });
+  });
+};
+
+
+//查询用户name是否存在
+User.getName = function(name, callback) {
+  //打开数据库
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);//错误，返回 err 信息
+    }
+    //读取 users 集合
+    db.collection('users', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);//错误，返回 err 信息
+      }
+   
+      //查找email值为 email 一个文档
+      collection.findOne({
+        name: name
+      }, function (err, user) {
+        mongodb.close();
+        console.log(user);
+        if (err) {
+          return callback(err);//失败！返回 err 信息
+        }
+        callback(null, user);//成功！返回查询的用户信息
+        console.log(user);
+      });
+    });
+  });
+};
+
+//读取email用户信息
+User.getEmail = function(email, callback) {
+  //打开数据库
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);//错误，返回 err 信息
+    }
+    //读取 users 集合
+    db.collection('users', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);//错误，返回 err 信息
+      }
+      //查找email值为 email 一个文档
+      collection.findOne({
+        email: email
+      }, function (err, user) {
+        mongodb.close();
+        console.log(err);
         if (err) {
           return callback(err);//失败！返回 err 信息
         }

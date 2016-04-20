@@ -44,6 +44,6 @@ function createXHR(){
 			xhr.setRequestHeader("Content-Type",head);
 		}
 		//xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		
 		xhr.send(mes);
+
 	}

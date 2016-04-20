@@ -2,7 +2,7 @@
 var oTable=document.getElementById("table");
 var aLi=oTable.getElementsByTagName("li");
 var oDiv=oTable.getElementsByTagName("div");
-console.log(oDiv);
+//console.log(oDiv);
 for(var i=0,len=aLi.length;i<len;i++){
     aLi[i].id=i;
     aLi[i].onclick=function(){
@@ -46,7 +46,7 @@ function animate(ele,end){
 	var timer=null;
 	clearInterval(timer);
 	timer=setInterval(function(){
-		console.log(ele.offsetLeft);
+		//console.log(ele.offsetLeft);
 		//速度随着现有偏移量和目标偏移量的距离的改变而改变
 		var speed=Math.floor((end-ele.offsetLeft)/2);
 		
@@ -84,7 +84,7 @@ container.onmouseover=stop;
 container.onmouseout=play;
 
 next.onclick=function(){
-	console.log("next run");
+	//console.log("next run");
 	if(index==3){
 		index=1;
 	}else{
