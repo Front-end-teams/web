@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-20 18:04:10
+* @Last Modified time: 2016-04-21 20:24:40
 */
 
 
@@ -150,8 +150,10 @@ $(function(){
 			};
 		};
 		//登录的验证函数
-		var names=false;
-		var emails=false;
+		var result={
+			names:false,
+			passwords:false
+		};
 		function checkLog(ele){
 			var str = ele.value;
 			if(str.length===0){
@@ -167,31 +169,38 @@ $(function(){
 					if(res!=="exist"){
 						ele.nextElementSibling.innerHTML = '用户名不存在';
 						ele.nextElementSibling.style.color = "red";
-						names=false;
+						result.names=false;
 					}else{
 						ele.nextElementSibling.innerHTML ="";
-						names=true;
+						result.names=true;
 					}
 				});
-			}
-			
-			if(ele.id=="email"){
-				var emailjson= {email:str};
-				var emailinfo = JSON.stringify(emailjson);
-				
-				ajax("post","/login/email","application/json",emailinfo,function(res){
-					if(res!=="match"){
-						ele.nextElementSibling.innerHTML = '用户名与密码不一致';
-						ele.nextElementSibling.style.color = "red";
-						emails=false;
-					}else{
-						ele.nextElementSibling.innerHTML ="";
-						emails=true;
-					}
-				});
+
 			}
 
+
+			if(result.names===true){
+				var namestr = document.getElementById("name").value;
+				if(ele.id=="password"){
+					var totaljson= {name:namestr,password:str};
+					var totalinfo = JSON.stringify(totaljson);
+					
+					ajax("post","/login/password","application/json",totalinfo,function(res){
+						if(res!=="match"){
+							ele.nextElementSibling.innerHTML = '用户名与密码不一致';
+							ele.nextElementSibling.style.color = "red";
+							result.passwords=false;
+						}else{
+							ele.nextElementSibling.innerHTML ="";
+							result.passwords=true;
+						}
+					});
+				}
+			}
+			
+
 		}
+
 		//注册页面表单focus与blur时候的不同表现
 		for(var i=0;i<reginp.length;i++){
 			reginp[i].addEventListener("focus",function(e){
@@ -227,13 +236,10 @@ $(function(){
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
-			//console.log("0000");
-			//console.log(regtips);
 			for(var i=0;i<regtips.length;i++){
 				if(regtips[i].style.color!=="green"||regtips[i].style.color==""){
 					alert("输入有误");
 				};
-				//console.log("11111");
 				var target = EventUtil.getTarget(e);
 				EventUtil.preventDefault(e);
 				var form=target.parentNode.parentNode;
@@ -252,25 +258,79 @@ $(function(){
 			}
 
 		});
+
 		//登录表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(loginsub,"click",function(e){
-				if(names=="true"&&emails=="true"){
-					var target = EventUtil.getTarget(e);
-					EventUtil.preventDefault(e);
-					var form=target.parentNode.parentNode;
-					var result=seriPost(form);
-					var resultJson={};
-					//console.log(resultJson);
-					for(var i = 0; i < result.length; i++){
-						var val = result[i].split("=");
-						resultJson[val[0]]=val[1];
-					};
-					var str =JSON.stringify(resultJson);
-					ajax("post","/login","application/json",str,function(res){
-						console.log(res);
-					});
+				if(result.names!=="true"||result.passwords!=="true"){
+					alert("输入有误");
 				}
+				console.log()	
+				var target = EventUtil.getTarget(e);
+				EventUtil.preventDefault(e);
+				var form=target.parentNode.parentNode;
+				var result=seriPost(form);
+				var resultJson={};
+				console.log(resultJson);
+				for(var i = 0; i < result.length; i++){
+					var val = result[i].split("=");
+					resultJson[val[0]]=val[1];
+				};
+				var str =JSON.stringify(resultJson);
+				ajax("post","/login","application/json",str,function(res){
+					console.log(res);
+				});
+			
+		});
+		//生成验证码的函数
+		var canvas=$("#valCanvas").get(0);
+		var _canvas=$("#valCanvas").get(0).getContext("2d");
+		var return_str="";
+		var _ifstart=false;
+		var _B_x=0;
+		var _B_y=0;
+		function can_click(){
 				
+		};
+		function pass(){
+			var _val=$(":text:eq(0)").val();
+			if(_val==return_str){
+				alert('您通过验证了！');	
+			}else{
+				alert('您输入的验证码不正确！');	
+			};
+		}
+		function start(){
+			try{
+				function drawscreen(){
+					_canvas.fillStyle="#ffffaa";
+					_canvas.fillRect(0,0,100,35);	
+					_canvas.strokeStyle="#000";
+					_canvas.strokeRect(0,0,100,35);
+				};
+				function write_text(_str){
+					_canvas.fillStyle="#000000";
+					_canvas.font="20px _sans";
+					_canvas.textBaseline="top";
+					_canvas.fillText(_str,30,10);
+				};
+				function getabc(){
+					var _str="a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9";
+					var _str_array=_str.split(",");
+					return_str="";
+					for(i=0;i<4;i++){
+						var _rnd=Math.floor(Math.random()*_str_array.length);
+						return_str+=_str_array[_rnd];
+					};
+				};
+				drawscreen();
+				getabc();
+				write_text(return_str);
+			}catch(e){
+				alert(e);	
+			}
+		};
+		$(document).ready(function(e) {
+			start();
 		});
 		
 });

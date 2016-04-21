@@ -39,7 +39,7 @@ function createXHR(){
 				}
 			}
 		}
-		xhr.open(met,url,true);
+		xhr.open(met,url,false);
 		if(head){
 			xhr.setRequestHeader("Content-Type",head);
 		}
