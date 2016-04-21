@@ -33,7 +33,8 @@
 							    提问的日期：<%= question.time.minute %> |
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">评论</a> |
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
-								<span>赞同 <%=question.agreeNum%></span>
+								<a id="agree<%=question.name%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')" onclick=good('<%=question.name%>')>赞 <span><%=question.agreeNum%></span> </a>
+								<a id="disagree<%=question.name%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')" onclick=notgood('<%=question.name%>')>踩 <span><%=question.disagreeNum%></span> </a>
 							</div>
 					    </div>				
 				</div>
@@ -77,4 +78,67 @@
 		我是footer。<br/>
 		我是footer。
 	</footer>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript">
+    function good(name)
+    {
+    	document.getElementById('agree'+name).getElementsByTagName('span')[0].innerText=parseInt(document.getElementById('agree'+name).getElementsByTagName('span')[0].innerText)+1;
+    }
+    function notgood(name)
+    {
+    	document.getElementById('disagree'+name).getElementsByTagName('span')[0].innerText=parseInt(document.getElementById('disagree'+name).getElementsByTagName('span')[0].innerText)+1;
+    }
+  	function agree(name,day,quesTitle){
+			var params ={
+                "name":name,
+                "day":day,
+                "quesTitle":quesTitle,
+            };
+            
+            $.ajax({
+                data: params,
+                url: '/agree',
+                type:'post',
+                jsonpCallback: 'callback',
+                success: function(data){
+                	console.log('这是data');
+                	console.log(data);
+                	console.log('这是data');
+                   
+                  // $('#agree'+name).html("赞 "+data);
+                  
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('error ' + textStatus + " " + errorThrown);  
+                }
+            });
+            console.log(222);
+		}
+		function disagree(name,day,quesTitle){
+			var params ={
+                "name":name,
+                "day":day,
+                "quesTitle":quesTitle,
+            };
+            
+            $.ajax({
+                data: params,
+                url: '/disagree',
+                type:'post',
+                jsonpCallback: 'callback',
+                success: function(data){
+                	console.log('这是data');
+                	console.log(data);
+                	console.log('这是data');
+                   
+                  // $('#agree'+name).html("赞 "+data);
+                  
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('error ' + textStatus + " " + errorThrown);  
+                }
+            });
+            console.log(222);
+		}
+	</script>
 <%- include ../footer %>

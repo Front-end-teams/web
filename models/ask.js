@@ -146,3 +146,81 @@ Ques.getOne = function(name, day, title, callback) {
     });
   });
 };
+Ques.agree = function(name, day, title, callback) {
+  //打开数据库
+  console.log(777); 
+  // mongodb.close(); 
+  console.log(7777777);
+  mongodb.open(function (err, db) {
+    console.log('看看进来没');
+    if (err) {
+      return callback(err);
+      console.log('x1x1x1');
+    }
+    console.log(888);
+    //读取 posts 集合
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log(999);
+      //更新文章内容
+      collection.update({
+        "name":name,
+        "time.day":day,
+        "quesTitle":title
+      }, {
+        $inc: {"agreeNum": 1}
+      }, function (err) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+
+        console.log(1212);
+        callback(null);
+        console.log(1313);
+      });
+    });
+ });
+};
+Ques.disagree = function(name, day, title, callback) {
+  //打开数据库
+  console.log(777); 
+  // mongodb.close(); 
+  console.log(7777777);
+  mongodb.open(function (err, db) {
+    console.log('看看进来没');
+    if (err) {
+      return callback(err);
+      console.log('x1x1x1');
+    }
+    console.log(888);
+    //读取 posts 集合
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log(999);
+      //更新文章内容
+      collection.update({
+        "name":name,
+        "time.day":day,
+        "quesTitle":title
+      }, {
+        $inc: {"disagreeNum": 1}
+      }, function (err) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+
+        console.log(1212);
+        callback(null);
+        console.log(1313);
+      });
+    });
+ });
+};

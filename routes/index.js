@@ -347,6 +347,42 @@ function checkNotLogin(req, res, next) {
          res.redirect('/question');//发表成功跳转到主页
         });
   });
+//实现点赞
+app.post('/agree',function(req,res){
+  console.log(333);
+  var name=req.body.name; 
+  var day=req.body.day;
+  var quesTitle=req.body.quesTitle;
+  console.log(444); 
+      Ques.agree(name, day, quesTitle,function(err) {
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end();
+        //res.json({success:1});
+        return;
+      });
+});
+//实现点踩
+app.post('/disagree',function(req,res){
+  console.log(333);
+  var name=req.body.name; 
+  var day=req.body.day;
+  var quesTitle=req.body.quesTitle;
+  console.log(444); 
+      Ques.disagree(name, day, quesTitle,function(err) {
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end();
+        //res.json({success:1});
+        return;
+      });
+});
 
 
   //------------------------------------显示问题
