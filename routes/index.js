@@ -60,13 +60,13 @@ module.exports = function(app) {
 	// });
 
 	//注册页面
-  app.get('/', function (req, res) {
+  /*app.get('/', function (req, res) {
      res.render('nav', {
       title: '注册',
       user: req.session.user,
       
     });
-   });
+   });*/
   app.post('/', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
@@ -218,7 +218,9 @@ function checkNotLogin(req, res, next) {
 	//文章二级页面
     app.get('/post', function (req, res) {
 
-    //Post.total({author:"cheng"});
+   /* Post.total({author:"cheng"},function(err,results){
+    	console.log(results);
+    });*/
     res.render('post/post', {
       title: '文章',
       user: req.session.user,
@@ -227,15 +229,15 @@ function checkNotLogin(req, res, next) {
     });
   });
     /*需要写文章的页面*/
-  app.get('/writePost',checkLogin);
+  //app.get('/writePost',checkLogin);
 	app.get('/writePost',function(req,res){
-		Post.getTags({author: res.session.user},function(err,tags){
+		Post.getTags({},function(err,tags){
 			if(err){
 				console.log(err);
 				tags=[];
 			}
 			
-			Post.getArchive({author: res.session.user},function(err,cates){
+			Post.getArchive({},function(err,cates){
 				if(err){
 					console.log("cates error");
 					cates=[];
