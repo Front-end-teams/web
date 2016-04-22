@@ -12,15 +12,17 @@ function seriPost(form){
 	tags=[];
 
 	var tagsDiv=document.getElementById("tags-div");
-	var span=tagsDiv.getElementsByTagName("span");
-	for (var k = 0; k < span.length; k++) {
+	if(tagsDiv){
+		var span=tagsDiv.getElementsByTagName("span");
+		for (var k = 0; k < span.length; k++) {
 				parts.push("tags"+"="+encodeURIComponent(span[k].innerHTML));
 		}
+	}
+	
 	
 
 	for (i = 0; i < form.elements.length; i++) {
 		field=form.elements[i];
-		
 		switch(field.type){
 			case "select-one": 
 			case "select-multiple":

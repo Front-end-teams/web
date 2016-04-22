@@ -2,6 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/xhr.js"></script>
+<script type="text/javascript" src="/javascripts/seriPost.js"></script>
 </head>
 <body>
 	<header class="header">
@@ -10,7 +12,7 @@
 		<ul class="index clearfix">
 		<% if (user) { %>
 			<li><%= user.name %></li>
-			
+			<li><a href="/logout" id="logout">退出</a></li>
 			
 			
 			<% } else { %>
@@ -47,13 +49,17 @@
 		<li>
             <form id="loginForm">
             	<div>
-            	   <input type="text" name="username" id="name" placeholder="请输入用户名">
-            	   <p class="tip hide">必填，长度为4-15个字符</p>
+            	   <input type="text" name="name" id="name" placeholder="请输入用户名">
+            	   <p class="tip hide"></p>
             	   
             	</div>
             	<div>
-            	   <input type="password" name="password" id="password" placeholder="请输入密码"><p class="tip hide">6~16位数字或字母</p>
+            	   <input type="password" name="password" id="password" placeholder="请输入密码"><p class="tip hide"></p>
             	  
+            	</div>
+            	<div style="position:relative;">
+            		<input type="text" id="validate" placeholder="请输入验证码" style="width:100px;position:absolute;left:30px;">
+            		<canvas id="valCanvas" height="35px" width="100px" style="position:absolute;left:150px;top:5px;">your browser does not support the canvas tag </canvas>
             	</div>
             	<div>
             		<button type="submit" id="loginsub">立即登录</button>
@@ -63,7 +69,7 @@
 		<li>
             <form id="regForm">
 				<div>
-				   <input type="text" name="username" id="name" placeholder="请输入用户名">
+				   <input type="text" name="name" id="name" placeholder="请输入用户名">
 				   <p class="tip hide">必填，长度为4-15个字符</p>
 				</div>
 				<div>
