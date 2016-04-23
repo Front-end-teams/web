@@ -13,6 +13,9 @@ var upload=document.getElementById("upload");
 
 var submit=document.getElementById("submit");
 
+/*var wangEditor=new wangEditor("wangEditor");
+wangEditor.create();*/
+
 // 给标签文本框添加事件 当获取焦点时 显示常用标签栏
 EventUtil.addHandler(tagsInput,"focus",tagsShow);
 function tagsShow(e){

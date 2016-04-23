@@ -270,7 +270,7 @@ Post.total = function(quary,callback) {
                                 mongodb.close();
                                 return callback(err);
                                 }
-                              console.log(result);
+                              return result;
                             })
     })
   })
@@ -312,7 +312,7 @@ Post.getArchive = function(quary,callback) {
 };
 
 //返回所有标签
-Post.getTags = function(callback) {
+Post.getTags = function(quary,callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
@@ -330,7 +330,7 @@ Post.getTags = function(callback) {
         if (err) {
           return callback(err);
         }
-        console.log(docs);
+        //console.log(docs);
         callback(null, docs);
 
       });

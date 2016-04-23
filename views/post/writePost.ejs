@@ -1,13 +1,12 @@
 <%- include ../header %>
 <link rel="stylesheet" type="text/css" href="/stylesheets/writePost.css">
 <link rel="stylesheet" type="text/css" href="/popout/style.css">
+<link rel="stylesheet" type="text/css" href="/wangEditor/dist/css/wangEditor.min.css">
 <script type="text/javascript" src="/popout/popular.js"></script>
 <!-- <script type="text/javascript" src="/popout/custom.js"></script> -->
 
 
-<script type="text/javascript" src="/xheditor/jquery/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="/xheditor/xheditor.min.js"></script>
-<script type="text/javascript" src="/xheditor/xheditor_lang/zh-cn.js"></script> 
+
 
 <%- include ../nav %>
 <!-- 弹出框 -->
@@ -41,7 +40,7 @@
 <div class="post-input"><label>文章封面：</label><input  type="file" name="postImg" value="上传图片" id="upload"></div>
 
 <div class="post-input post-cont"><label><span class="must">*</span>文章内容：</label></div>
-<textarea name='post' class="xheditor rich-text">test</textarea>
+<textarea name='post' class="rich-text" id="editor">test</textarea>
 <div class="post-input">
 <label><span class="must">*</span>文章标签：</label>
 <div class="post-tags" id="post-tags">
@@ -103,5 +102,14 @@
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
 <script type="text/javascript" src="/javascripts/seriPost.js"></script> 
+
+<script type="text/javascript" src="/wangEditor/dist/js/lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/wangEditor/dist/js/wangEditor.min.js"></script>
+
 <script type="text/javascript" src="/javascripts/writePost.js"></script>
+
+<script type="text/javascript">
+  var editor=new wangEditor("editor");
+  editor.create();
+</script>
 <%- include ../footer %> 
