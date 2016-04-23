@@ -263,6 +263,7 @@ Post.total = function(quary,callback) {
         mongodb.close();
         //return callback(err);
       }
+      console.log(collection);
       collection.aggregate([{$match:quary},
                             {$group: {set_id:"cates",count: {$sum: 1 }}}]).toArray(function(err,result){
                                mongodb.close();
@@ -291,24 +292,23 @@ Post.getArchive = function(quary,callback) {
       //返回只包含 name、time、title 属性的文档组成的存档数组
       collection.find(quary, {
         "time": 1,
-        "title": 1
+        "title": 1,
+        "cates":1
       }).sort({
         time: -1
-      }).toArray(function (err, docs) {
-        mongodb.close();
-        if (err) {
-          return callback(err);
-        }
+      },function(err,docs){
+        
         collection.distinct("cates", function (err, docs) {
         mongodb.close();
         if (err) {
           return callback(err);
         }
+       
         callback(null, docs);
       });
     });
   });
-  });
+  })
 };
 
 //返回所有标签

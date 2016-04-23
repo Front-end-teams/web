@@ -1,4 +1,100 @@
-* { padding: 0;margin: 0;font-family: "microsoft yahei"; font-size: 14px; }
+/*input值为file时的样式 */
+/*通过div(.input-file)中包含input(type=file,
+class=file-button)和label(class="file-button-img)实现*/
+
+.input-file{
+	display: inline-block;
+	height:50px;
+	width: 120px;
+	/*background-color: #56F06F;*/
+	text-align: center;
+	cursor: pointer;
+	position:relative;
+}
+
+.file-button{
+	opacity: 0;
+	position: absolute;
+	left:0;
+	top:0;
+	width:120px;
+	height: 50px;
+
+}
+
+.file-button-img{
+	line-height: 50px;
+	text-align: center;
+	display: inline-block;
+	margin-top: 5px;
+	color:#fff;
+	font-size: 18px;
+	width:100%;
+	height:100%;
+	display: block;
+	cursor:pointer;
+	background-color: #3EF5B1;
+}
+
+/*样式完*/
+
+
+/* 按钮样式 */
+.button{
+
+	text-align: center;
+	line-height: 40px;
+	display: inline-block;
+	padding-left: 15px;
+	padding-right:15px;
+	height:40px;
+	background-color: #3EF5B1;
+	color:#fff;
+	border:none;
+	border-radius: 5px;
+	outline: none;
+
+}
+
+.button:hover{
+	opacity: .6
+}
+
+.button:active{
+	opacity: 1;
+	border: none;
+}
+.button::-moz-focus-inner,
+.button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+/*按钮样式完*/
+
+/*input中的text样式  兼容IE的处理方法（去掉IE文本框后面的叉叉） */
+input::-ms-value {
+    padding: 4px;
+}
+input::-ms-clear{
+	 display: none; 
+}
+/*input中的password样式 兼容IE的处理方法（去掉IE密码框后的眼睛）*/
+input::-ms-reveal { display: none; }
+
+
+
+/*input中的placeholder样式的处理*/
+input::-moz-placeholder {
+    text-indent: 5px; 
+}
+input:-ms-input-placeholder {
+    text-indent: 5px;
+}
+input::-webkit-input-placeholder {
+    text-indent: 5px;
+}
+
+/* * { padding: 0;margin: 0;font-family: "microsoft yahei"; font-size: 14px; }
  body {min-width:915px; }
  a { color: #00B7FF;}
 .clearfix:after {content: "";clear: both;display: block;visibility: hidden;height: 0; }
@@ -18,4 +114,4 @@ nav .index {list-style-type: none;margin-right: 50px; }
 nav .index li {font-size: 16px;float: right;padding: 10px;line-height: 20px;cursor: pointer;vertical-align: middle; }
 nav .index li:hover {border-bottom: 2px solid #fff; }
 nav .index li.search:hover {border-bottom: 0px; }
-nav .index li.search .search-text {background-color: #21e7c9;border: 1px solid #fff;width: 200px;border-radius: 5px;font-size: 10px; }
+nav .index li.search .search-text {background-color: #21e7c9;border: 1px solid #fff;width: 200px;border-radius: 5px;font-size: 10px; } 

@@ -28,11 +28,15 @@ function createXHR(){
 	 * ajax请求的方法
 	 * @param  {string}   met      发送请求的类型 值为'post'或‘get’等ajax能接受的请求类型
 	 * @param  {string}   url      请求的url
+	 * @param  {string}   head     请求头的设置
 	 * @param  {string/json/formdata}   mes      发送请求时的请求信息
 	 * @param  {Function} callback 请求成功之后需要调用的回调函数
 	 * @return 处理请求后的结果
 	 */		
-	var ajax=function(met,url,mes,callback){
+
+
+	var ajax=function(met,url,head,mes,callback){
+
 		var xhr=createXHR();
 		xhr.onreadystatechange=function(){
 			if(xhr.readyState==1){
@@ -47,7 +51,11 @@ function createXHR(){
 				}
 			}
 		}
-		xhr.open(met,url,true);
+		xhr.open(met,url,false);
+		if(head){
+			xhr.setRequestHeader("Content-Type",head);
+		}
+		
 		xhr.send(mes);
 
 	}

@@ -46,27 +46,23 @@ module.exports = function(app) {
     });
   });  
 	
-	// app.get('/', function(req, res, next) {
-
-	//   res.render('index', { title: 'Express',
-	//   						author: '0001',
-	//   						tag: 'fort',
-	// 					    time: 'now',
-	// 					    Browse: 100,
-	// 					    user: req.session.user,
-	// 					    agree: 90,
-	// 					    review: 23,
-	// 					    post: 'hello world' });
-	// });
 
 	//注册页面
-  /*app.get('/', function (req, res) {
-     res.render('nav', {
+
+
+  app.get('/reg', function (req, res) {
+    res.render('/reg', {
+
       title: '注册',
       user: req.session.user,
-      
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
     });
-   });*/
+  })
+
+ app.post("/wangEditorImg",upload.single("file"),function(req,res){
+ 	console.log(req.file);
+ })
   app.post('/', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
@@ -76,79 +72,152 @@ module.exports = function(app) {
       req.flash('error', '两次输入的密码不一致!'); 
       return res.redirect('/');//返回注册页
     }
+
+  });
+
+  app.post('/reg/name', function (req, res) {
+    res.setHeader('content-type', 'application/json');
+    //console.log(req.body);
+    var name = req.body.name;
+    //检查用户名是否已经存在 
+    User.getName(encodeURIComponent(name), function (err, user) {
+      if (err) {
+        req.flash('error', err);
+        return res.redirect('/reg');
+      }
+     //console.log(user);
+      if (user) {
+        res.send("用户已存在！");
+        return ;//返回注册页
+      }
+      res.send('success');//如果该用户不存在就返回
+      });
+  });
+  app.post('/reg/email', function (req, res) {
+    res.setHeader('content-type', 'application/json');
+    var email = req.body.email;
+    //检查email是否已经存在 
+    User.getEmail(encodeURIComponent(email), function (err, user) {
+      if (err) {
+        req.flash('error', err);
+        return res.redirect('/reg');
+      }
+      if (user) {
+        res.send("email已经使用过！");
+        return ;//返回注册页
+      }
+      res.send('success');//如果email不存在就返回
+    });
+  });
+
+
+
+  //前端页面submit时就新建一个用户，并将其存入数据库
+  app.post('/reg',function(req,res){
+    //console.log(req.body);
+    //res.setHeader('content-type', 'application/json');
+    var name = encodeURIComponent(req.body.name);
+    var password = encodeURIComponent(req.body.password);
+    var repassword = encodeURIComponent(req.body.repassword);
+    var email = encodeURIComponent(req.body.email);
+
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
-        password = md5.update(req.body.password).digest('hex'),
-        repassword = md5.update(req.body.password).digest('hex');
+        password = md5.update(req.body.password).digest('hex');
+        //repassword = md5.update(req.body.repassword).digest('hex');
     var newUser = new User({
         name: name,
         password: password,
-        repassword:repassword,
-        email: req.body.email
+        email: email
     });
-    //检查用户名是否已经存在 
-    User.get(newUser.name, function (err, user) {
-      if (err) {
+    //console.log(newUser);
+    newUser.save(function(err,user){
+      if(err){
         req.flash('error', err);
-        return res.redirect('/');
       }
-      if (user) {
-        req.flash('error', '用户已存在!');
-        return res.redirect('/');//返回注册页
-      }
-      //如果不存在则新增用户
-      newUser.save(function (err, user) {
-        if (err) {
-          req.flash('error', err);
-          return res.redirect('user');//注册失败返回主册页
-        }
-        req.session.user = newUser;//用户信息存入 session
-        req.flash('success', '注册成功!');
-        res.redirect('/user/personal');//注册成功后跳转到用户填写个人资料的页面
-      });
+      req.session.user = newUser;//用户信息存入 session
+     // console.log("cunjinlaile")
+      req.flash('success', '注册成功!');
+      res.send("regsuccess");
+      //res.redirect('/');//注册成功后跳转主页
     });
   });
 
 
   //登录页面
-   app.get('/login', function (req, res) {
-    res.render('user/login', {
+  app.get('/login', function (req, res) {
+    res.render('/login', {
         title: '登录',
         user: req.session.user,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()});
+        error: req.flash('error').toString()
+      });
 	});
-  app.post('/login', function (req, res) {
-  //生成密码的 md5 值
-  var md5 = crypto.createHash('md5'),
-      password = md5.update(req.body.password).digest('hex');
-  //检查用户是否存在
-  User.get(req.body.name, function (err, user) {
-    if (!user) {
-      req.flash('error', '用户不存在!'); 
-      return res.redirect('user/login');//用户不存在则跳转到登录页
-    }
-    //检查密码是否一致
-    if (user.password != password) {
-      req.flash('error', '密码错误!'); 
-      return res.redirect('user/login');//密码错误则跳转到登录页
-    }
-    //用户名密码都匹配后，将用户信息存入 session
-    req.session.user = user;
-    req.flash('success', '登陆成功!');
-    res.redirect('/');//登陆成功后跳转到主页
-  });
-});
+  app.post('/login/name',function(req,res){
 
-   //登出页面
+    User.getName(encodeURIComponent(req.body.name),function(err,user){
+      console.log("1111");
+      if(!user){     
+        res.send("用户不存在！");
+      }else{
+        res.send("exist");
+      }
+      
+    });
+  });
+  app.post('/login/password',function(req,res){
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(encodeURIComponent(req.body.password)).digest('hex');   
+    User.getName(encodeURIComponent(req.body.name),function(err,user){
+      if(!user){     
+        res.send("用户不存在！");
+      }else{
+          console.log("exist");
+        if(user.password!==password){
+          res.send("用户名与密码不一致");
+        }else{
+          res.send('match');
+        }
+           
+      }
+      
+    });
+      
+  });
+  app.post('/login', checkNotLogin);
+  app.post('/login', function (req, res) {
+    //生成密码的 md5 值
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
+    User.getName(encodeURIComponent(req.body.name),function(err,user){
+      console.log("2222222222");
+      console.log(!user);
+      if(!user){     
+        res.send("用户不存在！");
+      }else{
+        //用户名密码都匹配后，将用户信息存入 session
+        req.session.user = user;
+        req.flash('success', '登陆成功!');
+        res.send("loginsuccess");
+        res.redirect('/');//登陆成功后跳转到主页
+      }
+      
+    });
+      
+  });
+
+  //退出页面
+  app.get('/logout', checkLogin);
   app.get('/logout', function (req, res) {
-  	req.session.user = null;
-  	req.flash('success', '登出成功!');
-  	res.redirect('/');//登出成功后跳转到主页
-	});
+    req.session.user = null;
+    req.flash('success', '登出成功!');
+    /*res.render('/nav',{
+      user:flase
+    });*/
+    res.redirect('/');//登出成功后跳转到主页
+  });
 
    //读书笔记页面
-   
    app.get('/reading', function (req, res) {
 
     res.render('note/reading', {
@@ -217,10 +286,10 @@ function checkNotLogin(req, res, next) {
 	});
 	//文章二级页面
     app.get('/post', function (req, res) {
-
-   /* Post.total({author:"cheng"},function(err,results){
-    	console.log(results);
-    });*/
+    /*Post.total({},function(err,result){
+    	console.log(result);
+    })*/
+  
     res.render('post/post', {
       title: '文章',
       user: req.session.user,
@@ -317,6 +386,42 @@ function checkNotLogin(req, res, next) {
          res.redirect('/question');//发表成功跳转到主页
         });
   });
+//实现点赞
+app.post('/agree',function(req,res){
+  console.log(333);
+  var name=req.body.name; 
+  var day=req.body.day;
+  var quesTitle=req.body.quesTitle;
+  console.log(444); 
+      Ques.agree(name, day, quesTitle,function(err) {
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end();
+        //res.json({success:1});
+        return;
+      });
+});
+//实现点踩
+app.post('/disagree',function(req,res){
+  console.log(333);
+  var name=req.body.name; 
+  var day=req.body.day;
+  var quesTitle=req.body.quesTitle;
+  console.log(444); 
+      Ques.disagree(name, day, quesTitle,function(err) {
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end();
+        //res.json({success:1});
+        return;
+      });
+});
 
 
   //------------------------------------显示问题
@@ -573,5 +678,4 @@ app.get('/job-top5',function(req,res){
     }
   });
 });
-
 }
