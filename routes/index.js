@@ -59,15 +59,15 @@ module.exports = function(app) {
 
   app.post('/reg/name', function (req, res) {
     res.setHeader('content-type', 'application/json');
-    console.log(req.body);
+    //console.log(req.body);
     var name = req.body.name;
     //检查用户名是否已经存在 
-    User.getName(name, function (err, user) {
+    User.getName(encodeURIComponent(name), function (err, user) {
       if (err) {
         req.flash('error', err);
         return res.redirect('/reg');
       }
-     console.log(user);
+     //console.log(user);
       if (user) {
         res.send("用户已存在！");
         return ;//返回注册页
@@ -79,7 +79,7 @@ module.exports = function(app) {
     res.setHeader('content-type', 'application/json');
     var email = req.body.email;
     //检查email是否已经存在 
-    User.getEmail(email, function (err, user) {
+    User.getEmail(encodeURIComponent(email), function (err, user) {
       if (err) {
         req.flash('error', err);
         return res.redirect('/reg');
@@ -98,30 +98,29 @@ module.exports = function(app) {
   app.post('/reg',function(req,res){
     //console.log(req.body);
     //res.setHeader('content-type', 'application/json');
-    var name = req.body.name;
-    var password = req.body.password;
-    var repassword = req.body.repassword;
-    var email = req.body.email;
+    var name = encodeURIComponent(req.body.name);
+    var password = encodeURIComponent(req.body.password);
+    var repassword = encodeURIComponent(req.body.repassword);
+    var email = encodeURIComponent(req.body.email);
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
         //repassword = md5.update(req.body.repassword).digest('hex');
     var newUser = new User({
-        name: req.body.name,
+        name: name,
         password: password,
-        email: req.body.email
+        email: email
     });
     //console.log(newUser);
     newUser.save(function(err,user){
       if(err){
         req.flash('error', err);
-        return res.redirect('/reg');//注册失败返回主册页
       }
       req.session.user = newUser;//用户信息存入 session
-      console.log("cunjinlaile")
+     // console.log("cunjinlaile")
       req.flash('success', '注册成功!');
       res.send("regsuccess");
-      res.redirect('/login');//注册成功后跳转到用户填写个人资料的页面    
+      //res.redirect('/');//注册成功后跳转主页
     });
   });
 
@@ -137,10 +136,8 @@ module.exports = function(app) {
 	});
   app.post('/login/name',function(req,res){
 
-
-    console.log(req.body.name);
-    User.getName(req.body.name,function(err,user){
-      console.log(user);
+    User.getName(encodeURIComponent(req.body.name),function(err,user){
+      console.log("1111");
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -149,24 +146,45 @@ module.exports = function(app) {
       
     });
   });
-  app.post('/login/email',function(req,res){
-    User.getEmail(req.body.name,function(err,user){
-      if(user.password!==password){
-        res.send("用户名与密码不一致");
+  app.post('/login/password',function(req,res){
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(encodeURIComponent(req.body.password)).digest('hex');   
+    User.getName(encodeURIComponent(req.body.name),function(err,user){
+      if(!user){     
+        res.send("用户不存在！");
+      }else{
+          console.log("exist");
+        if(user.password!==password){
+          res.send("用户名与密码不一致");
+        }else{
+          res.send('match');
+        }
+           
       }
-      res.send('match');
+      
     });
+      
   });
   app.post('/login', checkNotLogin);
   app.post('/login', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
-        password = md5.update(req.body.password).digest('hex');
-      //用户名密码都匹配后，将用户信息存入 session
-      req.session.user = user;
-      req.flash('success', '登陆成功!');
-      res.send("loginsuccess");
-      res.redirect('/');//登陆成功后跳转到主页
+        password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
+    User.getName(encodeURIComponent(req.body.name),function(err,user){
+      //console.log("2222222222");
+      //console.log(!user);
+      if(!user){     
+        res.send("用户不存在！");
+      }else{
+        //用户名密码都匹配后，将用户信息存入 session
+        req.session.user = user;
+        req.flash('success', '登陆成功!');
+        res.send("loginsuccess");
+        //res.redirect('/');//登陆成功后跳转到主页
+      }
+      
+    });
+      
   });
 
   //退出页面

@@ -1,5 +1,4 @@
 a{
-<<<<<<< HEAD
 text-decoration: none;
 color:#000;
 }
@@ -17,17 +16,14 @@ float: left; }
 list-style-type: none;
 margin-right: 50px; }
 .header .index li {
-
 float: right;
 padding: 10px;
-
 line-height: 20px;
 cursor: pointer;
 vertical-align: middle; }
 .header .index li a{
 display: inline-block;
 font-size: 16px;
-
 line-height: 20px;
 cursor: pointer;
 }
@@ -113,13 +109,41 @@ font-size: 10px; }
     color:white;
     outline: none;
   }
-=======
-  text-decoration: none;
-<<<<<<< HEAD
-=======
+  #validate{
+    display: inline-block;
+    width:100px;
+    margin-left: -64px;
+  }
+  #valCanvas{
+    margin-left: 20px;
+    display: inline-block!important;
+    vertical-align: middle;
+  }
+  #validatetip{
+    
+  }
+  
 
->>>>>>> origin/master
-}
+/*注册成功跳转之前的页面*/
+  #regsuccess{
+  text-align: center;
+  }
+  #regsuccess #p1{
+  width: 30px; 
+  font-size: 30px; 
+  word-wrap: break-word; 
+  letter-spacing: 10px;
+  display:inline-block;
+  color:#21e7c9;
+  }
+  #regsuccess span{
+  font-size: 50px;
+  color:red;
+  display: block;
+  }
+  #regsuccess a{display: block;cursor:pointer;color:red;}
+
+
 .header {
   color: #fff;
   height: 50px;
@@ -144,12 +168,12 @@ font-size: 10px; }
       .header .index li a{
         display: inline-block;
       font-size: 16px;
-<<<<<<< HEAD
+
       color:#fff;
-=======
+
         color:#fff;
       
->>>>>>> origin/master
+
       line-height: 20px;
       cursor: pointer;
       }
@@ -163,4 +187,5 @@ font-size: 10px; }
         width: 200px;
         border-radius: 5px;
         font-size: 10px; }
->>>>>>> origin/master
+
+

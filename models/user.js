@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-09 13:02:40
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-20 18:28:36
+* @Last Modified time: 2016-04-21 16:26:01
 */
 
 'use strict';
@@ -93,17 +93,17 @@ User.getName = function(name, callback) {
         return callback(err);//错误，返回 err 信息
       }
    
-      //查找email值为 email 一个文档
+      //查找name值为 name一个文档
       collection.findOne({
         name: name
       }, function (err, user) {
         mongodb.close();
-        console.log(user);
+        console.log(user+"1");
         if (err) {
           return callback(err);//失败！返回 err 信息
         }
         callback(null, user);//成功！返回查询的用户信息
-        console.log(user);
+        console.log(user+"222");
       });
     });
   });
