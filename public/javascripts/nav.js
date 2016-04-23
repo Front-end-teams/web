@@ -1,8 +1,12 @@
-/*
+ /*
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
+<<<<<<< HEAD
 * @Last Modified time: 2016-04-21 20:24:40
+=======
+* @Last Modified time: 2016-04-23 17:17:00
+>>>>>>> origin/master
 */
 
 
@@ -83,6 +87,7 @@ $(function(){
 				ele.nextElementSibling.style.color = "red";
 				return;
 			}
+			console.log(ele.id);
 			if(ele.id==="name"){
 				var len = str.replace(new RegExp('[\u4e00-\u9fa5]', 'g'), 'aa').length;
 				var namejson= {name:str};
@@ -149,10 +154,52 @@ $(function(){
 				});
 			};
 		};
+
+
+		//登录页面验证码函数
+		var canvas=document.querySelector("#valCanvas");
+		var context=canvas.getContext("2d");
+		var strEnd="";
+		function start(){
+			try{
+				function drawscreen(){
+					context.fillStyle="#A2A2A2";
+					context.fillRect(0,0,100,35);	
+					context.strokeStyle="#DDDDDD";
+					context.strokeRect(0,0,100,35);
+				};
+				function write_text(str){
+					context.fillStyle="#000000";
+					context.font="20px _sans";
+					context.textBaseline="top";
+					context.fillText(str,30,10);
+				};
+				function getabc(){
+					var str="a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9";
+					var strArray=str.split(",");
+					strEnd="";
+					for(i=0;i<4;i++){
+						var rnd=Math.floor(Math.random()*strArray.length);
+						strEnd+=strArray[rnd];
+					};
+				};
+				drawscreen();
+				getabc();
+				write_text(strEnd);
+			}catch(e){
+				alert(e);	
+			}
+		};
+		start();
 		//登录的验证函数
 		var result={
 			names:false,
+<<<<<<< HEAD
 			passwords:false
+=======
+			passwords:false,
+			validate:false
+>>>>>>> origin/master
 		};
 		function checkLog(ele){
 			var str = ele.value;
@@ -176,7 +223,11 @@ $(function(){
 					}
 				});
 
+<<<<<<< HEAD
 			}
+=======
+			};
+>>>>>>> origin/master
 
 
 			if(result.names===true){
@@ -196,46 +247,78 @@ $(function(){
 						}
 					});
 				}
+<<<<<<< HEAD
 			}
 			
 
 		}
 
 		//注册页面表单focus与blur时候的不同表现
+=======
+			};
+			if(ele.id=="validate"){
+				if(str!==strEnd){
+					document.getElementById("validatetip").innerHTML = '验证码不正确';
+					document.getElementById("validatetip").style.color = "red";
+					result.validate=false;
+				}else{
+					document.getElementById("validatetip").innerHTML = "";
+					result.validate=true;
+				}
+				
+			};
+			
+
+		}
+		//监听注册页面文本框内value变化时tip的变化
+>>>>>>> origin/master
 		for(var i=0;i<reginp.length;i++){
-			reginp[i].addEventListener("focus",function(e){
+			if(!!window.ActiveXObject){
+				reginp[i].onpropertychange = regfn;
+			}else{
+				EventUtil.addHandler(reginp[0],"input",regfn);
+				EventUtil.addHandler(reginp[i],"input",regfn);
+			}
+			var regfn=function(e){
 				var ev = e||window.e;
 				var target = ev.target||ev.srcElement;
-				target.value = "";
 				target.style.border = "1px solid yellow";
 				target.nextElementSibling.style.display = "block";
-			},false);
-			reginp[i].addEventListener("blur",function(e){
+				check(target);
+			}
+			EventUtil.addHandler(reginp[i],"blur",function(e){
 				var ev = e||window.e;
 				var target = ev.target||ev.srcElement;
-				target.style.border = "1px solid #1AE6E6";		
-				check(target);	//失去焦点时候就要check表单是否正确	
-			},false)
+				target.style.border = "1px solid #1AE6E6";								
+			});
 		};
 		//登录页面表单focus与blur时候的不同表现
 		for(var i=0;i<logininp.length;i++){
-			logininp[i].addEventListener("focus",function(e){
+			if(!!window.ActiveXObject){
+				logininp[i].onpropertychange = loginfn;
+			}else{
+				EventUtil.addHandler(logininp[0],"input",loginfn);
+				EventUtil.addHandler(logininp[1],"input",loginfn);
+				EventUtil.addHandler(logininp[2],"input",loginfn);
+			}
+			var loginfn=function(e){
 				var ev = e||window.e;
 				var target = ev.target||ev.srcElement;
-				target.value = "";
 				target.style.border = "1px solid yellow";
 				target.nextElementSibling.style.display = "block";
-			},false);
-			logininp[i].addEventListener("blur",function(e){
+				document.getElementById("validatetip").style.display = "block";
+				checkLog(target);
+			}
+			EventUtil.addHandler(logininp[i],"blur",function(e){
 				var ev = e||window.e;
 				var target = ev.target||ev.srcElement;
-				target.style.border = "1px solid #1AE6E6";
-				checkLog(target);	//失去焦点时候就要checklog表单是否正确	
-			},false)
+				target.style.border = "1px solid #1AE6E6";								
+			});
 		};
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
+<<<<<<< HEAD
 			for(var i=0;i<regtips.length;i++){
 				if(regtips[i].style.color!=="green"||regtips[i].style.color==""){
 					alert("输入有误");
@@ -331,7 +414,76 @@ $(function(){
 		};
 		$(document).ready(function(e) {
 			start();
+=======
+
+				if(regtips[0].style.color=="green"&&regtips[1].style.color=="green"&&regtips[2].style.color=="green"&&regtips[3].style.color=="green"){
+					var target = EventUtil.getTarget(e);
+					EventUtil.preventDefault(e);
+					var form=target.parentNode.parentNode;
+					var result=seriPost(form);
+					var resultJson={};
+					//console.log(resultJson);
+					for(var i = 0; i < result.length; i++){
+						var val = result[i].split("=");
+						resultJson[val[0]]=val[1];
+					};
+					var str =JSON.stringify(resultJson);
+					//console.log(str);
+					ajax("post","/reg","application/json",str,function(res){
+						if(res=="regsuccess"){
+							var regsuccess=document.getElementById("regsuccess");
+							var regform = document.getElementById("regForm");
+							regform.className = "hide";
+							regsuccess.className="tabshow";
+							//倒计时的实现，然后跳转到填写个人资料的页面
+							var myspan = document.getElementById("countdown");
+							var timer=5;
+							function countdown(){
+								timer = timer-1;
+								myspan.innerHTML = timer;
+								if(timer==0){
+									location.href="/";
+									clearInterval(flag);
+								}
+							}
+							var flag=setInterval(countdown,1000);
+						}else{
+							return;
+						}
+					});
+				}else{
+					alert("请检查输入信息！");
+				}
+>>>>>>> origin/master
 		});
 		
+		// 登录表单提交时需要先验证再用ajax提交数据
+		EventUtil.addHandler(loginsub,"click",function(e){
+			EventUtil.preventDefault(e);
+			console.log(this);
+				if(result.names==true&&result.passwords==true&&result.validate==true){
+					var target = EventUtil.getTarget(e);
+					EventUtil.preventDefault(e);
+					var form=target.parentNode.parentNode;
+					var resultJ=seriPost(form);
+					var resultJson={};
+					//console.log(resultJson);
+					for(var i = 0; i < resultJ.length; i++){
+						var val = resultJ[i].split("=");
+						resultJson[val[0]]=val[1];
+					};
+					var str =JSON.stringify(resultJson);
+					ajax("post","/login","application/json",str,function(res){
+						if(res=="loginsuccess"){
+							location.href="/";
+						}else{
+							return;
+						}
+					});
+				}else{
+					alert("请检查输入");
+				}		
+		});
+
 });
 

@@ -120,7 +120,10 @@ module.exports = function(app) {
     var password = encodeURIComponent(req.body.password);
     var repassword = encodeURIComponent(req.body.repassword);
     var email = encodeURIComponent(req.body.email);
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
@@ -190,8 +193,13 @@ module.exports = function(app) {
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
     User.getName(encodeURIComponent(req.body.name),function(err,user){
+<<<<<<< HEAD
       console.log("2222222222");
       console.log(!user);
+=======
+      //console.log("2222222222");
+      //console.log(!user);
+>>>>>>> origin/master
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -199,7 +207,11 @@ module.exports = function(app) {
         req.session.user = user;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
+<<<<<<< HEAD
         res.redirect('/');//登陆成功后跳转到主页
+=======
+        //res.redirect('/');//登陆成功后跳转到主页
+>>>>>>> origin/master
       }
       
     });

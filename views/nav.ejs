@@ -17,8 +17,8 @@
 			
 			<% } else { %>
 		
-			<li><a href="#" id="login">登录</a></li>
-			<li><a href="#" id="reg">注册</a></li>
+			<li><a href="javascript:void(0)" id="login">登录</a></li>
+			<li><a href="javascript:void(0)" id="reg">注册</a></li>
 			
 		<% } %>
 			<li><a href="/reading">读书笔记</a></li>
@@ -47,19 +47,28 @@
 	<!-- tabPanel-->
 	<ul class="tab-bd">
 		<li>
-            <form id="loginForm">
+            <form id="loginForm" >
             	<div>
             	   <input type="text" name="name" id="name" placeholder="请输入用户名">
             	   <p class="tip hide"></p>
             	   
             	</div>
             	<div>
-            	   <input type="password" name="password" id="password" placeholder="请输入密码"><p class="tip hide"></p>
+            	   <input type="password" name="password" id="password" placeholder="请输入密码">
+            	   <p class="tip hide"></p>
             	  
             	</div>
+<<<<<<< HEAD
             	<div style="position:relative;">
             		<input type="text" id="validate" placeholder="请输入验证码" style="width:100px;position:absolute;left:30px;">
             		<canvas id="valCanvas" height="35px" width="100px" style="position:absolute;left:150px;top:5px;">your browser does not support the canvas tag </canvas>
+=======
+            	<div >
+            		<input type="text" id="validate" placeholder="请输入验证码">
+            		<canvas id="valCanvas" height="35px" width="100px" ></canvas>
+            		<a href="javascript:void(0)" id="refresh"></a>
+            		<p class="tip hide" id="validatetip"></p>
+>>>>>>> origin/master
             	</div>
             	<div>
             		<button type="submit" id="loginsub">立即登录</button>
@@ -67,7 +76,7 @@
             </form>
         </li>
 		<li>
-            <form id="regForm">
+            <form id="regForm" class="regshow">
 				<div>
 				   <input type="text" name="name" id="name" placeholder="请输入用户名">
 				   <p class="tip hide">必填，长度为4-15个字符</p>
@@ -88,6 +97,11 @@
 					<button  type="submit" id="regsub">立即注册</button>
 				</div>
 			</form>
+			<div id="regsuccess" class="hide">
+	    		<p id="p1">注册成功!</p>
+	    		<span id="countdown">5</span>
+	    		<a href="/">去完善资料</a>
+	    	</div>
         </li>
 	</ul>
 </div>
