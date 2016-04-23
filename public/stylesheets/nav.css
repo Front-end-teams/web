@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 a{
+=======
+.index li a{
+
+>>>>>>> origin/master
 text-decoration: none;
-color:#000;
+color:#fff;
 }
 .header {
 color: #fff;
@@ -107,8 +112,8 @@ font-size: 10px; }
     height:40px;
     border-radius: 10px;
     color:white;
-    outline: none;
   }
+<<<<<<< HEAD
   #validate{
     display: inline-block;
     width:100px;
@@ -144,6 +149,10 @@ font-size: 10px; }
   #regsuccess a{display: block;cursor:pointer;color:red;}
 
 
+=======
+
+
+>>>>>>> origin/master
 .header {
   color: #fff;
   height: 50px;
@@ -170,10 +179,14 @@ font-size: 10px; }
       font-size: 16px;
 
       color:#fff;
+<<<<<<< HEAD
 
         color:#fff;
       
 
+=======
+      
+>>>>>>> origin/master
       line-height: 20px;
       cursor: pointer;
       }
@@ -187,5 +200,8 @@ font-size: 10px; }
         width: 200px;
         border-radius: 5px;
         font-size: 10px; }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 
