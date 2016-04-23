@@ -171,8 +171,8 @@ module.exports = function(app) {
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
     User.getName(encodeURIComponent(req.body.name),function(err,user){
-      console.log("2222222222");
-      console.log(!user);
+      //console.log("2222222222");
+      //console.log(!user);
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -180,7 +180,7 @@ module.exports = function(app) {
         req.session.user = user;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
-        res.redirect('/');//登陆成功后跳转到主页
+        //res.redirect('/');//登陆成功后跳转到主页
       }
       
     });
