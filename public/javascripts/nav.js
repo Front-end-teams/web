@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-23 17:17:00
+* @Last Modified time: 2016-04-24 11:57:42
 */
 
 
@@ -26,7 +26,6 @@ $(function(){
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
-		//console.log(regtips);
 	
 
 		reg.onclick = function(){
@@ -118,11 +117,9 @@ $(function(){
 			}
 			if(ele.id==="repassword"){
 				if (str === reginp[1].value) {
-		            //checkResult.right = true;
 		            ele.nextElementSibling.innerHTML = '密码正确';
 		            ele.nextElementSibling.style.color = "green";
 		        } else {
-		            //checkResult.right = false;
 		            ele.nextElementSibling.innerHTML = '两次密码输入要相同';
 		            ele.nextElementSibling.style.color = "red";
 		        }
@@ -348,7 +345,6 @@ $(function(){
 					var form=target.parentNode.parentNode;
 					var resultJ=seriPost(form);
 					var resultJson={};
-					//console.log(resultJson);
 					for(var i = 0; i < resultJ.length; i++){
 						var val = resultJ[i].split("=");
 						resultJson[val[0]]=val[1];

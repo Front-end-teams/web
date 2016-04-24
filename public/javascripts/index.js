@@ -105,7 +105,7 @@ prev.onclick=function(){
 	
 	showButton();
 }
-button.addEventListener("click",function(e){
+EventUtil.addHandler("button","click",function(e){
 	//点击span元素时 出现相应的图片 并改变相应span的背景色
 	var target=e.target;
 	if ((target.tagName).toLowerCase()=="span") {
@@ -113,4 +113,5 @@ button.addEventListener("click",function(e){
 		showButton();
 		animate(list,-1350*index);
 		}
-},false);
+});
+
