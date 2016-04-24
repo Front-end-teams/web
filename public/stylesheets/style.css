@@ -94,7 +94,7 @@ input::-webkit-input-placeholder {
     text-indent: 5px;
 }
 
-/* * { padding: 0;margin: 0;font-family: "microsoft yahei"; font-size: 14px; }
+ * { padding: 0;margin: 0;font-family: "microsoft yahei"; font-size: 14px; }
  body {min-width:915px; }
  a { color: #00B7FF;}
 .clearfix:after {content: "";clear: both;display: block;visibility: hidden;height: 0; }

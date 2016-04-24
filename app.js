@@ -28,7 +28,7 @@ app.set('port', process.env.PORT || 3008);
 app.use(logger('dev'));
 app.use(bodyParser.json({limit:'1mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ uploadDir: "./public/upload" })); 
+//app.use(bodyParser.urlencoded({ uploadDir: "./public/upload" })); 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

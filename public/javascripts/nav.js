@@ -2,11 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-<<<<<<< HEAD
-* @Last Modified time: 2016-04-21 20:24:40
-=======
-* @Last Modified time: 2016-04-23 17:17:00
->>>>>>> origin/master
+* @Last Modified time: 2016-04-24 12:25:36
 */
 
 
@@ -194,12 +190,8 @@ $(function(){
 		//登录的验证函数
 		var result={
 			names:false,
-<<<<<<< HEAD
-			passwords:false
-=======
 			passwords:false,
 			validate:false
->>>>>>> origin/master
 		};
 		function checkLog(ele){
 			var str = ele.value;
@@ -223,11 +215,7 @@ $(function(){
 					}
 				});
 
-<<<<<<< HEAD
-			}
-=======
 			};
->>>>>>> origin/master
 
 
 			if(result.names===true){
@@ -247,14 +235,6 @@ $(function(){
 						}
 					});
 				}
-<<<<<<< HEAD
-			}
-			
-
-		}
-
-		//注册页面表单focus与blur时候的不同表现
-=======
 			};
 			if(ele.id=="validate"){
 				if(str!==strEnd){
@@ -271,7 +251,6 @@ $(function(){
 
 		}
 		//监听注册页面文本框内value变化时tip的变化
->>>>>>> origin/master
 		for(var i=0;i<reginp.length;i++){
 			if(!!window.ActiveXObject){
 				reginp[i].onpropertychange = regfn;
@@ -318,103 +297,6 @@ $(function(){
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
-<<<<<<< HEAD
-			for(var i=0;i<regtips.length;i++){
-				if(regtips[i].style.color!=="green"||regtips[i].style.color==""){
-					alert("输入有误");
-				};
-				var target = EventUtil.getTarget(e);
-				EventUtil.preventDefault(e);
-				var form=target.parentNode.parentNode;
-				var result=seriPost(form);
-				var resultJson={};
-				//console.log(resultJson);
-				for(var i = 0; i < result.length; i++){
-					var val = result[i].split("=");
-					resultJson[val[0]]=val[1];
-				};
-				var str =JSON.stringify(resultJson);
-				//console.log(str);
-				ajax("post","/reg","application/json",str,function(res){
-					console.log(res);
-				});
-			}
-
-		});
-
-		//登录表单提交时需要先验证再用ajax提交数据
-		EventUtil.addHandler(loginsub,"click",function(e){
-				if(result.names!=="true"||result.passwords!=="true"){
-					alert("输入有误");
-				}
-				console.log()	
-				var target = EventUtil.getTarget(e);
-				EventUtil.preventDefault(e);
-				var form=target.parentNode.parentNode;
-				var result=seriPost(form);
-				var resultJson={};
-				console.log(resultJson);
-				for(var i = 0; i < result.length; i++){
-					var val = result[i].split("=");
-					resultJson[val[0]]=val[1];
-				};
-				var str =JSON.stringify(resultJson);
-				ajax("post","/login","application/json",str,function(res){
-					console.log(res);
-				});
-			
-		});
-		//生成验证码的函数
-		var canvas=$("#valCanvas").get(0);
-		var _canvas=$("#valCanvas").get(0).getContext("2d");
-		var return_str="";
-		var _ifstart=false;
-		var _B_x=0;
-		var _B_y=0;
-		function can_click(){
-				
-		};
-		function pass(){
-			var _val=$(":text:eq(0)").val();
-			if(_val==return_str){
-				alert('您通过验证了！');	
-			}else{
-				alert('您输入的验证码不正确！');	
-			};
-		}
-		function start(){
-			try{
-				function drawscreen(){
-					_canvas.fillStyle="#ffffaa";
-					_canvas.fillRect(0,0,100,35);	
-					_canvas.strokeStyle="#000";
-					_canvas.strokeRect(0,0,100,35);
-				};
-				function write_text(_str){
-					_canvas.fillStyle="#000000";
-					_canvas.font="20px _sans";
-					_canvas.textBaseline="top";
-					_canvas.fillText(_str,30,10);
-				};
-				function getabc(){
-					var _str="a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9";
-					var _str_array=_str.split(",");
-					return_str="";
-					for(i=0;i<4;i++){
-						var _rnd=Math.floor(Math.random()*_str_array.length);
-						return_str+=_str_array[_rnd];
-					};
-				};
-				drawscreen();
-				getabc();
-				write_text(return_str);
-			}catch(e){
-				alert(e);	
-			}
-		};
-		$(document).ready(function(e) {
-			start();
-=======
 
 				if(regtips[0].style.color=="green"&&regtips[1].style.color=="green"&&regtips[2].style.color=="green"&&regtips[3].style.color=="green"){
 					var target = EventUtil.getTarget(e);
@@ -454,7 +336,6 @@ $(function(){
 				}else{
 					alert("请检查输入信息！");
 				}
->>>>>>> origin/master
 		});
 		
 		// 登录表单提交时需要先验证再用ajax提交数据

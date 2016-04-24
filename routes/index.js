@@ -2,8 +2,7 @@ var Post=require("../models/post.js");
 //中间件multer的配置（实现上传功能）
 var upload = require('../models/multerUtil');
 
-
-
+var formidable = require("../models/formidable.js")
 var Ques=require('../models/ask.js');
 var quesComment=require('../models/quesComment.js');
 
@@ -14,10 +13,22 @@ var crypto = require('crypto'),
 var jobHunting=require('../models/jobHunting');
 var geolocation=require('../tools/city');
 var pagination=require('express-paginate');
-var util=require('util');
+
+
 
 
 module.exports = function(app) {
+
+	app.post("/wangEditor",formidable);
+
+	app.get('/public/uploads/*',function(req,res){
+
+		/*var img = new Image("/public/uploads/"+req.params[0]);
+		res.setHeader("Content-Type","image/*");
+		return img;*/
+
+		console.log("eeeeeeee");
+	})
   //上传的ajax触发的操作
 	app.post('/upload1',upload.single("file"),function(req,res){
     console.log(req.body);
@@ -60,9 +71,7 @@ module.exports = function(app) {
     });
   })
 
- app.post("/wangEditorImg",upload.single("file"),function(req,res){
- 	console.log(req.file);
- })
+
   app.post('/', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
@@ -120,10 +129,7 @@ module.exports = function(app) {
     var password = encodeURIComponent(req.body.password);
     var repassword = encodeURIComponent(req.body.repassword);
     var email = encodeURIComponent(req.body.email);
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
@@ -193,13 +199,8 @@ module.exports = function(app) {
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
     User.getName(encodeURIComponent(req.body.name),function(err,user){
-<<<<<<< HEAD
-      console.log("2222222222");
       console.log(!user);
-=======
-      //console.log("2222222222");
-      //console.log(!user);
->>>>>>> origin/master
+
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -207,11 +208,11 @@ module.exports = function(app) {
         req.session.user = user;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
-<<<<<<< HEAD
+
         res.redirect('/');//登陆成功后跳转到主页
-=======
+
         //res.redirect('/');//登陆成功后跳转到主页
->>>>>>> origin/master
+
       }
       
     });
