@@ -21,42 +21,26 @@ module.exports = function(app) {
 
 	app.post("/wangEditor",formidable);
 
-	app.get('/public/uploads/*',function(req,res){
-
-		/*var img = new Image("/public/uploads/"+req.params[0]);
-		res.setHeader("Content-Type","image/*");
-		return img;*/
-
-		console.log("eeeeeeee");
-	})
   //上传的ajax触发的操作
 	app.post('/upload1',upload.single("file"),function(req,res){
-    console.log(req.body);
+    
     //将信息存入文章数据库
-    console.log(req.file.path);
-
-    var post = new Post("cheng", req.body.title, req.body.tags,req.body.post,req.body.cates,req.file.path);
+    var path = "/uploads/"+req.file.filename;
+    var post = new Post(req.session.user, decodeURIComponent(req.body.title), req.body.tags,decodeURIComponent(req.body.post),req.body.cates,path);
       post.save(function (err) {
-      console.log(post);
-      if (err) {
-        // req.flash('error', err); 
+    
+      if (err) {  
         console.log("error");
-        //return res.redirect('/');
       }
-
      res.send({
-                user: "cheng",
+                author: req.session.user,
                 title: req.body.title,
                 tags: req.body.tags,
                 post: req.body.post,
                 cates: req.body.cates
-                 });
-      // req.flash('success', '发布成功!');
-      //req.flash('success',post);
-      //res.redirect('/showPost');//发表成功跳转到主页
     });
   });  
-	
+	})
 
 	//注册页面
 
@@ -211,7 +195,6 @@ module.exports = function(app) {
 
         res.redirect('/');//登陆成功后跳转到主页
 
-        //res.redirect('/');//登陆成功后跳转到主页
 
       }
       
@@ -298,20 +281,28 @@ function checkNotLogin(req, res, next) {
 						    post: 'hello world' });
 	});
 	//文章二级页面
-    app.get('/post', function (req, res) {
-    /*Post.total({},function(err,result){
-    	console.log(result);
-    })*/
-  
-    res.render('post/post', {
-      title: '文章',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
+  app.get('/post', function (req, res) {
+  	var page = req.query.p ? parseInt(req.query.p) : 1;
+
+   	Post.getTen(null, page, function (err, posts, total) {
+      if (err) {
+        posts = [];
+      } 
+     
+      res.render('post/post', {
+        title: '文章',
+        posts: posts,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * 10 + posts.length) == total,
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
     });
   });
     /*需要写文章的页面*/
-  //app.get('/writePost',checkLogin);
+  app.get('/writePost',checkLogin);
 	app.get('/writePost',function(req,res){
 		Post.getTags({},function(err,tags){
 			if(err){
@@ -328,7 +319,6 @@ function checkNotLogin(req, res, next) {
 				res.render('post/writePost',{
 					user: req.session.user,
 					title:"文章编辑",
-					author: "cheng",
 					tags: tags,
 					cates: cates
 				})
@@ -345,11 +335,12 @@ function checkNotLogin(req, res, next) {
         req.flash('error', err); 
         return res.redirect('/');
       }
+      console.log("render");
       res.render('post/showPost', {
       	author: "cheng",
         title: req.params.title,
         post: post,
-        user: req.session.user,
+        user: "req.session.user",
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
       });
@@ -691,4 +682,13 @@ app.get('/job-top5',function(req,res){
     }
   });
 });
+/*-----------------用户界面路由部分---------------------*/
+app.get("/user",function(req,res){
+	res.render("user/user",{
+		title: "用户",
+		user: "cheng"
+	});
+})
+
+
 }

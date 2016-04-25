@@ -38,57 +38,24 @@
                 </div> 
             </div>
             <div class="recommand_article_wrap">
+            <% posts.forEach(function (post, index) { %>
                 <div class="recommand_article" id="article/id">
-                    <a class="title" href="#">一起来看犀牛书</a>
-                    <p>山有枢，隰有榆。子有衣裳，弗曳弗娄。子有车马，弗驰弗驱。宛其死矣，他人是愉。
-                    山有栲，隰有杻。子有廷内，弗洒弗扫。子有钟鼓，弗鼓弗考。宛其死矣，他人是保。
-                    山有漆，隰有栗。子有酒食，何不日鼓瑟？且以喜乐，且以永日。宛其死矣，他人入室。
+                    <a class="title" href="#"><%= post.title %></a>
+                    <p><%- post.post %>
                     <span><a href="#">[查看全文]</a></span>
                     </p>
                     <div class="article_message">
                         <div class="author_img"><img src="" alt="" style="width:20px;height:20px;"></div>
-                        <a class="author_name" href="#" target="_blank">chanda_yang</a>
-                        <a class="article_cat" href="#">javascript</a>
-                        <span class="article_time">2天前</span>
-                        <span class="browser">2000浏览</span>
-                        <span class="like">点赞</span>
+                        <a class="author_name" href="#" target="_blank"><%= post.author %></a>
+                        <a class="article_cat" href="#"><%= post.cates %></a>
+                        <span class="article_time"><%= post.time %></span>
+                        <span class="browser">浏览 <%= post.pv %></span>
+                        <span class="like">点赞 <%= post.agree %></span>
                         <span class="comment">评论</span>
                     </div>
                 </div>
-                <div class="recommand_article" id="article/id">
-                    <a class="title" href="#">一起来看犀牛书</a>
-                    <p>山有枢，隰有榆。子有衣裳，弗曳弗娄。子有车马，弗驰弗驱。宛其死矣，他人是愉。
-                    山有栲，隰有杻。子有廷内，弗洒弗扫。子有钟鼓，弗鼓弗考。宛其死矣，他人是保。
-                    山有漆，隰有栗。子有酒食，何不日鼓瑟？且以喜乐，且以永日。宛其死矣，他人入室。
-                    <span><a href="#">[查看全文]</a></span>
-                    </p>
-                    <div class="article_message">
-                        <div class="author_img"><img src="" alt="" style="width:20px;height:20px;"></div>
-                        <a class="author_name" href="#" target="_blank">chanda_yang</a>
-                        <a class="article_cat" href="#">javascript</a>
-                        <span class="article_time">2天前</span>
-                        <span class="browser">2000浏览</span>
-                        <span class="like">点赞</span>
-                        <span class="comment">评论</span>
-                    </div>
-                </div>
-                <div class="recommand_article" id="article/id">
-                    <a class="title" href="#">一起来看犀牛书</a>
-                    <p>山有枢，隰有榆。子有衣裳，弗曳弗娄。子有车马，弗驰弗驱。宛其死矣，他人是愉。
-                    山有栲，隰有杻。子有廷内，弗洒弗扫。子有钟鼓，弗鼓弗考。宛其死矣，他人是保。
-                    山有漆，隰有栗。子有酒食，何不日鼓瑟？且以喜乐，且以永日。宛其死矣，他人入室。
-                    <span><a href="#">[查看全文]</a></span>
-                    </p>
-                    <div class="article_message">
-                        <div class="author_img"><img src="" alt="" style="width:20px;height:20px;"></div>
-                        <a class="author_name" href="#" target="_blank">chanda_yang</a>
-                        <a class="article_cat" href="#">javascript</a>
-                        <span class="article_time">2天前</span>
-                        <span class="browser">2000浏览</span>
-                        <span class="like">点赞</span>
-                        <span class="comment">评论</span>
-                    </div>
-                </div>                                    
+                <% }) %>
+                                                    
             </div>
     	</div>
        

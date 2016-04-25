@@ -7,11 +7,17 @@
   <% if (user.name && user.name==author) {%>
     <span>编辑</span><span>删除</span>
   <% } %>
-
+  
   </div>
   </header>
       <div class="re-cont">
-        <div class="re-cont-detail"><%= post.post %></div>
+      <% if( post.img) { %>
+
+        <img src= <%= post.img %>>
+
+       <% } %> 
+        <div class="re-cont-detail"><%- post.post %></div>
+      
       </div>
       
       <footer class="re-footer clearfix">

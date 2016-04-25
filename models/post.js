@@ -24,6 +24,7 @@ Post.prototype.save=function(callback){
   }
   // pv记录了访问量
   var post={
+    author: "cheng",
     title: this.title,
     time: time.year+'-'+time.month+'-'+time.day+'-'+time.hour+'-'+time.minute,
     tags: this.tags,
@@ -51,30 +52,42 @@ Post.prototype.save=function(callback){
         return callback(err);
       }
       //插入
-      collection.insert(post,{
+
+      console.log(post);
+      collection.insert(post,/*{
         safe: true
-      },function(err){
+      },*/function(err){
         mongodb.close();
         if(err){
           return callback(err);
         }
+
         callback(null);
       })
-
+      //console.log("dddd");
     })
   })
 }
   //一次获取十篇文章(query为查询条件 是一个json对象)
 Post.getTen=function(query,page,callback){
   //打开数据库
-  mongodb.open('posts',function(err,collection){
-    if (err) {return callback(err)}
-    //读取posts集合
-    if(err){
-      mongodb.close();
+  console.log("start");
+  mongodb.open(function (err, db) {
+    if (err) {
       return callback(err);
     }
+  db.collection('posts', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        console.log(err);
+        return callback(err);
+      }
+      /*var query = {};
+      if (name) {
+        query.name = name;
+      }*/
     //使用count返回特定查询的文档数 total
+    console.log("count");
     collection.count(query,function(err,total){
       //根据query条件查询 并跳过前(page-1)*10个结果，返回之后的10个结果
       collection.find(query,{
@@ -88,20 +101,24 @@ Post.getTen=function(query,page,callback){
         if(err){
           return callback(err);
         }
-        docs.forEach(function(doc){
+        /*docs.forEach(function(doc){
           doc.post=markdown.toHTML(doc.post);
-        });
+        });*/
+        console.log("end");
         callback(null,docs,total);
       })
     })
 
   })
 
+})
 }
 
 //获取一篇文章
 Post.getOne = function(query,callback) {
+
   //打开数据库
+  mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
       return callback(err);
@@ -118,7 +135,9 @@ Post.getOne = function(query,callback) {
           mongodb.close();
           return callback(err);
         }
+
         if (doc) {
+
           //每访问 1 次，pv 值增加 1
           collection.update(query, {
             $inc: {"pv": 1}
@@ -129,10 +148,10 @@ Post.getOne = function(query,callback) {
             }
           });
           //解析 markdown 为 html
-          doc.post = markdown.toHTML(doc.post);
-          doc.comments.forEach(function (comment) {
-            comment.content = markdown.toHTML(comment.content);
-          });
+          //doc.post = markdown.toHTML(doc.post);
+          // doc.comments.forEach(function (comment) {
+          //   comment.content = markdown.toHTML(comment.content);
+          // });
           callback(null, doc);//返回查询的一篇文章
         }
       });

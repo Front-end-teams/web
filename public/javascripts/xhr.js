@@ -55,7 +55,6 @@ function createXHR(){
 		if(head){
 			xhr.setRequestHeader("Content-Type",head);
 		}
-		
 		xhr.send(mes);
 
 	}

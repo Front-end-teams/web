@@ -150,6 +150,8 @@ body {
 	line-height: 20px;
 	color:gray;
 	padding:5px 10px;
+	word-wrap: break-word; 
+	word-break: normal; 
 }
 .recommand_article p span a{
 	text-decoration: none;

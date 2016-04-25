@@ -63,7 +63,7 @@ var uploadImg = function(req,res){
  						//保存成功
  						console.log('fs rename done');
  						//拼接图片url地址
- 						result = filenewpath;
+ 						result = '/uploads/'+filename;
 
  					}
  					//返回结果

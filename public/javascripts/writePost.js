@@ -122,7 +122,14 @@ function delTags(e){
 		alert('标签数已达上限');
 	}
 }
-
+//定义点击div中的span元素 删除span元素的事件
+EventUtil.addHandler(tagsDiv,"click",function(e){
+	var e=EventUtil.getEvent(e);
+	var target=EventUtil.getTarget(e);
+	if(target.tagName.toLowerCase()=="span"){
+		tagsDiv.removeChild(target);
+	}
+})
 
 
 // 给分类文本框添加事件 当获取焦点时 显示个人分类
@@ -214,6 +221,7 @@ EventUtil.addHandler(submit,"click",function(e){
 	
 
 	ajax("post","/upload1",null,formD,function(res){
+		console.log(res);
 		
 		var pop2 = document.querySelector('.p2');
 		
