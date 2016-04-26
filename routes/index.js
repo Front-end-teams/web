@@ -26,7 +26,9 @@ module.exports = function(app) {
     
     //将信息存入文章数据库
     var path = "/uploads/"+req.file.filename;
-    var post = new Post(req.session.user, decodeURIComponent(req.body.title), req.body.tags,decodeURIComponent(req.body.post),req.body.cates,path);
+    var artText=decodeURIComponent(req.body.post).substr(0,200);
+    console.log(artText);
+    var post = new Post("cheng", decodeURIComponent(req.body.title), req.body.tags,decodeURIComponent(req.body.post),req.body.cates,path,artText);
       post.save(function (err) {
     
       if (err) {  
@@ -189,7 +191,7 @@ module.exports = function(app) {
         res.send("用户不存在！");
       }else{
         //用户名密码都匹配后，将用户信息存入 session
-        req.session.user = user;
+        req.session.user = user.name;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
 
@@ -326,7 +328,7 @@ function checkNotLogin(req, res, next) {
 			
 		})
 	})
-		
+		//查看文章详细信息
   app.get("/detail/:author/:title",function(req,res){
   	console.log("detail");
 
@@ -366,6 +368,66 @@ function checkNotLogin(req, res, next) {
 
 		);
 	})
+
+  //文章点赞
+  
+  app.post("/agree/:author/:title", function(req,res){
+    console.log("start");
+    var agree=[];
+    console.log(req.body);
+    Post.getOne(req.body, function (err, post) {
+      if (err) {
+        req.flash('error', err);
+         console.log("err:"+err);
+        return res.redirect('/');
+      }
+      console.log("post:"+post);
+      agree = post.agree;
+      console.log("agree:"+agree);
+    });
+    //console.log(agree);
+    var jsonUpdate={
+        author: req.body.author,
+        title: req.body.title,
+        user: req.session.user.name
+      }
+      console.log(jsonUpdate);
+      console.log(agree.indexOf(req.session.user.name));
+    if ( agree.indexOf(jsonUpdate.user) < 0 ){
+      console.log("agree");
+      Post.agree(jsonUpdate, function(err){
+        if (err) {
+          //req.flash('error', err);
+          console.log(err);
+        }
+        console.log(agree.length);
+        res.send(agree.length+1);
+      })
+    } else {
+      Post.disagree(jsonUpdate,function(err){
+        if( err ) {
+          console.log(err);
+          res.send(false);
+        }
+        console.log(agree.length);
+        res.send(agree.length-1);
+      })
+    }  
+  }) 
+
+  //文章取消点赞
+  app.post("/disagree/:author/:title", function(req,res){
+    console.log("disagree");
+    Post.disagree(req.body,function(err){
+      if (err) {
+        //req.flash('error', err);
+        console.log(err);
+        res.send(false);
+      }
+      res.send(true);
+    })
+    
+  }) 
 
 // 发布问题
   app.get('/ask', checkLogin);

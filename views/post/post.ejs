@@ -40,9 +40,9 @@
             <div class="recommand_article_wrap">
             <% posts.forEach(function (post, index) { %>
                 <div class="recommand_article" id="article/id">
-                    <a class="title" href="#"><%= post.title %></a>
-                    <p><%- post.post %>
-                    <span><a href="#">[查看全文]</a></span>
+                    <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
+                    <p><%- post.art %>
+                    
                     </p>
                     <div class="article_message">
                         <div class="author_img"><img src="" alt="" style="width:20px;height:20px;"></div>

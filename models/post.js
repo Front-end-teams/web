@@ -1,12 +1,13 @@
 var mongodb=require('./db'),
     markdown = require('markdown').markdown;
-function Post(author,title,tags,post,cates,img){
+function Post(author,title,tags,post,cates,img,art){
   this.author=author;
   this.title=title;
   this.tags=tags;
   this.post=post;
   this.cates=cates;
   this.img=img;
+  this.art=art;
 }
 
 module.exports=Post;
@@ -31,9 +32,9 @@ Post.prototype.save=function(callback){
     cates: this.cates,
     post: this.post,
     img: this.img,
+    art: this.art,
     comments: [],
-    reprint_info: {},//文章转载情况
-    agree: 0,
+    agree: [],
     pv: 0
 
   };
@@ -116,13 +117,17 @@ Post.getTen=function(query,page,callback){
 
 //获取一篇文章
 Post.getOne = function(query,callback) {
+  console.log("getone");
 
   //打开数据库
-  mongodb.close();
+  //mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
+      console.log(err);
+
       return callback(err);
     }
+    console.log("open");
     //读取 posts 集合
     db.collection('posts', function (err, collection) {
       if (err) {
@@ -135,8 +140,9 @@ Post.getOne = function(query,callback) {
           mongodb.close();
           return callback(err);
         }
-
-        if (doc) {
+        mongodb.close();
+        console.log("doc");
+        /*if (doc) {
 
           //每访问 1 次，pv 值增加 1
           collection.update(query, {
@@ -146,14 +152,15 @@ Post.getOne = function(query,callback) {
             if (err) {
               return callback(err);
             }
-          });
+          });*/
           //解析 markdown 为 html
           //doc.post = markdown.toHTML(doc.post);
           // doc.comments.forEach(function (comment) {
           //   comment.content = markdown.toHTML(comment.content);
           // });
+
           callback(null, doc);//返回查询的一篇文章
-        }
+        //}
       });
     });
   });
@@ -420,78 +427,70 @@ Post.search = function(keyword, callback) {
   });
 };
 
-//转载一篇文章
-Post.reprint = function(reprint_from, reprint_to, callback) {
-  mongodb.open(function (err, db) {
+
+//文章点赞功能
+Post.agree = function(query, callback) {
+  //打开数据库
+  mongodb.close();
+console.log("mongo start");//成功
+console.log(query);//成功
+  mongodb.open( function (err, db) {
+    console.log(err);
     if (err) {
+      console.log(err);
       return callback(err);
     }
+    //读取 posts 集合
+    console.log("posts read");
     db.collection('posts', function (err, collection) {
       if (err) {
         mongodb.close();
         return callback(err);
       }
-      //找到被转载的文章的原文档
-      collection.findOne({
-        "name": reprint_from.name,
-        "time.day": reprint_from.day,
-        "title": reprint_from.title
-      }, function (err, doc) {
+      //更新文章内容
+      console.log("update");
+      collection.update({author: query.author,title: query.title}, {
+        $push: {"agree": query.user}
+      }, function (err) {
+        
         if (err) {
           mongodb.close();
           return callback(err);
         }
-
-        var date = new Date();
-        var time = {
-            date: date,
-            year : date.getFullYear(),
-            month : date.getFullYear() + "-" + (date.getMonth() + 1),
-            day : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
-            minute : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
-            date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-        }
-
-        delete doc._id;//注意要删掉原来的 _id
-
-        doc.name = reprint_to.name;
-        doc.head = reprint_to.head;
-        doc.time = time;
-        doc.title = (doc.title.search(/[转载]/) > -1) ? doc.title : "[转载]" + doc.title;
-        doc.comments = [];
-        doc.reprint_info = {"reprint_from": reprint_from};
-        doc.pv = 0;
-
-        //更新被转载的原文档的 reprint_info 内的 reprint_to
-        collection.update({
-          "name": reprint_from.name,
-          "time.day": reprint_from.day,
-          "title": reprint_from.title
-        }, {
-          $push: {
-            "reprint_info.reprint_to": {
-              "name": doc.name,
-              "day": time.day,
-              "title": doc.title
-          }}
-        }, function (err) {
-          if (err) {
-            mongodb.close();
-            return callback(err);
-          }
-        });
-
-        //将转载生成的副本修改后存入数据库，并返回存储后的文档
-        collection.insert(doc, {
-          safe: true
-        }, function (err, post) {
-          mongodb.close();
-          if (err) {
-            return callback(err);
-          }
-          callback(err, post[0]);
-        });
+        mongodb.close();
+        callback(null);  
       });
     });
-  });
+ });
+};
+Post.disagree = function(query, callback) {
+  //打开数据库
+  mongodb.open(function (err, db) {
+
+    if (err) {
+      return callback(err);
+
+    }
+
+    //读取 posts 集合
+    db.collection('posts', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log("update");
+
+      //更新文章内容
+      collection.update(query, {
+        $pull: {"agree": query.user}
+      }, function (err) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+
+        callback(null);
+      });
+    });
+ });
 };

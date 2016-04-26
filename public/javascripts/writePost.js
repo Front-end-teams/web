@@ -11,7 +11,10 @@ var commonCates=document.getElementById("common-cates");
 var catesTable=document.getElementById("cates-table");
 var upload=document.getElementById("upload");
 
+var absText=document.getElementById("absText");
+
 var submit=document.getElementById("submit");
+var editor=document.getElementById("editor");
 
 /*var wangEditor=new wangEditor("wangEditor");
 wangEditor.create();*/
@@ -141,6 +144,8 @@ function catesShow(){
 
 var input_arr=[];
 EventUtil.addHandler(catesTable,"click",function(e){
+
+	console.log(editor.value);
 	var e=EventUtil.getEvent(e);
 	var target=EventUtil.getTarget(e);
 	
@@ -194,6 +199,15 @@ function tagsNum(){
 	}else{
 		return true;
 	}
+}
+
+EventUtil.addHandler(editor,"click",extract);
+// 提取文章的前200个字作为摘要
+function extract(){
+	console.log("start");
+	var value=editor.value;
+	var extraVal=value.substr(0,200);
+	absText.innerHTML=extraVal;
 }
 
 
