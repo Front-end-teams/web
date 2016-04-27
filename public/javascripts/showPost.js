@@ -15,8 +15,8 @@ function agree(e){
 	/*if ( !flag ) {*/
 		//实现点赞 点赞时需要记录点赞人
 		ajax( "post", agreeurl, "application/json", mes, function(res){
-				console.log(res);
-				agreeNum.innerHTML =  parseInt(res);
+				console.log(JSON.parse(res).agree);
+				agreeNum.innerHTML =  parseInt(JSON.parse(res).agree);
 			
 		})
 	/*	flag = true;

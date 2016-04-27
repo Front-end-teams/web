@@ -47,11 +47,12 @@ function createXHR(){
 					callback(xhr.responseText);
 				
 				}else{
+					console.log(xhr.responseText);
 					console.log("request was unsuccessful:"+xhr.status);
 				}
 			}
 		}
-		xhr.open(met,url,false);
+		xhr.open(met,url,true);
 		if(head){
 			xhr.setRequestHeader("Content-Type",head);
 		}

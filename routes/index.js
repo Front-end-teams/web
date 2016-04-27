@@ -342,7 +342,7 @@ function checkNotLogin(req, res, next) {
       	author: "cheng",
         title: req.params.title,
         post: post,
-        user: "req.session.user",
+        user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
       });
@@ -369,6 +369,30 @@ function checkNotLogin(req, res, next) {
 		);
 	})
 
+  //文章修改
+  app.get("/writePost/:author/:title",function(req,res){
+    console.log(req.params);
+    Post.getOne(req.params,function(err,post){
+      if(err){
+        console.log(err);
+        return res.redirect('/');
+      }
+      console.log("post");
+      console.log(post);
+      console.log("render");
+      res.render("post/writePost",{
+        title: "文章编辑",
+        postTitle: post.title,
+        user: post.author,
+        tags: post.tags,
+        cates:post.cates,
+        post:post.post,
+        art: post.art
+
+      })
+    })
+      
+  })
   //文章点赞
   
   app.post("/agree/:author/:title", function(req,res){
@@ -384,36 +408,39 @@ function checkNotLogin(req, res, next) {
       console.log("post:"+post);
       agree = post.agree;
       console.log("agree:"+agree);
-    });
+    
     //console.log(agree);
-    var jsonUpdate={
+   var jsonUpdate={
         author: req.body.author,
         title: req.body.title,
         user: req.session.user.name
       }
       console.log(jsonUpdate);
       console.log(agree.indexOf(req.session.user.name));
-    if ( agree.indexOf(jsonUpdate.user) < 0 ){
+     if ( agree.indexOf(jsonUpdate.user) < 0 ){
       console.log("agree");
       Post.agree(jsonUpdate, function(err){
         if (err) {
           //req.flash('error', err);
           console.log(err);
         }
-        console.log(agree.length);
-        res.send(agree.length+1);
+        //var temp=agree.length + 1;
+        res.json({agree: agree.length+1}); 
       })
     } else {
+      console.log("disagree");
       Post.disagree(jsonUpdate,function(err){
         if( err ) {
           console.log(err);
           res.send(false);
         }
         console.log(agree.length);
-        res.send(agree.length-1);
+        
+        res.json({agree:agree.length-1});
       })
     }  
   }) 
+  });
 
   //文章取消点赞
   app.post("/disagree/:author/:title", function(req,res){

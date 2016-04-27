@@ -37,7 +37,7 @@
 <article class="post-write">
 <form method="post" enctype="multipart/form-data" id="form-article">
 <div class="post-input">
-<label><span class="must">*</span>文章标题：</label><input type="text" name="title" placeholder="请输入标题" class="text-input" required="required"></input></div>
+<label><span class="must">*</span>文章标题：</label><input type="text" name="title" placeholder="请输入标题" class="text-input" required="required" <% if (postTitle) { %> value= <%= postTitle %> <% } %>></input></div>
 
 <div class="post-input"><label>文章封面：</label>
 <div class="input-file">
@@ -52,12 +52,18 @@
 
 <div class="post-input post-cont"><label><span class="must">*</span>文章内容：</label></div>
 
-<textarea name='post' class="rich-text" id="editor"></textarea>
+<textarea name='post' class="rich-text" id="editor" ></textarea>
 
 <div class="post-input">
 <label><span class="must">*</span>文章标签：</label>
 <div class="post-tags" id="post-tags">
-<div id="tags-div" name="tags"></div>
+<div id="tags-div" name="tags">
+  <% if (tags) { %>
+  <% for (var i=0 ;i < tags.length; i++) { %>
+    <span class=""> <%= tags[i] %></span>
+  <% } %>
+  <% } %>
+</div>
 <input type="text"  class="text-input" id="tags-input" autocomplete="off"></input><span class="tips">最多添加三个标签，标签之间用","隔开</span> 
 
 
@@ -112,7 +118,7 @@
 <div class="post-abs" id="post-abs"><label>摘要:</label>
 <div class="post-abs-detail">
   <p>默认自动提取您文章的前200个字显示在博客首页作为文章摘要，您也可以在这里自行编辑</p>
-  <textarea style="width:800px;height:200px" id="abs-text" name="abs-text"></textarea>
+  <textarea style="width:800px;height:200px" id="abs-text" name="abs-text" <% if (art) { %> value= <%= art %> <% } %>></textarea>
 </div>
 </div>
 <div class="submit"><input type="submit"  class="button submit" value="发表文章" id="submit"></input>

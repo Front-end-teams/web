@@ -481,7 +481,7 @@ Post.disagree = function(query, callback) {
       console.log("update");
 
       //更新文章内容
-      collection.update(query, {
+      collection.update({author: query.author,title: query.title}, {
         $pull: {"agree": query.user}
       }, function (err) {
         mongodb.close();

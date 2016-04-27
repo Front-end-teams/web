@@ -4,9 +4,9 @@
   <h1 class="post-title" id = "post-title"><%= post.title %></h1>
   <div class="post-detail"><span class="post-author" id = "post-author"><%= author %></span> <span class="post-time">发布时间:<%= post.time %></span> <span class="post-view">访问量:<%= post.pv %></span>
 
-  <% if (user.name && user.name==author) {%>
-    <span>编辑</span><span>删除</span>
-  <% } %>
+  <div class="author-editor">
+    <span><a href="/writePost/<%= post.author %>/<%= post.title %>">编辑</a></span><span>删除</span>
+  </div>
   
   </div>
   </header>
