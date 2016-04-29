@@ -202,3 +202,24 @@ body {
 footer{
   text-align: center;
 }
+#windsTagBall 
+{
+  position:relative; 
+  width:220px; 
+  height:220px; 
+  margin: 20px auto 0; 
+}
+#windsTagBall a 
+{
+  position:absolute; 
+  top:0px; 
+  left:0px; 
+ color:#000; 
+ font-weight:bold; 
+ text-decoration:none; 
+ padding: 3px 6px; 
+}
+#windsTagBall a:hover 
+{
+  color: red;
+}

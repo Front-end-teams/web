@@ -94,3 +94,40 @@ article #pubQues
 	font-size: 16px;
 	font-weight: bold;
 }
+.tag
+{
+	text-decoration: none;
+	display: inline-block;
+	padding: 0 8px;
+	font-size: 14px;
+	line-height: 26px;
+	border: 1px solid rgb(208, 214, 217);
+	margin: 3px;
+}
+.tags .tag:hover
+{
+	border: 2px solid rgb(240, 20, 0);
+	padding: 0 7px;
+	line-height: 24px;
+}
+.active
+{
+	border: 2px solid rgb(240, 20, 0);
+	padding: 0 7px;
+	line-height: 24px;
+}
+article #threeMax
+{
+	font-size: 14px;
+	line-height: 26px;
+	margin-bottom: 5px;
+}
+article #threeMax .star
+{
+	display: inline-block;
+	color: red;
+	width: 16px;
+	height: 26px;
+	padding: 0 5px;
+	text-align: center;
+}

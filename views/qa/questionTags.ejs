@@ -1,0 +1,86 @@
+<%- include ../header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/questionTags.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/question.css">
+<%- include ../nav %>
+<% questions.forEach(function (question) { %>
+				<div class="wenda-container">
+					    <div class="wenda-img">
+					       <img class="wenda-img-icon" src="images/7.jpg">
+					       <span><%= question.name %></span>
+					     </div>
+					    <div class="wenda-content">
+							<h1 class="wenda-title">
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
+							</h1>
+							<p class="wenda-description"><%= question.quesDetail %></p>
+							<div class="action-panel">
+							    提问的日期：<%= question.time.minute %> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">去回答</a> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">浏览量 <%=question.pv%></a>
+								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
+								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
+								<span>
+								标签：
+								<% question.tags.forEach(function(tag){%>
+								<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
+								<%})%>
+								</span>
+							</div>
+					    </div>
+				</div>
+<% }) %>
+      <div class="answer">
+        <span class="prepage"><a title="首页" href="/questionTags?tag=<%=tag%>&p=<%= 1 %>">首页</a></span>
+
+        <% if ((page-1)>=1) { %>
+        <span class="prepage"><a title="上一页" href="/questionTags?tag=<%=tag%>&p=<%= page-1 %>">上一页</a></span>
+        <% }else{}%>
+
+        <% if ((page-3)==1) { %> 
+          <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=1">1</a></span>
+        <% }else if ((page-3)>1){%>
+          <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=1">1</a></span>
+          <span class="prepage"><a title="省略">...</a></span>
+        <%}%>
+
+        <% if ((page-2)>=1) { %> 
+        <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=<%= page-2 %>"><%= page-2 %></a></span>
+        <% }else{}%>
+
+        <% if ((page-1)>=1) { %> 
+        <span class="prepage"><a title="上一页" href="/questionTags?tag=<%=tag%>&p=<%= page-1 %>"><%= page-1 %></a></span>
+        <% }else{}%>
+
+          <span class="currentpage"><a title="当前页" href="/questionTags?tag=<%=tag%>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
+
+        <% if ((page+1)<=LastPage) { %> 
+        <span class="nextpage"><a title="下一页" href="/questionTags?tag=<%=tag%>&p=<%= page+1 %>"><%= page+1 %></a></span>
+        <% }else{}%>
+
+        <% if ((page+2)<=LastPage) { %> 
+        <span class="nextpage"><a title="下两页" href="/questionTags?tag=<%=tag%>&p=<%= page+2 %>"><%= page+2 %></a></span>
+        <% }else{}%>
+        
+        <% if ((page+3)== LastPage) { %> 
+          <span class="nextpage"><a title="下三页" href="/questionTags?tag=<%=tag%>&p=<%=LastPage%>"><%=LastPage%></a></span>
+        <% }else if((page+3)< LastPage) {%>
+         <span class="nextpage"><a title="省略">...</a></span>
+         <span class="nextpage"><a title="末页" href="/questionTags?tag=<%=tag%>&p=<%=LastPage%>"><%=LastPage%></a></span>
+        <% }%>
+
+        <% if ((page+1)<=LastPage) { %>
+          <span class="nextpage"><a title="下一页" href="/questionTags?tag=<%=tag%>&p=<%= page+1 %>">下一页</a></span>
+        <% }else{}%>
+
+         <span class="nextpage"><a title="末页" href="/questionTags?tag=<%=tag%>&p=<%= LastPage %>">末页</a></span>
+      </div>
+	<footer>
+		<hr/>
+		我是footer。<br/>
+		我是footer。<br/>
+		我是footer。<br/>
+		我是footer。<br/>
+		我是footer。
+	</footer>
+<%- include ../footer %>
