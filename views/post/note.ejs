@@ -1,0 +1,82 @@
+<%- include ../header %>
+
+    <link rel='stylesheet' href='stylesheets/note.css' />
+    <link rel="stylesheet" type="text/css" href="/src/css/wangEditor.min.css">
+<%- include ../nav %> 
+
+<div class="back">
+<!--     左边的滚动条 -->
+    <div class="wrap">
+        <div class="left">
+   <!--  左上的滚动笔记 -->
+          <div class="newNote">
+          <h3 id="rollTitle">最新笔记<a href="#" target="_self">更多>></a> </h3>
+            <div  id="rollBox">
+                <ul id="con1">
+                    <li><a href="#">1.学会html5 绝对的屌丝逆袭（案例）</a><span>2013-09-18</span></li>
+                    <li><a href="#">2.tab页面切换效果（案例）</a><span>2013-10-09</span></li>
+                    <li><a href="#">3.圆角水晶按钮制作（案例）</a><span>2013-10-21</span></li>
+                    <li><a href="#">4.HTML+CSS基础课程(系列)</a><span>2013-11-01</span></li>
+                    <li><a href="#">5.分页页码制作（案例）</a><span>2013-11-06</span></li>
+                    <li><a href="#">6.导航条菜单的制作（案例）</a><span>2013-11-08</span></li>
+                    <li><a href="#">7.信息列表制作(案例)</a><span>2013-11-15</span></li>
+                    <li><a href="#">8.下拉菜单制作(案例)</a><span>2013-11-22</span></li>
+                    <li><a href="#">9.如何实现“新手引导”效果</a><span>2013-12-06</span></li>
+                </ul>
+                <ul id="con2"></ul>
+            </div>
+          </div>
+    <!--  左下的我的笔记列表 -->
+         <div class="myNote"></div>
+      </div>
+    
+<!--       右边的编辑区 -->
+      <form  id="formid"  name= "myform" method = 'post' >
+        <div class="right">
+        <!-- 编辑区 -->
+            <div class="editArea">
+                <div class="noteTitle"><label for="title">标题</label></div>
+                <input type="text" id="titleInput" name = "notetitle">
+                <div class="noteContent"><label for="content">内容</label></div>
+           <!--  富文本编辑区 -->
+                <div class="wangeditor">
+                    <div id="richEditor">
+                    
+                    </div>
+                </div>
+            </div>
+<!--         下方的分类 -->
+            <div class="note">
+                <div class="personal">
+                  <p>个人分类</p>
+                  <table>
+                      <tr>
+                        <td><input type="checkbox"><label for="">html</label></td>
+                        <td><input type="checkbox"><label for="">css</label></td>
+                        <td><input type="checkbox"><label for="">javascript</label></td>
+                        <td><input type="checkbox"><label for="">ajax</label></td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox"><label for="">css3</label></td>
+                        <td><input type="checkbox"><label for="">html5</label></td>
+                        <td><input type="checkbox"><label for="">json</label></td>
+                        <td><input type="checkbox"><label for="">浏览器</label></td>
+                    </tr>
+                  </table>
+              </div>
+              <div class="btn">
+                  <input type="submit" value="发布" id="submit"></input>
+                  <button class="draft">存为草稿</button>
+                  <button class="cancel">取消</button>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+</div>
+    <script src="src/js/libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/src/js/wangEditor.min.js"></script>
+     
+
+<script type="text/javascript" src="javascripts/note.js"></script>
+<%- include ../footer %>

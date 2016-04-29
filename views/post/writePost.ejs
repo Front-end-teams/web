@@ -6,9 +6,6 @@
 <script type="text/javascript" src="/popout/popular.js"></script>
 <!-- <script type="text/javascript" src="/popout/custom.js"></script> -->
 
-
-
-
 <%- include ../nav %>
 <!-- 弹出框 -->
 <div class="pop-cont p2" id="pop-cont">
@@ -52,19 +49,21 @@
 
 <div class="post-input post-cont"><label><span class="must">*</span>文章内容：</label></div>
 
-<textarea name='post' class="rich-text" id="editor" ></textarea>
+<textarea name='post' class="rich-text" id="editor" >
+  <p><% if (post) { %><%= post %> <% } %></p>
+</textarea>
 
 <div class="post-input">
 <label><span class="must">*</span>文章标签：</label>
 <div class="post-tags" id="post-tags">
 <div id="tags-div" name="tags">
-  <% if (tags) { %>
-  <% for (var i=0 ;i < tags.length; i++) { %>
-    <span class=""> <%= tags[i] %></span>
+  <% if ( postTags ) { %>
+  <% for (var i=0;i < postTags.length; i++) { %>
+    <span class="tag-style"> <%= postTags[i] %></span>
   <% } %>
   <% } %>
 </div>
-<input type="text"  class="text-input" id="tags-input" autocomplete="off"></input><span class="tips">最多添加三个标签，标签之间用","隔开</span> 
+<input type="text"  class="text-input" id="tags-input" autocomplete="off"></input><span class="tips">最多添加五个标签，标签之间用","隔开</span> 
 
 
 <!-- 当标签文本框获得焦点时触发 显示常用标签 -->
@@ -80,11 +79,11 @@
 </div>
 </div>
 </div>  
-
+ 
 <!-- 个人分类 当分类文本框获得焦点是 显示个人分类 -->
 <div class="post-input"><label>个人分类：</label>
 <div class="post-cates-input">
-<input type="text" class="text-input"  id="cates-input" required="required"></input><span class="tips">多个分类之间用","隔开</span>
+<input type="text" class="text-input"  id="cates-input" required="required"  <% if (postCates) { %> value= <%= postCates %> <% } %>></input><span class="tips">多个分类之间用","隔开</span>
 
 <div class="common-cates" id="common-cates">
   <div class="cates-show">

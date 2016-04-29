@@ -5,6 +5,7 @@ body {
 	height:250px;
 	width:100%;
 	background-color: #3AAE2D;
+	position: relative;
 }
 
 .user-info{
@@ -22,10 +23,17 @@ body {
 	display: inline-block;
 	border-radius: 100px;
 	background-color: #C1D843;
+	position: relative;
 	width:200px;
 	height:200px;
 }
-
+.user-info .user-img .user-set{
+	position: absolute;
+	
+	width:20px;
+	height:20px;
+	border:1px solid white;
+}
 .user-info .user-detail{
 	display: inline-block;
 	margin-left:20px;

@@ -322,6 +322,11 @@ function checkNotLogin(req, res, next) {
 					user: "cc",
 					title:"文章编辑",
 					tags: tags,
+          postTags: null,
+          postTitle: null,
+          post:null,
+          art: null,
+          postCates:null,
 					cates: cates
 				})
 			})
@@ -377,21 +382,32 @@ function checkNotLogin(req, res, next) {
         console.log(err);
         return res.redirect('/');
       }
-      console.log("post");
-      console.log(post);
-      console.log("render");
+      Post.getTags({},function(err,tags){
+      if(err){
+        console.log(err);
+        tags=[];
+      }
+      
+      Post.getArchive({},function(err,cates){
+        if(err){
+          console.log("cates error");
+          cates=[];
+        }
       res.render("post/writePost",{
         title: "文章编辑",
         postTitle: post.title,
         user: post.author,
-        tags: post.tags,
-        cates:post.cates,
+        postTags: post.tags,
+        tags: tags,
+        postCates:post.cates,
+        cates: cates,
         post:post.post,
         art: post.art
 
       })
     })
-      
+    })
+    }) 
   })
   //文章点赞
   
@@ -442,20 +458,18 @@ function checkNotLogin(req, res, next) {
   }) 
   });
 
-  //文章取消点赞
-  app.post("/disagree/:author/:title", function(req,res){
-    console.log("disagree");
-    Post.disagree(req.body,function(err){
-      if (err) {
-        //req.flash('error', err);
-        console.log(err);
-        res.send(false);
-      }
-      res.send(true);
+  //用户设置
+  app.get("/userSet",function(req,res){
+    res.render("user/userSet",{
+      title: "用户设置",
+      user: "cheng"
     })
-    
-  }) 
+  })
 
+//用户个人信息设置
+app.post("/user/info",function(req,res){
+  console.log(req.body);
+})
 // 发布问题
   app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){

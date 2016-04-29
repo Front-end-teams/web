@@ -134,14 +134,14 @@ body {
 .recommand_cat li a:hover{
 	color:black;
 }
-.recommand_article .title{
+/* .recommand_article .title{
 	font-size: 30px;
 	color:black;
 	text-decoration: none;
 	display:block;
 	padding:10px;
 	
-}
+} */
 .recommand_article .title:hover{
 	color:#21e7c9;
 }

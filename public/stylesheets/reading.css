@@ -40,17 +40,7 @@ body {
     color:#fff;
     padding-left:10px;
 }
-/*!
- * 
- * header
- * 
- */
 
-/*!
- * 
- * container
- * 
- */
 .container{
   color:#3D3D3D;
   width:1100px;
@@ -60,11 +50,11 @@ body {
   margin-left:-550px;
   /* border:1px solid #D3D3D3; */
 }
-.container a{
+/* .container a{
   text-decoration:none;
   display:inline-block;
   padding:10px 0 5px 100px;
-}
+} */
 .container hr{
   width:698px;
   border-color:#F6F6F6;
@@ -106,27 +96,55 @@ body {
 .main_right hr{
   width:348px;
 }
-.note{
+.hot-article{
   padding:10px;
 }
-.note .author img{
+.hot-article .author{
+  display: inline-block;
   width:40px;
-  height:40px;
+  height:60px;
 }
-.note .author span:nth-child(1){
+.hot-article .author img{
   display:inline-block;
   width:40px;
   height:40px;
   border-radius:20px;
   overflow:hidden;
 }
+.hot-article .author .author-name{
+  text-align: center;
+}
+.hot-article .time{
+  float:right;
+}
 .title{
+  display: inline-block;
+  vertical-align: top;
   color:#1F1F1F;
   font-size:25px;
-  padding:20px 10px 20px 10px;
+  padding:10px;
+  text-decoration: none;
 }
-.content_nt,.read{
-  padding:10px 20px 10px 10px;
+.post-cont{
+  padding:10px 5px 20px;
+  margin-left:40px;
+}
+
+.article-message{
+  margin-left: 30px;
+}
+
+.article-message .article-tag{
+  display:inline-block;
+  margin-left: 10px;
+  background-color: rgb(273,241,242);
+}
+.post-info{
+  display: inline-block;
+  float:right;
+}
+.post-info span{
+  margin-left: 10px;
 }
 .recommend{
   /* border:1px solid blue; */
@@ -137,8 +155,3 @@ body {
   width:100%;
   padding:10px 0 10px 10px;
 }
-/*!
- * 
- * container
- * 
- */

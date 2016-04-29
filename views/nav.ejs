@@ -12,11 +12,11 @@
 		
 		<ul class="index clearfix">
 		<% if (user) { %>
-			<li><%= user.name %></li>
+			<li><%= user %></li>
 			<li><a href="/logout" id="logout">退出</a></li>
 			
 			
-			<% } else { %>
+		<% } else { %>
 		
 			<li><a href="javascript:void(0)" id="login">登录</a></li>
 			<li><a href="javascript:void(0)" id="reg">注册</a></li>
