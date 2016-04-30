@@ -1,0 +1,330 @@
+[1mdiff --cc public/javascripts/nav.js[m
+[1mindex 5fb5b06,88ce93f..0000000[m
+[1m--- a/public/javascripts/nav.js[m
+[1m+++ b/public/javascripts/nav.js[m
+[36m@@@ -2,7 -2,11 +2,7 @@@[m
+  * @Author: Administrator[m
+  * @Date:   2016-04-17 14:23:24[m
+  * @Last Modified by:   Administrator[m
+[31m- * @Last Modified time: 2016-04-24 11:57:42[m
+[31m -<<<<<<< HEAD[m
+[31m -* @Last Modified time: 2016-04-21 20:24:40[m
+[31m -=======[m
+[31m -* @Last Modified time: 2016-04-23 17:17:00[m
+[31m ->>>>>>> origin/master[m
+[32m++* @Last Modified time: 2016-04-24 22:59:44[m
+  */[m
+  [m
+  [m
+[36m@@@ -26,7 -30,8 +26,14 @@@[m [m$(function()[m
+  		var logininp = loginForm.querySelectorAll("input");[m
+  		var logintips = loginForm.querySelectorAll(".tip");[m
+  		var loginsub = document.getElementById("loginsub");[m
+[31m- 	[m
+[32m+ 		//console.log(regtips);[m
+[31m -	[m
+[32m++		function getNextElement(node){[m
+[32m++		        var NextElementNode = node.nextSibling;[m
+[32m++		        while(NextElementNode.nodeValue != null){[m
+[32m++		            NextElementNode = NextElementNode.nextSibling[m
+[32m++		        }[m
+[32m++		        return NextElementNode;[m
+[32m++		}[m
+  [m
+  		reg.onclick = function(){[m
+  			regtab.className="show";[m
+[36m@@@ -40,11 -45,11 +47,11 @@@[m
+  	   		for(var i=0;i<tips.length;i++){[m
+  	   			tips[i].innerHTML="";[m
+  	   		}[m
+[31m--	   		var firstUl = tabPanel.firstElementChild;[m
+[32m++	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;[m
+  	   		var tabNav = firstUl.getElementsByTagName("li");[m
+  	   		tabNav[0].className = "defaultStyle";[m
+  	   		tabNav[1].className = "clickStyle";[m
+[31m--	   		var lastUl = tabPanel.lastElementChild;[m
+[32m++	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;[m
+  	   		var tabBd = lastUl.getElementsByTagName("li");[m
+  	   		tabBd[0].className = "tabhide";[m
+  	   		tabBd[1].className = "tabshow";[m
+[36m@@@ -61,11 -66,11 +68,11 @@@[m
+  	   		for(var i=0;i<tips.length;i++){[m
+  	   			tips[i].innerHTML="";[m
+  	   		}[m
+[31m--	   		var firstUl = tabPanel.firstElementChild;[m
+[32m++	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;[m
+  	   		var tabNav = firstUl.getElementsByTagName("li");[m
+  	   		tabNav[1].className = "defaultStyle";[m
+  	   		tabNav[0].className = "clickStyle";[m
+[31m--	   		var lastUl = tabPanel.lastElementChild;[m
+[32m++	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;[m
+  	   		var tabBd = lastUl.getElementsByTagName("li");[m
+  	   		tabBd[0].className = "tabshow";[m
+  	   		tabBd[1].className = "tabhide";[m
+[36m@@@ -77,9 -82,9 +84,11 @@@[m
+  		//注册的验证函数[m
+  		function check(ele){[m
+  			var str = ele.value;[m
+[32m++			var nextEle=ele.nextElementSibling||ele.nextSibling;[m
+[32m++			console.log(ele.nextSibling);[m
+  			if(str.length===0){[m
+[31m--				ele.nextElementSibling.innerHTML="输入不能为空";[m
+[31m--				ele.nextElementSibling.style.color = "red";[m
+[32m++				nextEle.innerHTML="输入不能为空";[m
+[32m++				nextEle.style.color = "red";[m
+  				return;[m
+  			}[m
+  			console.log(ele.id);[m
+[36m@@@ -89,15 -94,15 +98,15 @@@[m
+  				var nameinfo = JSON.stringify(namejson);[m
+  				ajax("post","/reg/name","application/json",nameinfo,function(res){[m
+  					if(res!=="success"){[m
+[31m--						ele.nextElementSibling.innerHTML = res;[m
+[31m--						ele.nextElementSibling.style.color = "red";[m
+[32m++						nextEle.innerHTML = res;[m
+[32m++						nextEle.style.color = "red";[m
+  					}else{[m
+  						if(len >= 4 && len <= 16){[m
+[31m--							ele.nextElementSibling.innerHTML = '名称可用';[m
+[31m--						    ele.nextElementSibling.style.color = "green";[m
+[32m++							nextEle.innerHTML = '名称可用';[m
+[32m++						    nextEle.style.color = "green";[m
+  						}else{[m
+[31m--							ele.nextElementSibling.innerHTML = '请检查名称字符数';[m
+[31m--						    ele.nextElementSibling.style.color = "red";[m
+[32m++							nextEle.innerHTML = '请检查名称字符数';[m
+[32m++						    nextEle.style.color = "red";[m
+  						}[m
+  					}[m
+  		[m
+[36m@@@ -106,22 -111,24 +115,24 @@@[m
+  			}[m
+  			if(ele.id==="password"){[m
+  				if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {[m
+[31m--		            //checkResult.right = true;[m
+[31m--		            ele.nextElementSibling.innerHTML= '密码格式正确';[m
+[31m--		            ele.nextElementSibling.style.color = "green";[m
+[32m++		        [m
+[32m++		            nextEle.innerHTML= '密码格式正确';[m
+[32m++		            nextEle.style.color = "green";[m
+  		        } else {[m
+  		            //checkResult.right = false;[m
+[31m--		            ele.nextElementSibling.innerHTML = '请输入6到16位字符且只能为数字和字母';[m
+[31m--		            ele.nextElementSibling.style.color = "red";[m
+[32m++		            nextEle.innerHTML = '请输入6到16位字符且只能为数字和字母';[m
+[32m++		            nextEle.style.color = "red";[m
+  		        }[m
+  			}[m
+  			if(ele.id==="repassword"){[m
+  				if (str === reginp[1].value) {[m
+[31m- 		            ele.nextElementSibling.innerHTML = '密码正确';[m
+[31m- 		            ele.nextElementSibling.style.color = "green";[m
+[32m+ 		            //checkResult.right = true;[m
+[31m -		            ele.nextElementSibling.innerHTML = '密码正确';[m
+[31m -		            ele.nextElementSibling.style.color = "green";[m
+[32m++		            nextEle.innerHTML = '密码正确';[m
+[32m++		            nextEle.style.color = "green";[m
+  		        } else {[m
+[31m- 		            ele.nextElementSibling.innerHTML = '两次密码输入要相同';[m
+[31m- 		            ele.nextElementSibling.style.color = "red";[m
+[32m+ 		            //checkResult.right = false;[m
+[31m -		            ele.nextElementSibling.innerHTML = '两次密码输入要相同';[m
+[31m -		            ele.nextElementSibling.style.color = "red";[m
+[32m++		            nextEle.innerHTML = '两次密码输入要相同';[m
+[32m++		            nextEle.style.color = "red";[m
+  		        }[m
+  			}[m
+  			if(ele.id==="email"){[m
+[36m@@@ -131,17 -138,17 +142,17 @@@[m
+  				ajax("post","/reg/email","application/json",emailinfo,function(res){[m
+  					console.log(res);[m
+  					if(res!=="success"){[m
+[31m--						ele.nextElementSibling.innerHTML = res;[m
+[31m--						ele.nextElementSibling.style.color = "red";[m
+[32m++						nextEle.innerHTML = res;[m
+[32m++						nextEle.style.color = "red";[m
+  					}else{[m
+  						if (str.match(reg)) {[m
+  						    //checkResult.right = true;[m
+[31m--						    ele.nextElementSibling.innerHTML = '邮箱可用';[m
+[31m--						    ele.nextElementSibling.style.color = "green";[m
+[32m++						    nextEle.innerHTML = '邮箱可用';[m
+[32m++						    nextEle.style.color = "green";[m
+  						} else {[m
+  						    //checkResult.right = false;[m
+[31m--						    ele.nextElementSibling.innerHTML = '邮箱格式错误';[m
+[31m--						    ele.nextElementSibling.style.color = "red";[m
+[32m++						    nextEle.innerHTML = '邮箱格式错误';[m
+[32m++						    nextEle.style.color = "red";[m
+  						}[m
+  					}[m
+  				});[m
+[36m@@@ -192,9 -202,10 +203,10 @@@[m
+  		};[m
+  		function checkLog(ele){[m
+  			var str = ele.value;[m
+[32m++			var nextEle=ele.nextElementSibling||ele.nextSibling;[m
+  			if(str.length===0){[m
+[31m--				ele.nextElementSibling.innerHTML="输入不能为空";[m
+[31m--				ele.nextElementSibling.style.color = "red";[m
+[32m++				nextEle.innerHTML="输入不能为空";[m
+[32m++				nextEle.style.color = "red";[m
+  				return;[m
+  			}[m
+  			if(ele.id=="name"){[m
+[36m@@@ -203,11 -214,11 +215,11 @@@[m
+  				[m
+  				ajax("post","/login/name","application/json",nameinfo,function(res){[m
+  					if(res!=="exist"){[m
+[31m--						ele.nextElementSibling.innerHTML = '用户名不存在';[m
+[31m--						ele.nextElementSibling.style.color = "red";[m
+[32m++						nextEle.innerHTML = '用户名不存在';[m
+[32m++						nextEle.style.color = "red";[m
+  						result.nawarning: CRLF will be replaced by LF in public/javascripts/nav.js.
+The file will have its original line endings in your working directory.
+mes=false;[m
+  					}else{[m
+[31m--						ele.nextElementSibling.innerHTML ="";[m
+[32m++						nextEle.innerHTML ="";[m
+  						result.names=true;[m
+  					}[m
+  				});[m
+[36m@@@ -223,11 -238,11 +235,11 @@@[m
+  					[m
+  					ajax("post","/login/password","application/json",totalinfo,function(res){[m
+  						if(res!=="match"){[m
+[31m--							ele.nextElementSibling.innerHTML = '用户名与密码不一致';[m
+[31m--							ele.nextElementSibling.style.color = "red";[m
+[32m++							nextEle.innerHTML = '用户名与密码不一致';[m
+[32m++							nextEle.style.color = "red";[m
+  							result.passwords=false;[m
+  						}else{[m
+[31m--							ele.nextElementSibling.innerHTML ="";[m
+[32m++							nextEle.innerHTML ="";[m
+  							result.passwords=true;[m
+  						}[m
+  					});[m
+[36m@@@ -258,8 -282,8 +270,9 @@@[m
+  			var regfn=function(e){[m
+  				var ev = e||window.e;[m
+  				var target = ev.target||ev.srcElement;[m
+[32m++				var nextTarget = target.nextElementSibling||target.nextSibling;[m
+  				target.style.border = "1px solid yellow";[m
+[31m--				target.nextElementSibling.style.display = "block";[m
+[32m++				nextTarget.style.display = "block";[m
+  				check(target);[m
+  			}[m
+  			EventUtil.addHandler(reginp[i],"blur",function(e){[m
+[36m@@@ -280,8 -304,8 +293,9 @@@[m
+  			var loginfn=function(e){[m
+  				var ev = e||window.e;[m
+  				var target = ev.target||ev.srcElement;[m
+[32m++				var nextTarget = target.nextElementSibling||target.nextSibling;[m
+  				target.style.border = "1px solid yellow";[m
+[31m--				target.nextElementSibling.style.display = "block";[m
+[32m++				nextTarget.style.display = "block";[m
+  				document.getElementById("validatetip").style.display = "block";[m
+  				checkLog(target);[m
+  			}[m
+[1mdiff --cc public/javascripts/xhr.js[m
+[1mindex dca9efa,df181ab..0000000[m
+[1m--- a/public/javascripts/xhr.js[m
+[1m+++ b/public/javascripts/xhr.js[m
+[1mdiff --cc public/stylesheets/nav.css[m
+[1mindex 838f2a1,9592c64..0000000[m
+[1m--- a/public/stylesheets/nav.css[m
+[1m+++ b/public/stylesheets/nav.css[m
+[36m@@@ -1,4 -1,9 +1,4 @@@[m
+[31m- a{[m
+[31m -<<<<<<< HEAD[m
+[32m+ .index li a{[m
+[31m -[m
+[31m -=======[m
+[31m -a{[m
+[31m ->>>>>>> origin/master[m
+  text-decoration: none;[m
+  color:#000;[m
+  }[m
+[36m@@@ -143,7 -152,8 +143,6 @@@[m [mfont-size: 10px; [m
+    }[m
+    #regsuccess a{display: block;cursor:pointer;color:red;}[m
+  [m
+[31m--[m
+[31m ->>>>>>> origin/master[m
+  .header {[m
+    color: #fff;[m
+    height: 50px;[m
+[36m@@@ -168,12 -178,16 +167,7 @@@[m
+        .header .index li a{[m
+          display: inline-block;[m
+        font-size: 16px;[m
+[31m--[m
+        color:#fff;[m
+[31m -<<<<<<< HEAD[m
+[31m -      [m
+[31m -=======[m
+[31m--[m
+[31m--        color:#fff;[m
+[31m--      [m
+[31m--[m
+[31m ->>>>>>> origin/master[m
+        line-height: 20px;[m
+        cursor: pointer;[m
+        }[m
+[1mdiff --cc routes/index.js[m
+[1mindex f6e9af2,908d69b..0000000[m
+[1m--- a/routes/index.js[m
+[1m+++ b/routes/index.js[m
+[36m@@@ -48,13 -48,31 +48,30 @@@[m [mmodule.exports = function(app) [m
+  	[m
+  [m
+  	//注册页面[m
+[32m+ [m
+[31m -[m
+    app.get('/reg', function (req, res) {[m
+      res.render('/reg', {[m
+[32m+ [m
+        title: '注册',[m
+        user: req.session.user,[m
+        success: req.flash('success').toString(),[m
+        error: req.flash('error').toString()[m
+      });[m
+[31m -  })[m
+[32m++[m
+[32m++  });[m
+[32m+ [m
+[32m+  app.post("/wangEditorImg",upload.single("file"),function(req,res){[m
+[32m+  	console.log(req.file);[m
+[32m+  })[m
+[32m+   app.post('/', function (req, res) {[m
+[32m+     var name = req.body.name,[m
+[32m+         password = req.body.password,[m
+[32m+    	    repassword = req.body.repassword;[m
+[32m+     //检验用户两次输入的密码是否一致[m
+[32m+     if (repassword!== password) {[m
+[32m+       req.flash('error', '两次输入的密码不一致!'); [m
+[32m+       return res.redirect('/');//返回注册页[m
+[32m+     }[m
+[31m -[m
+    });[m
+  [m
+    app.post('/reg/name', function (req, res) {[m
+[36m@@@ -267,8 -298,10 +284,12 @@@[m [mfunction checkNotLogin(req, res, next) [m
+  	});[m
+  	//文章二级页面[m
+      app.get('/post', function (req, res) {[m
+[32m +[m
+[32m +    //Post.total({author:"cheng"});[m
+[32m+     /*Post.total({},function(err,result){[m
+[32m+     	console.log(result);[m
+[32m+     })*/[m
+[32m+   [m
+      res.render('post/post', {[m
+        title: '文章',[m
+        user: req.session.user,[m
+[1mdiff --cc views/nav.ejs[m
+[1mindex 726fab7,4aad813..0000000[m
+[1m--- a/views/nav.ejs[m
+[1m+++ b/views/nav.ejs[m
+warning: CRLF will be replaced by LF in routes/index.js.
+The file will have its original line endings in your working directory.
