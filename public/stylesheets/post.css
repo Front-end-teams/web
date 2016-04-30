@@ -1,200 +1,190 @@
-/*
-* @Author: Administrator
-* @Date:   2016-03-22 13:32:13
-* @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-18 12:25:16
-*/
-* {
-  padding: 0;
-  margin: 0;
-  font-family: "microsoft yahei";
-  font-size: 14px; }
 
-body {
-  min-width: 915px; }
+.container{
+  color:#3D3D3D;
+  width:1100px;
+  position:relative;
+  top:20px;
+  margin:0 auto;
 
-.clearfix:after {
-	content: "";
-	clear: both;
-	display: block;
-	visibility: hidden;
-	height: 0; }
+}
+
+.container hr{
+  width:698px;
+  border-color:#F6F6F6;
+  opacity:0.6;
+}
+.container a:hover{
+  cursor:pointer;
+}
+.tabs a:nth-child(1){
+  padding-left:0;
+}
+.tabs{
+  text-align:center;
+}
+.main_left{
+  positon:absolute;
+  left:0;
+  top:0;
+  width:700px;
+}
+.writeNote{
+  border:1px solid #43EAB6;
+  
+  background:white scroll 0 0;
+  width:100%;
+  text-align: center;
+  margin:10px 0;
+}
+.writeNote #write{
+  display: inline-block;
+  width:100%;
+  padding:10px 0;
+  text-decoration: none;
+  color:#21e7c9;
+  font-size: 20px;
+}
+.writeNote #write:hover{
+  background-color:#21e7c9;
+  color:#fff; 
+}
+.main_right{
+  position:absolute;
+  right:0;
+  top:0;
+  width:350px;
+  /* border:1px solid green; */
+}
+.main_right hr{
+  width:348px;
+}
+.hot-article{
+  padding:10px;
+  border-bottom: 1px solid #eee;
+}
+.hot-article .author{
+  display: inline-block;
+  width:40px;
+  height:60px;
+}
+.hot-article .author img{
+  display:inline-block;
+  width:40px;
+  height:40px;
+  border-radius:20px;
+  overflow:hidden;
+}
+.hot-article .author .author-name{
+  text-align: center;
+}
+.hot-article .time{
+  float:right;
+}
+.title{
+  display: inline-block;
+  vertical-align: top;
+  color:#1F1F1F;
+  font-size:25px;
+  padding:10px;
+  text-decoration: none;
+}
+.post-cont{
+  padding:10px 5px 20px;
+  margin-left:40px;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.article-message{
+  margin-left: 30px;
+}
+
+.article-message .article-tag{
+  display:inline-block;
+  margin-left: 10px;
+
+  background-color: #F0EFEF;
+  color:#9E9E9E;
+  text-decoration: none;
+  padding:2px 5px;
+  border-radius: 5px;
+}
+.post-info{
+  display: inline-block;
+  float:right;
+}
+.post-info span{
+  margin-left: 10px;
+}
+.recommend{
+
+  padding:10px 0 10px 10px;
+}
+/* 用户部分样式 */
+#user-about{
+  height: 185px;
+  overflow: hidden;
+}
+#user-skin{
+  height: 75px;
+  background: #eee;
+  position: relative;
+}
+#headpic{
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  bottom:-20px;
+  left:50%;
+  margin-left: -30px;
+  overflow: hidden;
+}
+#headpic img{
+  height: 60px;
+  width: 60px;
+}
+#user-wendainfo{
+  padding:16px 16px 9px 16px;
+  background-color: #eee;
+  overflow: hidden;
+  
+}
+#namebox{
+  text-align: center;
+  margin: 10px auto 10px auto;
+}
+#user-action{
+  list-style-type: none;
+  text-align: center;
+  width:150px;
+
+  margin:0 auto;
+
+
+}
+#user-action li{
+  float:left;
+  
+  text-align: center;
+  padding:0px 10px;
+}
+#user-action li a{
+  display: inline-block;
+  text-decoration: none;
+  color:black;
  
-.wrap{
-	width:1100px;
-	margin:0 auto;
-	overflow: hidden;
 }
-.fastSectionList{
-	width:30%;
-	float:left;
-	height:600px;
-	float:left;
-	-webkit-transition: width 1s ease;
-	-moz-transition: width 1s ease;
-	-o-transition: width 1s ease;
-	-ms-transition: width 2s ease;
-	transition: width 1s ease;
+#user-action li:last-child{
+  border-right: 0px;
 }
-.fastSectionNavBar{
-	width:390px;
-	overflow:hidden;
+.user-action{
+  width: 100%;
+  display: block;
 }
-@media  screen and (max-width:400px){
-	.fastSectionList{
-		width:0;
-	}
- }
-.fastSectionNavBar li{
-	float:left;
-	list-style:none;
-	background-color:rgb(244,244,244);
-	width:150px;
-	text-align: center;
-}
-.fastSectionNavBar li a{
-	line-height: 78px;
-	text-decoration: none;
-	font-family: "微软雅黑";
-	font-size:16px;
-	color:black;
-}
-.hot .tags_mobile_hide a{
-	background-color: #dbf0ff;
-	text-decoration: none;
-	font-size: 16px;
-	float:left;
-	margin:5px 15px;
-	color:#21e7c9;
-	border-radius: 2px;
-	padding:3px 6px;
-}
-.fastSectionNavBar li.selected {
-	background-color:white;
-}
-.tags_box div.hide{
-	display:none;
-}
-.leftsection{
-	float:left;
-	width:70%;
-}
-.leftsectionWrap{
-	overflow: hidden;
-}
-.newArticle{
-	height:200px;
-}
-.newArticle .write{
-	background: rgb(170,182,155) scroll 0 0;
-	color:white;
-	width:100%;
-	height:80px;
-	text-align: center;
-}
-.newArticle .write_article{
-	text-decoration: none;
-	line-height: 80px;
-	font-size: 18px;
-	color:white;
-}
-.ariticleBody .sharer_head{
-	float:left;
-	margin:20px 10px;
-}
-.ariticleBody .sharer_name{
-	float:left;
-	text-decoration: none;
-	margin:20px 10px;
-}
-.recommand_nav{
-	height:80px;
-	background: white scroll 0 0;
-	color:gray;
-	width:770px;
-	overflow: hidden;
-}
-.recommand_cat{
-	float:left;
-	border-bottom:1px solid gray;
-}
-.recommand_cat li{
-	float:left;
-	list-style:none;
-	width:110px;
-}
-.recommand_cat li a{
-	text-decoration: none;
-	line-height: 20px;
-	padding:30px;
-	background-color: #99ffcc;
-	display:block;
-	float:left;
-}
-.recommand_cat li a:hover{
-	color:black;
-}
-/* .recommand_article .title{
-	font-size: 30px;
-	color:black;
-	text-decoration: none;
-	display:block;
-	padding:10px;
-	
-} */
-.recommand_article .title:hover{
-	color:#21e7c9;
-}
-.recommand_article p{
-	text-indent: 2em;
-	line-height: 20px;
-	color:gray;
-	padding:5px 10px;
-	word-wrap: break-word; 
-	word-break: normal; 
-}
-.recommand_article p span a{
-	text-decoration: none;
-	color:black;
-}
-.recommand_article .article_message .author_img{
-	display:inline-block;
-	padding:5px 10px;
-}
-.recommand_article .article_message a{
-	text-decoration: none;
-	line-height: 30px;
-	height:30px;
-}
-.recommand_article .article_message .author_name{
-	display:inline-block;
-	width:60px;
-	overflow:hidden;
-	text-overflow: ellipsis;
-      white-space: nowrap;
-}
-.recommand_article .article_message .article_cat{
-	display:inline-block;
-	margin-left: 30px;
-	background-color: rgb(273,241,242);
-}
-.recommand_article .article_message .article_time,.recommand_article .article_message .browser{
-	display: inline-block;
-	margin-left: 50px;
-}
-.recommand_article .article_message .like{
-	diplay:inline-block;
-	float:right;
-	margin-right: 80px;
-}
-.recommand_article .article_message .comment{
-	diplay:inline-block;
-	float:right;
-	margin-right:0;
-}
-.fixcont{
-	height:600px;
-	overflow-y: scroll;
-	overflow-x: auto;
 
+.tagClound{
+  /* border:1px solid purple; */
+  width:100%;
+  padding:10px 0 10px 10px;
 }

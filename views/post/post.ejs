@@ -1,11 +1,11 @@
-<%- include ../header %>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/reading.css">
+<%- include ../header %><!-- 
+	<link rel="stylesheet" type="text/css" href="/stylesheets/reading.css"> -->
     <link rel="stylesheet" type="text/css" href="/stylesheets/post.css">
 <%- include ../nav %>
 	<section>
 		<div class="container">
 			<div class="main_left">
-				<div class="writeNote"><a href="/note" id="write">写读书笔记</a></div>
+				
 				<div class="tabs">
 					<a>热门</a><a>精选</a><a>交流</a><a>技术</a>
 				</div>
@@ -15,7 +15,7 @@
         <div class="hot-article">
         	<div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
 						<a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
-						<span class="time">日期：<%= post.time %></span>
+						<span class="time"><%= post.time %></span>
 
             
             <div class="post-cont"><%- post.art %></div>
@@ -23,9 +23,13 @@
             
             <div class="article-message">
                 
-                
+                <% if (typeof post.tags == "string") { %>
+                    <a class="article-tag" href="#"><%= post.tags %></a>
+                <% }else{ %>
+
                 <% for (var i = 0; i < post.tags.length; i++ ){ %>
                 <a class="article-tag" href="#"><%= post.tags[i] %></a>
+                <% } %>
                 <% } %>
                 <div class="post-info">
                 <span class="browser">浏览 <%= post.pv %></span>
@@ -35,25 +39,49 @@
             </div>
         </div>
         <% }) %>
-				
+       
+	   </div>
 		<hr/>
-			<div id="sidetab">
-            <!-- tabHead -->
-            <ul class="tab-nav">
-                <li><a href="javascript:void(0)">热门</a></li>
-                <li><a href="javascript:void(0)">原创</a></li>
-            </ul>
+		<aside  class="main_right">
+        <div class="writeNote"><a href="/writePost" id="write">写文章</a></div>
+            <div id="user-about">
+                <div id="user-skin">
+                    <div id="headpic">
+                        <img id="headpic-img" src="images/7.jpg">
+                    </div>
+                </div>
+                <div id="user-wendainfo">
+                    <div id="namebox"><%= user %></div>
+                    <ul id="user-action" class="clearfix">
+                        <li><strong class="user-action" id="user-question">100</strong><a href="">文章</a></li>
+                        <li><strong class="user-action" id="user-question">100</strong><a href="">收藏</a></li>
+                        <li><strong class="user-action" id="user-question">100</strong><a href="">关注</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="sidetab">
+        <!-- tabHead -->
+        <ul class="tab-nav">
+          <li><a href="javascript:void(0)">热门</a></li>
+          <li><a href="javascript:void(0)">原创</a></li>
+        </ul>
+     
+        <!-- tabPanel-->
+        <ul class="tab-bd">
+          <li class="tabshow">
+            aiasfhhsfahfhahfah 
+          </li>
+          <li class="tabhide">
+            safifahkkfakhfakh
+          </li>
+        </ul>
+      </div>
+    
+    </aside> 
          
-            <!-- tabPanel-->
-            <ul class="tab-bd">
-                <li class="tabshow">
-                    aiasfhhsfahfhahfah 
-                </li>
-                <li class="tabhide">
-                    safifahkkfakhfakh
-                </li>
-            </ul>
-        </div>
     </div>   	
-		
+    </section>
 <%- include ../footer %>
+<script type="text/javascript" src="/javascripts/post.js"></script>
+<script type="text/javascript" src="/javascripts/commonFunc.js"></script>
+<%- include ../end %>

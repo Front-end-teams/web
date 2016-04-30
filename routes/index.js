@@ -215,40 +215,7 @@ module.exports = function(app) {
     res.redirect('/');//登出成功后跳转到主页
   });
 
-   //读书笔记页面
-   app.get('/reading', function (req, res) {
-
-    res.render('note/reading', {
-      title: '笔记',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-       });
-  });
    
-
- 	app.get('/note', function (req, res) {
-
-    res.render('note/note', {
-      title: '笔记',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
-  });
-
-  app.post('/note', function (req, res) {
-        note = new Note("nina", req.body.notetitle, req.body.note);
-    note.save(function (err) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      req.flash('success', '发布成功!');
-      //res.redirect('/');//发表成功跳转到主页
-    });
-  });
-
 //用户权限函数
 function checkLogin(req, res, next) {
   if (!req.session.user) {
