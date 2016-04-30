@@ -1,17 +1,23 @@
 <article  class="re-li-cont" itemscope itemprop="blogPost">
   <header class="re-title">
 
-  <h1 class="post-title"><%= post.title %></h1>
-  <div class="post-detail"><span class="post-author"><%= author %></span> <span class="post-time">发布时间:<%= post.time %></span> <span class="post-view">访问量:<%= post.pv %></span>
+  <h1 class="post-title" id = "post-title"><%= post.title %></h1>
+  <div class="post-detail"><span class="post-author" id = "post-author"><%= author %></span> <span class="post-time">发布时间:<%= post.time %></span> <span class="post-view">访问量:<%= post.pv %></span>
 
-  <% if (user.name && user.name==author) {%>
-    <span>编辑</span><span>删除</span>
-  <% } %>
-
+  <div class="author-editor">
+    <span><a href="/writePost/<%= post.author %>/<%= post.title %>">编辑</a></span><span>删除</span>
+  </div>
+  
   </div>
   </header>
       <div class="re-cont">
-        <div class="re-cont-detail"><%= post.post %></div>
+      <% if( post.img) { %>
+
+        <img src= <%= post.img %>>
+
+       <% } %> 
+        <div class="re-cont-detail"><%- post.post %></div>
+      
       </div>
       
       <footer class="re-footer clearfix">
@@ -20,8 +26,8 @@
         </div>
         <div class="footer-right ">
         <div class="like">
-          <i></i>
-          <span>喜欢</span>
+          
+          <span id = "agree"><i class="glyphicon glyphicon-heart" aria-hidden="true"></i></span><span id="agree-num"><%= post.agree %></span>
           <span>收藏</span>
         </div>
         </div>

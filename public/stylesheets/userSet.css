@@ -1,0 +1,44 @@
+
+
+#tab{
+	margin:0 auto;
+	width:500px;
+}
+.tab-bd{
+	height:auto;
+	width:500px;
+	margin:0 auto;
+}
+table{
+	border: 1px solid red;
+	margin:0 auto;
+}
+table .first-cell{
+	line-height:50px;
+	width:100px;
+	text-align: right;
+}
+table .second-cell{
+	text-align:left;
+}
+table .last-first-cell{
+	line-height: 15px;
+	vertical-align: top;
+}
+.wrap-line li{
+	margin:0 auto;
+}
+
+input[type="text"]{
+	width:240px;
+	line-height: 25px;
+}
+.sex{
+	margin-right:10px;
+}
+.sign{
+	width:240px;
+}
+.last-cell{
+	text-align: center;
+}

@@ -15,6 +15,7 @@
     "express": "~4.13.1",
     "express-paginate": "^0.1.1",
     "express-session": "1.9.1",
+    "formidable": "^1.0.17",
     "markdown": "0.5.0",
     "mongodb": "~1.4.15",
     "morgan": "~1.6.1",

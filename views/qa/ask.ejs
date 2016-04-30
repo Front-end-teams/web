@@ -6,12 +6,50 @@
 		<form method="post">
 	        <h1>提问:</h1>
 			<div id="quesTitle">
-			    <input type="text" name="quesTitle" placeholder="请用一句话描述你的问题,不允许为空哦~" required="required"/>
+			    <input type="text" name="quesTitle" id='ques-Title' placeholder="请用一句话描述你的问题,不允许为空哦~" required="required"/>
 			</div>
 			<h1>具体内容：</h1>
 			<div id="editContent">
 				<textarea name="quesDetail" id='content' placeholder="请用具体地描述你的问题,不允许为空哦~" required="required"></textarea>
 			</div><br />
+			<p id="threeMax"><span class="star">*</span>最多只能选三项</p>
+			<div id="tags" class="tags">
+              <a href="javascript:;" class="tag" data-id="12" id="12" name="Android">Android</a>
+              <a href="javascript:;" class="tag" data-id="22" name="AngularJS">AngularJS</a>
+              <a href="javascript:;" class="tag" data-id="24" name="Bootstrap">Bootstrap</a>
+              <a href="javascript:;" class="tag" data-id="28" name="C">C</a>
+              <a href="javascript:;" class="tag" data-id="38" name="C#">C#</a>
+              <a href="javascript:;" class="tag" data-id="30" name="C++">C++</a>
+              <a href="javascript:;" class="tag" data-id="34" name="Cocos2d-x">Cocos2d-x</a>
+              <a href="javascript:;" class="tag" data-id="25" name="CSS3">CSS3</a>
+              <a href="javascript:;" class="tag" data-id="31" name="Go">Go</a>
+              <a href="javascript:;" class="tag" data-id="5" name="Html/CSS">Html/CSS</a>
+              <a href="javascript:;" class="tag" data-id="14" name="Html5">Html5</a>
+              <a href="javascript:;" class="tag" data-id="19" name="iOS">iOS</a>
+              <a href="javascript:;" class="tag" data-id="3" name="JAVA">JAVA</a>
+              <a href="javascript:;" class="tag" data-id="17" name="JavaScript">JavaScript</a>
+              <a href="javascript:;" class="tag" data-id="15" name="JQuery">JQuery</a>
+              <a href="javascript:;" class="tag" data-id="20" name="Linux">Linux</a>
+              <a href="javascript:;" class="tag" data-id="7" name="Maya">Maya</a>
+              <a href="javascript:;" class="tag" data-id="8" name="MongoDB">MongoDB</a>
+              <a href="javascript:;" class="tag" data-id="11" name="Mysql">Mysql</a>
+              <a href="javascript:;" class="tag" data-id="13" name="Node.js">Node.js</a>
+              <a href="javascript:;" class="tag" data-id="29" name="Oracle">Oracle</a>
+              <a href="javascript:;" class="tag" data-id="10" name="Photoshop">Photoshop</a>
+              <a href="javascript:;" class="tag" data-id="2" name="PHP">PHP</a>
+              <a href="javascript:;" class="tag" data-id="9" name="Premiere">Premiere</a>
+              <a href="javascript:;" class="tag" data-id="18" name="Python">Python</a>
+              <a href="javascript:;" class="tag" data-id="36" name="SQL Server">SQL Server</a>
+              <a href="javascript:;" class="tag" data-id="33" name="Unity 3D">Unity 3D</a>
+              <a href="javascript:;" class="tag" data-id="27" name="WebApp">WebApp</a>
+              <a href="javascript:;" class="tag" data-id="40" name="ZBrush">ZBrush</a>
+              <a href="javascript:;" class="tag" data-id="21" name="云计算">云计算</a>
+              <a href="javascript:;" class="tag" data-id="26" name="前端工具">前端工具</a>
+              <a href="javascript:;" class="tag" data-id="35" name="大数据">大数据</a>
+              <a href="javascript:;" class="tag" data-id="39" name="数据结构">数据结构</a>
+          </div>
+            <input type="button" id="submitQues" value="ajax方式发布"/>
+            <span id="callback"></span>
 			<input type="submit" value="发布" id="pubQues" />
 		</form>
 	</article>
@@ -29,4 +67,9 @@
           </dl>
 	</div>
 </div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
 <%- include ../footer %>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript" src="javascripts/ask.js"></script>
+<%- include ../end %>

@@ -1,9 +1,10 @@
 var mongodb = require('./db');
-function Ques(name, head, quesTitle, quesDetail) {
+function Ques(name, head, quesTitle, quesDetail,tags) {
   this.name = name;
   this.head = head;
   this.quesTitle = quesTitle;
   this.quesDetail = quesDetail;
+  this.tags=tags;
 }
 module.exports = Ques;
 //存储一篇问题及其内容
@@ -25,7 +26,13 @@ Ques.prototype.save = function(callback) {
       time: time,
       quesTitle:this.quesTitle,
       quesDetail: this.quesDetail,
-      comments: []
+      comments: [],
+      agree:[],
+      disagree:[],
+      agreeNum:0,
+      disagreeNum:0,
+      tags:this.tags,
+      pv:0
   };
   //打开数据库
   mongodb.open(function (err, db) {
@@ -54,11 +61,11 @@ Ques.prototype.save = function(callback) {
 //一次获取十篇问题
 Ques.getTen = function(name, page, callback) {
   //打开数据库
+  // mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
       return callback(err);
     }
-
     //读取 questions 集合
     db.collection('questions', function (err, collection) {
       if (err) {
@@ -66,12 +73,10 @@ Ques.getTen = function(name, page, callback) {
 
         return callback(err);
       }
-
       var query = {};
       if (name) {
         query.name = name;
       }
-
       //使用 count 返回特定查询的文档数 total
       collection.count(query, function (err, total) {
         //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
@@ -86,19 +91,60 @@ Ques.getTen = function(name, page, callback) {
           if (err) {
             return callback(err);
           }
-
           //解析 markdown 为 html
           // docs.forEach(function (doc) {
           //   doc.question = markdown.toHTML(doc.question);
           // }); 
 
           callback(null, docs, total);
-
         });
       });
     });
   });
 };
+//获取编辑推荐
+Ques.getMostHot = function(name, callback) {
+  //打开数据库
+  mongodb.close();
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    //读取 questions 集合
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+
+        return callback(err);
+      }
+      var query = {};
+      if (name) {
+        query.name = name;
+      }
+      //使用 count 返回特定查询的文档数 total
+      collection.count(query, function (err) {
+        //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
+        collection.find(query, {
+          skip: 0,
+          limit: 3
+        }).sort({
+          pv: -1
+        }).toArray(function (err, docs) {
+          mongodb.close();
+          if (err) {
+            return callback(err);
+          }
+          //解析 markdown 为 html
+          // docs.forEach(function (doc) {
+          //   doc.question = markdown.toHTML(doc.question);
+          // }); 
+          callback(null, docs);
+        });
+      });
+    });
+  });
+};
+//获取一篇
 Ques.getOne = function(name, day, title, callback) {
   //打开数据库
   mongodb.open(function (err, db) {
@@ -146,10 +192,69 @@ Ques.getOne = function(name, day, title, callback) {
     });
   });
 };
+//返回所有标签
+Ques.getTags = function(callback) {
+  //打开数据库
+  mongodb.close();
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    //读取 posts 集合
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      //distinct 用来找出给定键的所有不同值
+      collection.distinct("tags", function (err, docs) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null, docs);
+      });
+    });
+  });
+};
+//获取某个标签的所有问题
+Ques.getTag = function(tag, page, callback) {
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+      console.log("openErr:"+err);
+    }
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        console.log("getTagErr:"+err);
+        return callback(err);       
+      }
+      //查询所有 tags 数组内包含 tag 的文档
+      //并返回只含有 name、time、title 组成的数组
+      var query={"tags":tag};
+     collection.count(query, function (err, total) { 
+      collection.find(query,{
+          skip: (page - 1)*2,
+          limit: 2
+        }).sort({
+        time: -1
+      }).toArray(function (err, docs) {
+        mongodb.close();
+        if (err) {
+          console.log("err111:"+err);
+          return callback(err);
+        }
+        callback(null, docs, total);
+      });
+    });
+    });
+  });
+};
 Ques.agree = function(name, day, title, callback) {
   //打开数据库
   console.log(777); 
-  // mongodb.close(); 
+  mongodb.close(); 
   console.log(7777777);
   mongodb.open(function (err, db) {
     console.log('看看进来没');
@@ -171,7 +276,8 @@ Ques.agree = function(name, day, title, callback) {
         "time.day":day,
         "quesTitle":title
       }, {
-        $inc: {"agreeNum": 1}
+        $push: {"agree": name},
+        $inc: {"agreeNum":1}
       }, function (err) {
         mongodb.close();
         if (err) {
@@ -188,7 +294,7 @@ Ques.agree = function(name, day, title, callback) {
 Ques.disagree = function(name, day, title, callback) {
   //打开数据库
   console.log(777); 
-  // mongodb.close(); 
+  mongodb.close(); 
   console.log(7777777);
   mongodb.open(function (err, db) {
     console.log('看看进来没');
@@ -210,7 +316,8 @@ Ques.disagree = function(name, day, title, callback) {
         "time.day":day,
         "quesTitle":title
       }, {
-        $inc: {"disagreeNum": 1}
+        $push: {"disagree": name},
+        $inc: {"disagreeNum":1}
       }, function (err) {
         mongodb.close();
         if (err) {

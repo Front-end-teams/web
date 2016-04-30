@@ -1,0 +1,64 @@
+<%- include ../header %>
+<link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/userSet.css">
+<%- include ../nav %>
+
+<div id="tab">
+<!-- tabHead -->
+<ul class="tab-nav">
+	<li><a href="javascript:void(0)">个人资料</a></li>
+	<li><a href="javascript:void(0)">头像设置</a></li>
+	<li><a href="javascript:void(0)">邮箱验证</a></li>
+	<li><a href="javascript:void(0)">修改密码</a></li>
+	<li><a href="javascript:void(0)">绑定帐号</a></li>
+</ul>
+
+<!-- tabPanel-->
+<ul class="tab-bd">
+	<li class="tabshow">
+	<form id="info-form">
+	<table>
+		<tr><td class="first-cell">昵称：</td><td class="second-cell"><input type="text" name="nickname"></input></td></tr>
+		<tr><td class="first-cell">职位：</td><td class="second-cell"><select name="position"><option>请选择职位</option>
+		<option>学生</option>
+		<option>web前端工程师</option>
+		<option>移动开发工程师</option>
+		<option>软件测试工程师</option>
+		<option>产品经理</option>
+		<option>其它</option></select></td></tr>
+		<tr><td class="first-cell">城市：</td><td class="second-cell"><select name="prov"><option>选择省份</option></select>
+    <select name="city"><option>选择城市</option></select>
+    <select name="region"><option>选择区县</option></select></td></tr>
+    <tr><td class="first-cell">性别：</td><td class="second-cell"><label class="sex"><input type="radio" name="sex" value="man">男</input></label>
+    <label class="sex"><input type="radio" name="sex" value="woman">女</input></label>
+    <label class="sex"><input type="radio" name="sex" value="secret">保密</input></label>
+    </td></tr>
+    <tr><td class="first-cell last-first-cell" >个性签名：</td><td class="second-cell"><textarea name="sign" class="sign"></textarea></td></tr>
+    <tr ><td class="last-cell"   colspan=2><input type="submit" class="button" value="保存" id="self-info-save"></input></td></tr>
+	</table>
+  </form>  
+	<li class="tabhide"> 
+    fsdfdsff
+  </li>
+	<li class="tabhide">
+    dsfdsadsfdasf
+  </li>
+  <li class="tabhide">
+    sasaffasfa
+  </li>
+  <li class="tabhide">
+    sasaffasfas
+  </li>
+</ul>
+</div>
+
+<%- include ../footer %>
+<script type="text/javascript" src="tab/tabcard.js"></script>
+<script type="text/javascript">
+
+   tabcard = new TabCard("tab","defaultStyle","clickStyle");
+   tabcard.click();
+</script>
+<script type="text/javascript" src="/javascripts/userSet.js"></script>
+
+<%- include ../end %>

@@ -1,0 +1,36 @@
+<%- include ../header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/showPost.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-theme.css">
+<%- include ../nav %>
+<section class="wrap clearfix">
+
+<%- include subPost %>
+<% if (user.name && user.name==author) {%>
+<div class="relate-post">
+	<header class="relate-post-header">文章分类</header>
+	<div class="relate-post-detail">
+		
+	</div>
+</div>
+<div class="relate-post">
+	<header class="relate-post-header">文章标签</header>
+	<div class="relate-post-detail">
+		
+	</div>
+</div>
+
+<% } else{ %>
+<div class="relate-post">
+	<header class="relate-post-header">相关文章</header>
+	<div class="relate-post-detail">
+		
+	</div>
+</div>
+
+<% } %>
+</section>
+
+<%- include ../footer %>
+<script type="text/javascript" src="/javascripts/showPost.js"></script>
+<%- include ../end %>

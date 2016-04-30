@@ -6,15 +6,12 @@
 			<div id="wenda-recommand">
 				<h2>编辑推荐</h2>
 				<ul id="recommand-list">
-					<li><a href="javascript:void(0)">我是推荐一</a></li>
-					<li><a href="javascript:void(0)">我是推荐一</a></li>
-					<li><a href="javascript:void(0)">我是推荐一</a></li>
-					<li><a href="javascript:void(0)">我是推荐一</a></li>
+					<li><a href="">我是推荐一</li>
 				</ul>
 			</div>
 			<ul id="wenda-nav">
-				<li id="nav-hot"><a href="javascript:void(0)">最热</a></li>
 				<li id="nav-new"><a href="javascript:void(0)">最新</a></li>
+				<li id="nav-hot"><a href="javascript:void(0)">最热</a></li>
 				<li id="nav-unanswered"><a href="javascript:void(0)">未答</a></li>
 			</ul>
 			<div id="wenda-list">
@@ -27,14 +24,22 @@
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
+
 							</h1>
 							<p class="wenda-description"><%= question.quesDetail %></p>
 							<div class="action-panel">
 							    提问的日期：<%= question.time.minute %> |
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">评论</a> |
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">去回答</a> |
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
-								<a id="agree<%=question.name%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')" onclick=good('<%=question.name%>')>赞 <span><%=question.agreeNum%></span> </a>
-								<a id="disagree<%=question.name%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')" onclick=notgood('<%=question.name%>')>踩 <span><%=question.disagreeNum%></span> </a>
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">浏览量 <%=question.pv%></a>
+								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
+								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
+								<span>
+								标签：
+								<% question.tags.forEach(function(tag){%>
+								<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
+								<%})%>
+								</span>
 							</div>
 					    </div>				
 				</div>
@@ -57,7 +62,7 @@
 					</div>
 				</div>
 				<div id="user-wendainfo">
-					<div id="namebox"><%= user.name %></div>
+					<div id="namebox"><%= user %></div>
 					<ul id="user-action">
 						<li><a href=""><strong class="user-action" id="user-question">100</strong><span>提问</span></a></li>
 						<li><a href=""><strong class="user-action" id="user-answer">100</strong><span>回答</span></a></li>
@@ -65,8 +70,10 @@
 					</ul>
 				</div>
 			</div>
-			<div id="follow-class">
-				其他模块
+			<div id="windsTagBall">
+				<% tags.forEach(function (tag) { %>
+				<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
+				<% }) %>
 			</div>
 		</div>
 	</div>
@@ -78,67 +85,9 @@
 		我是footer。<br/>
 		我是footer。
 	</footer>
-<script type="text/javascript" src="/javascripts/jquery.js"></script>
-<script type="text/javascript">
-    function good(name)
-    {
-    	document.getElementById('agree'+name).getElementsByTagName('span')[0].innerText=parseInt(document.getElementById('agree'+name).getElementsByTagName('span')[0].innerText)+1;
-    }
-    function notgood(name)
-    {
-    	document.getElementById('disagree'+name).getElementsByTagName('span')[0].innerText=parseInt(document.getElementById('disagree'+name).getElementsByTagName('span')[0].innerText)+1;
-    }
-  	function agree(name,day,quesTitle){
-			var params ={
-                "name":name,
-                "day":day,
-                "quesTitle":quesTitle,
-            };
-            
-            $.ajax({
-                data: params,
-                url: '/agree',
-                type:'post',
-                jsonpCallback: 'callback',
-                success: function(data){
-                	console.log('这是data');
-                	console.log(data);
-                	console.log('这是data');
-                   
-                  // $('#agree'+name).html("赞 "+data);
-                  
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                    alert('error ' + textStatus + " " + errorThrown);  
-                }
-            });
-            console.log(222);
-		}
-		function disagree(name,day,quesTitle){
-			var params ={
-                "name":name,
-                "day":day,
-                "quesTitle":quesTitle,
-            };
-            
-            $.ajax({
-                data: params,
-                url: '/disagree',
-                type:'post',
-                jsonpCallback: 'callback',
-                success: function(data){
-                	console.log('这是data');
-                	console.log(data);
-                	console.log('这是data');
-                   
-                  // $('#agree'+name).html("赞 "+data);
-                  
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                    alert('error ' + textStatus + " " + errorThrown);  
-                }
-            });
-            console.log(222);
-		}
-	</script>
+
 <%- include ../footer %>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.windstagball.js"></script>
+<script type="text/javascript" src="/javascripts/question.js"></script>
+<%- include ../end %>

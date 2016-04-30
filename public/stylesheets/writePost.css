@@ -8,7 +8,7 @@ a{
 /* 用户信息显示区样式 */
 .user-info{
 	margin-top: 10px;
-	width:300px;
+	width:400px;
 	height:120px;
 	float:right;
 	/*border: 1px solid red;*/
@@ -46,6 +46,7 @@ label{
 	display: inline-block;
 	padding-right: 5px;
 	text-align: right;
+	vertical-align: top;
 }
 .post-input{
 	margin:10px;
@@ -117,4 +118,8 @@ label{
 
 .cates-show td{
 	width:100px;
+}
+.post-abs-detail{
+	display: inline-block;
+	margin-left: 5px
 }

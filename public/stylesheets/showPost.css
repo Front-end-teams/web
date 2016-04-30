@@ -61,3 +61,12 @@ body {
 .reltate-post-detail{
 
 }
+
+.author-editor{
+	float:right;
+
+}
+.author-editor span{
+	color:#B5B5B5;
+	margin-left: 10px;
+}

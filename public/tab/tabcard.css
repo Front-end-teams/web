@@ -5,7 +5,7 @@
 * @Last Modified time: 2016-04-18 21:14:10
 */
 #tab{border:1px solid #ccc;}
-.tab-bd{border-top:none;margin:0 auto;padding:10px;text-align:left;height:120px;position:relative}
+.tab-bd{border-top:none;margin:0 auto;padding:10px;text-align:left;position:relative}
 .tab-nav{margin:0 auto;padding:0;border-bottom:1px solid #eee;height:50px;}
 .tab-nav li{display:inline;list-style:none outside none;width:90px;height:50px;float:left;line-height:50px;text-align:center;}
 .tab-nav li a{color:#555;display:inline-block;text-decoration: none;}
