@@ -15,7 +15,7 @@ var submit=document.getElementById("submit");
 
 // 给标签文本框添加事件 当获取焦点时 显示常用标签栏
 EventUtil.addHandler(tagsInput,"focus",tagsShow);
-function tagsShow(e){
+function tagsShow(){
 	commonShow.style.display="block";
 
 }
@@ -23,7 +23,8 @@ function tagsShow(e){
 EventUtil.addHandler(document,"click",tagsHidden);
 function tagsHidden(e){
 	var flag=false;
-	var target=e.target;
+	var e=EventUtil.getEvent(e);
+	var target=EventUtil.getTarget(e);
 	
 	while(target){
 		
@@ -63,7 +64,7 @@ function tagsHidden(e){
 //事件代理 给常用标签所在的tr添加点击事件给常用标签添加事件 
 EventUtil.addHandler(tags,"click",writeTags);
 function writeTags(e){
-	var e=EventUtil.getEvent();
+	var e=EventUtil.getEvent(e);
 	var target=EventUtil.getTarget(e);
 	// 当点击span标签时 文本框中出现该标签
 	if(target.tagName.toLowerCase()=="span"){
@@ -105,6 +106,7 @@ function showTags(target){
 //定义标签输入时按下按键时的操作
 EventUtil.addHandler(tagsInput,"keydown",delTags);
 function delTags(e){
+	var e=EventUtil.getEvent(e);
 	var tags_num=tagsNum();
 	//当按下backspace键时 删除标签
 	if(e.keyCode==8&&tagsInput.value==""){
@@ -122,7 +124,7 @@ function delTags(e){
 
 // 给分类文本框添加事件 当获取焦点时 显示个人分类
 EventUtil.addHandler(catesInput,"focus",catesShow);
-function catesShow(e){
+function catesShow(){
 	commonCates.style.display="block";
 
 }
@@ -131,9 +133,9 @@ var input_arr=[];
 EventUtil.addHandler(catesTable,"click",function(e){
 	var e=EventUtil.getEvent(e);
 	var target=EventUtil.getTarget(e);
-	console.log(target);
+	
 	var checkbox=document.getElementById("form-article").elements["cates"];
-	console.log(checkbox);
+	
 	var flag=false;
 	for(var i=0;i<checkbox.length;i++){
 		if(target==checkbox[i]){
@@ -186,18 +188,11 @@ function tagsNum(){
 
 
 EventUtil.addHandler(submit,"click",function(e){
-
+	var e=EventUtil.getEvent(e);
 	EventUtil.preventDefault(e);
 	var form=document.getElementById("form-article");
 	var result=seriPost(form);
-	//var formD=new FormData(result);
-	console.log(result);
-/*	var jsonR = {};
-	for(var i = 0; i < result.length; i++){
-		var val = result[i].split("=");
-		jsonR[val[0]]=val[1];
-	}
-	console.log(jsonR);*/
+	
 
 	var formD=new FormData();
 
@@ -216,9 +211,9 @@ EventUtil.addHandler(submit,"click",function(e){
 	
 
 	ajax("post","/upload1",null,formD,function(res){
-		console.log(res);
+		
 		var pop2 = document.querySelector('.p2');
-		console.log(pop2);
+		
 		var p2 = Popuper({
 		    wrap: pop2,
 		    type: 'success',

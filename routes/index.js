@@ -48,13 +48,30 @@ module.exports = function(app) {
 	
 
 	//注册页面
+
   app.get('/reg', function (req, res) {
     res.render('/reg', {
+
       title: '注册',
       user: req.session.user,
       success: req.flash('success').toString(),
       error: req.flash('error').toString()
     });
+
+  });
+
+ app.post("/wangEditorImg",upload.single("file"),function(req,res){
+ 	console.log(req.file);
+ })
+  app.post('/', function (req, res) {
+    var name = req.body.name,
+        password = req.body.password,
+   	    repassword = req.body.repassword;
+    //检验用户两次输入的密码是否一致
+    if (repassword!== password) {
+      req.flash('error', '两次输入的密码不一致!'); 
+      return res.redirect('/');//返回注册页
+    }
   });
 
   app.post('/reg/name', function (req, res) {
@@ -269,6 +286,10 @@ function checkNotLogin(req, res, next) {
     app.get('/post', function (req, res) {
 
     //Post.total({author:"cheng"});
+    /*Post.total({},function(err,result){
+    	console.log(result);
+    })*/
+  
     res.render('post/post', {
       title: '文章',
       user: req.session.user,
@@ -657,5 +678,4 @@ app.get('/job-top5',function(req,res){
     }
   });
 });
-
 }

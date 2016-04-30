@@ -1,4 +1,5 @@
 <%- include ../header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 <link rel="stylesheet" type="text/css" href="/stylesheets/writePost.css">
 <link rel="stylesheet" type="text/css" href="/popout/style.css">
 <script type="text/javascript" src="/popout/popular.js"></script>
@@ -38,7 +39,17 @@
 <form method="post" enctype="multipart/form-data" id="form-article">
 <div class="post-input">
 <label><span class="must">*</span>文章标题：</label><input type="text" name="title" placeholder="请输入标题" class="text-input"></input></div>
-<div class="post-input"><label>文章封面：</label><input  type="file" name="postImg" value="上传图片" id="upload"></div>
+
+<div class="post-input"><label>文章封面：</label>
+<div class="input-file">
+
+<input  type="file" name="postImg" value="上传图片" id="upload" class="file-button">
+
+<label class="file-button-img">上传封面</label>
+
+</div>
+
+</div>
 
 <div class="post-input post-cont"><label><span class="must">*</span>文章内容：</label></div>
 <textarea name='post' class="xheditor rich-text">test</textarea>
@@ -100,8 +111,24 @@
 <input type="submit" class="button submit"  value="保存"></input></div>
 </form>
 </article>
+
+
+
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
 <script type="text/javascript" src="/javascripts/seriPost.js"></script> 
 <script type="text/javascript" src="/javascripts/writePost.js"></script>
+<<<<<<< HEAD
+=======
+
+<script type="text/javascript">
+  var editor=new wangEditor("editor");
+  editor.config.uploadImgUrl="/upload"
+  editor.config.uploadParams={
+    token: "abcd",
+    name: 'wang'
+  }
+  editor.create();
+</script>
+>>>>>>> origin/master
 <%- include ../footer %> 

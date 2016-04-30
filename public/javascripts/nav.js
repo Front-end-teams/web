@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-24 11:57:42
+* @Last Modified time: 2016-04-24 22:59:44
 */
 
 
@@ -26,7 +26,14 @@ $(function(){
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
-	
+		//console.log(regtips);
+		function getNextElement(node){
+		        var NextElementNode = node.nextSibling;
+		        while(NextElementNode.nodeValue != null){
+		            NextElementNode = NextElementNode.nextSibling
+		        }
+		        return NextElementNode;
+		}
 
 		reg.onclick = function(){
 			regtab.className="show";
@@ -40,11 +47,11 @@ $(function(){
 	   		for(var i=0;i<tips.length;i++){
 	   			tips[i].innerHTML="";
 	   		}
-	   		var firstUl = tabPanel.firstElementChild;
+	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
 	   		var tabNav = firstUl.getElementsByTagName("li");
 	   		tabNav[0].className = "defaultStyle";
 	   		tabNav[1].className = "clickStyle";
-	   		var lastUl = tabPanel.lastElementChild;
+	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
 	   		var tabBd = lastUl.getElementsByTagName("li");
 	   		tabBd[0].className = "tabhide";
 	   		tabBd[1].className = "tabshow";
@@ -61,11 +68,11 @@ $(function(){
 	   		for(var i=0;i<tips.length;i++){
 	   			tips[i].innerHTML="";
 	   		}
-	   		var firstUl = tabPanel.firstElementChild;
+	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
 	   		var tabNav = firstUl.getElementsByTagName("li");
 	   		tabNav[1].className = "defaultStyle";
 	   		tabNav[0].className = "clickStyle";
-	   		var lastUl = tabPanel.lastElementChild;
+	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
 	   		var tabBd = lastUl.getElementsByTagName("li");
 	   		tabBd[0].className = "tabshow";
 	   		tabBd[1].className = "tabhide";
@@ -77,9 +84,11 @@ $(function(){
 		//注册的验证函数
 		function check(ele){
 			var str = ele.value;
+			var nextEle=ele.nextElementSibling||ele.nextSibling;
+			console.log(ele.nextSibling);
 			if(str.length===0){
-				ele.nextElementSibling.innerHTML="输入不能为空";
-				ele.nextElementSibling.style.color = "red";
+				nextEle.innerHTML="输入不能为空";
+				nextEle.style.color = "red";
 				return;
 			}
 			console.log(ele.id);
@@ -89,15 +98,15 @@ $(function(){
 				var nameinfo = JSON.stringify(namejson);
 				ajax("post","/reg/name","application/json",nameinfo,function(res){
 					if(res!=="success"){
-						ele.nextElementSibling.innerHTML = res;
-						ele.nextElementSibling.style.color = "red";
+						nextEle.innerHTML = res;
+						nextEle.style.color = "red";
 					}else{
 						if(len >= 4 && len <= 16){
-							ele.nextElementSibling.innerHTML = '名称可用';
-						    ele.nextElementSibling.style.color = "green";
+							nextEle.innerHTML = '名称可用';
+						    nextEle.style.color = "green";
 						}else{
-							ele.nextElementSibling.innerHTML = '请检查名称字符数';
-						    ele.nextElementSibling.style.color = "red";
+							nextEle.innerHTML = '请检查名称字符数';
+						    nextEle.style.color = "red";
 						}
 					}
 		
@@ -106,22 +115,24 @@ $(function(){
 			}
 			if(ele.id==="password"){
 				if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
-		            //checkResult.right = true;
-		            ele.nextElementSibling.innerHTML= '密码格式正确';
-		            ele.nextElementSibling.style.color = "green";
+		        
+		            nextEle.innerHTML= '密码格式正确';
+		            nextEle.style.color = "green";
 		        } else {
 		            //checkResult.right = false;
-		            ele.nextElementSibling.innerHTML = '请输入6到16位字符且只能为数字和字母';
-		            ele.nextElementSibling.style.color = "red";
+		            nextEle.innerHTML = '请输入6到16位字符且只能为数字和字母';
+		            nextEle.style.color = "red";
 		        }
 			}
 			if(ele.id==="repassword"){
 				if (str === reginp[1].value) {
-		            ele.nextElementSibling.innerHTML = '密码正确';
-		            ele.nextElementSibling.style.color = "green";
+		            //checkResult.right = true;
+		            nextEle.innerHTML = '密码正确';
+		            nextEle.style.color = "green";
 		        } else {
-		            ele.nextElementSibling.innerHTML = '两次密码输入要相同';
-		            ele.nextElementSibling.style.color = "red";
+		            //checkResult.right = false;
+		            nextEle.innerHTML = '两次密码输入要相同';
+		            nextEle.style.color = "red";
 		        }
 			}
 			if(ele.id==="email"){
@@ -131,17 +142,17 @@ $(function(){
 				ajax("post","/reg/email","application/json",emailinfo,function(res){
 					console.log(res);
 					if(res!=="success"){
-						ele.nextElementSibling.innerHTML = res;
-						ele.nextElementSibling.style.color = "red";
+						nextEle.innerHTML = res;
+						nextEle.style.color = "red";
 					}else{
 						if (str.match(reg)) {
 						    //checkResult.right = true;
-						    ele.nextElementSibling.innerHTML = '邮箱可用';
-						    ele.nextElementSibling.style.color = "green";
+						    nextEle.innerHTML = '邮箱可用';
+						    nextEle.style.color = "green";
 						} else {
 						    //checkResult.right = false;
-						    ele.nextElementSibling.innerHTML = '邮箱格式错误';
-						    ele.nextElementSibling.style.color = "red";
+						    nextEle.innerHTML = '邮箱格式错误';
+						    nextEle.style.color = "red";
 						}
 					}
 				});
@@ -192,9 +203,10 @@ $(function(){
 		};
 		function checkLog(ele){
 			var str = ele.value;
+			var nextEle=ele.nextElementSibling||ele.nextSibling;
 			if(str.length===0){
-				ele.nextElementSibling.innerHTML="输入不能为空";
-				ele.nextElementSibling.style.color = "red";
+				nextEle.innerHTML="输入不能为空";
+				nextEle.style.color = "red";
 				return;
 			}
 			if(ele.id=="name"){
@@ -203,11 +215,11 @@ $(function(){
 				
 				ajax("post","/login/name","application/json",nameinfo,function(res){
 					if(res!=="exist"){
-						ele.nextElementSibling.innerHTML = '用户名不存在';
-						ele.nextElementSibling.style.color = "red";
+						nextEle.innerHTML = '用户名不存在';
+						nextEle.style.color = "red";
 						result.names=false;
 					}else{
-						ele.nextElementSibling.innerHTML ="";
+						nextEle.innerHTML ="";
 						result.names=true;
 					}
 				});
@@ -223,11 +235,11 @@ $(function(){
 					
 					ajax("post","/login/password","application/json",totalinfo,function(res){
 						if(res!=="match"){
-							ele.nextElementSibling.innerHTML = '用户名与密码不一致';
-							ele.nextElementSibling.style.color = "red";
+							nextEle.innerHTML = '用户名与密码不一致';
+							nextEle.style.color = "red";
 							result.passwords=false;
 						}else{
-							ele.nextElementSibling.innerHTML ="";
+							nextEle.innerHTML ="";
 							result.passwords=true;
 						}
 					});
@@ -258,8 +270,9 @@ $(function(){
 			var regfn=function(e){
 				var ev = e||window.e;
 				var target = ev.target||ev.srcElement;
+				var nextTarget = target.nextElementSibling||target.nextSibling;
 				target.style.border = "1px solid yellow";
-				target.nextElementSibling.style.display = "block";
+				nextTarget.style.display = "block";
 				check(target);
 			}
 			EventUtil.addHandler(reginp[i],"blur",function(e){
@@ -280,8 +293,9 @@ $(function(){
 			var loginfn=function(e){
 				var ev = e||window.e;
 				var target = ev.target||ev.srcElement;
+				var nextTarget = target.nextElementSibling||target.nextSibling;
 				target.style.border = "1px solid yellow";
-				target.nextElementSibling.style.display = "block";
+				nextTarget.style.display = "block";
 				document.getElementById("validatetip").style.display = "block";
 				checkLog(target);
 			}
@@ -345,6 +359,7 @@ $(function(){
 					var form=target.parentNode.parentNode;
 					var resultJ=seriPost(form);
 					var resultJson={};
+					//console.log(resultJson);
 					for(var i = 0; i < resultJ.length; i++){
 						var val = resultJ[i].split("=");
 						resultJson[val[0]]=val[1];

@@ -1,22 +1,9 @@
 
-	
 a{
 	color:#35B4E4;
 	text-decoration: none;
 }
-.button{
-	text-align: center;
-	line-height: 40px;
-	display: inline-block;
-	padding-left: 15px;
-	padding-right:15px;
-	height:40px;
-	background-color: #3EF5DD;
-	color:#fff;
-	border:none;
-	border-radius: 5px;
-	
-}
+
 
 /* 用户信息显示区样式 */
 .user-info{
@@ -62,6 +49,7 @@ label{
 }
 .post-input{
 	margin:10px;
+	/*position: relative;*/
 }
 .post-cont{
 	display: inline-block;
@@ -82,6 +70,7 @@ label{
 	padding-left: 10px;
 	color:#ccc;
 }
+
 .submit{
 	text-align: center;
 	
