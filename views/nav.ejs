@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 <link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.js"></script>
@@ -11,17 +12,16 @@
 		
 		<ul class="index clearfix">
 		<% if (user) { %>
-			<li><%= user.name %></li>
+			<li><%= user %></li>
 			<li><a href="/logout" id="logout">退出</a></li>
 			
 			
-			<% } else { %>
+		<% } else { %>
 		
 			<li><a href="javascript:void(0)" id="login">登录</a></li>
 			<li><a href="javascript:void(0)" id="reg">注册</a></li>
 			
 		<% } %>
-			<li><a href="/reading">读书笔记</a></li>
 			<li><a href="/job-top5">工作</a></li>
 			<li><a href='/post'>文章</a></li>
 			<li><a href="/question">问答</a></li>
@@ -58,7 +58,7 @@
             	   <p class="tip hide"></p>
             	  
             	</div>
-            	<div >
+            	<div>
             		<input type="text" id="validate" placeholder="请输入验证码">
             		<canvas id="valCanvas" height="35px" width="100px" ></canvas>
             		<a href="javascript:void(0)" id="refresh"></a>

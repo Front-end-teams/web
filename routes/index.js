@@ -2,8 +2,7 @@ var Post=require("../models/post.js");
 //中间件multer的配置（实现上传功能）
 var upload = require('../models/multerUtil');
 
-
-
+var formidable = require("../models/formidable.js")
 var Ques=require('../models/ask.js');
 var quesComment=require('../models/quesComment.js');
 
@@ -14,38 +13,36 @@ var crypto = require('crypto'),
 var jobHunting=require('../models/jobHunting');
 var geolocation=require('../tools/city');
 var pagination=require('express-paginate');
-var util=require('util');
+
+
 
 
 module.exports = function(app) {
+
+	app.post("/wangEditor",formidable);
+
   //上传的ajax触发的操作
 	app.post('/upload1',upload.single("file"),function(req,res){
-    console.log(req.body);
+    
     //将信息存入文章数据库
-    console.log(req.file.path);
-
-    var post = new Post("cheng", req.body.title, req.body.tags,req.body.post,req.body.cates,req.file.path);
+    var path = "/uploads/"+req.file.filename;
+    var artText=decodeURIComponent(req.body.post).substr(0,200);
+    console.log(artText);
+    var post = new Post("cheng", decodeURIComponent(req.body.title), req.body.tags,decodeURIComponent(req.body.post),req.body.cates,path,artText);
       post.save(function (err) {
-      console.log(post);
-      if (err) {
-        // req.flash('error', err); 
+    
+      if (err) {  
         console.log("error");
-        //return res.redirect('/');
       }
-
      res.send({
-                user: "cheng",
+                author: req.session.user,
                 title: req.body.title,
                 tags: req.body.tags,
                 post: req.body.post,
                 cates: req.body.cates
-                 });
-      // req.flash('success', '发布成功!');
-      //req.flash('success',post);
-      //res.redirect('/showPost');//发表成功跳转到主页
     });
   });  
-	
+	})
 
 	//注册页面
 
@@ -60,9 +57,7 @@ module.exports = function(app) {
 
   });
 
- app.post("/wangEditorImg",upload.single("file"),function(req,res){
- 	console.log(req.file);
- })
+
   app.post('/', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
@@ -188,13 +183,12 @@ module.exports = function(app) {
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
     User.getName(encodeURIComponent(req.body.name),function(err,user){
-      //console.log("2222222222");
-      //console.log(!user);
+
       if(!user){     
         res.send("用户不存在！");
       }else{
         //用户名密码都匹配后，将用户信息存入 session
-        req.session.user = user;
+        req.session.user = user.name;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
@@ -215,40 +209,7 @@ module.exports = function(app) {
     res.redirect('/');//登出成功后跳转到主页
   });
 
-   //读书笔记页面
-   app.get('/reading', function (req, res) {
-
-    res.render('note/reading', {
-      title: '笔记',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-       });
-  });
    
-
- 	app.get('/note', function (req, res) {
-
-    res.render('note/note', {
-      title: '笔记',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
-  });
-
-  app.post('/note', function (req, res) {
-        note = new Note("nina", req.body.notetitle, req.body.note);
-    note.save(function (err) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      req.flash('success', '发布成功!');
-      //res.redirect('/');//发表成功跳转到主页
-    });
-  });
-
 //用户权限函数
 function checkLogin(req, res, next) {
   if (!req.session.user) {
@@ -283,18 +244,25 @@ function checkNotLogin(req, res, next) {
 						    post: 'hello world' });
 	});
 	//文章二级页面
-    app.get('/post', function (req, res) {
 
-    //Post.total({author:"cheng"});
-    /*Post.total({},function(err,result){
-    	console.log(result);
-    })*/
-  
-    res.render('post/post', {
-      title: '文章',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
+  app.get('/post', function (req, res) {
+  	var page = req.query.p ? parseInt(req.query.p) : 1;
+
+   	Post.getTen(null, page, function (err, posts, total) {
+      if (err) {
+        posts = [];
+      } 
+     
+      res.render('post/post', {
+        title: '文章',
+        posts: posts,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * 10 + posts.length) == total,
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
     });
   });
     /*需要写文章的页面*/
@@ -313,17 +281,21 @@ function checkNotLogin(req, res, next) {
 				}
 				
 				res.render('post/writePost',{
-					user: req.session.user,
+					user: "cc",
 					title:"文章编辑",
-					author: "cheng",
 					tags: tags,
+          postTags: null,
+          postTitle: null,
+          post:null,
+          art: null,
+          postCates:null,
 					cates: cates
 				})
 			})
 			
 		})
 	})
-		
+		//查看文章详细信息
   app.get("/detail/:author/:title",function(req,res){
   	console.log("detail");
 
@@ -332,6 +304,7 @@ function checkNotLogin(req, res, next) {
         req.flash('error', err); 
         return res.redirect('/');
       }
+      console.log("render");
       res.render('post/showPost', {
       	author: "cheng",
         title: req.params.title,
@@ -363,6 +336,102 @@ function checkNotLogin(req, res, next) {
 		);
 	})
 
+  //文章修改
+  app.get("/writePost/:author/:title",function(req,res){
+    console.log(req.params);
+    Post.getOne(req.params,function(err,post){
+      if(err){
+        console.log(err);
+        return res.redirect('/');
+      }
+      Post.getTags({},function(err,tags){
+      if(err){
+        console.log(err);
+        tags=[];
+      }
+      
+      Post.getArchive({},function(err,cates){
+        if(err){
+          console.log("cates error");
+          cates=[];
+        }
+      res.render("post/writePost",{
+        title: "文章编辑",
+        postTitle: post.title,
+        user: post.author,
+        postTags: post.tags,
+        tags: tags,
+        postCates:post.cates,
+        cates: cates,
+        post:post.post,
+        art: post.art
+
+      })
+    })
+    })
+    }) 
+  })
+  //文章点赞
+  
+  app.post("/agree/:author/:title", function(req,res){
+    console.log("start");
+    var agree=[];
+    console.log(req.body);
+    Post.getOne(req.body, function (err, post) {
+      if (err) {
+        req.flash('error', err);
+         console.log("err:"+err);
+        return res.redirect('/');
+      }
+      console.log("post:"+post);
+      agree = post.agree;
+      console.log("agree:"+agree);
+    
+    //console.log(agree);
+   var jsonUpdate={
+        author: req.body.author,
+        title: req.body.title,
+        user: req.session.user.name
+      }
+      console.log(jsonUpdate);
+      console.log(agree.indexOf(req.session.user.name));
+     if ( agree.indexOf(jsonUpdate.user) < 0 ){
+      console.log("agree");
+      Post.agree(jsonUpdate, function(err){
+        if (err) {
+          //req.flash('error', err);
+          console.log(err);
+        }
+        //var temp=agree.length + 1;
+        res.json({agree: agree.length+1}); 
+      })
+    } else {
+      console.log("disagree");
+      Post.disagree(jsonUpdate,function(err){
+        if( err ) {
+          console.log(err);
+          res.send(false);
+        }
+        console.log(agree.length);
+        
+        res.json({agree:agree.length-1});
+      })
+    }  
+  }) 
+  });
+
+  //用户设置
+  app.get("/userSet",function(req,res){
+    res.render("user/userSet",{
+      title: "用户设置",
+      user: "cheng"
+    })
+  })
+
+//用户个人信息设置
+app.post("/user/info",function(req,res){
+  console.log(req.body);
+})
 // 发布问题
   app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
@@ -376,14 +445,19 @@ function checkNotLogin(req, res, next) {
   app.post('/ask',function(req,res){
     var currentUser = req.session.user,
         quesTitle=req.body.quesTitle,
-        quesDetail=new Ques(currentUser.name, currentUser.head, req.body.quesTitle, req.body.quesDetail);
-    quesDetail.save(function(err){
+        name=currentUser.name,
+        head=currentUser.head,
+        quesDetail=req.body.quesDetail,
+        tags=req.body.tags,
+        questionDetail=new Ques(name, head, quesTitle,quesDetail,tags);
+        questionDetail.save(function(err){
          if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
+          req.flash('error', err); 
+          return res.redirect('/');
          } 
-         req.flash('success', '发布成功!');
-         res.redirect('/question');//发表成功跳转到主页
+         //res.redirect('/question');
+         res.send('发布成功！');
+         //发表成功跳转到主页
         });
   });
 //实现点赞
@@ -393,16 +467,29 @@ app.post('/agree',function(req,res){
   var day=req.body.day;
   var quesTitle=req.body.quesTitle;
   console.log(444); 
+  Ques.getOne(name, day, quesTitle, function (err, question) {
+      if (err) {
+        req.flash('error', err); 
+        return res.redirect('/');
+      }
+      
+      console.log("question:"+(parseInt(question.agree.length)+1));
+      var temp=parseInt(question.agree.length);
+      // if ( question.agree.indexOf(name) < 0 ){
       Ques.agree(name, day, quesTitle,function(err) {
         if (err) {
           req.flash('error', err);
           console.log(err);
         }
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end();
-        //res.json({success:1});
-        return;
+        
+        //res.writeHead(200, { 'Content-Type': 'text/plain' });
+        console.log("temp:"+temp);
+        res.send(temp.toString());
+        // res.json({temp:temp+1});
       });
+//    }
+    });
+
 });
 //实现点踩
 app.post('/disagree',function(req,res){
@@ -411,20 +498,60 @@ app.post('/disagree',function(req,res){
   var day=req.body.day;
   var quesTitle=req.body.quesTitle;
   console.log(444); 
+  Ques.getOne(name, day, quesTitle, function (err, question) {
+      if (err) {
+        req.flash('error', err); 
+        return res.redirect('/');
+      }
+      
+      console.log("question:"+(parseInt(question.disagree.length)+1));
+      var temp=parseInt(question.disagree.length);
+      // if ( question.agree.indexOf(name) < 0 ){
       Ques.disagree(name, day, quesTitle,function(err) {
         if (err) {
           req.flash('error', err);
           console.log(err);
         }
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end();
-        //res.json({success:1});
-        return;
+        
+        //res.writeHead(200, { 'Content-Type': 'text/plain' });
+        console.log("temp:"+temp);
+        res.send(temp.toString());
+        // res.json({temp:temp+1});
       });
+//    }
+    });
+
 });
 
 
   //------------------------------------显示问题
+// app.get('/question', function (req, res) {
+//     //判断是否是第一页，并把请求的页数转换成 number 类型
+//     var page = req.query.p ? parseInt(req.query.p) : 1;
+//     //查询并返回第 page 页的 10 篇文章
+//     Ques.getTen(null, page, function (err, questions, total) {
+//       if (err) {
+//         questions = [];
+//       } 
+//       Ques.getMostHot(null,function(err, questionsHot){
+//       if (err) {
+//         questionsHot = [];
+//       }
+//       res.render('qa/question', {
+//         questionsHot: questionsHot,
+//         title: '问题',
+//         questions: questions,
+//         page: page,
+//         isFirstPage: (page - 1) == 0,
+//         isLastPage: ((page - 1) * 2 + questions.length) == total,
+//         LastPage:Math.ceil(total/2),
+//         user: req.session.user,
+//         success: req.flash('success').toString(),
+//         error: req.flash('error').toString()
+//       });
+//     });
+//     });
+//   });
 app.get('/question', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
@@ -433,8 +560,39 @@ app.get('/question', function (req, res) {
       if (err) {
         questions = [];
       } 
+      Ques.getTags(function(err, tags){
+      if (err) {
+        tags = [];
+      }
       res.render('qa/question', {
+        tags: tags,
         title: '问题',
+        questions: questions,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * 2 + questions.length) == total,
+        LastPage:Math.ceil(total/2),
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+    });
+    });
+  });
+//显示某个标签的所有问题
+app.get('/questionTags', function (req, res) {
+    //判断是否是第一页，并把请求的页数转换成 number 类型
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    var tag = req.query.tag;
+    //查询并返回第 page 页的 10 篇文章
+    Ques.getTag(tag, page, function (err, questions,total) {
+      if (err) {
+        req.flash('error',err); 
+        return res.redirect('/');
+      }
+      res.render('qa/questionTags', {
+        tag:tag,
+        title: 'TAG:' + tag,
         questions: questions,
         page: page,
         isFirstPage: (page - 1) == 0,
@@ -678,4 +836,13 @@ app.get('/job-top5',function(req,res){
     }
   });
 });
+/*-----------------用户界面路由部分---------------------*/
+app.get("/user",function(req,res){
+	res.render("user/user",{
+		title: "用户",
+		user: "cheng"
+	});
+})
+
+
 }

@@ -2,7 +2,11 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
+<<<<<<< HEAD
 * @Last Modified time: 2016-04-24 22:59:44
+=======
+* @Last Modified time: 2016-04-24 12:25:36
+>>>>>>> origin/master
 */
 
 

@@ -30,19 +30,21 @@ function createXHR(){
 			if(xhr.readyState==1){
 				console.log("writing");
 			}
-			if (xhr.readyState==4) {
-				if (xhr.status>=200&&xhr.status<300||xhr.status==304) {
+			if (xhr.readyState == 4) {
+				if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
 					callback(xhr.responseText);
 				
 				}else{
+					console.log(xhr.responseText);
 					console.log("request was unsuccessful:"+xhr.status);
 				}
 			}
 		}
-		xhr.open(met,url,false);
+		xhr.open(met,url,true);
 		if(head){
 			xhr.setRequestHeader("Content-Type",head);
 		}
+
 		//xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		xhr.send(mes);
 
