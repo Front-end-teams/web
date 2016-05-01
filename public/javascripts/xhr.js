@@ -28,7 +28,7 @@ function createXHR(){
 		var xhr=createXHR();
 		xhr.onreadystatechange=function(){
 			if(xhr.readyState==1){
-				console.log("writing");
+				//console.log("writing");
 			}
 			if (xhr.readyState == 4) {
 				if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {

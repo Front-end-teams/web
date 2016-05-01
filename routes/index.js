@@ -149,7 +149,7 @@ module.exports = function(app) {
   app.post('/login/name',function(req,res){
 
     User.getName(encodeURIComponent(req.body.name),function(err,user){
-      console.log("1111");
+     // console.log("1111");
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -214,7 +214,7 @@ module.exports = function(app) {
 function checkLogin(req, res, next) {
   if (!req.session.user) {
     req.flash('error', '未登录!'); 
-    res.redirect('user/login');
+    //res.redirect('user/login');
   }
   next();
 }
@@ -222,7 +222,7 @@ function checkLogin(req, res, next) {
 function checkNotLogin(req, res, next) {
   if (req.session.user) {
     req.flash('error', '已登录!'); 
-    res.redirect('back');//返回之前的页面
+    //res.redirect('back');//返回之前的页面
   }
   next();//执行下一个路由
 }

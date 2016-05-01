@@ -3,7 +3,7 @@
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
 <<<<<<< HEAD
-* @Last Modified time: 2016-04-24 22:59:44
+* @Last Modified time: 2016-04-30 19:27:21
 =======
 * @Last Modified time: 2016-04-24 12:25:36
 >>>>>>> origin/master
@@ -38,8 +38,8 @@ $(function(){
 		        }
 		        return NextElementNode;
 		}
-
-		reg.onclick = function(){
+		if(reg!=null){
+			reg.onclick = function(){
 			regtab.className="show";
 			mask.className="maskshow";
 	   		var tabPanel = tabcard.panel;
@@ -60,7 +60,9 @@ $(function(){
 	   		tabBd[0].className = "tabhide";
 	   		tabBd[1].className = "tabshow";
 		};
-		login.onclick=  function(){
+		};
+		if(login!=null){
+			login.onclick=  function(){
 			regtab.className="show";
 			mask.className="maskshow";
 	   		var tabPanel = tabcard.panel;
@@ -81,6 +83,8 @@ $(function(){
 	   		tabBd[0].className = "tabshow";
 	   		tabBd[1].className = "tabhide";
 		};
+		};
+		
 		close.onclick = function(){
 			regtab.className= "hide";
 			mask.className = "maskhide";
@@ -89,13 +93,13 @@ $(function(){
 		function check(ele){
 			var str = ele.value;
 			var nextEle=ele.nextElementSibling||ele.nextSibling;
-			console.log(ele.nextSibling);
+			//console.log(ele.nextSibling);
 			if(str.length===0){
 				nextEle.innerHTML="输入不能为空";
 				nextEle.style.color = "red";
 				return;
 			}
-			console.log(ele.id);
+			//console.log(ele.id);
 			if(ele.id==="name"){
 				var len = str.replace(new RegExp('[\u4e00-\u9fa5]', 'g'), 'aa').length;
 				var namejson= {name:str};
@@ -144,7 +148,7 @@ $(function(){
 				var emailjson= {email:str};
 				var emailinfo = JSON.stringify(emailjson);
 				ajax("post","/reg/email","application/json",emailinfo,function(res){
-					console.log(res);
+					//console.log(res);
 					if(res!=="success"){
 						nextEle.innerHTML = res;
 						nextEle.style.color = "red";
@@ -356,7 +360,7 @@ $(function(){
 		// 登录表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(loginsub,"click",function(e){
 			EventUtil.preventDefault(e);
-			console.log(this);
+			//console.log(this);
 				if(result.names==true&&result.passwords==true&&result.validate==true){
 					var target = EventUtil.getTarget(e);
 					EventUtil.preventDefault(e);

@@ -94,7 +94,7 @@ font-size: 10px; }
     text-align: center;
    }
   
-  .tab-bd form div input{
+ .regLogin .tab-bd form div input{
       width:280px;
       height:45px;
       text-indent: 10px;

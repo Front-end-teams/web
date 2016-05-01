@@ -15,44 +15,178 @@
 
 <!-- tabPanel-->
 <ul class="tab-bd">
+  <!-- 个人资料 -->
 	<li class="tabshow">
-	<form id="info-form">
-	<table>
-		<tr><td class="first-cell">昵称：</td><td class="second-cell"><input type="text" name="nickname"></input></td></tr>
-		<tr><td class="first-cell">职位：</td><td class="second-cell"><select name="position"><option>请选择职位</option>
-		<option>学生</option>
-		<option>web前端工程师</option>
-		<option>移动开发工程师</option>
-		<option>软件测试工程师</option>
-		<option>产品经理</option>
-		<option>其它</option></select></td></tr>
-		<tr><td class="first-cell">城市：</td><td class="second-cell"><select name="prov"><option>选择省份</option></select>
-    <select name="city"><option>选择城市</option></select>
-    <select name="region"><option>选择区县</option></select></td></tr>
-    <tr><td class="first-cell">性别：</td><td class="second-cell"><label class="sex"><input type="radio" name="sex" value="man">男</input></label>
-    <label class="sex"><input type="radio" name="sex" value="woman">女</input></label>
-    <label class="sex"><input type="radio" name="sex" value="secret">保密</input></label>
-    </td></tr>
-    <tr><td class="first-cell last-first-cell" >个性签名：</td><td class="second-cell"><textarea name="sign" class="sign"></textarea></td></tr>
-    <tr ><td class="last-cell"   colspan=2><input type="submit" class="button" value="保存" id="self-info-save"></input></td></tr>
-	</table>
-  </form>  
-	<li class="tabhide"> 
-    fsdfdsff
+    <div class="info-setting-wrap">
+      <form method="post" action="post" class="info-form">
+          <div class="info-wrap">
+            <label class="label-name" for="nick">昵称</label>
+            <div class="info-group">
+              <input type="text" name="nick" id="info-inp" placeholder="请输入昵称"/>
+              <p class="info-tip-wrap"></p>
+            </div>
+          </div>
+          <div class="info-wrap">
+            <label class="label-name" for="job">职位</label>
+            <div class="info-group">
+              <select name="position" class="info-select">
+                      <option>请选择职位</option>
+                      <option>学生</option>
+                      <option>web前端工程师</option>
+                      <option>移动开发工程师</option>
+                      <option>软件测试工程师</option>
+                      <option>产品经理</option>
+                      <option>其它</option>
+              </select>
+              <p class="info-tip-wrap"></p>
+            </div>
+          </div>
+          <div class="info-wrap">
+            <label class="label-name" for="city">城市</label>
+            <div class="info-group">
+              <select id="province-select" class="choose" hidefocus="true">
+                <option>选择省份</option>
+              </select>
+              <select id="city-select" class="choose" hidefocus="true">
+                <option>选择城市</option>
+              </select>
+              <select id="area-select" class="choose" hidefocus="true">
+                <option>选择区县</option>
+              </select>
+              <p class="info-tip-wrap"></p>
+            </div>
+          </div>
+          <div class="info-wrap">
+            <label class="label-name" for="sex">性别</label>
+            <div class="info-group radio-group">
+              <label>
+                <input type="radio"  hidefocus="true" value="0" name="sex">
+                保密
+              </label>
+              <label>
+                <input type="radio"  hidefocus="true" value="0" name="sex">
+                男
+              </label>
+              <label>
+                <input type="radio"  hidefocus="true" value="0" name="sex">
+                女
+              </label>
+              <p class="info-tip-wrap"></p>
+            </div>
+          </div>
+          <div class="info-wrap">
+            <label class="label-name" for="aboutme">个性签名</label>
+            <div class="info-group">
+              <textarea name="aboutme" id="aboutme" cols="30" rows="5" class="textarea"></textarea>
+              <p class="info-tip-wrap"></p>
+            </div>
+          </div>
+          <div class="info-wrap">
+            <label class="label-name" for></label>
+            <div class="info-group">
+              <span id="profile-submit" hidefocus="true" aria-role="button" class=" btn-block profile-btn">保存</span>
+            </div>
+          </div>
+      </form>
+    </div>
   </li>
+  <!-- 头像设置 -->
+	<li class="tabhide"> 
+    <div class="head-image">
+      <div class="avator-image">
+        <img width="220" height="220" src="javascript:void(0)">
+      </div>
+      <div>
+        <input class="js-avator-try avator-try" type="button" value="换一换" hidefocus="true">
+      </div>
+      <div class="button-group">
+        <div class="avator-btn-snswrap">
+          <span class="l-sns-btn l-sns-qq" data-sns="qq">
+          <i class="icon-qq"></i>
+          从 QQ 帐号同步头像
+          </span>
+        </div>
+        <div class="avator-btn-snswrap">
+          <span class="l-sns-btn l-sns-weibo" data-sns="weibo">
+          <i class="icon-weibo"></i>
+          从新浪微博同步头像
+          </span>
+        </div>
+        <div class="avator-btn-wrap">
+          <form enctype="multipart/form-data" method="post" action="postpic" target="uploadtarget">
+            <a class="avator-btn-fake" hidefocus="true" href="javascript:void(0)">上传头像</a>
+            <input id="upload" type="file" accept="image/*" name="fileField" title="上传头像">
+            <input type="hidden" value="1" name="type">
+          </form>
+          <iframe id="uploadtarget" frameborder="0" style="display:none;" name="uploadtarget" src="about:blank">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </li>
+ <!--  邮箱验证 -->
 	<li class="tabhide">
     dsfdsadsfdasf
   </li>
+  <!-- 修改密码 -->
   <li class="tabhide">
-    sasaffasfa
+    <form method="post" id="resetpwform">
+      <div class="reset-wrap">
+        <label class="label-name" for="oldpw">当前密码</label>
+        <div class="reset-group">
+          <input type="password" name="oldpw" class="reset-inp reset-inp-pw" placeholder="请输入当前密码"/>
+          <p class="reset-tip-wrap"></p>
+        </div>
+      </div>
+      <div class="reset-wrap">
+        <label class="label-name" for="newpw">新密码</label>
+        <div class="reset-group">
+          <input type="password" name="newpw" class="reset-inp reset-inp-pw" placeholder="请输入新密码"/>
+          <p class="reset-tip-wrap"></p>
+        </div>
+      </div>
+      <div class="reset-wrap">
+        <label class="label-name" for="confrim">确认密码</label>
+        <div class="reset-group">
+          <input type="password" name="confrim" id="confrim" class="reset-inp reset-inp-pw" placeholder="请输入密码"/>
+          <p class="reset-tip-wrap"></p>
+        </div>
+      </div>
+      <div class="reset-wrap">
+        <label class="label-name" for></label>
+        <div class="reset-group">
+          <span id="resetpw-btn-save" hidefocus="true" aria-role="button" class=" btn-block">保存</span>
+        </div>
+      </div>
+    </form>
   </li>
+  <!-- 绑定账号 -->
   <li class="tabhide">
-    sasaffasfas
+    <div class="setting-binds">
+      <p>绑定第三方帐号，可以直接登录，还可以将内容同步到以下平台，与更多好友分享。</p>
+      <div class="setting-binds-inner clearfix">
+        <div class="setting-binds-weibo">
+          <i class="icon-weibo"></i>
+          <p>未绑定账号</p>
+          <a href="" aria-role="button" hidefocus="true" class="setting-btn btn-weibo">立即绑定</a>
+        </div>
+        <div class="setting-binds-weixin">
+          <i class="icon-weixin"></i>
+          <p>未绑定账号</p>
+          <a href="" aria-role="button" hidefocus="true" class="setting-btn btn-weixin">立即绑定</a>
+        </div>
+        <div class="setting-binds-qq">
+          <i class="icon-qq"></i>
+          <p>未绑定账号</p>
+          <a href="" aria-role="button" hidefocus="true" class="setting-btn btn-qq">立即绑定</a>
+        </div>
+      </div>
+    </div>
   </li>
 </ul>
 </div>
 
-<%- include ../footer %>
+<!-- <%- include ../footer %> -->
 <script type="text/javascript" src="tab/tabcard.js"></script>
 <script type="text/javascript">
 
