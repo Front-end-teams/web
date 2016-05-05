@@ -46,7 +46,7 @@ quesComment.prototype.save = function(callback) {
           console.log('fff');
           callback(null);
           console.log('ggg');
-      });   
+      });
     });
   });
 };

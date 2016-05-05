@@ -636,11 +636,9 @@ app.post('/questionDetail', function (req, res) {
     var date = new Date(),
         time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
                date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
-
     var md5 = crypto.createHash('md5'),
         email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
         head = "images/7.jpg"; 
-
     var comment = {
         name: req.body.name,
         head: head,
@@ -650,18 +648,18 @@ app.post('/questionDetail', function (req, res) {
         content: req.body.content,
         agreeNum:req.body.num?req.body.num:0
     };
- 
-    var newQuesComment = new quesComment(req.param('name'), req.param('day'), req.param('quesTitle'), comment);
-
+    var name=req.query.name,
+        day=req.query.day,
+        quesTitle=req.query.quesTitle; 
+    var newQuesComment = new quesComment(name, day, quesTitle, comment);
     newQuesComment.save(function (err) {
       if (err) {
+        console.log(err);
         req.flash('error', err); 
         return res.redirect('back');
       }
-
       req.flash('success', '留言成功!');
       res.redirect('back');
-
     });
   });
 

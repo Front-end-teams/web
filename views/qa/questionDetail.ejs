@@ -1,6 +1,7 @@
 <%- include ../header %>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/questionDetail.css">
 <%- include ../nav %>
+<div class="warp clearfix">
 <div class="main">
     <h2 class="quesTitle"><%=quesTitle %></h2>
     <p class="quesDetail"><%=quesDetail %></p>
@@ -27,19 +28,27 @@
     <div class="comments" id="comments">
     <% var leng=((page*num)<=comments.length)?(page*num):comments.length; for(var i=(page-1)*num;i< leng;i++){ %>
       <div class="comment">
-         <div class="commHead">
-           <img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" />
-           <span><a href="<%= comments[i].website %>"><%= comments[i].name %></a></span>
-         </div>   
-         <div class="commCont">
-           <p><%= comments[i].content %></p>
-           <span class="info"> <%= comments[i].time %></span>
-         </div>
-         <div class="commAction">
-         <span onclick="agree(<%=i%>)" class="agrees">赞同 <span><%=comments[i].agreeNum%></span></span>
-             <span>反对</span>
-             <span>回复</span>
-         </div>
+          <div class="comment_main">
+             <div class="commHead">
+               <img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" />
+               <span><a href="<%= comments[i].website %>"><%= comments[i].name %></a></span>
+             </div>   
+             <div class="commCont">
+               <p><%= comments[i].content %></p>
+               <span class="info"> <%= comments[i].time %></span>
+             </div>
+             <div class="commAction">
+               <span onclick="agree(<%=i%>)" class="agrees">赞同 <span><%=comments[i].agreeNum%></span></span>
+               <span>反对</span>
+               <span>回复</span>
+             </div>
+          </div>
+          <div class="comment_reply">
+            <ul class="reply_list"></ul>
+            <div class="pub_reply" id="">
+              <div></div>
+            </div>
+          </div>
       </div>
     <% } %>
     </div>
@@ -102,6 +111,7 @@
       <dd>2、尽可能详细描述您的问题，如标题与内容不符，或与问答无关的信息将被删除扣分。</dd>
       <dd>3、问答刷屏用户一律冻结帐号</dd>
     </dl>
+</div>
 </div>
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
 <script type="text/javascript">
