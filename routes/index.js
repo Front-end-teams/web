@@ -1,19 +1,20 @@
-var Post=require("../models/post.js");
+var Post = require("../models/post.js");
 //中间件multer的配置（实现上传功能）
 var upload = require('../models/multerUtil');
 
 var formidable = require("../models/formidable.js")
-var Ques=require('../models/ask.js');
-var quesComment=require('../models/quesComment.js');
+var Ques = require('../models/ask.js');
+var quesComment = require('../models/quesComment.js');
 
 var crypto = require('crypto'),
     User = require('../models/user.js'),
     Note = require('../models/note.js');
 
-var jobHunting=require('../models/jobHunting');
-var geolocation=require('../tools/city');
-var pagination=require('express-paginate');
+var jobHunting = require('../models/jobHunting');
+var geolocation = require('../tools/city');
+var pagination = require('express-paginate');
 
+var area = require("../models/area.js");
 
 
 
@@ -427,11 +428,22 @@ function checkNotLogin(req, res, next) {
       user: "cheng"
     })
   })
+//修改用户地址
+app.post("/user/info/city",function(req,res){
+  console.log(req.body.province);
+  area(req.body.province,function(err,city){
+    if(err){
+      console.log(err);
+    }
+    res.send(city.city);
+  })
 
+})
 //用户个人信息设置
 app.post("/user/info",function(req,res){
   console.log(req.body);
 })
+
 // 发布问题
   app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
