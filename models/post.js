@@ -338,7 +338,7 @@ Post.getArchive = function(quary,callback) {
 };
 
 //返回所有标签
-Post.getTags = function(callback) {
+Post.getTags = function(query,callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {

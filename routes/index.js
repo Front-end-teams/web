@@ -268,13 +268,13 @@ function checkNotLogin(req, res, next) {
     /*需要写文章的页面*/
   app.get('/writePost',checkLogin);
 	app.get('/writePost',function(req,res){
-		Post.getTags({author: res.session.user},function(err,tags){
+		Post.getTags({},function(err,tags){
 			if(err){
 				console.log(err);
 				tags=[];
 			}
 			
-			Post.getArchive({author: res.session.user},function(err,cates){
+			Post.getArchive({},function(err,cates){
 				if(err){
 					console.log("cates error");
 					cates=[];
@@ -607,7 +607,7 @@ app.get('/questionTags', function (req, res) {
 //------------------------------显示问题具体内容
   app.get('/questionDetail', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
-    var num=8;
+    var num=2;
     Ques.getOne(req.query.name, req.query.day, req.query.quesTitle, function (err, question) {
       if (err) {
         req.flash('error', err); 
@@ -621,6 +621,7 @@ app.get('/questionTags', function (req, res) {
         name:question.name,
         user: req.session.user,
         comments:question.comments,
+        commentsLength:question.comments.length,
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),
         page:page,

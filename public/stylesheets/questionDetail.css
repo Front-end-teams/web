@@ -70,8 +70,12 @@
 {
   border-bottom: 1px solid grey;
   overflow: hidden;
-  padding:20px 0;
+  padding:20px 0 10px 0;
   position: relative;
+}
+.comment .main
+{
+	overflow: hidden;
 }
 .comment .commHead
 {
@@ -112,15 +116,12 @@
 	text-indent: 8px;
 	font-size: 8px;
 	right: 0;
-	bottom: 5px;
+	top: 5px;
 	color:rgba(0,0,0,0.75);
 }
 .comment .commAction
 {
-	margin-left: 55px;
-	position: absolute;
-	bottom: 5px;
-	
+	margin-left: 55px;	
 }
 .comment .commAction span a
 {
@@ -129,6 +130,15 @@
 	padding: 0 5px;
 }
 
+
+.comment .comment_reply
+{
+	width: 700px;
+	height: 70px;
+	background-color: #eee;
+	display: none;
+	margin-top: 20px;
+}
 .prepage a
 {
 	float: left;
