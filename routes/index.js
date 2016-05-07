@@ -129,7 +129,7 @@ module.exports = function(app) {
       if(err){
         req.flash('error', err);
       }
-      req.session.user = newUser;//用户信息存入 session
+      req.session.user = newUser.name;//用户信息存入 session
      // console.log("cunjinlaile")
       req.flash('success', '注册成功!');
       res.send("regsuccess");
@@ -189,7 +189,7 @@ module.exports = function(app) {
         res.send("用户不存在！");
       }else{
         //用户名密码都匹配后，将用户信息存入 session
-        req.session.user = user.name;
+        req.session.user = user;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
@@ -392,7 +392,7 @@ function checkNotLogin(req, res, next) {
    var jsonUpdate={
         author: req.body.author,
         title: req.body.title,
-        user: req.session.user.name
+        user: req.session.user
       }
       console.log(jsonUpdate);
       console.log(agree.indexOf(req.session.user.name));
@@ -423,27 +423,72 @@ function checkNotLogin(req, res, next) {
 
   //用户设置
   app.get("/userSet",function(req,res){
-    res.render("user/userSet",{
+    console.log(req.session.user);
+    User.get(req.session.user.name,function(err,user){
+      if(err){
+        console.log(err);
+      }
+      console.log(user);
+      res.render("user/userSet",{
       title: "用户设置",
-      user: "cheng"
+      user:user
     })
+    })
+    
   })
-//修改用户地址
+//修改用户地址(城市)
 app.post("/user/info/city",function(req,res){
   console.log(req.body.province);
-  area(req.body.province,function(err,city){
+  area.getCity(req.body.province,function(err,city){
     if(err){
       console.log(err);
     }
+    console.log(city);
     res.send(city.city);
   })
 
 })
+
+//修改用户地址(区县)
+app.post("/user/info/area",function(req,res){
+  console.log(req.body.city);
+  area.getArea(req.body,function(err,area){
+    if(err){
+      console.log(err);
+    }
+    console.log(area);
+    res.send(area.city);
+  })
+
+
+})
+
 //用户个人信息设置
 app.post("/user/info",function(req,res){
   console.log(req.body);
 })
+//用户头像上传
 
+  app.post('/userset/imgupload',upload.single("file"),function(req,res){
+    console.log("file");
+    //console.log(req.body.file);
+    
+    //将信息存入文章数据库
+    //var path = "/uploads/"+req.file.filename;
+    console.log("user");
+    console.log(req.session.user);
+    User.update({name: req.session.user.name},{img:req.body.file},function(err){
+      if(err){
+        console.log(err);
+      }
+      res.send({
+        img: req.body.file
+      })
+    })
+    })
+    
+    
+  
 // 发布问题
   app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
@@ -456,9 +501,9 @@ app.post("/user/info",function(req,res){
   app.post('/ask', checkLogin);
   app.post('/ask',function(req,res){
     var currentUser = req.session.user,
-        quesTitle=req.body.quesTitle,
-        name=currentUser.name,
-        head=currentUser.head,
+        quesTitle = req.body.quesTitle,
+        name = currentUser.name,
+        head = currentUser.head,
         quesDetail=req.body.quesDetail,
         tags=req.body.tags,
         questionDetail=new Ques(name, head, quesTitle,quesDetail,tags);

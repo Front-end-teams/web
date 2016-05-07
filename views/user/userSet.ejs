@@ -46,10 +46,10 @@
             <div class="info-group">
               <select id="province-select" class="choose" hidefocus="true">
                 <option>选择省份</option>
-                <option>北京市</option>
-                <option>上海市</option>
-                <option>天津市</option>
-                <option>重庆市</option>
+                <option>北京</option>
+                <option>上海</option>
+                <option>天津</option>
+                <option>重庆</option>
                 <option>黑龙江省</option>
                 <option>吉林省</option>
                 <option>辽宁省</option>
@@ -124,7 +124,7 @@
 	<li class="tabhide"> 
     <div class="head-image">
       <div class="avator-image">
-        <img width="220" height="220" src="javascript:void(0)">
+         <img width="220" height="220" id="user-img-show" src=<%= user.img %>> 
       </div>
       <div>
         <input class="js-avator-try avator-try" type="button" value="换一换" hidefocus="true">
@@ -142,7 +142,15 @@
           从新浪微博同步头像
           </span>
         </div>
-        <div class="avator-btn-wrap">
+         <div class="input-file">
+
+        <input type="file" name="userImg" value="上传图片" id="user-img-upload" class="file-button"></input>
+
+        <label class="file-button-img">上传头像</label> 
+
+        </div> 
+        <!-- <div class="avator-btn-wrap">
+        
           <form enctype="multipart/form-data" method="post" action="postpic" target="uploadtarget">
             <a class="avator-btn-fake" hidefocus="true" href="javascript:void(0)">上传头像</a>
             <input id="upload" type="file" accept="image/*" name="fileField" title="上传头像">
@@ -150,7 +158,7 @@
           </form>
           <iframe id="uploadtarget" frameborder="0" style="display:none;" name="uploadtarget" src="about:blank">
           </iframe>
-        </div>
+        </div> -->
       </div>
     </div>
   </li>
@@ -223,6 +231,7 @@
    tabcard = new TabCard("tab","defaultStyle","clickStyle");
    tabcard.click();
 </script>
+<script type="text/javascript" src="/javascripts/imgcut.js"></script>
 <script type="text/javascript" src="/javascripts/userSet.js"></script>
 
 <%- include ../end %>
