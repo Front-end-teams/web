@@ -468,7 +468,8 @@ app.post("/user/info",function(req,res){
           return res.redirect('/');
          } 
          //res.redirect('/question');
-         res.send('发布成功！');
+         res.send('发布成功!');
+
          //发表成功跳转到主页
         });
   });

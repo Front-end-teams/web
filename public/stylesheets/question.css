@@ -9,6 +9,7 @@
   position: relative;
   margin-bottom: 10px;
   padding: 35px 0 50px;
+  overflow: hidden;
 }
 
 #wenda-main{

@@ -1,18 +1,19 @@
 <%- include ../header %>
 <link rel="stylesheet" href="/stylesheets/ask.css">
+<link rel="stylesheet" type="text/css" href="/popout/style.css">
 <%- include ../nav %>
 <div class="main">
 	<article>
 		<form method="post">
 	        <h1>提问:</h1>
 			<div id="quesTitle">
-			    <input type="text" name="quesTitle" id='ques-Title' placeholder="请用一句话描述你的问题,不允许为空哦~" required="required"/>
+			    <input type="text" name="quesTitle" id='ques_Title' placeholder="请用一句话描述你的问题,不允许为空哦~"/>
 			</div>
 			<h1>具体内容：</h1>
 			<div id="editContent">
-				<textarea name="quesDetail" id='content' placeholder="请用具体地描述你的问题,不允许为空哦~" required="required"></textarea>
+				<textarea name="quesDetail" id='content' placeholder="请用具体地描述你的问题,不允许为空哦~"></textarea>
 			</div><br />
-			<p id="threeMax"><span class="star">*</span>最多只能选三项</p>
+			<p id="threeMax"><span class="star">*</span>至少选一项，最多选三项</p>
 			<div id="tags" class="tags">
               <a href="javascript:;" class="tag" data-id="12" id="12" name="Android">Android</a>
               <a href="javascript:;" class="tag" data-id="22" name="AngularJS">AngularJS</a>
@@ -48,9 +49,7 @@
               <a href="javascript:;" class="tag" data-id="35" name="大数据">大数据</a>
               <a href="javascript:;" class="tag" data-id="39" name="数据结构">数据结构</a>
           </div>
-            <input type="button" id="submitQues" value="ajax方式发布"/>
-            <span id="callback"></span>
-			<input type="submit" value="发布" id="pubQues" />
+            <input type="button" id="pubQues" value="发布"/>
 		</form>
 	</article>
 	<div class="notice">
@@ -68,8 +67,19 @@
 	</div>
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
+<!-- 弹出框 -->
+<div class="pop-cont p2" id="pop-cont">
+    <div class="pop">
+      <section class="pop-title"><h3>提示</h3></section>
+      <section class="pop-content">问题发布成功</section>
+      <section class="pop-footer">
+        <a class="confirm">继续发布</a>
+        <a class="cancel" >查看问题</a>     
+      </section>
+    </div>
+  </div>
 <%- include ../footer %>
 <script type="text/javascript" src="javascripts/jquery.js"></script>
 <script type="text/javascript" src="javascripts/ask.js"></script>
+<script type="text/javascript" src="/popout/popular.js"></script>
 <%- include ../end %>

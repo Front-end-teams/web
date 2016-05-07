@@ -52,11 +52,13 @@
 	border:0px;
 	position: absolute;
 	bottom: 10px;
+	cursor: pointer;
 	display: inline-block;
+	text-decoration: none;
 }
 .confirm
 {
-	right: 130px;
+	right: 130px;	
 }
 .cancel
 {
