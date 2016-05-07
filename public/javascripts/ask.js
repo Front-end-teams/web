@@ -47,7 +47,7 @@ $('#pubQues').click(function(){
 	    tags.push(tagsSelected[i].innerText);
 	}
 	var params={
-		quesTitle:$('#ques-Title').val(),
+		quesTitle:$('#ques_Title').val(),
 		quesDetail:$('#content').val(),
 		tags:tags
 	};

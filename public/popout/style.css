@@ -65,10 +65,11 @@
 	right: 20px;
 }
 
-.confirm:hover,.cancal:hover{
+.confirm:hover,.cancel:hover{
 		opacity: .7;
 	}
-.confirm:active,.concal:active{
+
+.confirm:active,.concel:active{
 	opacity:1;
 }
  .show {
