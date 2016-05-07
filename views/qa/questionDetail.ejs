@@ -42,7 +42,7 @@
              <div class="commAction">
                <span>赞同 <span><%=comments[i].agreeNum%></span></span>
                <span>反对</span>
-               <span id="reply_<%=i%>" data-zz="<%= comments[i].name %>">回复</span>
+               <span id="reply_<%=i%>">回复</span>
              </div>
           </div>
           <div class="comment_reply">
@@ -52,8 +52,15 @@
               <div class="reply_main">
                 <p class="reply_name"><%=user.name%></p>
                 <div class="reply_content">
-                  <textarea cols="70" rows="2" id="comment_reply_<%=i%>" touser="回复"></textarea>
-                  <button>回复</button>
+                  <textarea cols="70" rows="2" id="comment_reply_<%=i%>" >回复 <%= comments[i].name %>：</textarea>
+                  <button id="comment_reply_btn_<%=i%>" 
+                  data-questitle="<%=quesTitle %>" 
+                  data-name="<%= name %>"
+                  data-day="<%= day %>"
+                  data-commentreplyfromname="<%=user.name%>"
+                  data-commentreplytoname="<%= comments[i].name %>"
+                  data-commentid="<%=i%>"
+                  >回复</button>
                 </div>
               </div>
             </div>
@@ -122,6 +129,7 @@
     </dl>
 </div>
 </div>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
 <script type="text/javascript">
 var page=document.getElementById('commentsLength').dataset.page;
 var num=document.getElementById('commentsLength').dataset.num;
@@ -138,10 +146,42 @@ for(var i=(page-1)*num;i<length;i++)
     {
       this.parentNode.parentNode.nextElementSibling.style.display="block";
     }
-    console.log(document.getElementById('comment_reply_2'));
-    console.log(this.getAttribute('data-zz'));
   }
+      $('#comment_reply_btn_'+i).bind('click',function(){
+      var params={
+        "name":this.getAttribute('data-name'),
+        "day":this.getAttribute('data-day'),
+        "quesTitle":this.getAttribute('data-questitle'),
+        "commentReplyFromName":this.getAttribute('data-commentreplyfromname'),
+        "commentReplyToName":this.getAttribute('data-commentreplytoname'),
+        "commentReplyContent":this.previousElementSibling.innerHTML,
+        "commentId":this.getAttribute('data-commentid')
+      };
+      console.log(this.previousElementSibling.innerHTML);
+      console.log(this.getAttribute('data-name'));
+      console.log(this.getAttribute('data-day'));
+      console.log(this.getAttribute('data-questitle'));
+      console.log(this.getAttribute('data-commentreplyfromName'));
+      console.log(this.getAttribute('data-commentreplytoName'));
+      $.ajax({
+        data:params,
+        url:"/commentReply",
+        type:'post',
+        jsonpCallback: 'callback',
+        success:function(data){
+                  console.log('这是data');
+                  console.log(data);
+                  console.log('这是data');
+        },
+        err:function(jqXHR, textStatus, errorThrown){
+              alert('error ' + textStatus + " " + errorThrown);  
+          }
+      });
+    });
 }
+
+
+
 </script>
 <%- include ../footer %>
 <%- include ../end %>

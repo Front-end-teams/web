@@ -58,9 +58,6 @@ $('#pubQues').click(function(){
                 type:'post',
                 jsonpCallback: 'callback',
                 success: function(data){
-                	console.log('这是data');
-                	console.log(data);
-                	console.log('这是data');
                 	var pop2 = document.querySelector('.p2');			
 					var p2 = Popuper({
 					    wrap: pop2,

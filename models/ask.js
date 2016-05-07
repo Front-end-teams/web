@@ -228,7 +228,7 @@ Ques.getTag = function(tag, page, callback) {
       if (err) {
         mongodb.close();
         console.log("getTagErr:"+err);
-        return callback(err);       
+        return callback(err);   
       }
       //查询所有 tags 数组内包含 tag 的文档
       //并返回只含有 name、time、title 组成的数组

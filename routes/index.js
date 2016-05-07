@@ -532,7 +532,7 @@ app.post('/agree',function(req,res){
       }
       
       console.log("question:"+(parseInt(question.agree.length)+1));
-      var temp=parseInt(question.agree.length);
+      var temp=parseInt(question.agree.length)+1;
       // if ( question.agree.indexOf(name) < 0 ){
       Ques.agree(name, day, quesTitle,function(err) {
         if (err) {
@@ -540,10 +540,10 @@ app.post('/agree',function(req,res){
           console.log(err);
         }
         
-        //res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
         console.log("temp:"+temp);
         res.send(temp.toString());
-        // res.json({temp:temp+1});
+        // res.json({temp:temp});
       });
 //    }
     });
@@ -552,9 +552,12 @@ app.post('/agree',function(req,res){
 //实现点踩
 app.post('/disagree',function(req,res){
   console.log(333);
-  var name=req.body.name; 
+  var name=req.body.name;
+  console.log('name:'+name); 
   var day=req.body.day;
+  console.log('day:'+day); 
   var quesTitle=req.body.quesTitle;
+  console.log('quesTitle:'+quesTitle); 
   console.log(444); 
   Ques.getOne(name, day, quesTitle, function (err, question) {
       if (err) {
@@ -705,7 +708,8 @@ app.post('/questionDetail', function (req, res) {
         website: req.body.website,
         time:time,
         content: req.body.content,
-        agreeNum:req.body.num?req.body.num:0
+        agreeNum:req.body.num?req.body.num:0,
+        reply:[]
     };
     var name=req.query.name,
         day=req.query.day,
@@ -721,7 +725,34 @@ app.post('/questionDetail', function (req, res) {
       res.redirect('back');
     });
   });
+//-----------------------------回复评论
+app.post('/commentReply',function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentReplyFromName=req.body.commentReplyFromName,
+      commentReplyToName=req.body.commentReplyToName,
+      commentReplyContent=req.body.commentReplyContent,
+      commentId=req.body.commentId;
+      console.log(name);
+      console.log(day);
+      console.log(quesTitle);
+      console.log(commentReplyFromName);
+      console.log(commentReplyToName);
+      console.log(commentReplyContent);
+      console.log(commentId);
+      // console.log(req.query.params);
+    quesComment.getOne(name,day,quesTitle,commentId,function(err,comment){
+        if (err) {
+        req.flash('error', err); 
+        console.log("err:"+err);
+        return res.redirect('/');
+      }
+      console.log("comment:"+comment);
+      res.send("成功取出！");
+  });
 
+});
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
    app.get('/saveArticle',function(req,res){

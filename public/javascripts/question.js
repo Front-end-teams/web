@@ -28,6 +28,17 @@
             });
             console.log(222);
 		}
+
+        //  function agree(name,day,quesTitle){
+        //  var params ={
+        //         "name":name,
+        //         "day":day,
+        //         "quesTitle":quesTitle
+        //     };
+        //     ajax('post','/agree','application/x-www-form-urlencoded',params,function(res){
+        //         console.log(res);
+        //     });
+        // }
 		function disagree(name,day,quesTitle){
 			var params ={
                 "name":name,
