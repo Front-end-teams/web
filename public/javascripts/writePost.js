@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 var tagsInput=document.getElementById("tags-input");
 var commonShow=document.getElementById("common-tags");
 
@@ -26,50 +26,7 @@ function tagsHidden(e){
 	var flag=false;
 	var e=EventUtil.getEvent(e);
 	var target=EventUtil.getTarget(e);
-	
-	while(target){
-=======
-(function(){
-	var tagsInput=document.getElementById("tags-input");
-	var commonShow=document.getElementById("common-tags");
 
-	var tagsDiv=document.getElementById("tags-div");
-	var tags=document.getElementById("tags");
-	var postTags=document.getElementById("post-tags");
-
-	var catesInput=document.getElementById("cates-input");
-
-	var commonCates=document.getElementById("common-cates");
-	var catesTable=document.getElementById("cates-table");
-	var upload=document.getElementById("upload");
-
-	var absText=document.getElementById("absText");
-
-	var submit=document.getElementById("submit");
-	var editor=document.getElementById("editor");
-
-
-	var divWidth=tagsDiv.offsetWidth;
-	console.log(divWidth);
-	tagsInput.style.paddingLeft=divWidth+5+"px";
-
-	/*var wangEditor=new wangEditor("wangEditor");
-	wangEditor.create();*/
-
-	// 给标签文本框添加事件 当获取焦点时 显示常用标签栏
-	EventUtil.addHandler(tagsInput,"focus",tagsShow);
-	function tagsShow(){
-		commonShow.style.display="block";
-
-	}
-	//点击除常用标签以外的其他文档元素 常用标签隐藏 并将input中输入的值改变样式
-	EventUtil.addHandler(document,"click",tagsHidden);
-	function tagsHidden(e){
-		var flag=false;
-		var e=EventUtil.getEvent(e);
-		var target=EventUtil.getTarget(e);
->>>>>>> origin/master
-		
 		while(target){
 			
 			if(target!= postTags){

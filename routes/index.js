@@ -471,18 +471,18 @@ app.post("/user/info",function(req,res){
 
   app.post('/userset/imgupload',upload.single("file"),function(req,res){
     console.log("file");
-    //console.log(req.body.file);
+    console.log(req);
     
     //将信息存入文章数据库
-    //var path = "/uploads/"+req.file.filename;
+    var path = "/uploads/"+req.file.filename;
     console.log("user");
     console.log(req.session.user);
-    User.update({name: req.session.user.name},{img:req.body.file},function(err){
+    User.update({name: req.session.user.name},{img:path},function(err){
       if(err){
         console.log(err);
       }
       res.send({
-        img: req.body.file
+        img: path
       })
     })
     })

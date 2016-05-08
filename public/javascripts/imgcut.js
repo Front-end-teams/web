@@ -1,9 +1,9 @@
 /*---------------------实现图片的压缩----------------------------------*/
 //获取图片数据
  function imgData(e,maxWidth,maxHeight,callback) {
-    var e = EventUtil.getEvent(e);
+    
+    
     var target = EventUtil.getTarget(e);
-    console.log("begin");
     var maxsize = 100 * 1024;
     console.log(target);
         if (!target.files.length) return;
@@ -14,6 +14,7 @@
             if (!/\/(?:jpeg|png|gif)/i.test(file.type)) return;
             //创建FileReader()对象，使用FileReader对象,web应用程序可以异步的读取存储在用户计算机上的文件(或者原始数据缓冲)内容,可以使用File对象或者Blob对象来指定所要处理的文件或数据
             var reader = new FileReader();
+
 
            /* var li = document.createElement("li");
             li.innerHTML = '<div class="progress"><span></span></div>';
@@ -31,11 +32,10 @@
                     img = null;
                     //直接上传
                     callback(result);
-
                     return;
                 }
 
-//                图片加载完毕之后进行压缩，然后上传
+                //图片加载完毕之后进行压缩，然后上传
                 if (img.complete) {
                    compress(img,maxWidth,maxHeight,callback);
                    
@@ -43,13 +43,7 @@
                     img.onload = compress(img,maxWidth,maxHeight,callback);
                 }
 
-            };
-            //该方法将文件读取为一段以 data: 开头的字符串，这段字符串的实质就是 Data URL，Data URL是一种将小文件直接嵌入文档的方案。这里的小文件通常是指图像与 html 等格式的文件。
-            reader.readAsDataURL(file);
-        })
-    };
-
-    function compress(Img, maxWidth, maxHeight,callback) {
+                function compress(Img, maxWidth, maxHeight,callback) {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
 
@@ -91,6 +85,7 @@
 
         //进行最小压缩
         //对图像数据做出修改以后，可以使用toDataURL方法，将Canvas数据重新转化成一般的图像文件形式
+        //在Data URL协议中，图片被转换成base64编码的字符串形式，并存储在URL中，冠以mime-type
         //第二个参数的值在0-1之间，则表示JPEG的质量等级，否则使用浏览器内置默认质量等级
         var ndata = canvas.toDataURL('image/jpeg', 0.7);
 
@@ -100,8 +95,19 @@
 
         tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
 
-        callback(ndata);
+        callback(ndata,file.type);
     }
+
+            };
+            //该方法将文件读取为一段以 data: 开头的字符串，这段字符串的实质就是 Data URL，Data URL是一种将小文件直接嵌入文档的方案。这里的小文件通常是指图像与 html 等格式的文件。
+            reader.readAsDataURL(file);
+        })
+
+     
+
+    };
+
+   
 
    /* // 图片上传，将base64的图片转成二进制对象，塞进formdata上传
     function upload(basestr, type, $li) {
