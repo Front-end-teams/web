@@ -13,6 +13,7 @@ function User(user) {
   this.password = user.password;
   this.repassword = user.repassword;
   this.email = user.email;
+  this.img = '';
 };
 
 module.exports = User;
@@ -24,7 +25,8 @@ User.prototype.save = function(callback) {
       name: this.name,
       password: this.password,
       repassword:this.repassword,
-      email: this.email
+      email: this.email,
+      img: ''
   };
   //打开数据库
   mongodb.open(function (err, db) {
@@ -108,6 +110,31 @@ User.getName = function(name, callback) {
     });
   });
 };
+
+User.update = function(query, set, callback){
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    //读取 posts 集合
+    db.collection('users', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      //更新文章内容
+      collection.update(query, {
+        $set: set
+      }, function (err) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null);
+      });
+    });
+  });
+}
 
 //读取email用户信息
 User.getEmail = function(email, callback) {

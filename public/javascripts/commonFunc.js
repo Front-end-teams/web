@@ -34,7 +34,7 @@ var EventUtil={
                     event.returnValue=false;  
                 }  
             },  
-            //阻止事件的默认行为  
+            //阻止事件的冒泡  
             stopPropagation:function(event){  
                 if(event.stopPropagation){  
                     event.stopPropagation();  

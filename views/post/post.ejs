@@ -6,16 +6,19 @@
 		<div class="container">
 			<div class="main_left">
 				
-				<div class="tabs">
-					<a>热门</a><a>精选</a><a>交流</a><a>技术</a>
-				</div>
-				<hr/>
-
-				<% posts.forEach(function (post, index) { %>
+			<ul class="tab-nav">
+            <li><a href="javascript:void(0)">最新</a></li>
+            <li><a href="javascript:void(0)">最热</a></li>
+            </ul>
+     
+            <!-- tabPanel-->
+            <ul class="tab-bd">
+            <li class="tabshow">
+            <% posts.forEach(function (post, index) { %>
         <div class="hot-article">
-        	<div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
-						<a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
-						<span class="time"><%= post.time %></span>
+            <div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
+                        <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
+                        <span class="time"><%= post.time %></span>
 
             
             <div class="post-cont"><%- post.art %></div>
@@ -40,8 +43,42 @@
         </div>
         <% }) %>
        
-	   </div>
-		<hr/>
+        </li>
+            <li class="tabhide">
+              <% posts.forEach(function (post, index) { %>
+        <div class="hot-article">
+            <div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
+                        <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
+                        <span class="time"><%= post.time %></span>
+
+            
+            <div class="post-cont"><%- post.art %></div>
+            
+            
+            <div class="article-message">
+                
+                <% if (typeof post.tags == "string") { %>
+                    <a class="article-tag" href="#"><%= post.tags %></a>
+                <% }else{ %>
+
+                <% for (var i = 0; i < post.tags.length; i++ ){ %>
+                <a class="article-tag" href="#"><%= post.tags[i] %></a>
+                <% } %>
+                <% } %>
+                <div class="post-info">
+                <span class="browser">浏览 <%= post.pv %></span>
+                <span class="like">点赞 <%= post.agree %></span>
+                <span class="comment">评论</span>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+       
+       
+            </li>
+            </ul>
+		</div>		
+
 		<aside  class="main_right">
         <div class="writeNote"><a href="/writePost" id="write">写文章</a></div>
             <div id="user-about">
@@ -62,7 +99,7 @@
             <div id="sidetab">
         <!-- tabHead -->
         <ul class="tab-nav">
-          <li><a href="javascript:void(0)">热门</a></li>
+          <li><a href="javascript:void(0)">推荐</a></li>
           <li><a href="javascript:void(0)">原创</a></li>
         </ul>
      

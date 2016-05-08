@@ -1,19 +1,20 @@
-var Post=require("../models/post.js");
+var Post = require("../models/post.js");
 //中间件multer的配置（实现上传功能）
 var upload = require('../models/multerUtil');
 
 var formidable = require("../models/formidable.js")
-var Ques=require('../models/ask.js');
-var quesComment=require('../models/quesComment.js');
+var Ques = require('../models/ask.js');
+var quesComment = require('../models/quesComment.js');
 
 var crypto = require('crypto'),
     User = require('../models/user.js'),
     Note = require('../models/note.js');
 
-var jobHunting=require('../models/jobHunting');
-var geolocation=require('../tools/city');
-var pagination=require('express-paginate');
+var jobHunting = require('../models/jobHunting');
+var geolocation = require('../tools/city');
+var pagination = require('express-paginate');
 
+var area = require("../models/area.js");
 
 
 
@@ -128,7 +129,7 @@ module.exports = function(app) {
       if(err){
         req.flash('error', err);
       }
-      req.session.user = newUser;//用户信息存入 session
+      req.session.user = newUser.name;//用户信息存入 session
      // console.log("cunjinlaile")
       req.flash('success', '注册成功!');
       res.send("regsuccess");
@@ -188,7 +189,7 @@ module.exports = function(app) {
         res.send("用户不存在！");
       }else{
         //用户名密码都匹配后，将用户信息存入 session
-        req.session.user = user.name;
+        req.session.user = user;
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
@@ -268,13 +269,13 @@ function checkNotLogin(req, res, next) {
     /*需要写文章的页面*/
   app.get('/writePost',checkLogin);
 	app.get('/writePost',function(req,res){
-		Post.getTags({author: res.session.user},function(err,tags){
+		Post.getTags({},function(err,tags){
 			if(err){
 				console.log(err);
 				tags=[];
 			}
 			
-			Post.getArchive({author: res.session.user},function(err,cates){
+			Post.getArchive({},function(err,cates){
 				if(err){
 					console.log("cates error");
 					cates=[];
@@ -391,7 +392,7 @@ function checkNotLogin(req, res, next) {
    var jsonUpdate={
         author: req.body.author,
         title: req.body.title,
-        user: req.session.user.name
+        user: req.session.user
       }
       console.log(jsonUpdate);
       console.log(agree.indexOf(req.session.user.name));
@@ -422,16 +423,72 @@ function checkNotLogin(req, res, next) {
 
   //用户设置
   app.get("/userSet",function(req,res){
-    res.render("user/userSet",{
+    console.log(req.session.user);
+    User.get(req.session.user.name,function(err,user){
+      if(err){
+        console.log(err);
+      }
+      console.log(user);
+      res.render("user/userSet",{
       title: "用户设置",
-      user: "cheng"
+      user:user
     })
+    })
+    
   })
+//修改用户地址(城市)
+app.post("/user/info/city",function(req,res){
+  console.log(req.body.province);
+  area.getCity(req.body.province,function(err,city){
+    if(err){
+      console.log(err);
+    }
+    console.log(city);
+    res.send(city.city);
+  })
+
+})
+
+//修改用户地址(区县)
+app.post("/user/info/area",function(req,res){
+  console.log(req.body.city);
+  area.getArea(req.body,function(err,area){
+    if(err){
+      console.log(err);
+    }
+    console.log(area);
+    res.send(area.city);
+  })
+
+
+})
 
 //用户个人信息设置
 app.post("/user/info",function(req,res){
   console.log(req.body);
 })
+//用户头像上传
+
+  app.post('/userset/imgupload',upload.single("file"),function(req,res){
+    console.log("file");
+    console.log(req);
+    
+    //将信息存入文章数据库
+    var path = "/uploads/"+req.file.filename;
+    console.log("user");
+    console.log(req.session.user);
+    User.update({name: req.session.user.name},{img:path},function(err){
+      if(err){
+        console.log(err);
+      }
+      res.send({
+        img: path
+      })
+    })
+    })
+    
+    
+  
 // 发布问题
   app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
@@ -444,9 +501,9 @@ app.post("/user/info",function(req,res){
   app.post('/ask', checkLogin);
   app.post('/ask',function(req,res){
     var currentUser = req.session.user,
-        quesTitle=req.body.quesTitle,
-        name=currentUser.name,
-        head=currentUser.head,
+        quesTitle = req.body.quesTitle,
+        name = currentUser.name,
+        head = currentUser.head,
         quesDetail=req.body.quesDetail,
         tags=req.body.tags,
         questionDetail=new Ques(name, head, quesTitle,quesDetail,tags);
@@ -456,7 +513,8 @@ app.post("/user/info",function(req,res){
           return res.redirect('/');
          } 
          //res.redirect('/question');
-         res.send('发布成功！');
+         res.send('发布成功!');
+
          //发表成功跳转到主页
         });
   });
@@ -474,7 +532,7 @@ app.post('/agree',function(req,res){
       }
       
       console.log("question:"+(parseInt(question.agree.length)+1));
-      var temp=parseInt(question.agree.length);
+      var temp=parseInt(question.agree.length)+1;
       // if ( question.agree.indexOf(name) < 0 ){
       Ques.agree(name, day, quesTitle,function(err) {
         if (err) {
@@ -482,10 +540,10 @@ app.post('/agree',function(req,res){
           console.log(err);
         }
         
-        //res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
         console.log("temp:"+temp);
         res.send(temp.toString());
-        // res.json({temp:temp+1});
+        // res.json({temp:temp});
       });
 //    }
     });
@@ -494,9 +552,12 @@ app.post('/agree',function(req,res){
 //实现点踩
 app.post('/disagree',function(req,res){
   console.log(333);
-  var name=req.body.name; 
+  var name=req.body.name;
+  console.log('name:'+name); 
   var day=req.body.day;
+  console.log('day:'+day); 
   var quesTitle=req.body.quesTitle;
+  console.log('quesTitle:'+quesTitle); 
   console.log(444); 
   Ques.getOne(name, day, quesTitle, function (err, question) {
       if (err) {
@@ -607,7 +668,7 @@ app.get('/questionTags', function (req, res) {
 //------------------------------显示问题具体内容
   app.get('/questionDetail', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
-    var num=8;
+    var num=2;
     Ques.getOne(req.query.name, req.query.day, req.query.quesTitle, function (err, question) {
       if (err) {
         req.flash('error', err); 
@@ -621,6 +682,7 @@ app.get('/questionTags', function (req, res) {
         name:question.name,
         user: req.session.user,
         comments:question.comments,
+        commentsLength:question.comments.length,
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),
         page:page,
@@ -636,11 +698,9 @@ app.post('/questionDetail', function (req, res) {
     var date = new Date(),
         time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
                date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
-
     var md5 = crypto.createHash('md5'),
         email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
         head = "images/7.jpg"; 
-
     var comment = {
         name: req.body.name,
         head: head,
@@ -648,23 +708,51 @@ app.post('/questionDetail', function (req, res) {
         website: req.body.website,
         time:time,
         content: req.body.content,
-        agreeNum:req.body.num?req.body.num:0
+        agreeNum:req.body.num?req.body.num:0,
+        reply:[]
     };
- 
-    var newQuesComment = new quesComment(req.param('name'), req.param('day'), req.param('quesTitle'), comment);
-
+    var name=req.query.name,
+        day=req.query.day,
+        quesTitle=req.query.quesTitle; 
+    var newQuesComment = new quesComment(name, day, quesTitle, comment);
     newQuesComment.save(function (err) {
       if (err) {
+        console.log(err);
         req.flash('error', err); 
         return res.redirect('back');
       }
-
       req.flash('success', '留言成功!');
       res.redirect('back');
-
     });
   });
+//-----------------------------回复评论
+app.post('/commentReply',function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentReplyFromName=req.body.commentReplyFromName,
+      commentReplyToName=req.body.commentReplyToName,
+      commentReplyContent=req.body.commentReplyContent,
+      commentId=req.body.commentId;
+      console.log(name);
+      console.log(day);
+      console.log(quesTitle);
+      console.log(commentReplyFromName);
+      console.log(commentReplyToName);
+      console.log(commentReplyContent);
+      console.log(commentId);
+      // console.log(req.query.params);
+    quesComment.getOne(name,day,quesTitle,commentId,function(err,comment){
+        if (err) {
+        req.flash('error', err); 
+        console.log("err:"+err);
+        return res.redirect('/');
+      }
+      console.log("comment:"+comment);
+      res.send("成功取出！");
+  });
 
+});
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
    app.get('/saveArticle',function(req,res){

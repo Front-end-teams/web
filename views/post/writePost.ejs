@@ -3,16 +3,10 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/writePost.css">
 <link rel="stylesheet" type="text/css" href="/popout/style.css">
 <script type="text/javascript" src="/popout/popular.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/wangEditor/dist/css/wangEditor.min.css">
 <!-- <script type="text/javascript" src="/popout/custom.js"></script> -->
 
-<<<<<<< HEAD
-
-<script type="text/javascript" src="/xheditor/jquery/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="/xheditor/xheditor.min.js"></script>
-<script type="text/javascript" src="/xheditor/xheditor_lang/zh-cn.js"></script> 
-
-=======
->>>>>>> origin/master
 <%- include ../nav %>
 <!-- 弹出框 -->
 <div class="pop-cont p2" id="pop-cont">
@@ -46,7 +40,7 @@
 <div class="post-input"><label>文章封面：</label>
 <div class="input-file">
 
-<input  type="file" name="postImg" value="上传图片" id="upload" class="file-button">
+<input  type="file" name="postImg" value="上传图片" id="upload" class="file-button" >
 
 <label class="file-button-img">上传封面</label>
 
@@ -55,15 +49,12 @@
 </div>
 
 <div class="post-input post-cont"><label><span class="must">*</span>文章内容：</label></div>
-<<<<<<< HEAD
-<textarea name='post' class="xheditor rich-text">test</textarea>
-=======
+
 
 <textarea name='post' class="rich-text" id="editor" >
   <p><% if (post) { %><%= post %> <% } %></p>
 </textarea>
 
->>>>>>> origin/master
 <div class="post-input">
 <label><span class="must">*</span>文章标签：</label>
 <div class="post-tags" id="post-tags">
@@ -136,21 +127,16 @@
 </form>
 </article>
 
-<%- include ../footer %> 
-
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
 <script type="text/javascript" src="/javascripts/seriPost.js"></script> 
-<<<<<<< HEAD
-=======
+
 
 <script type="text/javascript" src="/wangEditor/dist/js/lib/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/wangEditor/dist/js/wangEditor.js"></script>
 
->>>>>>> origin/master
 <script type="text/javascript" src="/javascripts/writePost.js"></script>
-<<<<<<< HEAD
-=======
+
 
 <script type="text/javascript">
   var editor=new wangEditor("editor");
@@ -161,9 +147,8 @@
   }
   editor.create();
 </script>
-<<<<<<< HEAD
->>>>>>> origin/master
+
 <%- include ../footer %> 
-=======
+
 <%- include ../end %> 
->>>>>>> origin/master
+
