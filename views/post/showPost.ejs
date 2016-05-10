@@ -1,12 +1,10 @@
 <%- include ../header %>
 <link rel="stylesheet" type="text/css" href="/stylesheets/showPost.css">
-<link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap-theme.css">
 <%- include ../nav %>
 <section class="wrap clearfix">
 
 <%- include subPost %>
-<% if (user.name && user.name==author) {%>
+<% if (user.name && user.name==post.author) {%>
 <div class="relate-post">
 	<header class="relate-post-header">文章分类</header>
 	<div class="relate-post-detail">

@@ -45,7 +45,7 @@ function tagsHidden(e){
 				if(value){
 					for (var i = 0; i < arr_val.length; i++) {
 						var span=document.createElement("span");
-						span.className="tag-s ";
+						span.className="tag-style ";
 						span.backgroundColor="#EEEB7E";
 						span.innerHTML=arr_val[i];
 						fragment.appendChild(span);
@@ -260,4 +260,4 @@ function tagsHidden(e){
 		})
 
 	})
-})()
+

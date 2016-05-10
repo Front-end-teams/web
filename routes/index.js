@@ -229,8 +229,7 @@ function checkNotLogin(req, res, next) {
 }
 
 	//文章
-	  
-	
+		
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: 'Express',
@@ -298,22 +297,37 @@ function checkNotLogin(req, res, next) {
 	})
 		//查看文章详细信息
   app.get("/detail/:author/:title",function(req,res){
-  	console.log("detail");
-
+  	
+    var isAgree = false;
+    var isColl = false;
     Post.getOne({author: req.params.author,title: req.params.title}, function (err, post) {
       if (err) {
         req.flash('error', err); 
         return res.redirect('/');
       }
       console.log("render");
-      res.render('post/showPost', {
-      	author: "cheng",
-        title: req.params.title,
-        post: post,
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
-      });
+      //判断是否已点赞
+      if ( req.session.user && post.agree.indexOf(req.session.user.name)>=0 ) {
+        isAgree = true;
+      }
+      if ( req.session.user && post.postcoll.indexOf(req.session.user.name)>0 ) {
+        isColl = true;
+      }
+      //访问量增加
+      console.log(isAgree);
+      Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
+          res.render('post/showPost', {
+          title: req.params.title,
+          post: post,
+          user: req.session.user,
+          success: req.flash('success').toString(),
+          error: req.flash('error').toString(),
+          isAgree : isAgree,
+          isColl: isColl
+        });
+      } )
+
+      
     });
   })
 	
@@ -376,7 +390,7 @@ function checkNotLogin(req, res, next) {
   
   app.post("/agree/:author/:title", function(req,res){
     console.log("start");
-    var agree=[];
+    var agree = [];
     console.log(req.body);
     Post.getOne(req.body, function (err, post) {
       if (err) {
@@ -392,7 +406,7 @@ function checkNotLogin(req, res, next) {
    var jsonUpdate={
         author: req.body.author,
         title: req.body.title,
-        user: req.session.user
+        user: req.session.user.name
       }
       console.log(jsonUpdate);
       console.log(agree.indexOf(req.session.user.name));
@@ -403,8 +417,10 @@ function checkNotLogin(req, res, next) {
           //req.flash('error', err);
           console.log(err);
         }
+        //点赞
         //var temp=agree.length + 1;
-        res.json({agree: agree.length+1}); 
+        res.json({agree: agree.length+1,
+                  isAgree: true}); 
       })
     } else {
       console.log("disagree");
@@ -415,12 +431,54 @@ function checkNotLogin(req, res, next) {
         }
         console.log(agree.length);
         
-        res.json({agree:agree.length-1});
+        res.json({agree:agree.length-1,
+                  isAgree:false});
       })
     }  
   }) 
   });
 
+  //文章收藏
+  app.post("/collect/:author/:title",function(req,res){
+    console.log("start");
+    var coll = [];
+    console.log(req.body);
+    Post.getOne(req.body, function (err, post) {
+      if (err) {
+        req.flash('error', err);
+         console.log("err:"+err);
+        return res.redirect('/');
+      }
+      coll = post.postcoll;
+       var jsonUpdate={
+            author: req.body.author,
+            title: req.body.title,
+            user: req.session.user.name
+          }
+      console.log(jsonUpdate);
+     if ( coll.indexOf( jsonUpdate.user ) < 0 ){
+      console.log("collection");
+      Post.addCollect(jsonUpdate, function(err){
+        console.log("add");
+        if (err) {
+          console.log("err");
+          console.log(err);
+        }
+        res.json({isColl: true}); 
+      })
+    } else {
+      console.log("disagree");
+      Post.deleteCollection(jsonUpdate,function(err){
+        if( err ) {
+          console.log(err);
+          res.send(false);
+        }
+        
+        res.json({isColl:false});
+      })
+    }  
+  }) 
+  })
   //用户设置
   app.get("/userSet",function(req,res){
     console.log(req.session.user);

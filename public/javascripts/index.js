@@ -24,7 +24,7 @@ var list=document.getElementById("list");
 var button=document.getElementById("buttons")
 var buttons=document.getElementById("buttons").getElementsByTagName("span");
 var imgs=list.getElementsByTagName("li");
-
+var animated = false;
 var time=null;
 
 var index=1;
@@ -42,10 +42,10 @@ function showButton(){
 //定义动画函数 
 function animate(ele,end){
 
-	
-	var timer=null;
+	animated = true;
+	var timer = null;
 	clearInterval(timer);
-	timer=setInterval(function(){
+	timer = setInterval(function(){
 		//console.log(ele.offsetLeft);
 		//速度随着现有偏移量和目标偏移量的距离的改变而改变
 		var speed=Math.floor((end-ele.offsetLeft)/2);
@@ -57,12 +57,13 @@ function animate(ele,end){
 			//当偏移量大于-600或小于-3000时的处理方式
 			clearInterval(timer);
 			ele.style.left = ele.offsetLeft + 'px';
-            if(parseInt(ele.style.left)>-1350){
-                ele.style.left = "-4050px" ;
-            }
-            if(parseInt(ele.style.left)<-4050) {
-                ele.style.left = '-1350px';
-            }
+      if(parseInt(ele.style.left)>-1350){
+          ele.style.left = "-4050px" ;
+      }
+      if(parseInt(ele.style.left)<-4050) {
+          ele.style.left = '-1350px';
+      }
+      animated = false;
 		}
 	},50);
 
@@ -84,6 +85,9 @@ container.onmouseover=stop;
 container.onmouseout=play;
 
 next.onclick=function(){
+	if (animated) {
+   return;
+  }
 	//console.log("next run");
 	if(index==3){
 		index=1;
@@ -96,6 +100,9 @@ next.onclick=function(){
 }
 
 prev.onclick=function(){
+	if (animated) {
+    return;
+  }
 	animate(list,parseInt(list.style.left)+1350);
 	if (index==1) {
 		index=3
@@ -105,8 +112,11 @@ prev.onclick=function(){
 	
 	showButton();
 }
-EventUtil.addHandler("button","click",function(e){
+EventUtil.addHandler(buttons,"click",function(e){
 	//点击span元素时 出现相应的图片 并改变相应span的背景色
+	if (animated) {
+    return;
+  }
 	var target=e.target;
 	if ((target.tagName).toLowerCase()=="span") {
 		index=target.getAttribute("index");

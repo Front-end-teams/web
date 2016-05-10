@@ -1,5 +1,4 @@
-var mongodb=require('./db'),
-    markdown = require('markdown').markdown;
+var mongodb=require('./db');
 function Post(author,title,tags,post,cates,img,art){
   this.author=author;
   this.title=title;
@@ -33,6 +32,7 @@ Post.prototype.save=function(callback){
     post: this.post,
     img: this.img,
     art: this.art,
+    postcoll: [],
     comments: [],
     agree: [],
     pv: 0
@@ -469,7 +469,6 @@ Post.disagree = function(query, callback) {
 
     if (err) {
       return callback(err);
-
     }
 
     //读取 posts 集合
@@ -494,3 +493,147 @@ Post.disagree = function(query, callback) {
     });
  });
 };
+//文章访问量的更新
+Post.viewNum = function(query, callback) {
+   //打开数据库
+  mongodb.open(function (err, db) {
+
+    if (err) {
+      return callback(err);
+    }
+
+    //读取 posts 集合
+    db.collection('posts', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log("update");
+
+     //更新文章内容
+      collection.update({author: query.author,title: query.title}, {
+        $inc: {"pv": 1}
+      }, function (err) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null);
+      });
+    });
+ });
+
+}; 
+//文章收藏功能
+Post.addCollect = function(query,callback){
+
+  console.log("start");
+ 
+
+  mongodb.open(function(err,db){
+    debugger;
+    console.log("open");
+    if(err){
+      console.log(err);
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if(err){
+        console.log(err);
+        return callback(err);
+      }
+      console.log(query);
+      collection.update({author: query.author,title: query.title},{
+        $push: {"postcoll": query.user}
+      }, function (err) {
+        console.log("update");
+        if (err) {
+          mongodb.close();
+          console.log("err");
+          return callback(err);
+        }
+        console.log("success");
+        mongodb.close();
+        callback(null);  
+      })
+    })
+  })
+  mongodb.close();
+  mongodb.open(function(err,db){
+    if(err){
+      console.log(err);
+      return callback(err);
+    }
+    db.collection("users",function(err,collection){
+      if(err){
+        console.log(err);
+        return callback(err);
+      }
+      collection.update({name:query.user},{
+        $push: {"postcoll": {author:query.author,title:query.title}}
+      }, function (err) {
+        
+        if (err) {
+          mongodb.close();
+          return callback(err);
+        }
+
+        mongodb.close();
+        callback(null);
+    })
+  })
+})
+}
+
+//文章取消收藏功能
+Post.deleteCollect= function(query,callback){
+  mongodb.open(function(err,db){
+    if(err){
+      console.log(err);
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if(err){
+        console.log(err);
+        return callback(err);
+      }
+      collection.update({author: query.author,title: query.title},{
+        $pull: {"postcoll": query.user}
+      }, function (err) {
+        
+        if (err) {
+          mongodb.close();
+          return callback(err);
+        }
+
+        mongodb.close();
+        callback(null);  
+      })
+    })
+  })
+
+  mongodb.open(function(err,db){
+    if(err){
+      console.log(err);
+      return callback(err);
+    }
+    db.collection("users",function(err,collection){
+      if(err){
+        console.log(err);
+        return callback(err);
+      }
+      collection.update({name:query.user},{
+        $pull: {"postcoll": {author:query.author,title:query.title}}
+      }, function (err) {
+        
+        if (err) {
+          mongodb.close();
+          return callback(err);
+        }
+
+        mongodb.close();
+        callback(null);
+    })
+  })
+})
+}

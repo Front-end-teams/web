@@ -26,7 +26,8 @@ User.prototype.save = function(callback) {
       password: this.password,
       repassword:this.repassword,
       email: this.email,
-      img: ''
+      img: '',
+      postcoll:[]
   };
   //打开数据库
   mongodb.open(function (err, db) {
