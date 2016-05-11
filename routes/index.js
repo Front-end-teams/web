@@ -73,7 +73,7 @@ module.exports = function(app) {
   });
 
   app.post('/reg/name', function (req, res) {
-    res.setHeader('content-type', 'application/json');
+    res.setHeader('content-type', 'application/text');
     //console.log(req.body);
     var name = req.body.name;
     //检查用户名是否已经存在 
