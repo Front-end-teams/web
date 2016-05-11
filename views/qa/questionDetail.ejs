@@ -42,11 +42,15 @@
              <div class="commAction">
                <span>赞同 <span><%=comments[i].agreeNum%></span></span>
                <span>反对</span>
-               <span id="reply_<%=i%>">回复</span>
+               <span id="reply_<%=i%>"   
+                  data-questitle="<%=quesTitle %>" 
+                  data-name="<%= name %>"
+                  data-day="<%= day %>"
+                  data-commentid="<%=i%>"><%=comments[i].reply.length%>条回复</span>
              </div>
           </div>
           <div class="comment_reply">
-            <ul class="reply_list"></ul>
+            <ul class="reply_list" id="reply_list"></ul>
             <div class="pub_reply">
               <div class="reply_head"></div>
               <div class="reply_main">
@@ -146,32 +150,62 @@ for(var i=(page-1)*num;i<length;i++)
     {
       this.parentNode.parentNode.nextElementSibling.style.display="block";
     }
+    var params={
+      "name":that.getAttribute('data-name'),
+      "day":that.getAttribute('data-day'),
+      "quesTitle":that.getAttribute('data-questitle'),
+      "commentId":that.getAttribute('data-commentid')
+    };
+    $.ajax({
+      data:params,
+      url:"/getReplyOfComment",
+      type:'get',
+      jsonpCallback: 'callback',
+      success:function(data){
+                console.log('这是data');
+                console.log(data);
+                console.log("这是data");
+        },
+        err:function(jqXHR, textStatus, errorThrown){
+              alert('error ' + textStatus + " " + errorThrown);  
+          }
+    });
   }
       $('#comment_reply_btn_'+i).bind('click',function(){
+        var that=this, 
+            temp=that.previousElementSibling.value,
+            index=temp.indexOf('：'),
+            commentReplyContent=temp.substring(index+1);
       var params={
-        "name":this.getAttribute('data-name'),
-        "day":this.getAttribute('data-day'),
-        "quesTitle":this.getAttribute('data-questitle'),
-        "commentReplyFromName":this.getAttribute('data-commentreplyfromname'),
-        "commentReplyToName":this.getAttribute('data-commentreplytoname'),
-        "commentReplyContent":this.previousElementSibling.innerHTML,
-        "commentId":this.getAttribute('data-commentid')
+        "name":that.getAttribute('data-name'),
+        "day":that.getAttribute('data-day'),
+        "quesTitle":that.getAttribute('data-questitle'),
+        "commentReplyFromName":that.getAttribute('data-commentreplyfromname'),
+        "commentReplyToName":that.getAttribute('data-commentreplytoname'),
+        "commentReplyContent":commentReplyContent,
+        "commentId":that.getAttribute('data-commentid')
       };
-      console.log(this.previousElementSibling.innerHTML);
-      console.log(this.getAttribute('data-name'));
-      console.log(this.getAttribute('data-day'));
-      console.log(this.getAttribute('data-questitle'));
-      console.log(this.getAttribute('data-commentreplyfromName'));
-      console.log(this.getAttribute('data-commentreplytoName'));
+      console.log(that.previousElementSibling.innerHTML);
+      console.log(that.getAttribute('data-name'));
+      console.log(that.getAttribute('data-day'));
+      console.log(that.getAttribute('data-questitle'));
+      console.log(that.getAttribute('data-commentreplyfromName'));
+      console.log(that.getAttribute('data-commentreplytoName'));
       $.ajax({
         data:params,
         url:"/commentReply",
         type:'post',
         jsonpCallback: 'callback',
         success:function(data){
-                  console.log('这是data');
-                  console.log(data);
-                  console.log('这是data');
+                console.log('这是data');
+                console.log(data);
+                var fragment=document.createDocumentFragment(),
+                    ul=that.parentNode.parentNode.parentNode.previousElementSibling,
+                    li=document.createElement('li');
+                li.innerHTML="<a href='#'>"+data.commentReplyFromName+"</a>"+" 回复 "+"<a href='#'>"+data.commentReplyToName+"</a>"+"："+data.commentReplyContent+"<a href='#'>回复</a>"+"<span>"+data.time.minute+"</span>";
+                fragment.appendChild(li);
+                ul.appendChild(fragment);
+                console.log("这是data");
         },
         err:function(jqXHR, textStatus, errorThrown){
               alert('error ' + textStatus + " " + errorThrown);  

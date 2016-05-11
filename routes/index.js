@@ -764,6 +764,16 @@ app.get('/questionTags', function (req, res) {
       });
     });
   });
+//----------------------------------显示某个问题的某个评论的具体内容
+app.get('/getReplyOfComment',function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentId=req.body.commentId;
+  quesComment.getAllReplyOfOneComment(name, day, title, commentid,function(err,reply){
+    
+  });
+});
 //-----------------------------回答问题
 app.post('/questionDetail', function (req, res) {
     var date = new Date(),
@@ -805,24 +815,29 @@ app.post('/commentReply',function(req,res){
       commentReplyToName=req.body.commentReplyToName,
       commentReplyContent=req.body.commentReplyContent,
       commentId=req.body.commentId;
-      console.log(name);
-      console.log(day);
-      console.log(quesTitle);
-      console.log(commentReplyFromName);
-      console.log(commentReplyToName);
-      console.log(commentReplyContent);
-      console.log(commentId);
-      // console.log(req.query.params);
-    quesComment.getOne(name,day,quesTitle,commentId,function(err,comment){
+  var date = new Date();
+  var time = {
+      date: date,
+      year : date.getFullYear(),
+      month : date.getFullYear() + "-" + (date.getMonth() + 1),
+      day : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+      minute : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
+      date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+  };
+  var commentreply={
+      "commentReplyFromName":commentReplyFromName,
+      "commentReplyToName":commentReplyToName,
+      "commentReplyContent":commentReplyContent,
+      "time":time
+  };
+    quesComment.commentreply(name,day,quesTitle,commentId,commentreply,function(err){
         if (err) {
         req.flash('error', err); 
         console.log("err:"+err);
         return res.redirect('/');
-      }
-      console.log("comment:"+comment);
-      res.send("成功取出！");
+      }      
+      res.send(commentreply);
   });
-
 });
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
