@@ -62,10 +62,18 @@ body {
 	padding-bottom: 5px;
 	border-bottom: 2px solid #eee;
 }
-.reltate-post-detail{
+.relate-post-detail{
 
 }
-
+.relate-post-title a{
+	display: inline-block;
+	padding:5px;
+	color:#909090;
+	text-decoration: none;
+}
+.relate-post-title a:hover{
+	color:#B0B0B0;
+}
 .author-editor{
 	float:right;
 
@@ -74,6 +82,7 @@ body {
 	color:#B5B5B5;
 	margin-left: 10px;
 }
+
 
 @font-face {font-family: "iconfont";
   src: url('/icon/part-icon/iconfont.eot?t=1462859034'); /* IE9*/

@@ -29,7 +29,9 @@ module.exports = function(app) {
     var path = "/uploads/"+req.file.filename;
     var artText=decodeURIComponent(req.body.post).substr(0,200);
     console.log(artText);
-    var post = new Post("cheng", decodeURIComponent(req.body.title), req.body.tags,decodeURIComponent(req.body.post),req.body.cates,path,artText);
+    var tags = decodeURIComponent(req.body.tags).split(",");
+    console.log(tags);
+    var post = new Post(req.session.user.name, decodeURIComponent(req.body.title),tags,decodeURIComponent(req.body.post),decodeURIComponent(req.body.cates),path,decodeURIComponent(artText));
       post.save(function (err) {
     
       if (err) {  
@@ -303,7 +305,8 @@ function checkNotLogin(req, res, next) {
     Post.getOne({author: req.params.author,title: req.params.title}, function (err, post) {
       if (err) {
         req.flash('error', err); 
-        return res.redirect('/');
+        
+        console.log(err);
       }
       console.log("render");
       //判断是否已点赞
@@ -313,19 +316,28 @@ function checkNotLogin(req, res, next) {
       if ( req.session.user && post.postcoll.indexOf(req.session.user.name)>0 ) {
         isColl = true;
       }
-      //访问量增加
-      console.log(isAgree);
-      Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
+      console.log(post.tags);
+      Post.getTen({tags:{$in:post.tags}},1,function(err, posts, totle){
+        if ( err ){
+          console.log(err);
+        }
+        console.log(posts);
+        //访问量增加
+        console.log(isAgree);
+        Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
           res.render('post/showPost', {
           title: req.params.title,
           post: post,
+          relate:posts,
           user: req.session.user,
           success: req.flash('success').toString(),
           error: req.flash('error').toString(),
           isAgree : isAgree,
           isColl: isColl
         });
-      } )
+      })
+      })
+      
 
       
     });
@@ -387,7 +399,6 @@ function checkNotLogin(req, res, next) {
     }) 
   })
   //文章点赞
-  
   app.post("/agree/:author/:title", function(req,res){
     console.log("start");
     var agree = [];
@@ -456,29 +467,31 @@ function checkNotLogin(req, res, next) {
             user: req.session.user.name
           }
       console.log(jsonUpdate);
-     if ( coll.indexOf( jsonUpdate.user ) < 0 ){
-      console.log("collection");
-      Post.addCollect(jsonUpdate, function(err){
-        console.log("add");
-        if (err) {
-          console.log("err");
-          console.log(err);
-        }
+       res.setHeader('content-type', 'application/json');
+      if ( coll.indexOf ( jsonUpdate.user ) < 0 ) {
+        console.log("collection");
+        Post.addCollect(jsonUpdate, function(err){
+          console.log("add");
+          if (err) {
+            console.log("err");
+            console.log(err);
+          }
         res.json({isColl: true}); 
-      })
-    } else {
-      console.log("disagree");
-      Post.deleteCollection(jsonUpdate,function(err){
-        if( err ) {
-          console.log(err);
-          res.send(false);
-        }
-        
-        res.json({isColl:false});
-      })
-    }  
-  }) 
+        })
+      } else {
+        console.log("disagree");
+        Post.deleteCollect(jsonUpdate,function(err){
+          if( err ) {
+            console.log(err);
+          }
+          res.json({isColl:false});
+        })
+      }  
+    }) 
   })
+ 
+  
+
   //用户设置
   app.get("/userSet",function(req,res){
     console.log(req.session.user);

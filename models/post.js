@@ -83,11 +83,6 @@ Post.getTen=function(query,page,callback){
         console.log(err);
         return callback(err);
       }
-      /*var query = {};
-      if (name) {
-        query.name = name;
-      }*/
-    //使用count返回特定查询的文档数 total
     console.log("count");
     collection.count(query,function(err,total){
       //根据query条件查询 并跳过前(page-1)*10个结果，返回之后的10个结果
@@ -102,9 +97,7 @@ Post.getTen=function(query,page,callback){
         if(err){
           return callback(err);
         }
-        /*docs.forEach(function(doc){
-          doc.post=markdown.toHTML(doc.post);
-        });*/
+        
         console.log("end");
         callback(null,docs,total);
       })
@@ -528,15 +521,16 @@ Post.viewNum = function(query, callback) {
 Post.addCollect = function(query,callback){
 
   console.log("start");
- 
-
+  mongodb.close();
+  console.log("close");
   mongodb.open(function(err,db){
-    debugger;
+   
     console.log("open");
     if(err){
       console.log(err);
       return callback(err);
     }
+    console.log("posts");
     db.collection('posts',function(err,collection){
       if(err){
         console.log(err);
@@ -553,18 +547,11 @@ Post.addCollect = function(query,callback){
           return callback(err);
         }
         console.log("success");
-        mongodb.close();
-        callback(null);  
+        //mongodb.close();
+        //callback(null);  
       })
     })
-  })
-  mongodb.close();
-  mongodb.open(function(err,db){
-    if(err){
-      console.log(err);
-      return callback(err);
-    }
-    db.collection("users",function(err,collection){
+     db.collection("users",function(err,collection){
       if(err){
         console.log(err);
         return callback(err);
@@ -582,7 +569,7 @@ Post.addCollect = function(query,callback){
         callback(null);
     })
   })
-})
+})  
 }
 
 //文章取消收藏功能
@@ -597,6 +584,7 @@ Post.deleteCollect= function(query,callback){
         console.log(err);
         return callback(err);
       }
+
       collection.update({author: query.author,title: query.title},{
         $pull: {"postcoll": query.user}
       }, function (err) {
@@ -606,22 +594,18 @@ Post.deleteCollect= function(query,callback){
           return callback(err);
         }
 
-        mongodb.close();
-        callback(null);  
+        //mongodb.close();
+        //callback(null);  
       })
     })
-  })
-
-  mongodb.open(function(err,db){
-    if(err){
-      console.log(err);
-      return callback(err);
-    }
+  
     db.collection("users",function(err,collection){
+      console.log("error")
       if(err){
         console.log(err);
         return callback(err);
       }
+      console.log("update");
       collection.update({name:query.user},{
         $pull: {"postcoll": {author:query.author,title:query.title}}
       }, function (err) {
