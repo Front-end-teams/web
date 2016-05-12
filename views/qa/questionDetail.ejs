@@ -54,9 +54,16 @@
             <div class="pub_reply">
               <div class="reply_head"></div>
               <div class="reply_main">
-                <p class="reply_name"><%=user.name%></p>
+                <div class="commentReplyFromNamePic">
+                   <a href="#">
+                     <img src="images/9.png">
+                   </a>                   
+                </div>
+                <div class="commentReplyFromName">
+                  <a class="reply_name" href="#"><%=user.name%></a>
+                </div>             
                 <div class="reply_content">
-                  <textarea cols="70" rows="2" id="comment_reply_<%=i%>" >回复 <%= comments[i].name %>：</textarea>
+                  <textarea cols="70" rows="2" id="comment_reply_<%=i%>" data-commentname="<%= comments[i].name %>"></textarea>
                   <button id="comment_reply_btn_<%=i%>" 
                   data-questitle="<%=quesTitle %>" 
                   data-name="<%= name %>"
@@ -141,41 +148,56 @@ var length=document.getElementById('commentsLength').dataset.length;
 for(var i=(page-1)*num;i<length;i++)
 {
 
-  document.getElementById('reply_'+i).onclick=function(){
-    if (this.parentNode.parentNode.nextElementSibling.style.display=="block") 
+  $('#reply_'+i).bind('click',function(){
+    var that=this;
+    if (that.parentNode.parentNode.nextElementSibling.style.display=="block") 
     {
-      this.parentNode.parentNode.nextElementSibling.style.display="none";
+      that.parentNode.parentNode.nextElementSibling.style.display="none";
+      that.parentNode.parentNode.nextElementSibling.firstElementChild.innerHTML="";
     }
     else
     {
-      this.parentNode.parentNode.nextElementSibling.style.display="block";
+        that.parentNode.parentNode.nextElementSibling.style.display="block";
+        var textarea=that.parentNode.parentNode.nextElementSibling.getElementsByTagName('textarea')[0];
+        var str=textarea.getAttribute('data-commentname');
+        textarea.value="回复 "+str+"：";
+        var params={
+            "name":that.getAttribute('data-name'),
+            "day":that.getAttribute('data-day'),
+            "quesTitle":that.getAttribute('data-questitle'),
+            "commentId":that.getAttribute('data-commentid')
+        };
+        $.ajax({
+          data:params,
+          url:"/getReplyOfComment",
+          type:'post',
+          jsonpCallback: 'callback',
+          success:function(data){
+                    console.log('这是data');
+                    console.log(data);
+                    var fragment=document.createDocumentFragment(),
+                        ul=that.parentNode.parentNode.nextElementSibling.firstElementChild;   
+                    for(var i=0,leng=data.length;i<leng;i++)
+                      {
+                        li=document.createElement('li');
+                        li.innerHTML="<div class='commentReplyFromNamePic'><a href='#'><img src='images/9.png'></a></div>"+"<div  class='commentReplyFromName'><a href='#'>"+data[i].commentReplyFromName+"</a>"+" 回复 "+"<a href='#'>"+data[i].commentReplyToName+"</a>"+"<span class='time'>"+data[i].time.minute+"</span>"+"</div>"+"<div class='commentReplyContent'>"+data[i].commentReplyContent+"</div>"+"<a href='#'>回复</a>";
+                        fragment.appendChild(li);
+                      }; 
+                    ul.appendChild(fragment);
+                    console.log("这是data");
+            },
+          err:function(jqXHR, textStatus, errorThrown){
+                  alert('error ' + textStatus + " " + errorThrown); 
+              }
+        });
     }
-    var params={
-      "name":that.getAttribute('data-name'),
-      "day":that.getAttribute('data-day'),
-      "quesTitle":that.getAttribute('data-questitle'),
-      "commentId":that.getAttribute('data-commentid')
-    };
-    $.ajax({
-      data:params,
-      url:"/getReplyOfComment",
-      type:'get',
-      jsonpCallback: 'callback',
-      success:function(data){
-                console.log('这是data');
-                console.log(data);
-                console.log("这是data");
-        },
-        err:function(jqXHR, textStatus, errorThrown){
-              alert('error ' + textStatus + " " + errorThrown);  
-          }
-    });
-  }
-      $('#comment_reply_btn_'+i).bind('click',function(){
-        var that=this, 
-            temp=that.previousElementSibling.value,
-            index=temp.indexOf('：'),
-            commentReplyContent=temp.substring(index+1);
+
+  });
+  $('#comment_reply_btn_'+i).bind('click',function(){
+      var that=this, 
+          temp=that.previousElementSibling.value,
+          index=temp.indexOf('：'),
+          commentReplyContent=temp.substring(index+1);
       var params={
         "name":that.getAttribute('data-name'),
         "day":that.getAttribute('data-day'),
@@ -185,7 +207,7 @@ for(var i=(page-1)*num;i<length;i++)
         "commentReplyContent":commentReplyContent,
         "commentId":that.getAttribute('data-commentid')
       };
-      console.log(that.previousElementSibling.innerHTML);
+      console.log(commentReplyContent);
       console.log(that.getAttribute('data-name'));
       console.log(that.getAttribute('data-day'));
       console.log(that.getAttribute('data-questitle'));
@@ -202,9 +224,10 @@ for(var i=(page-1)*num;i<length;i++)
                 var fragment=document.createDocumentFragment(),
                     ul=that.parentNode.parentNode.parentNode.previousElementSibling,
                     li=document.createElement('li');
-                li.innerHTML="<a href='#'>"+data.commentReplyFromName+"</a>"+" 回复 "+"<a href='#'>"+data.commentReplyToName+"</a>"+"："+data.commentReplyContent+"<a href='#'>回复</a>"+"<span>"+data.time.minute+"</span>";
+                    li.innerHTML="<div class='commentReplyFromNamePic'><a href='#'><img src='images/9.png'></a></div>"+"<div class='commentReplyFromName'><a href='#'>"+data.commentReplyFromName+"</a>"+" 回复 "+"<a href='#'>"+data.commentReplyToName+"</a>"+"<span class='time'>"+data.time.minute+"</span>"+"</div>"+"<div class='commentReplyContent'>"+data.commentReplyContent+"</div>"+"<a href='#'>回复</a>";
                 fragment.appendChild(li);
                 ul.appendChild(fragment);
+                that.previousElementSibling.value="";
                 console.log("这是data");
         },
         err:function(jqXHR, textStatus, errorThrown){

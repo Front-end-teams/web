@@ -765,13 +765,19 @@ app.get('/questionTags', function (req, res) {
     });
   });
 //----------------------------------显示某个问题的某个评论的具体内容
-app.get('/getReplyOfComment',function(req,res){
+app.post('/getReplyOfComment',function(req,res){
   var name=req.body.name,
       day=req.body.day,
-      quesTitle=req.body.quesTitle,
-      commentId=req.body.commentId;
-  quesComment.getAllReplyOfOneComment(name, day, title, commentid,function(err,reply){
-    
+      questitle=req.body.quesTitle,
+      commentid=req.body.commentId;
+  console.log("name:"+name);
+  console.log("day:"+day);
+  console.log("quesTitle:"+questitle);
+  console.log("commentId:"+commentid);
+  quesComment.getReplyOfComment(name, day, questitle, commentid, function(err,question){
+         var reply=question.comments[0].reply;
+         console.log('reply:'+reply);
+         res.send(reply);
   });
 });
 //-----------------------------回答问题

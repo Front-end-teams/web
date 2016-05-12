@@ -51,9 +51,10 @@ quesComment.prototype.save = function(callback) {
   });
 };
 //取出一条评论的所有回复
-quesComment.getAllReplyOfOneComment = function(name, day, title, commentid,callback) {
+quesComment.getReplyOfComment = function(name, day, questitle, commentid,callback) {
   //打开数据库
   console.log('1111111111111');
+  mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
       return callback(err);
@@ -67,20 +68,17 @@ quesComment.getAllReplyOfOneComment = function(name, day, title, commentid,callb
       }
       console.log('3333333333333');
       //根据用户名、发表日期及文章名进行查询
+      var index=parseInt(commentid);
       collection.findOne({
         "name": name,
         "time.day": day,
-        "quesTitle": title,
-      },{"comments":{"$slice":[commentid,1]}},function (err, doc) {
+        "quesTitle": questitle
+      },{"comments":{"$slice":[index,1]}},function (err, doc) {
         if (err) {
           mongodb.close();
           return callback(err);
         }
-          //解析 markdown 为 html
-          // doc.post = markdown.toHTML(doc.post);
-          // doc.comments.forEach(function (comment) {
-          //   comment.content = markdown.toHTML(comment.content);
-          // });
+
           callback(null, doc);//返回查询的一篇文章
         
         console.log('4444444444444');
@@ -91,6 +89,7 @@ quesComment.getAllReplyOfOneComment = function(name, day, title, commentid,callb
 quesComment.commentreply = function(name, day, title, commentid, commentreply,callback) {
   //打开数据库
   console.log('1111111111111');
+  mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
       return callback(err);
@@ -116,11 +115,6 @@ quesComment.commentreply = function(name, day, title, commentid, commentreply,ca
           mongodb.close();
           return callback(err);
         }
-          //解析 markdown 为 html
-          // doc.post = markdown.toHTML(doc.post);
-          // doc.comments.forEach(function (comment) {
-          //   comment.content = markdown.toHTML(comment.content);
-          // });
           callback(null);//返回查询的一篇文章
         
         console.log('4444444444444');
