@@ -21,6 +21,7 @@
     "morgan": "~1.6.1",
     "multer": "^1.1.0",
     "serve-favicon": "~2.3.0",
+<<<<<<< HEAD
     "sendevent": "^1.0.4",
     "serve-favicon": "~2.3.0",
     "uglify-js": "^2.6.2",
@@ -30,5 +31,9 @@
   "devDependencies": {
     "ejs": "^2.3.4",
     "nodemon": "^1.9.1"
+=======
+    "nodemailer": "~1.4.0",
+    "nodemailer-smtp-transport":"~1.0.3"
+>>>>>>> origin/master
   }
 }
