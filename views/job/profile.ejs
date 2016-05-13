@@ -1,0 +1,197 @@
+<%- include ./nav %>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+			*{
+				 margin:0;
+				 padding:0;
+			}
+			html,body{
+				background-color: #f1f4f6;
+			}
+         .container{
+         	width:1000px;
+         	margin:0 auto;
+         	height:1000px;
+         	background-color: white;
+         	position:relative;
+         }
+         .head{
+         	background:url('images/default_headpic.png');
+         	width:200px;
+         	height:200px;
+         	/*这时候我用了absolute，而且left:50%,同时用margin负值把元素拉回中心*/
+         	position:absolute;
+         	left:50%;
+            margin-left:-100px;
+         }
+         /*因为上面用了absolute，所以后面的元素会被上面覆盖，因此用absolute就可以了*/
+         .name{
+               font-size: 15px;
+               font-weight: bold;
+               position: absolute;/*包裹性,所以要把宽度设置为100%就可以了，然后使用text-align:center就可了*/
+               width:100%;
+               top:200px;
+               text-align: center;
+               height:20px;
+              padding:10px 0;
+         }
+         .des{
+         	position: absolute;
+         	top:240px; /*这个元素的底部距离上面为280px*/
+         	padding:10px 0 40px 0;
+         	height:20px;
+         	width:100%;
+         	border-bottom: 1px solid #ccc;
+         	text-align: center;
+         }
+         .des1{
+         	position: absolute;
+         	top:270px; /*这个元素的底部距离上面为280px*/
+         	padding:10px 0 20px 0;
+         	height:20px;
+         	width:100%;
+         	text-align: center;
+         }
+         .resume{
+         	position:absolute;/*absolute有包裹性*/
+         	width:100%;
+         	top:300px;
+         	height:85px;
+         	padding:10px 0 10px 0;
+         	border-bottom: 1px solid #ccc;
+         }
+
+         .resume:after{
+         	vertical-align: middle;
+         	height:100%;
+         	content:"";
+         	display:inline-block;
+         }
+         /*左边第一个div元素*/
+         .resume-l{
+         	display: inline-block;
+         	vertical-align: middle;
+         }
+         .chinese{
+         	display:inline-block;
+         	background-color: #efefef;
+         	border-radius: 5px;
+         	width:150px;
+         	margin-left: 300px;
+         	vertical-align: middle;
+         	text-align: center;
+         	line-height: 50px;
+         }
+         .english{
+         	display: inline-block;
+         	border-radius: 5px;
+         	width:150px;
+         	background-color: #efefef;
+         	margin-left: 25px;
+         	vertical-align: middle;
+         	text-align: center;
+         	line-height:50px;/*把height和line-height设置为相同，可以让元素垂直居中,只要设置line-height就可以了*/
+         }
+         .ct{
+         	font-weight: bold;
+         	padding-left: 20px;
+         }
+         .udt{
+         	margin-top: 10px;
+            padding-left: 20px;
+         }
+         .fb{
+         	height:115px;
+         	padding:10px 0px;
+         	position: absolute;
+         	width:100%;
+         	top:435px;
+            border-bottom:1px solid #ccc;
+            text-align: center;
+         }
+         .fb div{
+         	width:195px;
+         	height:63px;
+         	display: inline-block;
+         	border-radius: 5px;
+         	vertical-align: middle;
+         }
+         .fb:after{
+         	content: "";
+         	vertical-align: middle;
+         	display: inline-block;
+         	height: 100%;
+         }
+         .fbk{
+         	background-color: #61cfe0;
+         	left:30px;
+         	margin-left: 20px;
+         }
+         .str{
+         	background-color: #f19092;
+  
+         	left:255px;
+         }
+         .subc{
+         	left:480px;
+         	background-color: #ccc;
+         }
+         .appt{
+         	left:705px;
+         	background-color: #ccc;
+
+         }
+         fb i {/*这里是子孙选择器*/
+	    height: 0;
+	    border: 10px solid;
+	    border-color: transparent transparent #959595 transparent;/*其中上边框设置为透明，左边框也为透明，下边框为特定的颜色，右边框为透明*/
+	    position: absolute;
+	    bottom: 0;
+	    left: 180px;
+	    -webkit-transition: all 0.6s;
+	    -moz-transition: all 0.6s;
+	    -o-transition: all 0.6s;
+	    transition: all 0.6s;
+	}
+	</style>
+</head>
+<body>
+   <div class="container">
+         <div class="head"></div>
+         <p class="name">覃亮</p>
+         <p class='des'>
+            <span>男 |</span>
+            <span>1990-09|</span>
+            <span>大连理工|</span>
+            <span>管理科学与工程|</span>
+            <span>硕士|</span>
+            <span>2017毕业</span>
+       </p>
+        <p class='des1'>
+            <span>18340816452|</span>
+            <span>liangklfang@163.com</span>
+       </p>
+       <div class="resume">
+       	   <div class="resume-l">
+       	   	  <p class="ct">覃亮_web前端实习_大连理工大学 -默认简历</p>
+       	   	  <p class='udt'>最近更新 2016-03-23 12:30:25</p>
+       	   </div>
+       	   <div class='chinese'>中文简历</div>
+       	   <div class="english">English</div>
+       </div>
+      <div class="fb" style="">
+      	   <div class='fbk'></div>
+      	      <i></i>
+           <div class='str'></div>
+           <div class='subc'></div>
+           <div class='appt'></div>
+      </div>
+   <div>
+
+   <!--这里自动刷新-->
+     <%- watchScript %>
+</body>
+</html>

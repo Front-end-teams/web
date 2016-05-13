@@ -20,6 +20,15 @@
     "mongodb": "~1.4.15",
     "morgan": "~1.6.1",
     "multer": "^1.1.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "sendevent": "^1.0.4",
+    "serve-favicon": "~2.3.0",
+    "uglify-js": "^2.6.2",
+    "watch": "^0.17.1"
+  },
+   
+  "devDependencies": {
+    "ejs": "^2.3.4",
+    "nodemon": "^1.9.1"
   }
 }

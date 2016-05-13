@@ -323,7 +323,7 @@ function checkNotLogin(req, res, next) {
         }
         console.log(posts);
         //访问量增加
-        console.log(isAgree);
+        //console.log(isAgree);
         Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
           res.render('post/showPost', {
           title: req.params.title,
@@ -540,12 +540,13 @@ app.post("/user/info",function(req,res){
 })
 //用户头像上传
 
-  app.post('/userset/imgupload',upload.single("file"),function(req,res){
+  app.post('/userset/imgupload',upload.array("files",10),function(req,res){
     console.log("file");
-    console.log(req);
+    console.log(req.body);
+
     
     //将信息存入文章数据库
-    var path = "/uploads/"+req.file.filename;
+    /*var path = "/uploads/"+req.file.filename;
     console.log("user");
     console.log(req.session.user);
     User.update({name: req.session.user.name},{img:path},function(err){
@@ -555,7 +556,7 @@ app.post("/user/info",function(req,res){
       res.send({
         img: path
       })
-    })
+    })*/
     })
     
     
@@ -826,6 +827,7 @@ app.post('/commentReply',function(req,res){
 });
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
+   
    app.get('/saveArticle',function(req,res){
      res.render('post/writePost', {
       title: '发表',
@@ -888,15 +890,32 @@ app.post('/commentReply',function(req,res){
 
  /*------------------工作的详细的信息-----------*/
  app.get('/job-detail',function(req,res){
+   console.log('查询id='+req.query.id);
       var id=(req.query.id);
       //获取工作的具体的id
       jobHunting.getSpecial(id,function(job){
-          //console.log(job.companyName);
-          //req.flash("jobs",job);
-          res.render("job/job-detail-show",{
-            user: req.session.user,
-            title: "工作",
-            jobs:job});
+           console.log(job);
+         // res.render("job/job-detail-show",{
+         //   user: req.session.user,
+          //  title: "工作",
+          //  jobs:job});
+       res.render('job/index',{
+          location:job.workLocation,//工作地点
+          companyName:job.companyName,//公司名称
+          companyLocation:job.companyLocation,//公司地点
+          jobTime:job.jobTime,
+          pay:job.pay,
+          xueli:job.xueli,
+          ave:job.ave,
+          tim:job.tim,
+          jobDetail:job.jobDetail,
+          get:job.get,
+          temp:job.temp,
+          we:job.we,
+          wl:job.wl,
+          pep:job.pep,
+          dl:job.dl
+       });
       });
  })
 /*------------------工作条件查询-----------------*/
@@ -945,14 +964,13 @@ app.post('/commentReply',function(req,res){
        res.redirect('user/login');
      }
       //这里我们把需要的数据全部保存到数据库中jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail) 
-      var body=req.body,jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,body.jobTime,body.jobDetail);
+      var body=req.body,jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,body.jobTime,body.jobDetail,body.pay,body.xueli,body.ave,body.tim,body.get,body.temp,body.we,body.wl,body.pep,body.dl);
        jobD.save(function(err){
          //如果出错了那么我们直接报错
          if(err){
            req.flash('error',error);
            return res.redirect('/job-insert-error');
          }
-         console.log('-----------------------1');
           res.redirect('/job-insert-succ');
        });
   });
@@ -974,6 +992,9 @@ app.get('/job-insert-succ', function(req, res){
    // res.write('<meta http-equiv="refresh" content="5;url=/job-insert"></meta>');
     res.end();
 });
+app.get('/auto-refresh',function(req,res){
+   res.render('job/profile');
+});
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
 app.get('/job-top5',function(req,res){
   jobHunting.Top5('北京',function(jobs){
@@ -990,11 +1011,14 @@ app.get('/job-top5',function(req,res){
            res.render('job/find-job-top5',{
               user: req.session.user,
               title:"工作",
-              jobs:req.flash('top5')
+              jobs:req.flash('top5'),
+              watch:''
             });
     }
   });
 });
+
+
 /*-----------------用户界面路由部分---------------------*/
 app.get("/user",function(req,res){
 	res.render("user/user",{

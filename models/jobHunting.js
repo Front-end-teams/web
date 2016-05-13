@@ -2,7 +2,7 @@ var mongodb = require('./db')
 var mongo=require('mongodb');
  //发布者ID(UID)，公司名称(companyName),公司地点(companyLocation)，工作地点(workLocation)，
  //招聘类型(校园jobType)，招聘人数(jobNum)，工作年限(workTime)，发布时间(jobTime)，要求(jobDetail)
-function jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail) {
+function jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail,pay,xueli,ave,tim,get,temp,we,wl,pep,dl) {
   this.UID = UID;
   this.companyName = companyName;
   this.companyLocation = companyLocation;
@@ -12,6 +12,16 @@ function jobHunting(UID, companyName, companyLocation, workLocation, jobType,job
   this.workTime=workTime;
   this.jobTime=jobTime;
   this.jobDetail=jobDetail;
+  this.pay=pay;
+  this.xueli=xueli;
+  this.ave=ave;
+  this.tim=tim;
+  this.get=get;
+  this.temp=temp;
+  this.we=we;
+  this.wl=wl;
+  this.pep=pep;
+  this.dl=dl;
 }
 module.exports = jobHunting;
 //构建一个save函数，把数据保存到数据库中
@@ -26,7 +36,17 @@ jobHunting.prototype.save = function(callback) {
       jobNum:this.jobNum,
       workTime:this.workTime,
       jobTime:this.jobTime,
-      jobDetail:this.jobDetail
+      jobDetail:this.jobDetail,
+      pay:this.pay,
+      xueli:this.xueli,
+      ave:this.ave,
+      tim:this.tim,
+      get:this.get,
+      temp:this.temp,
+      we:this.we,
+      wl:this.wl,
+      pep:this.pep,
+      dl:this.dl
   };
   //打开数据库
   mongodb.open(function (err, db) {
@@ -39,6 +59,8 @@ jobHunting.prototype.save = function(callback) {
         mongodb.close();
         return callback(err);
       }
+      console.log('要插入的数据如下....................');
+      console.log(Article);
       //将文档插入Article 集合
       collection.insert(Article, {
         safe: true
@@ -160,7 +182,7 @@ jobHunting.getSpecial = function(id, callback) {
         return callback(err);
       }
       var BSON = mongo.BSONPure;
-      var objectId = BSON.ObjectID.createFromHexString('56fc7ff4b04a69ec06a13561');
+      var objectId = BSON.ObjectID.createFromHexString(id);
       //ObjectId("56fc7ff4b04a69ec06a13561")
       collection.find({
           "_id":objectId

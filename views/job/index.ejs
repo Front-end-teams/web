@@ -1,0 +1,80 @@
+<%- include ./nav %>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>招聘详细信息</title>
+  <style>
+
+  </style>
+ <link rel="stylesheet" type="text/css" href="stylesheets/job-detail.css">
+</head>
+<body>
+  <!--inline-block后需要去除空格-->
+   <div class='container'>
+      <div class='left'>
+	       <div class='l-1'>
+                 <span class="job_name" title="APP测试">APP测试</span>
+                 <span class="update_time"><%=jobTime%></span>
+				  <img class="collection" src="" alt=""/>
+				  <img class="report" src="" alt=""/>
+				 <span class="sj_ico sc " title="收藏该职位"></span>
+				 <span class="sj_ico jb" title="举报该职位"></span>
+	       </div>
+	       <div class='l-2'>
+	             <div class="jb_det_left_mid">
+						<span class="daymoney">
+						80-120/天 丨</span>
+						<span class="city" title="杭州 "><%=location%> 丨</span>
+						<span class="education"><%=xueli%> 丨</span>
+						<span class="days"><%=ave%>
+
+						丨</span>
+						<span class="month"><%=tim%></span>
+				</div>
+				<p><span class="youhuo">职位诱惑：</span><%=temp%></p>
+	       </div>
+			<div class='l-3'>
+	                <p class="jb-description">职位描述</p>
+	                <div class='dec_content'>
+                            <div class='work-time'>工作时间：</div>
+						    <div class='time1'>能尽快上岗的优先，每周能保证3个全天以上的优先。</div>
+
+						   <div class='work-location'>办公地点：</div>
+						   <div class='w-l'><%=companyLocation%></div>
+							<div class='responsibility'>需要你做什么：</div>
+							  <div style='padding:0 20px;text-indent:10px;line-height:30px;'> <%=jobDetail%>
+							  </div>
+							<div class='work-get'>你能得到什么：</div>
+							<div class='get'>
+							    <%=get%>
+							 </div>
+	                </div>
+	                <p class="deadline">截止日期：</p>
+	                <p class="date"><%=dl%></p>
+           </div>
+           <div class="jb_det_left_bottom l-4">
+				<a class="com_res">投个简历</a>
+		  </div>
+      </div><!--
+      --><div class='right' style="">
+      	  <div class='r-1' style="position:relative;background-color:white;">
+                <img src='images/waqu.jpg' width='110' height='110' class='brand-logo' style=''/>
+                <p style="position:absolute;top:150px;display:inline-block;width:100%;text-align:center;border-bottom:1px solid #ccc;padding-bottom:20px;"><%= companyName%></p>    
+				<p style="position:absolute;top:200px;display:inline-block;width:100%;text-align:center;padding-bottom:20px;" class='people'><%= pep%></p>
+				<p style="position:absolute;top:240px;display:inline-block;width:100%;text-align:center;padding-bottom:20px;" class="work-life"><%= wl%></p>
+				<p style="position:absolute;top:280px;display:inline-block;width:100%;text-align:center;padding-bottom:20px;" class="w-s"> <%= we%></p>
+      	  </div>
+			<div class='r-2' style="margin-top:30px;margin-bottom:10px;padding:0 10px;position:relative;text-align:center;background-color:white;"> 
+				  <img src="images/weibo.png"  data-cmd="tsina" title="分享到新浪微博" style="position:absolute;vertical-align:middle;top:10px;"/>
+			      <img class="bds_weixin" data-cmd="weixin" title="分享到微信" style="position:absolute;left:100px;left:50px;vertical-align:middle;top:10px;" src="images/weixin.png"/>
+      	   </div>
+      	   <div class='r-3' style="position:relative;background-color:white;">
+      	        <p style="" class='lc'>公司地址：<br/><%= companyLocation%></p>    
+      	  </div>
+
+      </div>
+   </div>
+    
+</body>
+</html>

@@ -10,42 +10,78 @@
 
 	EventUtil.addHandler(userImgUpload, "change", function(e){
 		var e = EventUtil.getEvent(e);
-		imgData(e,200,200,function(data,type){
-
-			//图片上传，将base64的图片转成二进制对象，塞进formdata上传
+		imgData(e,200,200,function(dataBig,typeBig){
+			imgData(e,100,100,function(dataMiddle,typeMiddle){
+				imgData(e,50,50,function(dataSmall,typeSmall){
+					//图片上传，将base64的图片转成二进制对象，塞进formdata上传
 			
-			//可以直接把Base64的字符串上传到服务器，然后由服务端解码为JPG图片，
-			//也可以在前端解码上传。如果要在前端解码并以文件方式上传，
-			//先要用atob函数把Base64解开，然后转换为ArrayBuffer，再用它创建一个Blob对象。
-			var text = window.atob(data.split(",")[1]);
-			var buffer = new ArrayBuffer(text.length);
-      var ubuffer = new Uint8Array(buffer);
-      for (var i = 0; i < text.length; i++) {
-        ubuffer[i] = text.charCodeAt(i);
-      }
-      //创建blob对象
-      var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
-        var blob;
+				//可以直接把Base64的字符串上传到服务器，然后由服务端解码为JPG图片，
+				//也可以在前端解码上传。如果要在前端解码并以文件方式上传，
+				//先要用atob函数把Base64解开，然后转换为ArrayBuffer，再用它创建一个Blob对象。
+				var textBig = window.atob(dataBig.split(",")[1]);
+				var bufferBig = new ArrayBuffer(textBig.length);
+	      var ubufferBig = new Uint8Array(bufferBig);
 
-        if (Builder) {
-            var builder = new Builder();
-            builder.append(buffer);
-            blob = builder.getBlob(type);
-        } else {
-            blob = new window.Blob([buffer], {type: type});
-        }
+				var textMiddle = window.atob(dataMiddle.split(",")[1]);
+				var bufferMiddle = new ArrayBuffer(textMiddle.length);
+	      var ubufferMiddle = new Uint8Array(bufferMiddle);
+
+	      var textSmall = window.atob(dataSmall.split(",")[1]);
+				var bufferSmall = new ArrayBuffer(textSmall.length);
+	      var ubufferSmall = new Uint8Array(bufferSmall);
+	      for (var i = 0; i < textBig.length; i++) {
+	        ubufferBig[i] = textBig.charCodeAt(i);
+	      }
+	      for (var i = 0; i < textMiddle.length; i++) {
+	        ubufferMiddle[i] = textMiddle.charCodeAt(i);
+	      }
+	      for (var i = 0; i < textSmall.length; i++) {
+	        ubufferSmall[i] = textSmall.charCodeAt(i);
+	      }
+	      //创建blob对象
+	      var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
+	        var blobBig,blobMiddle,blobSmall;
+
+	        if (Builder) {
+	            var builderBig = new Builder();
+	            builderBig.append(bufferBig);
+	            blobBig = builderBig.getBlob(typeBig);
+
+	            var builderMiddle = new Builder();
+	            builderMiddle.append(bufferMiddle);
+	            blobMiddle = builderBig.getBlob(typeMiddle);
+
+	            var builderSmall = new Builder();
+	            builderSmall.append(bufferSmall);
+	            blobSmall = builderBig.getBlob(typeSmall);
+
+	        } else {
+	            blobBig = new window.Blob([bufferBig], {type: typeBig});
+	            blobMiddle = new window.Blob([bufferMiddle], {type: typeMiddle});
+	            blobSmall = new window.Blob([bufferSmall], {type: typeSmall});
+	        }
 
 
-     // var buffer = new ArrayBuffer(text.length);
-      //建立8为不带符号的整数的视图
-       //var ubuffer = new Uint8Array(buffer);
-			var formd = new FormData();
-			formd.append('file', blob);
-			ajax("post","userSet/imgupload",null,formd,function(res){
+	     // var buffer = new ArrayBuffer(text.length);
+	      //建立8为不带符号的整数的视图
+	       //var ubuffer = new Uint8Array(buffer);
+	       var blob = [];
+	       blob.push(blobBig);
+	       blob.push(blobMiddle);
+	       blob.push(blobSmall);
+				var formd = new FormData();
+				formd.append('files', blob);
+				
 
-				userImgShow.src = JSON.parse(res).img;
+				ajax("post","userSet/imgupload",null, formd, function(res){
+					console.log(res);
+					//userImgShow.src = JSON.parse(res).img;
+				})
+			
+				})
 			})
-		
+
+			
 		
 	})});
 
