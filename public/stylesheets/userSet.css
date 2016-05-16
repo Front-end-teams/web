@@ -4,7 +4,10 @@
 	margin:0 auto;
 	width:1100px;
 }
-.tab-nav li{width:202px !important;}
+.tab-nav li{
+	width:202px !important;
+	cursor:pointer !important;
+}
 .tab-bd{
 	height:auto;
 	width:1100px;

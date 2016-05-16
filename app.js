@@ -5,12 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');//解析json、url等的中间件
 var session = require('express-session');
+var nodemailer = require('nodemailer');
+
 //connect-mongo包实现在一个数据库连接中需要另一个连接
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 
 var routes = require('./routes/index');
-
 
 // var users = require('./routes/users');
 
