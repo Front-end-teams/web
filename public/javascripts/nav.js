@@ -3,7 +3,7 @@
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
 <<<<<<< HEAD
-* @Last Modified time: 2016-04-30 19:27:21
+* @Last Modified time: 2016-05-15 09:14:23
 =======
 * @Last Modified time: 2016-04-24 12:25:36
 >>>>>>> origin/master
@@ -30,7 +30,6 @@ $(function(){
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
-		//console.log(regtips);
 		function getNextElement(node){
 		        var NextElementNode = node.nextSibling;
 		        while(NextElementNode.nodeValue != null){
@@ -47,7 +46,7 @@ $(function(){
 	   		for(var i=0;i<input.length;i++){
 	   			input[i].value="";
 	   		}
-	   		var tips = tabPanel.querySelectorAll(".tips");
+	   		var tips = tabPanel.querySelectorAll(".tip");
 	   		for(var i=0;i<tips.length;i++){
 	   			tips[i].innerHTML="";
 	   		}
@@ -70,7 +69,7 @@ $(function(){
 	   		for(var i=0;i<input.length;i++){
 	   			input[i].value="";
 	   		}
-	   		var tips = tabPanel.querySelectorAll(".tips");
+	   		var tips = tabPanel.querySelectorAll(".tip");
 	   		for(var i=0;i<tips.length;i++){
 	   			tips[i].innerHTML="";
 	   		}
@@ -90,6 +89,11 @@ $(function(){
 			mask.className = "maskhide";
 		};
 		//注册的验证函数
+		var regResult={
+			emails:false,
+			passwords:false,
+			validate:false
+		};
 		function check(ele){
 			var str = ele.value;
 			var nextEle=ele.nextElementSibling||ele.nextSibling;
@@ -99,115 +103,93 @@ $(function(){
 				nextEle.style.color = "red";
 				return;
 			}
-			//console.log(ele.id);
-			if(ele.id==="name"){
-				var len = str.replace(new RegExp('[\u4e00-\u9fa5]', 'g'), 'aa').length;
-				var namejson= {name:str};
-				var nameinfo = JSON.stringify(namejson);
-				ajax("post","/reg/name","application/json",nameinfo,function(res){
-					if(res!=="success"){
-						nextEle.innerHTML = res;
-						nextEle.style.color = "red";
-					}else{
-						if(len >= 4 && len <= 16){
-							nextEle.innerHTML = '名称可用';
-						    nextEle.style.color = "green";
-						}else{
-							nextEle.innerHTML = '请检查名称字符数';
-						    nextEle.style.color = "red";
-						}
-					}
-		
-				});
-  
-			}
-			if(ele.id==="password"){
-				if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
-		        
-		            nextEle.innerHTML= '密码格式正确';
-		            nextEle.style.color = "green";
-		        } else {
-		            //checkResult.right = false;
-		            nextEle.innerHTML = '请输入6到16位字符且只能为数字和字母';
-		            nextEle.style.color = "red";
-		        }
-			}
-			if(ele.id==="repassword"){
-				if (str === reginp[1].value) {
-		            //checkResult.right = true;
-		            nextEle.innerHTML = '密码正确';
-		            nextEle.style.color = "green";
-		        } else {
-		            //checkResult.right = false;
-		            nextEle.innerHTML = '两次密码输入要相同';
-		            nextEle.style.color = "red";
-		        }
-			}
 			if(ele.id==="email"){
 				var reg = new RegExp('^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$', 'i');
 				var emailjson= {email:str};
 				var emailinfo = JSON.stringify(emailjson);
-				ajax("post","/reg/email","application/json",emailinfo,function(res){
-					//console.log(res);
-					if(res!=="success"){
-						nextEle.innerHTML = res;
-						nextEle.style.color = "red";
-					}else{
-						if (str.match(reg)) {
-						    //checkResult.right = true;
-						    nextEle.innerHTML = '邮箱可用';
-						    nextEle.style.color = "green";
-						} else {
-						    //checkResult.right = false;
-						    nextEle.innerHTML = '邮箱格式错误';
-						    nextEle.style.color = "red";
+				if (str.match(reg)){
+					ajax("post","/reg/email","application/json",emailinfo,function(res){
+						if(res=="reged"){
+							nextEle.innerHTML = "已注册";
+							nextEle.style.color = "red";
+							regResult.emails=false;
+						}else if(res=="success"){
+							nextEle.innerHTML = '邮箱可用';
+							nextEle.style.color = "green";
+							regResult.emails=true;
 						}
-					}
-				});
+					});
+				}else{
+					nextEle.innerHTML = '请输入正确的邮箱';
+				    nextEle.style.color = "red";
+				    regResult.emails=false;
+				}
 			};
+			if(ele.id==="password"){
+				if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
+		            nextEle.innerHTML= '密码格式正确';
+		            nextEle.style.color = "green";
+		            regResult.passwords=true;
+		        } else { 
+		            nextEle.innerHTML = '请输入6到16位字符且只能为数字和字母';
+		            nextEle.style.color = "red";
+		            regResult.passwords=false;
+		        }
+			};
+
+			// if(ele.id=="validate"){
+			// 	if(str!==strEnd){
+			// 		document.getElementById("validatetip").innerHTML = '验证码不正确';
+			// 		document.getElementById("validatetip").style.color = "red";
+			// 		logResult.validate=false;
+			// 	}else{
+			// 		document.getElementById("validatetip").innerHTML = "";
+			// 		logResult.validate=true;
+			// 	}
+				
+			// };
 		};
 
 
-		//登录页面验证码函数
-		var canvas=document.querySelector("#valCanvas");
-		var context=canvas.getContext("2d");
-		var strEnd="";
-		function start(){
-			try{
-				function drawscreen(){
-					context.fillStyle="#A2A2A2";
-					context.fillRect(0,0,100,35);	
-					context.strokeStyle="#DDDDDD";
-					context.strokeRect(0,0,100,35);
-				};
-				function write_text(str){
-					context.fillStyle="#000000";
-					context.font="20px _sans";
-					context.textBaseline="top";
-					context.fillText(str,30,10);
-				};
-				function getabc(){
-					var str="a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9";
-					var strArray=str.split(",");
-					strEnd="";
-					for(i=0;i<4;i++){
-						var rnd=Math.floor(Math.random()*strArray.length);
-						strEnd+=strArray[rnd];
-					};
-				};
-				drawscreen();
-				getabc();
-				write_text(strEnd);
-			}catch(e){
-				alert(e);	
-			}
-		};
-		start();
+		// //登录页面验证码函数
+		// var canvas=document.querySelector("#valCanvas");
+		// var context=canvas.getContext("2d");
+		// var strEnd="";
+		// function start(){
+		// 	try{
+		// 		function drawscreen(){
+		// 			context.fillStyle="#A2A2A2";
+		// 			context.fillRect(0,0,100,35);	
+		// 			context.strokeStyle="#DDDDDD";
+		// 			context.strokeRect(0,0,100,35);
+		// 		};
+		// 		function write_text(str){
+		// 			context.fillStyle="#000000";
+		// 			context.font="20px _sans";
+		// 			context.textBaseline="top";
+		// 			context.fillText(str,30,10);
+		// 		};
+		// 		function getabc(){
+		// 			var str="a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9";
+		// 			var strArray=str.split(",");
+		// 			strEnd="";
+		// 			for(i=0;i<4;i++){
+		// 				var rnd=Math.floor(Math.random()*strArray.length);
+		// 				strEnd+=strArray[rnd];
+		// 			};
+		// 		};
+		// 		drawscreen();
+		// 		getabc();
+		// 		write_text(strEnd);
+		// 	}catch(e){
+		// 		alert(e);	
+		// 	}
+		// };
+		// start();
 		//登录的验证函数
-		var result={
-			names:false,
+		var logResult={
+			emails:false,
 			passwords:false,
-			validate:false
 		};
 		function checkLog(ele){
 			var str = ele.value;
@@ -217,55 +199,42 @@ $(function(){
 				nextEle.style.color = "red";
 				return;
 			}
-			if(ele.id=="name"){
-				var namejson= {name:str};
-				var nameinfo = JSON.stringify(namejson);
+			if(ele.id=="email"){
+				var emailjson= {email:str};
+				var emailinfo = JSON.stringify(emailjson);
 				
-				ajax("post","/login/name","application/json",nameinfo,function(res){
+				ajax("post","/login/email","application/json",emailinfo,function(res){
 					if(res!=="exist"){
-						nextEle.innerHTML = '用户名不存在';
+						nextEle.innerHTML = '邮箱不存在';
 						nextEle.style.color = "red";
-						result.names=false;
+						logResult.emails=false;
 					}else{
 						nextEle.innerHTML ="";
-						result.names=true;
+						logResult.emails=true;
 					}
 				});
 
 			};
 
 
-			if(result.names===true){
-				var namestr = document.getElementById("name").value;
+			if(logResult.emails==true){
+				var emailstr = document.getElementById("email").value;
 				if(ele.id=="password"){
-					var totaljson= {name:namestr,password:str};
+					var totaljson= {email:emailstr,password:str};
 					var totalinfo = JSON.stringify(totaljson);
 					
 					ajax("post","/login/password","application/json",totalinfo,function(res){
 						if(res!=="match"){
 							nextEle.innerHTML = '用户名与密码不一致';
 							nextEle.style.color = "red";
-							result.passwords=false;
+							logResult.passwords=false;
 						}else{
 							nextEle.innerHTML ="";
-							result.passwords=true;
+							logResult.passwords=true;
 						}
 					});
 				}
 			};
-			if(ele.id=="validate"){
-				if(str!==strEnd){
-					document.getElementById("validatetip").innerHTML = '验证码不正确';
-					document.getElementById("validatetip").style.color = "red";
-					result.validate=false;
-				}else{
-					document.getElementById("validatetip").innerHTML = "";
-					result.validate=true;
-				}
-				
-			};
-			
-
 		}
 		//监听注册页面文本框内value变化时tip的变化
 		for(var i=0;i<reginp.length;i++){
@@ -304,7 +273,6 @@ $(function(){
 				var nextTarget = target.nextElementSibling||target.nextSibling;
 				target.style.border = "1px solid yellow";
 				nextTarget.style.display = "block";
-				document.getElementById("validatetip").style.display = "block";
 				checkLog(target);
 			}
 			EventUtil.addHandler(logininp[i],"blur",function(e){
@@ -316,64 +284,62 @@ $(function(){
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
-
-				if(regtips[0].style.color=="green"&&regtips[1].style.color=="green"&&regtips[2].style.color=="green"&&regtips[3].style.color=="green"){
-					var target = EventUtil.getTarget(e);
-					EventUtil.preventDefault(e);
-					var form=target.parentNode.parentNode;
-					var result=seriPost(form);
-					var resultJson={};
-					//console.log(resultJson);
-					for(var i = 0; i < result.length; i++){
-						var val = result[i].split("=");
-						resultJson[val[0]]=val[1];
-					};
-					var str =JSON.stringify(resultJson);
-					//console.log(str);
-					ajax("post","/reg","application/json",str,function(res){
-						if(res=="regsuccess"){
-							var regsuccess=document.getElementById("regsuccess");
-							var regform = document.getElementById("regForm");
-							regform.className = "hide";
-							regsuccess.className="tabshow";
-							//倒计时的实现，然后跳转到填写个人资料的页面
-							var myspan = document.getElementById("countdown");
-							var timer=5;
-							function countdown(){
-								timer = timer-1;
-								myspan.innerHTML = timer;
-								if(timer==0){
-									location.href="/";
-									clearInterval(flag);
-								}
+			if(regResult.emails==true&&regResult.passwords==true){
+				var target = EventUtil.getTarget(e);
+				EventUtil.preventDefault(e);
+				var form=target.parentNode.parentNode;
+				var result=seriPost(form);
+				var resultJson={};
+				for(var i = 0; i < result.length; i++){
+					var val = result[i].split("=");
+					resultJson[val[0]]=val[1];
+				};
+				var str =JSON.stringify(resultJson);
+				//console.log(str);
+				ajax("post","/reg","application/json",str,function(res){
+					if(res=="regsuccess"){
+						var regsuccess=document.getElementById("regsuccess");
+						var regform = document.getElementById("regForm");
+						regform.className = "hide";
+						regsuccess.className="tabshow";
+						//倒计时的实现，然后跳转到填写个人资料的页面
+						var myspan = document.getElementById("countdown");
+						var timer=5;
+						function countdown(){
+							timer = timer-1;
+							myspan.innerHTML = timer;
+							if(timer==0){
+								location.href="/";
+								clearInterval(flag);
 							}
-							var flag=setInterval(countdown,1000);
-						}else{
-							return;
 						}
-					});
-				}else{
-					alert("请检查输入信息！");
-				}
+						var flag=setInterval(countdown,1000);
+					}else{
+						return;
+					}
+				});
+			}else{
+				alert("请检查输入信息！");
+			}
 		});
 		
 		// 登录表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(loginsub,"click",function(e){
 			EventUtil.preventDefault(e);
-			//console.log(this);
-				if(result.names==true&&result.passwords==true&&result.validate==true){
+				if(logResult.emails==true&&logResult.passwords==true){
 					var target = EventUtil.getTarget(e);
 					EventUtil.preventDefault(e);
 					var form=target.parentNode.parentNode;
 					var resultJ=seriPost(form);
 					var resultJson={};
-					//console.log(resultJson);
 					for(var i = 0; i < resultJ.length; i++){
 						var val = resultJ[i].split("=");
 						resultJson[val[0]]=val[1];
 					};
 					var str =JSON.stringify(resultJson);
+					console.log(resultJson);
 					ajax("post","/login","application/json",str,function(res){
+						console.log(res);
 						if(res=="loginsuccess"){
 							location.href="/";
 						}else{

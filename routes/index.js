@@ -16,6 +16,8 @@ var pagination = require('express-paginate');
 
 var area = require("../models/area.js");
 
+var nodemailer = require('nodemailer');
+
 
 
 module.exports = function(app) {
@@ -51,7 +53,6 @@ module.exports = function(app) {
 
   app.get('/reg', function (req, res) {
     res.render('/reg', {
-
       title: '注册',
       user: req.session.user,
       success: req.flash('success').toString(),
@@ -61,37 +62,17 @@ module.exports = function(app) {
   });
 
 
-  app.post('/', function (req, res) {
-    var name = req.body.name,
-        password = req.body.password,
-   	    repassword = req.body.repassword;
-    //检验用户两次输入的密码是否一致
-    if (repassword!== password) {
-      req.flash('error', '两次输入的密码不一致!'); 
-      return res.redirect('/');//返回注册页
-    }
-  });
-
-  app.post('/reg/name', function (req, res) {
-    res.setHeader('content-type', 'application/text');
-    //console.log(req.body);
-    var name = req.body.name;
-    //检查用户名是否已经存在 
-    User.getName(encodeURIComponent(name), function (err, user) {
-      if (err) {
-        req.flash('error', err);
-        return res.redirect('/reg');
-      }
-     //console.log(user);
-      if (user) {
-        res.send("用户已存在！");
-        return ;//返回注册页
-      }
-      res.send('success');//如果该用户不存在就返回
-      });
-  });
+  // app.post('/', function (req, res) {
+  //   var name = req.body.name,
+  //       password = req.body.password,
+  //  	    repassword = req.body.repassword;
+  //   //检验用户两次输入的密码是否一致
+  //   if (repassword!== password) {
+  //     req.flash('error', '两次输入的密码不一致!'); 
+  //     return res.redirect('/');//返回注册页
+  //   }
+  // });
   app.post('/reg/email', function (req, res) {
-    res.setHeader('content-type', 'application/json');
     var email = req.body.email;
     //检查email是否已经存在 
     User.getEmail(encodeURIComponent(email), function (err, user) {
@@ -99,40 +80,30 @@ module.exports = function(app) {
         req.flash('error', err);
         return res.redirect('/reg');
       }
-      if (user) {
-        res.send("email已经使用过！");
-        return ;//返回注册页
+     if(user){
+        res.send("reged");
+      }else{
+        res.send('success');//如果email不存在就返回
       }
-      res.send('success');//如果email不存在就返回
     });
   });
 
-
-
-  //前端页面submit时就新建一个用户，并将其存入数据库
+  //注册页面submit时就新建一个用户，并将其存入数据库
   app.post('/reg',function(req,res){
-    //console.log(req.body);
-    //res.setHeader('content-type', 'application/json');
-    var name = encodeURIComponent(req.body.name);
-    var password = encodeURIComponent(req.body.password);
-    var repassword = encodeURIComponent(req.body.repassword);
     var email = encodeURIComponent(req.body.email);
+    var password = encodeURIComponent(req.body.password);
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
-        //repassword = md5.update(req.body.repassword).digest('hex');
     var newUser = new User({
-        name: name,
-        password: password,
-        email: email
+        email: email,
+        password: password       
     });
-    //console.log(newUser);
     newUser.save(function(err,user){
       if(err){
         req.flash('error', err);
       }
-      req.session.user = newUser.name;//用户信息存入 session
-     // console.log("cunjinlaile")
+      req.session.user = newUser.email;//用户信息存入 session
       req.flash('success', '注册成功!');
       res.send("regsuccess");
       //res.redirect('/');//注册成功后跳转主页
@@ -149,12 +120,11 @@ module.exports = function(app) {
         error: req.flash('error').toString()
       });
 	});
-  app.post('/login/name',function(req,res){
-
-    User.getName(encodeURIComponent(req.body.name),function(err,user){
-     // console.log("1111");
+  app.post('/login/email',function(req,res){
+    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+      console.log("aaaa");
       if(!user){     
-        res.send("用户不存在！");
+        res.send("邮箱不存在！");
       }else{
         res.send("exist");
       }
@@ -164,19 +134,16 @@ module.exports = function(app) {
   app.post('/login/password',function(req,res){
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');   
-    User.getName(encodeURIComponent(req.body.name),function(err,user){
+    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
       if(!user){     
-        res.send("用户不存在！");
+        res.send("邮箱不存在！");
       }else{
-          console.log("exist");
         if(user.password!==password){
-          res.send("用户名与密码不一致");
+          res.send("邮箱与密码不一致");
         }else{
           res.send('match');
         }
-           
       }
-      
     });
       
   });
@@ -185,8 +152,9 @@ module.exports = function(app) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
-    User.getName(encodeURIComponent(req.body.name),function(err,user){
-
+    console.log(req.body);
+    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+      console.log(user);
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -196,7 +164,6 @@ module.exports = function(app) {
         res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
       }
-      
     });
       
   });
@@ -206,9 +173,6 @@ module.exports = function(app) {
   app.get('/logout', function (req, res) {
     req.session.user = null;
     req.flash('success', '登出成功!');
-    /*res.render('/nav',{
-      user:flase
-    });*/
     res.redirect('/');//登出成功后跳转到主页
   });
 
@@ -323,7 +287,7 @@ function checkNotLogin(req, res, next) {
         }
         console.log(posts);
         //访问量增加
-        //console.log(isAgree);
+        console.log(isAgree);
         Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
           res.render('post/showPost', {
           title: req.params.title,
@@ -540,13 +504,12 @@ app.post("/user/info",function(req,res){
 })
 //用户头像上传
 
-  app.post('/userset/imgupload',upload.array("files",10),function(req,res){
+  app.post('/userset/imgupload',upload.single("file"),function(req,res){
     console.log("file");
-    console.log(req.body);
-
+    console.log(req);
     
     //将信息存入文章数据库
-    /*var path = "/uploads/"+req.file.filename;
+    var path = "/uploads/"+req.file.filename;
     console.log("user");
     console.log(req.session.user);
     User.update({name: req.session.user.name},{img:path},function(err){
@@ -556,7 +519,7 @@ app.post("/user/info",function(req,res){
       res.send({
         img: path
       })
-    })*/
+    })
     })
     
     
@@ -848,7 +811,6 @@ app.post('/commentReply',function(req,res){
 });
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
-   
    app.get('/saveArticle',function(req,res){
      res.render('post/writePost', {
       title: '发表',
@@ -911,32 +873,15 @@ app.post('/commentReply',function(req,res){
 
  /*------------------工作的详细的信息-----------*/
  app.get('/job-detail',function(req,res){
-   console.log('查询id='+req.query.id);
       var id=(req.query.id);
       //获取工作的具体的id
       jobHunting.getSpecial(id,function(job){
-           console.log(job);
-         // res.render("job/job-detail-show",{
-         //   user: req.session.user,
-          //  title: "工作",
-          //  jobs:job});
-       res.render('job/index',{
-          location:job.workLocation,//工作地点
-          companyName:job.companyName,//公司名称
-          companyLocation:job.companyLocation,//公司地点
-          jobTime:job.jobTime,
-          pay:job.pay,
-          xueli:job.xueli,
-          ave:job.ave,
-          tim:job.tim,
-          jobDetail:job.jobDetail,
-          get:job.get,
-          temp:job.temp,
-          we:job.we,
-          wl:job.wl,
-          pep:job.pep,
-          dl:job.dl
-       });
+          //console.log(job.companyName);
+          //req.flash("jobs",job);
+          res.render("job/job-detail-show",{
+            user: req.session.user,
+            title: "工作",
+            jobs:job});
       });
  })
 /*------------------工作条件查询-----------------*/
@@ -985,13 +930,14 @@ app.post('/commentReply',function(req,res){
        res.redirect('user/login');
      }
       //这里我们把需要的数据全部保存到数据库中jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail) 
-      var body=req.body,jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,body.jobTime,body.jobDetail,body.pay,body.xueli,body.ave,body.tim,body.get,body.temp,body.we,body.wl,body.pep,body.dl);
+      var body=req.body,jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,body.jobTime,body.jobDetail);
        jobD.save(function(err){
          //如果出错了那么我们直接报错
          if(err){
            req.flash('error',error);
            return res.redirect('/job-insert-error');
          }
+         console.log('-----------------------1');
           res.redirect('/job-insert-succ');
        });
   });
@@ -1013,9 +959,6 @@ app.get('/job-insert-succ', function(req, res){
    // res.write('<meta http-equiv="refresh" content="5;url=/job-insert"></meta>');
     res.end();
 });
-app.get('/auto-refresh',function(req,res){
-   res.render('job/profile');
-});
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
 app.get('/job-top5',function(req,res){
   jobHunting.Top5('北京',function(jobs){
@@ -1032,14 +975,11 @@ app.get('/job-top5',function(req,res){
            res.render('job/find-job-top5',{
               user: req.session.user,
               title:"工作",
-              jobs:req.flash('top5'),
-              watch:''
+              jobs:req.flash('top5')
             });
     }
   });
 });
-
-
 /*-----------------用户界面路由部分---------------------*/
 app.get("/user",function(req,res){
 	res.render("user/user",{
