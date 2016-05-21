@@ -811,32 +811,32 @@ app.post('/commentReply',function(req,res){
 });
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
-   app.get('/saveArticle',function(req,res){
-     res.render('post/writePost', {
-      title: '发表',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
-   })
-  app.post('/saveArticle', function (req, res) {
-    //记得同时要get/post
-     var user=req.session.user;
-     //在session中
-     var body=req.body;
-     //获取消息体,封装到Article对象上面UID, title, tag, time, Browse,agree,review,content
-    var article=new Article(user,body.title,body.tag,new Date(),body.Browse,body.agree,body.review,body.content);
-    //实例对象直接调用save方法
-    article.save(function(err){
-          if(err){
-             req.flash('error',err);
-             return res.redirect('/');
-          }
-          req.flash('success','文章保存成功');
-          //把success的键值发送到主页
-            res.redirect('/');
-    });
-  });
+  //  app.get('/saveArticle',function(req,res){
+  //    res.render('post/writePost', {
+  //     title: '发表',
+  //     user: req.session.user,
+  //     success: req.flash('success').toString(),
+  //     error: req.flash('error').toString()
+  //   });
+  //  })
+  // app.post('/saveArticle', function (req, res) {
+  //   //记得同时要get/post
+  //    var user=req.session.user;
+  //    //在session中
+  //    var body=req.body;
+  //    //获取消息体,封装到Article对象上面UID, title, tag, time, Browse,agree,review,content
+  //   var article=new Article(user,body.title,body.tag,new Date(),body.Browse,body.agree,body.review,body.content);
+  //   //实例对象直接调用save方法
+  //   article.save(function(err){
+  //         if(err){
+  //            req.flash('error',err);
+  //            return res.redirect('/');
+  //         }
+  //         req.flash('success','文章保存成功');
+  //         //把success的键值发送到主页
+  //           res.redirect('/');
+  //   });
+  // });
  /*-----------------产生分页的模块,jobs表示数据库返回的jobs集合-------------*/
  app.get('/job-page',function(req,res){
     jobHunting.getAllJob(function(jobs){
@@ -874,6 +874,7 @@ app.post('/commentReply',function(req,res){
  /*------------------工作的详细的信息-----------*/
  app.get('/job-detail',function(req,res){
       var id=(req.query.id);
+      console.log("ID:"+id);
       //获取工作的具体的id
       jobHunting.getSpecial(id,function(job){
           //console.log(job.companyName);
@@ -881,7 +882,8 @@ app.post('/commentReply',function(req,res){
           res.render("job/job-detail-show",{
             user: req.session.user,
             title: "工作",
-            jobs:job});
+            jobs:job
+          });
       });
  })
 /*------------------工作条件查询-----------------*/
@@ -930,7 +932,17 @@ app.post('/commentReply',function(req,res){
        res.redirect('user/login');
      }
       //这里我们把需要的数据全部保存到数据库中jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail) 
-      var body=req.body,jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,body.jobTime,body.jobDetail);
+    var date = new Date();
+    var jobTime = {
+      date: date,
+      year : date.getFullYear(),
+      month : date.getFullYear() + "-" + (date.getMonth() + 1),
+      day : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+      minute : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
+      date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+  };
+      var body=req.body,
+      jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,jobTime,body.jobDetail);
        jobD.save(function(err){
          //如果出错了那么我们直接报错
          if(err){
@@ -961,7 +973,7 @@ app.get('/job-insert-succ', function(req, res){
 });
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
 app.get('/job-top5',function(req,res){
-  jobHunting.Top5('北京',function(jobs){
+  jobHunting.Top5('',function(jobs){
     //console.assert(jobs,'这里出错了.....');
     if((jobs instanceof Array)&&jobs.length==0){
       res.render('job/find-job-top5',{
@@ -975,7 +987,8 @@ app.get('/job-top5',function(req,res){
            res.render('job/find-job-top5',{
               user: req.session.user,
               title:"工作",
-              jobs:req.flash('top5')
+              jobs:req.flash('top5'),
+              watch:''
             });
     }
   });
@@ -987,6 +1000,4 @@ app.get("/user",function(req,res){
 		user: "cheng"
 	});
 })
-
-
 }

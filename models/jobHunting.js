@@ -2,7 +2,7 @@ var mongodb = require('./db')
 var mongo=require('mongodb');
  //发布者ID(UID)，公司名称(companyName),公司地点(companyLocation)，工作地点(workLocation)，
  //招聘类型(校园jobType)，招聘人数(jobNum)，工作年限(workTime)，发布时间(jobTime)，要求(jobDetail)
-function jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail,pay,xueli,ave,tim,get,temp,we,wl,pep,dl) {
+function jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail,pay,xueli,ave,tim,we,wl,pep,dl) {
   this.UID = UID;
   this.companyName = companyName;
   this.companyLocation = companyLocation;
@@ -11,17 +11,17 @@ function jobHunting(UID, companyName, companyLocation, workLocation, jobType,job
   this.jobNum=jobNum;
   this.workTime=workTime;
   this.jobTime=jobTime;
+
   this.jobDetail=jobDetail;
-  this.pay=pay;
-  this.xueli=xueli;
-  this.ave=ave;
-  this.tim=tim;
-  this.get=get;
-  this.temp=temp;
-  this.we=we;
-  this.wl=wl;
-  this.pep=pep;
-  this.dl=dl;
+
+  this.pay=pay?pay:'无';
+  this.xueli=xueli?xueli:'无';
+  this.ave=ave?ave:'无';
+  this.tim=tim?tim:'无';
+  this.we=we?we:'无';
+  this.wl=wl?wl:'无';
+  this.pep=pep?pep:'无';
+  this.dl=dl?dl:'无';
 }
 module.exports = jobHunting;
 //构建一个save函数，把数据保存到数据库中
@@ -41,8 +41,6 @@ jobHunting.prototype.save = function(callback) {
       xueli:this.xueli,
       ave:this.ave,
       tim:this.tim,
-      get:this.get,
-      temp:this.temp,
       we:this.we,
       wl:this.wl,
       pep:this.pep,

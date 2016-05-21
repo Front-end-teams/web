@@ -141,16 +141,15 @@
 	list-style: none;
 	margin:5px 0;
 	background-color: #eee;
-	position: relative;
 	overflow: hidden;
+	padding: 10px 0 10px 20px;
 }
 .comment .comment_reply ul li .commentReplyFromNamePic
 {
 	width: 40px;
 	height: 40px;
-	position: absolute;
-	left: 40px;
-	top: 20px;
+	float: left;
+	margin-left: 20px;
 }
 .comment .comment_reply ul li .commentReplyFromNamePic a img
 {
@@ -159,12 +158,11 @@
 }
 .comment .comment_reply ul li .commentReplyFromName
 {
-   position: absolute;
-   left:100px;
+	margin-left: 70px;
 }
 .comment .comment_reply ul li .commentReplyContent
 {
-
+	margin-left: 70px;
 }
 .prepage a
 {

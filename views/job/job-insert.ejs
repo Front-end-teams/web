@@ -1,37 +1,52 @@
 <%- include ../header %>
-
 	<link rel="stylesheet" type="text/css" href="/stylesheets/job-insert.css">
-	<script type="text/javascript" src="src/script/recruit.js"></script>
 <%- include ../nav %>
-
-   <div class="outer" style="height:300px;border:1px solid red;width:100%;">
-     <div class="inner" style="border:1px solid blue;text-align:center;">
-		<form method="post" style="width:500px;height:800px;">
+     <div class="wrap">
+		<form method="post">
 			<label>公司名称：</label><input type="text" id="companyName" name="companyName" /><br />
 		    <label>公司地点：</label><input type="text" id="companyLocation" name="companyLocation" /><br />
-		    <label>工作地点：</label><input type="text" id="workLocation" name="workLocation" /><br />
-		    <label>招聘类型：</label><input type="text" id="jobType" name="jobType" /><br />
-		    <label>招聘人数：</label><input type="text" id="jobNum" name="jobNum" /><br />		    
-		    <label>工作经验：</label><input type="text" id="workTime" name="workTime" /><br />
-		    <label>发布时间：</label><input type="text" id="jobTime" name="jobTime" /><br />
-		     <label>工资待遇：</label><input type="text" id="pay" name="pay" /><br />
-		     <label>学历要求：</label><input type="text" id="xueli" name="xueli" /><br />
-		     <label>每周多少天:</label><input type="text" id="ave" name="ave" /><br />
-		     <label>实习时长:</label><input type="text" id="tim" name="tim" /><br />
-		     <label>职位诱惑:</label><input type="text" id="temp" name="temp" /><br />
-		      <label>职位收获:</label><input type="text" id="get" name="get" /><br />
-		       <label>公司主页:</label><input type="text" id="we" name="we" /><br />
-		       <label>公司行业:</label><input type="text" id="wl" name="wl" /><br />
-		        <label>公司人数:</label><input type="text" id="pep" name="pep" /><br />
-		           <label>截止日期:</label><input type="text" id="dl" name="dl" /><br />
+		    <label>工作地点：</label>
+		    <select id="workLocation" name="workLocation">
+		    	<option>北京</option>
+		    	<option>上海</option>
+		    	<option>广州</option>
+		    	<option>深圳</option>
+		    	<option>杭州</option>
+		    	<option>天津</option>
+		    	<option>大连</option>
+		    	<option>西安</option>
+		    	<option>武汉</option>
+		    	<option>南京</option>
+		    	<option>郑州</option>
+		    </select><br />
+		    <label>招聘类型：</label>
+		    <select id="jobType" name="jobType">
+		    	<option>校园招聘</option>
+		    	<option>社会招聘</option>
+		    	<option>实习生招聘</option>
+		    </select><br />
+		    <label>招聘人数：</label><input type="text" id="jobNum" name="jobNum" /><br />	    
+		    <label>工作经验：</label>
+		    <select id="workTime" name="workTime">
+		    	<option>无工作经验</option>
+		    	<option>1年以内工作经验</option>
+		    	<option>1-3年工作经验</option>
+		    	<option>3年以上工作经验</option>
+		    </select><br />
+		    <label>工资待遇：</label><input type="text" id="pay" name="pay" /><br />
+		    <label>学历要求：</label><input type="text" id="xueli" name="xueli" /><br />
+		    <label>每周几天：</label><input type="text" id="ave" name="ave" /><br />
+		    <label>实习时长：</label><input type="text" id="tim" name="tim" /><br />
+		    <label>公司主页：</label><input type="text" id="we" name="we" /><br />
+		    <label>公司行业：</label><input type="text" id="wl" name="wl" /><br />
+		    <label>公司人数：</label><input type="text" id="pep" name="pep" /><br />
+		    <label>截止日期：</label><input type="text" id="dl" name="dl" /><br />
 		    <div>
 		    	<label>职位要求：</label><br>
-		    	<textarea rows="15" cols="100" id="jobDetail" name="jobDetail">
-		    	</textarea>
+		    	<textarea rows="15" cols="100" id="jobDetail" name="jobDetail"></textarea>
 		    </div>
 		    <input type="submit" value="发布">
 		</form>
    </div>
- </div>
 <%- include ../footer %>
 

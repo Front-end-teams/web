@@ -3,7 +3,7 @@
 	<script type="text/javascript" src="src/script/recruit.js"></script>
 <%- include ../nav %>
 		<div>
-		   <div class="content">
+		    <div class="content">
 			   <div class="recruitInfo">
 			        <div class="infoList">
 	 					<label>公司名称：</label><%= jobs.companyName %><br>
@@ -12,7 +12,7 @@
 					    <label>招聘类型：</label><%= jobs.jobType %><br>
 					    <label>招聘人数：</label><%= jobs.jobNum %><br>		    
 					    <label>工作经验：</label><%= jobs.workTime %><br>
-					    <label>发布时间：</label><%= jobs.jobTime %><br>
+					    <label>发布时间：</label><%= jobs.jobTime.day %><br>
 				    </div>
 				    <div class="jobReq">
 				    &nbsp;职位要求：<br>
@@ -21,5 +21,4 @@
 			   </div>
 	        </div>
 		</div>
-		  <%- watchScript %>
 <%- include ../footer %>

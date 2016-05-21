@@ -2,38 +2,21 @@
   padding: 0;
   margin: 0;
   font-family: "汉仪旗黑X3-65W";
-  font-size: 14px; 
+  font-size: 14px;
   }
-  body{
+  body
+  {
     overflow:scroll;
   }
 
-body {
-  min-width: 915px; }
+// .clearfix:after {
+//   content: "";
+//   clear: both;
+//   display: block;
+//   visibility: hidden;
+//   height: 0; }
 
-.clearfix:after {
-  content: "";
-  clear: both;
-  display: block;
-  visibility: hidden;
-  height: 0; }
+.wrap
+{
 
-
-
-
-.outer{
-	position:relative;
-	width:100%;
-	border:1px solid blue;
-	margin-top:50px;
-}
-.inner{
-	position: absolute;
-	left:0;
-	top:0;
-	right:0;
-	bottom:0;
-	width:50%;
-	height:50%;
-	margin:auto;
 }

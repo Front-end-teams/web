@@ -1,8 +1,6 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: "微软雅黑";
-  font-size: 14px; 
   }
   body{
     overflow:scroll;
@@ -17,19 +15,11 @@ body {
   display: block;
   visibility: hidden;
   height: 0; }
-
-
-
-
-
 .main
 {
   width: 1100px;
   height: 100%;
   margin:0 auto;
-  font-family: "汉仪旗黑X3-65W";
-  // overflow: hidden;
-  // border: 1px solid #eee;
 }
 .title
 {
@@ -43,35 +33,46 @@ body {
 {
   width: 1020px;
   margin-top: 53px;
-  margin-left: 40px;
+  margin-left: 45px;
   // overflow: hidden;
 }
-.searchJob>li
+.searchJob_li
 {
   float: left;
-  margin: 0 20px;
+  margin: 0 8px;
+  position: relative;
 }
 .searchJob li
 {
   list-style: none;
 }
-.searchJob_li
+.searchJob_li input
 {
-  position: relative;
-}
-.searchJob input
-{
-    width: 150px;
+    width: 135px;
     height: 35px;
     padding-left: 12px;
     outline: none;
     border: 2px solid #999;
 }
-
+.searchJob .search input
+{
+  height: 39px;
+  line-height: 35px;
+  width: 151px;
+  padding-left: 0;
+  cursor: pointer;
+}
+.searchJob .public a
+{
+  height: 39px;
+  width: 151px;
+  line-height: 39px;
+  color: #fff;
+}
 .searchJob a
 {
     display: inline-block;
-    width: 150px;
+    width: 135px;
     height: 35px;
     line-height: 35px;
     border: none;
@@ -84,7 +85,7 @@ body {
 .searchJob_li_ul
 {
   display: none;
-  width: 162px;
+  width: 147px;
   border: 2px solid #999;
   border-top: none;
   position: absolute;
@@ -97,7 +98,7 @@ body {
 {
   background-color: #eee;
   cursor: pointer;
-  text-indent: 35px;
+  text-indent: 22px;
   line-height: 35px;
   position: relative;
 }
@@ -163,12 +164,7 @@ body {
   float: left;
   padding: 20px 40px;
   border-radius: 10px;
-  // background-color: #999;
-  clear:both;
-}
-.jobReq
-{
-  padding: 20px 0;
+  margin-left: 20px;
 }
 .recruitInfo .more
 {
