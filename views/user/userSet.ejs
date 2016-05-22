@@ -1,5 +1,5 @@
 <%- include ../header %>
-<link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
+<!-- <link rel="stylesheet" type="text/css" href="/tab/tabcard.css"> -->
 <link rel="stylesheet" type="text/css" href="/stylesheets/userSet.css">
 <%- include ../nav %> 
 
@@ -18,7 +18,7 @@
   <!-- 个人资料 -->
 	<li class="tabshow">
     <div class="info-setting-wrap">
-      <form method="post" action="post" class="info-form">
+      <form method="post" action="post" class="info-form" id="info-form">
           <div class="info-wrap">
             <label class="label-name" for="nick">昵称</label>
             <div class="info-group">
@@ -114,7 +114,7 @@
           <div class="info-wrap">
             <label class="label-name" for></label>
             <div class="info-group">
-              <span id="profile-submit" hidefocus="true" aria-role="button" class=" btn-block profile-btn">保存</span>
+              <span id="self-info-save" hidefocus="true" aria-role="button" class=" btn-block profile-btn">保存</span>
             </div>
           </div>
       </form>
@@ -143,12 +143,9 @@
           从新浪微博同步头像
           </span>
         </div>
-         <div class="input-file">
-
-        <input type="file" name="userImg" value="上传图片" id="user-img-upload" class="file-button"></input>
-
-        <label class="file-button-img">上传头像</label> 
-
+        <div class="avator-btn-snswrap">
+          <input type="file" name="userImg" value="上传图片" id="user-img-upload" class="file-button"></input>
+          <label class="file-button-img" id="user-img-label">上传头像</label> 
         </div> 
         <!-- <div class="avator-btn-wrap">
         
@@ -160,12 +157,22 @@
           <iframe id="uploadtarget" frameborder="0" style="display:none;" name="uploadtarget" src="about:blank">
           </iframe>
         </div> -->
+
       </div>
     </div>
   </li>
  <!--  邮箱验证 -->
 	<li class="tabhide">
-    dsfdsadsfdasf
+    <div id="emailWrap">
+      <div id="emailIcon">
+        <img src="/images/email.png">
+      </div>
+      <h4>邮箱未验证，请尽快验证</h4>
+      <div id="verifyBox">
+        <span>1013717388@qq.com</span>
+        <input type="button" name="js-varify" id="js-verify" value="立即验证">
+      </div>
+    </div>
   </li>
   <!-- 修改密码 -->
   <li class="tabhide">

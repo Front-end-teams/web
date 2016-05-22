@@ -48,7 +48,6 @@ module.exports = function(app) {
     });
   });  
 	})
-
 	//注册页面
 
   app.get('/reg', function (req, res) {
@@ -60,31 +59,19 @@ module.exports = function(app) {
     });
 
   });
-
-
-  // app.post('/', function (req, res) {
-  //   var name = req.body.name,
-  //       password = req.body.password,
-  //  	    repassword = req.body.repassword;
-  //   //检验用户两次输入的密码是否一致
-  //   if (repassword!== password) {
-  //     req.flash('error', '两次输入的密码不一致!'); 
-  //     return res.redirect('/');//返回注册页
-  //   }
-  // });
   app.post('/reg/email', function (req, res) {
     var email = req.body.email;
+    console.log(req.body);
     //检查email是否已经存在 
     User.getEmail(encodeURIComponent(email), function (err, user) {
       if (err) {
         req.flash('error', err);
-        return res.redirect('/reg');
       }
-     if(user){
+      if (user) {
         res.send("reged");
-      }else{
-        res.send('success');//如果email不存在就返回
+        // return ;//返回注册页
       }
+      res.send('success');//如果email不存在就返回
     });
   });
 
@@ -458,19 +445,19 @@ function checkNotLogin(req, res, next) {
 
   //用户设置
   app.get("/userSet",function(req,res){
-    console.log(req.session.user);
-    User.get(req.session.user.name,function(err,user){
+    User.getEmail(req.session.user.email,function(err,user){
       if(err){
         console.log(err);
       }
       console.log(user);
       res.render("user/userSet",{
       title: "用户设置",
-      user:user
+      user:req.session.user
     })
     })
     
   })
+
 //修改用户地址(城市)
 app.post("/user/info/city",function(req,res){
   console.log(req.body.province);
@@ -497,30 +484,97 @@ app.post("/user/info/area",function(req,res){
 
 
 })
+//用户头像上传
+app.post('/userset/imgupload',upload.single("file"),function(req,res){
+  console.log("file");
+  console.log(req);
+  
+  //将信息存入文章数据库
+  var path = "/uploads/"+req.file.filename;
+  console.log("user");
+  console.log(req.session.user);
+  User.update({name: req.session.user.name},{img:path},function(err){
+    if(err){
+      console.log(err);
+    }
+    res.send({
+      img: path
+    })
+  })
+})
+//用户email验证
+app.post("/user/info/email",function(req,res){
+  console.log(req.body.email);
+   var nodemailer = require('nodemailer');
 
+  var transporter = nodemailer.createTransport({
+      host: "smtp.163.com", 
+      port: 25,
+      auth: {
+        user: 'chanda_yang@163.com',
+        pass: 'yangchang8025'
+      }
+  });
+
+  var mailOptions = {
+      from: 'yang <chanda_yang@163.com>', // sender address
+      to: '1013717388@qq.com', // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Hello world ✔', // plaintext body
+      html: '<b>Hello world ✔</b>' // html body
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+           console.log(error);
+      }else{
+          console.log('Message sent: ' + info.response);
+      }
+  });
+    res.send('success');
+})
+
+//用户更改密码
+app.post("/user/info/oldpw",function(req,res){
+  var curpw = req.session.user.password;
+  var oldpw = req.body.oldpw;
+  if(curpw ==oldpw){
+    res.send('密码正确');
+  }else{
+    res.send('密码不正确');
+  }
+})
+
+app.post("/user/info/newpw",function(req,res){
+  var newpw = req.body.newpw;
+  console.log(newpw);
+  User.update({name: req.session.user.name},{password:newpw},function(err){
+    if(err){
+      console.log(err);
+    }else{
+      res.send('成功更改密码');
+    }
+    
+  })
+})
 //用户个人信息设置
 app.post("/user/info",function(req,res){
-  console.log(req.body);
+  User.update({name:req.session.user.name},
+  {
+      nick:req.body.nick,
+      position:req.body.position,
+      sex:req.body.sex,
+      aboutme:req.body.aboutme,
+  },
+  function(err){
+    if(err){
+      console.log(err);
+    }else{
+      res.send('个人资料保存成功');
+    }
+  })
 })
-//用户头像上传
 
-  app.post('/userset/imgupload',upload.single("file"),function(req,res){
-    console.log("file");
-    console.log(req);
-    
-    //将信息存入文章数据库
-    var path = "/uploads/"+req.file.filename;
-    console.log("user");
-    console.log(req.session.user);
-    User.update({name: req.session.user.name},{img:path},function(err){
-      if(err){
-        console.log(err);
-      }
-      res.send({
-        img: path
-      })
-    })
-    })
     
     
   

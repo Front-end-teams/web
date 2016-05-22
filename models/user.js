@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-09 13:02:40
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-05-15 09:22:26
+* @Last Modified time: 2016-05-22 20:56:20
 */
 
 'use strict';
@@ -12,7 +12,11 @@ function User(user) {
   this.email = user.email;
   this.password = user.password;
   this.img = '';
-};
+  this.nick = user.nick;
+  this.position = user.position;
+  this.sex = user.sex;
+  this.aboutme = user.aboutme;
+}
 
 module.exports = User;
 
@@ -22,7 +26,11 @@ User.prototype.save = function(callback) {
   var user = {
       email: this.email,
       password: this.password,
-      img: '',
+      img:'',
+      nick:this.nick,
+      position:this.position,
+      sex:this.sex,
+      aboutme:this.aboutme,
       postcoll:[]
   };
   //打开数据库
@@ -86,7 +94,7 @@ User.update = function(query, set, callback){
     if (err) {
       return callback(err);
     }
-    //读取 posts 集合
+    //读取 users 集合
     db.collection('users', function (err, collection) {
       if (err) {
         mongodb.close();

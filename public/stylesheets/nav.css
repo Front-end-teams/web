@@ -90,11 +90,11 @@ font-size: 10px; }
     outline: none;
     border:none;
   }
-  .tab-bd form{
+  .tab-bd .navform{
     width:280px;
     margin:0 auto;
   }
-  .tab-bd form div{
+  .tab-bd .navform div{
     width:100%;
     height:50px;
     margin:30px 0;

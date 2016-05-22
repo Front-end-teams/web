@@ -3,7 +3,7 @@
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
 <<<<<<< HEAD
-* @Last Modified time: 2016-05-15 09:14:23
+* @Last Modified time: 2016-05-22 19:12:36
 =======
 * @Last Modified time: 2016-04-24 12:25:36
 >>>>>>> origin/master
@@ -30,58 +30,105 @@ $(function(){
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
-		function getNextElement(node){
-		        var NextElementNode = node.nextSibling;
-		        while(NextElementNode.nodeValue != null){
-		            NextElementNode = NextElementNode.nextSibling
-		        }
-		        return NextElementNode;
-		}
-		if(reg!=null){
+		if(reg!==null){
 			reg.onclick = function(){
-			regtab.className="show";
-			mask.className="maskshow";
-	   		var tabPanel = tabcard.panel;
-	   		var input = tabPanel.querySelectorAll("input");
-	   		for(var i=0;i<input.length;i++){
-	   			input[i].value="";
-	   		}
-	   		var tips = tabPanel.querySelectorAll(".tip");
-	   		for(var i=0;i<tips.length;i++){
-	   			tips[i].innerHTML="";
-	   		}
-	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
-	   		var tabNav = firstUl.getElementsByTagName("li");
-	   		tabNav[0].className = "defaultStyle";
-	   		tabNav[1].className = "clickStyle";
-	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
-	   		var tabBd = lastUl.getElementsByTagName("li");
-	   		tabBd[0].className = "tabhide";
-	   		tabBd[1].className = "tabshow";
+				regtab.className="show";
+				mask.className="maskshow";
+		   		var tabPanel = tabcard.panel;
+		   		var input = tabPanel.querySelectorAll("input");
+		   		for(var i=0;i<input.length;i++){
+		   			input[i].value="";
+		   		}
+		   		var tips = tabPanel.querySelectorAll(".tip");
+		   		for(var i=0;i<tips.length;i++){
+		   			tips[i].innerHTML="";
+		   		}
+		   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
+		   		var tabNav = firstUl.getElementsByTagName("li");
+		   		tabNav[0].className = "defaultStyle";
+		   		tabNav[1].className = "clickStyle";
+		   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
+		   		var tabBd = lastUl.getElementsByTagName("li");
+		   		tabBd[0].className = "tabhide";
+		   		tabBd[1].className = "tabshow";
+
+		   		//监听注册页面文本框内value变化时tip的变化
+		   		for(var i=0;i<reginp.length;i++){
+		   			if(!!window.ActiveXObject){
+		   				reginp[i].onpropertychange = regfn;
+		   			}else{
+		   				EventUtil.addHandler(reginp[0],"input",regfn);
+		   				EventUtil.addHandler(reginp[1],"input",regfn);
+		   				// EventUtil.addHandler(reginp[2],"input",regfn);
+		   			}
+		   			var regfn=function(e){
+		   				var ev = e||window.e;
+		   				var target = ev.target||ev.srcElement;
+		   				var nextTarget = target.nextElementSibling||target.nextSibling;
+		   				target.style.border = "1px solid yellow";
+		   				nextTarget.style.display = "block";
+		   				check(target);
+		   			}
+		   			EventUtil.addHandler(reginp[i],"blur",function(e){
+		   				var ev = e||window.e;
+		   				var target = ev.target||ev.srcElement;
+		   				target.style.border = "1px solid #1AE6E6";								
+		   			});
+		   		};
+
+
+			};
 		};
-		};
-		if(login!=null){
+		if(login!==null){
 			login.onclick=  function(){
-			regtab.className="show";
-			mask.className="maskshow";
-	   		var tabPanel = tabcard.panel;
-	   		var input = tabPanel.querySelectorAll("input");
-	   		for(var i=0;i<input.length;i++){
-	   			input[i].value="";
-	   		}
-	   		var tips = tabPanel.querySelectorAll(".tip");
-	   		for(var i=0;i<tips.length;i++){
-	   			tips[i].innerHTML="";
-	   		}
-	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
-	   		var tabNav = firstUl.getElementsByTagName("li");
-	   		tabNav[1].className = "defaultStyle";
-	   		tabNav[0].className = "clickStyle";
-	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
-	   		var tabBd = lastUl.getElementsByTagName("li");
-	   		tabBd[0].className = "tabshow";
-	   		tabBd[1].className = "tabhide";
-		};
+				regtab.className="show";
+				mask.className="maskshow";
+		   		var tabPanel = tabcard.panel;
+		   		var input = tabPanel.querySelectorAll("input");
+		   		for(var i=0;i<input.length;i++){
+		   			input[i].value="";
+		   		}
+		   		var tips = tabPanel.querySelectorAll(".tip");
+		   		for(var i=0;i<tips.length;i++){
+		   			tips[i].innerHTML="";
+		   		}
+		   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
+		   		var tabNav = firstUl.getElementsByTagName("li");
+		   		tabNav[1].className = "defaultStyle";
+		   		tabNav[0].className = "clickStyle";
+		   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
+		   		var tabBd = lastUl.getElementsByTagName("li");
+		   		tabBd[0].className = "tabshow";
+		   		tabBd[1].className = "tabhide";
+
+
+
+		   		//登录页面表单focus与blur时候的不同表现
+		   		for(var i=0;i<logininp.length;i++){
+		   			
+	   				if(!!window.ActiveXObject){
+	   					logininp[i].onpropertychange = loginfn;
+	   				}else{
+	   					//console.log(logininp[i]);
+	   					EventUtil.addHandler(logininp[0],"input",loginfn);
+	   					EventUtil.addHandler(logininp[1],"input",loginfn);
+	   				}
+	   				var loginfn=function(e){
+	   					var ev = e||window.e;
+	   					var target = ev.target||ev.srcElement;
+	   					var nextTarget = target.nextElementSibling||target.nextSibling;
+	   					target.style.border = "1px solid yellow";
+	   					nextTarget.style.display = "block";
+	   					checkLog(target);
+	   				}
+	   				EventUtil.addHandler(logininp[i],"blur",function(e){
+	   					var ev = e||window.e;
+	   					var target = ev.target||ev.srcElement;
+	   					target.style.border = "1px solid #1AE6E6";								
+		   			});
+		   		}
+	   			
+			};
 		};
 		
 		close.onclick = function(){
@@ -103,11 +150,14 @@ $(function(){
 				nextEle.style.color = "red";
 				return;
 			}
-			if(ele.id==="email"){
+			if(ele.id=="email"){
 				var reg = new RegExp('^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$', 'i');
 				var emailjson= {email:str};
 				var emailinfo = JSON.stringify(emailjson);
-				if (str.match(reg)){
+				console.log(emailinfo);
+				console.log(str);
+				console.log(reg.test(str));
+				if (reg.test(str)){
 					ajax("post","/reg/email","application/json",emailinfo,function(res){
 						if(res=="reged"){
 							nextEle.innerHTML = "已注册";
@@ -125,7 +175,7 @@ $(function(){
 				    regResult.emails=false;
 				}
 			};
-			if(ele.id==="password"){
+			if(ele.id=="password"){
 				if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
 		            nextEle.innerHTML= '密码格式正确';
 		            nextEle.style.color = "green";
@@ -136,18 +186,6 @@ $(function(){
 		            regResult.passwords=false;
 		        }
 			};
-
-			// if(ele.id=="validate"){
-			// 	if(str!==strEnd){
-			// 		document.getElementById("validatetip").innerHTML = '验证码不正确';
-			// 		document.getElementById("validatetip").style.color = "red";
-			// 		logResult.validate=false;
-			// 	}else{
-			// 		document.getElementById("validatetip").innerHTML = "";
-			// 		logResult.validate=true;
-			// 	}
-				
-			// };
 		};
 
 
@@ -236,51 +274,12 @@ $(function(){
 				}
 			};
 		}
-		//监听注册页面文本框内value变化时tip的变化
-		for(var i=0;i<reginp.length;i++){
-			if(!!window.ActiveXObject){
-				reginp[i].onpropertychange = regfn;
-			}else{
-				EventUtil.addHandler(reginp[0],"input",regfn);
-				EventUtil.addHandler(reginp[i],"input",regfn);
-			}
-			var regfn=function(e){
-				var ev = e||window.e;
-				var target = ev.target||ev.srcElement;
-				var nextTarget = target.nextElementSibling||target.nextSibling;
-				target.style.border = "1px solid yellow";
-				nextTarget.style.display = "block";
-				check(target);
-			}
-			EventUtil.addHandler(reginp[i],"blur",function(e){
-				var ev = e||window.e;
-				var target = ev.target||ev.srcElement;
-				target.style.border = "1px solid #1AE6E6";								
-			});
-		};
-		//登录页面表单focus与blur时候的不同表现
-		for(var i=0;i<logininp.length;i++){
-			if(!!window.ActiveXObject){
-				logininp[i].onpropertychange = loginfn;
-			}else{
-				EventUtil.addHandler(logininp[0],"input",loginfn);
-				EventUtil.addHandler(logininp[1],"input",loginfn);
-				EventUtil.addHandler(logininp[2],"input",loginfn);
-			}
-			var loginfn=function(e){
-				var ev = e||window.e;
-				var target = ev.target||ev.srcElement;
-				var nextTarget = target.nextElementSibling||target.nextSibling;
-				target.style.border = "1px solid yellow";
-				nextTarget.style.display = "block";
-				checkLog(target);
-			}
-			EventUtil.addHandler(logininp[i],"blur",function(e){
-				var ev = e||window.e;
-				var target = ev.target||ev.srcElement;
-				target.style.border = "1px solid #1AE6E6";								
-			});
-		};
+	   		
+	   		
+
+
+		
+		
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
@@ -295,7 +294,7 @@ $(function(){
 					resultJson[val[0]]=val[1];
 				};
 				var str =JSON.stringify(resultJson);
-				//console.log(str);
+				console.log(str);
 				ajax("post","/reg","application/json",str,function(res){
 					if(res=="regsuccess"){
 						var regsuccess=document.getElementById("regsuccess");
@@ -309,7 +308,7 @@ $(function(){
 							timer = timer-1;
 							myspan.innerHTML = timer;
 							if(timer==0){
-								location.href="/";
+								location.href="/userSet";
 								clearInterval(flag);
 							}
 						}
