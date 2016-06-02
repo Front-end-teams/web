@@ -30,10 +30,10 @@ article #quesTitle input
 	display: block;
 	border: 2px solid #eee;
 	height: 60px;
-	width: 746px;
+	width: 730px;
 	outline: none;
 	font-size: 20px;
-	text-indent: 15px;
+	padding-left: 15px;
 	border-radius: 8px;	
 }
 article textarea
@@ -97,6 +97,7 @@ article #pubQues
 .tag
 {
 	text-decoration: none;
+	color:#000;
 	display: inline-block;
 	padding: 0 8px;
 	font-size: 14px;

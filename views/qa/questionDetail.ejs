@@ -4,7 +4,7 @@
 <div class="warp clearfix">
 <div class="main">
     <h2 class="quesTitle"><%=quesTitle %></h2>
-    <p class="quesDetail"><%=quesDetail %></p>
+    <p class="quesDetail"><%-quesDetail %></p>
     <p class="info">
         提问者：<a href="#"><%= name %></a> | 
         日期：<%= day %>
@@ -22,7 +22,7 @@
       邮箱：<input type="text" name="email" /><br />
       网址：<input type="text" name="website" value="http://" /><br />
     <% } %>
-      <textarea name="content" rows="5" cols="80"></textarea><br />
+      <textarea name="content" rows="5" cols="80" placeholder="写下你的评论~"></textarea><br />
       <input type="submit" value="回答" id="answer" />
     </form>
     <p id="commentsLength" data-page="<%=page%>" data-num="<%=num%>" 
@@ -40,14 +40,26 @@
                <span class="info"> <%= comments[i].time %></span>
              </div>
              <div class="commAction">
-               <span>赞同 <span><%=comments[i].agreeNum%></span></span>
-               <span>反对</span>
-               <span id="reply_<%=i%>"   
+               <span id="commentAgree_<%=i%>" 
+               data-commentid="<%=i%>"
+               data-questitle="<%=quesTitle %>" 
+               data-name="<%= name %>"
+               data-day="<%= day %>">
+               赞同 <%=comments[i].agreeNum%></span>
+               </span>
+               <span id="commentDisagree_<%=i%>"
+               data-commentid="<%=i%>"
+               data-questitle="<%=quesTitle %>" 
+               data-name="<%= name %>"
+               data-day="<%= day %>">
+               反对 <%=comments[i].disagreeNum%></span>
+               <span id="reply_<%=i%>"
                   data-questitle="<%=quesTitle %>" 
                   data-name="<%= name %>"
                   data-day="<%= day %>"
                   data-commentid="<%=i%>"
-                  data-fromName="<%= comments[i].name %>"><%=comments[i].reply.length%>条回复</span>
+                  data-fromName="<%= comments[i].name %>"><%=comments[i].reply.length%>条回复
+                </span>
              </div>
           </div>
           <div class="comment_reply">

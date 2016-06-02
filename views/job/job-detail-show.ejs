@@ -1,24 +1,28 @@
 <%- include ../header %>
-	<link rel="stylesheet" type="text/css" href="src/style/index.css">
-	<script type="text/javascript" src="src/script/recruit.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/job-detail-show.css">
 <%- include ../nav %>
-		<div>
-		    <div class="content">
-			   <div class="recruitInfo">
-			        <div class="infoList">
-	 					<label>公司名称：</label><%= jobs.companyName %><br>
-					    <label>公司地点：</label><%= jobs.companyLocation %><br>
-					    <label>工作地点：</label><%= jobs.workLocation %><br>
-					    <label>招聘类型：</label><%= jobs.jobType %><br>
-					    <label>招聘人数：</label><%= jobs.jobNum %><br>		    
-					    <label>工作经验：</label><%= jobs.workTime %><br>
-					    <label>发布时间：</label><%= jobs.jobTime.day %><br>
-				    </div>
-				    <div class="jobReq">
-				    &nbsp;职位要求：<br>
-				    </div>
-				    <a href="#" class="more">点击查看详细信息</a>			    
-			   </div>
-	        </div>
-		</div>
+<div class="main">
+   <div class="recruitInfo">
+            <p class="infoTitle">详细信息</p>
+        <div class="infoList">
+			<p><label>公司名称：</label><%= jobs.companyName %></p>
+		    <p><label>公司地址：</label><%= jobs.companyLocation %></p>
+		    <p><label>工作城市：</label><%= jobs.workLocation %></p>
+		    <p><label>招聘类型：</label><%= jobs.jobType %></p>
+		    <p><label>招聘人数：</label><%= jobs.jobNum %></p>	    
+		    <p><label>工作经验：</label><%= jobs.workTime %></p>
+		    <p><label>工资待遇：</label><%= jobs.pay %></p>
+		    <p><label>学历要求：</label><%= jobs.xueli %></p>
+		    <p><label>每周几天：</label><%= jobs.ave %></p>
+		    <p><label>实习时长：</label><%= jobs.tim %></p>
+		    <p><label>公司主页：</label><%= jobs.we %></p>
+		    <p><label>公司人数：</label><%= jobs.pep %></p>
+		    <p><label>发布时间：</label><%= jobs.jobTime.day %></p>
+		    <p><label>截止日期：</label><%= jobs.dl %></p>
+	    </div>
+	    <div class="jobReq">
+	    <p>职位要求：</p><%- jobs.jobDetail %><br>
+	    </div>
+   </div>
+</div>
 <%- include ../footer %>

@@ -10,35 +10,32 @@
 				</ul>
 			</div>
 			<ul id="wenda-nav">
-				<li id="nav-new"><a href="javascript:void(0)">最新</a></li>
-				<li id="nav-hot"><a href="javascript:void(0)">最热</a></li>
-				<li id="nav-unanswered"><a href="javascript:void(0)">未答</a></li>
+				<li id="nav-new"><a href="/question">最新</a></li>
+				<li id="nav-hot"><a href="/questionHot">最热</a></li>
+				<li id="nav-unanswered"><a href="/questionNoAnswer">未答</a></li>
 			</ul>
 			<div id="wenda-list">
 			<% questions.forEach(function (question) { %>
 				<div class="wenda-container">
 					    <div class="wenda-img">
 					       <img class="wenda-img-icon" src="images/7.jpg">
-					       <span><%= question.name %></span>
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
 
 							</h1>
-							<p class="wenda-description"><%= question.quesDetail %></p>
 							<div class="action-panel">
-							    提问的日期：<%= question.time.minute %> |
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">去回答</a> |
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">浏览量 <%=question.pv%></a>
+							    
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%=question.comments.length%>/<%=question.pv%></a>
 								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
-								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
+								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span></a>
 								<span>
 								标签：
 								<% question.tags.forEach(function(tag){%>
 								<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
 								<%})%>
+								| <%= question.time.minute %>
 								</span>
 							</div>
 					    </div>				

@@ -614,67 +614,50 @@ app.post('/agree',function(req,res){
   var day=req.body.day;
   var quesTitle=req.body.quesTitle;
   console.log(444); 
-  Ques.getOne(name, day, quesTitle, function (err, question) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      
-      console.log("question:"+(parseInt(question.agree.length)+1));
-      var temp=parseInt(question.agree.length)+1;
-      // if ( question.agree.indexOf(name) < 0 ){
-      Ques.agree(name, day, quesTitle,function(err) {
+  Ques.agree(name, day, quesTitle,function(err,question) {
         if (err) {
           req.flash('error', err);
           console.log(err);
+        }else{
+          if (question instanceof Object) {
+            var temp=parseInt(question.agree.length)+1;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }        
         }
-        
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        console.log("temp:"+temp);
-        res.send(temp.toString());
-        // res.json({temp:temp});
       });
-//    }
-    });
-
 });
-//实现点踩
+//实现点踩=
 app.post('/disagree',function(req,res){
   console.log(333);
-  var name=req.body.name;
-  console.log('name:'+name); 
+  var name=req.body.name; 
   var day=req.body.day;
-  console.log('day:'+day); 
   var quesTitle=req.body.quesTitle;
-  console.log('quesTitle:'+quesTitle); 
   console.log(444); 
-  Ques.getOne(name, day, quesTitle, function (err, question) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      
-      console.log("question:"+(parseInt(question.disagree.length)+1));
-      var temp=parseInt(question.disagree.length);
-      // if ( question.agree.indexOf(name) < 0 ){
-      Ques.disagree(name, day, quesTitle,function(err) {
+  Ques.disagree(name, day, quesTitle,function(err,question) {
         if (err) {
           req.flash('error', err);
           console.log(err);
+        }else{
+          if (question instanceof Object) {
+            var temp=parseInt(question.disagree.length)+1;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }        
         }
-        
-        //res.writeHead(200, { 'Content-Type': 'text/plain' });
-        console.log("temp:"+temp);
-        res.send(temp.toString());
-        // res.json({temp:temp+1});
       });
-//    }
-    });
-
 });
 
 
-  //------------------------------------显示问题
+  //------------------------------------显示问题(按最新排序)
 // app.get('/question', function (req, res) {
 //     //判断是否是第一页，并把请求的页数转换成 number 类型
 //     var page = req.query.p ? parseInt(req.query.p) : 1;
@@ -706,7 +689,8 @@ app.get('/question', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
-    Ques.getTen(null, page, function (err, questions, total) {
+    var num=5;
+    Ques.getTen(null, page, num, function (err, questions, total) {
       if (err) {
         questions = [];
       } 
@@ -715,6 +699,64 @@ app.get('/question', function (req, res) {
         tags = [];
       }
       res.render('qa/question', {
+        tags: tags,
+        title: '问题',
+        questions: questions,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * num + questions.length) == total,
+        LastPage:Math.ceil(total/num),
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+    });
+    });
+  });
+//---------------------------------显示问题(按最热排序)
+app.get('/questionHot', function (req, res) {
+    //判断是否是第一页，并把请求的页数转换成 number 类型
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    //查询并返回第 page 页的 10 篇文章
+    Ques.getMostHot(null, page, function (err, questions, total) {
+      if (err) {
+        questions = [];
+      } 
+      Ques.getTags(function(err, tags){
+      if (err) {
+        tags = [];
+      }
+      console.log("total:"+total);
+      res.render('qa/questionHot', {
+        tags: tags,
+        title: '问题',
+        questions: questions,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * 2 + questions.length) == total,
+        LastPage:Math.ceil(total/2),
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+    });
+    });
+  });
+//----------------------------显示问题(按没有回答的问题最新排序)
+app.get('/questionNoAnswer', function (req, res) {
+    //判断是否是第一页，并把请求的页数转换成 number 类型
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    //查询并返回第 page 页的 10 篇文章
+    Ques.getNoAnswer(null, page, function (err, questions, total) {
+      if (err) {
+        questions = [];
+      } 
+      Ques.getTags(function(err, tags){
+      if (err) {
+        tags = [];
+      }
+      console.log("total:"+total);
+      res.render('qa/questionNoAnswer', {
         tags: tags,
         title: '问题',
         questions: questions,
@@ -812,9 +854,12 @@ app.post('/questionDetail', function (req, res) {
         email: req.body.email,
         website: req.body.website,
         time:time,
-        content: req.body.content,
-        agreeNum:req.body.num?req.body.num:0,
-        reply:[]
+        content: req.body.content,       
+        reply:[],
+        agreeNum:0,
+        agree:[],
+        disagreeNum:0,
+        disagree:[]
     };
     var name=req.query.name,
         day=req.query.day,
@@ -839,6 +884,7 @@ app.post('/commentReply',function(req,res){
       commentReplyToName=req.body.commentReplyToName,
       commentReplyContent=req.body.commentReplyContent,
       commentId=req.body.commentId;
+      
   var date = new Date();
   var time = {
       date: date,
@@ -863,6 +909,62 @@ app.post('/commentReply',function(req,res){
       res.send(commentreply);
   });
 });
+//----------------------------------------评论的点赞
+  app.post("/commentAgree",function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentId=req.body.commentId;
+    console.log(333);
+    console.log("name:"+name);
+    console.log("day:"+day);
+    console.log("quesTitle:"+quesTitle);
+    console.log("commentId:"+commentId);
+    quesComment.commentAgree(name,day,quesTitle,commentId,function(err,question){
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }else{
+          if (question instanceof Object) {
+            var temp=parseInt(question.comments[commentId].agree.length)+1;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }
+        }
+    });
+  });
+//--------------------------------------评论的点踩
+  app.post("/commentDisagree",function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentId=req.body.commentId;
+    console.log(333);
+    console.log("name:"+name);
+    console.log("day:"+day);
+    console.log("quesTitle:"+quesTitle);
+    console.log("commentId:"+commentId);
+    quesComment.commentDisagree(name,day,quesTitle,commentId,function(err,question){
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }else{
+          if (question instanceof Object) {
+            
+            var temp=parseInt(question.comments[commentId].disagree.length)+1;       
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }
+        }
+    });
+  });
  /*...............................................以下模块(dev by liangtan).............................................................*/
 
   //  app.get('/saveArticle',function(req,res){
@@ -962,7 +1064,7 @@ app.post('/commentReply',function(req,res){
      jobHunting.search(jobH,function(jobs){
       if(!jobs.length){
         console.log('获取到的工作的数量为0！');
-           res.render("job/job-search",{
+           res.render("job/find-job-top5",{
                title:'工作',
                watch:'根据您输入的条件没有任何招聘信息!',
                user:req.session.user
@@ -970,7 +1072,7 @@ app.post('/commentReply',function(req,res){
            return;
        }else{
           req.flash("jobs",jobs);
-          res.render("job/job-search",{
+          res.render("job/find-job-top5",{
             user: req.session.user,
             title:"工作",
             watch:'',
@@ -996,7 +1098,7 @@ app.post('/commentReply',function(req,res){
       date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
   };
       var body=req.body,
-      jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,jobTime,body.jobDetail);
+      jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,jobTime,body.jobDetail,body.pay,body.xueli,body.ave,body.tim,body.we,body.wl,body.pep,body.dl);
        jobD.save(function(err){
          //如果出错了那么我们直接报错
          if(err){

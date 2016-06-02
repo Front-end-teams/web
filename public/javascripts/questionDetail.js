@@ -100,4 +100,60 @@ for(var i=(page-1)*num;i<length;i++)
           }
       });
     });
+   $('#commentAgree_'+i).bind("click",function(){
+    var that=this;
+    var params ={
+                "name":that.getAttribute('data-name'),
+                "day":that.getAttribute('data-day'),
+                "quesTitle":that.getAttribute('data-questitle'),
+                "commentId":that.getAttribute('data-commentid')
+            };
+         console.log(111);    
+            $.ajax({
+                data: params,
+                url: '/commentAgree',
+                type:'post',
+                jsonpCallback: 'callback',
+                success: function(data){
+                  console.log('这是data');
+                  console.log(data);
+                  console.log('这是data');
+                   
+                 that.innerHTML="赞同 "+data;
+                  
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('error ' + textStatus + " " + errorThrown);  
+                }
+            });
+            console.log(222);
+   });
+   $('#commentDisagree_'+i).bind("click",function(){
+    var that=this;
+     var params ={
+                "name":that.getAttribute('data-name'),
+                "day":that.getAttribute('data-day'),
+                "quesTitle":that.getAttribute('data-questitle'),
+                "commentId":that.getAttribute('data-commentid')
+            };
+         console.log(111);    
+            $.ajax({
+                data: params,
+                url: '/commentDisagree',
+                type:'post',
+                jsonpCallback: 'callback',
+                success: function(data){
+                  console.log('这是data');
+                  console.log(data);
+                  console.log('这是data');
+                   
+                  that.innerHTML="反对 "+data;
+                  
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('error ' + textStatus + " " + errorThrown);  
+                }
+            });
+            console.log(222);
+   });
 }

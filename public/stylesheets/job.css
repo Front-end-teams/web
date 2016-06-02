@@ -101,6 +101,7 @@ body {
   text-indent: 22px;
   line-height: 35px;
   position: relative;
+  font-size: 12px;
 }
 .searchJob_li_ul li:hover
 {
@@ -144,7 +145,7 @@ body {
   // background-color: orange;
   margin-left: 60px;
   margin-top: 20px;
-  font-size: 21px;
+  font-size: 14px;
   line-height: 30px;
   overflow: hidden;
 }

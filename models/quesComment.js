@@ -122,3 +122,143 @@ quesComment.commentreply = function(name, day, title, commentid, commentreply,ca
     });
   });
 };
+//评论的点赞
+quesComment.commentAgree=function(name,day,title,commentid,callback){
+    //打开数据库
+  console.log("哈哈哈111");
+  mongodb.close();
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    console.log("哈哈哈222");
+    //读取 questions 集合
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log("哈哈哈333");
+      //根据用户名、发表日期及文章名进行查询
+      collection.findOne({
+        "name": name,
+        "time.day": day,
+        "quesTitle": title
+      }, {"comments":1},function (err, doc) {
+        if (err) {
+          mongodb.close();
+          return callback(err);
+        }
+        console.log("哈哈哈444");
+        console.log("doc:"+doc);
+        if (doc) {
+          //每访问 1 次，pv 值增加 1
+          var temp=doc;
+          console.log("temp:"+temp);
+          if (temp.comments[commentid].agree.indexOf(name) < 0) {
+            var query={},
+                query1={};
+            query["comments."+commentid+".agree"]=name;
+            query1["comments."+commentid+".agreeNum"]=1;
+            console.log('query:'+query);
+          collection.update({
+            "name": name,
+            "time.day": day,
+            "quesTitle": title
+          }, {
+            $push: query,
+            $inc: query1
+          }, function (err) {
+            mongodb.close();
+            if (err) {
+              return callback(err);
+            }
+          });
+          //解析 markdown 为 html
+          // doc.post = markdown.toHTML(doc.post);
+          // doc.comments.forEach(function (comment) {
+          //   comment.content = markdown.toHTML(comment.content);
+          // });
+          console.log("哈哈哈555");
+            callback(null, doc);//返回查询的一篇文章
+          }else
+          {
+              var temp=doc.comments[commentid].agree.length;
+              callback(null,temp);
+          }
+        }
+
+      });
+    });
+  });
+};
+//评论的点踩
+quesComment.commentDisagree=function(name,day,title,commentid,callback){
+    //打开数据库
+  console.log("哈哈哈111");
+  mongodb.close();
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    console.log("哈哈哈222");
+    //读取 questions 集合
+    db.collection('questions', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log("哈哈哈333");
+      //根据用户名、发表日期及文章名进行查询
+      collection.findOne({
+        "name": name,
+        "time.day": day,
+        "quesTitle": title
+      },function (err, doc) {
+        if (err) {
+          mongodb.close();
+          return callback(err);
+        }
+        console.log("哈哈哈444");
+        console.log("doc:"+doc);
+        if (doc) {
+          //每访问 1 次，pv 值增加 1
+          var temp=doc;
+          console.log("temp:"+temp);
+          if (temp.comments[commentid].disagree.indexOf(name) < 0) {
+            var query={},
+                query1={};
+            query["comments."+commentid+".disagree"]=name;
+            query1["comments."+commentid+".disagreeNum"]=1;
+            console.log('query:'+query);
+          collection.update({
+            "name": name,
+            "time.day": day,
+            "quesTitle": title
+          }, {
+            $push: query,
+            $inc: query1
+          }, function (err) {
+            mongodb.close();
+            if (err) {
+              return callback(err);
+            }
+          });
+          //解析 markdown 为 html
+          // doc.post = markdown.toHTML(doc.post);
+          // doc.comments.forEach(function (comment) {
+          //   comment.content = markdown.toHTML(comment.content);
+          // });
+            console.log("哈哈哈555");
+            callback(null, doc);//返回查询的一篇文章
+          }else
+          {
+               var temp=doc.comments[commentid].disagree.length;
+              callback(null, temp);
+          }
+        }
+
+      });
+    });
+  });
+};

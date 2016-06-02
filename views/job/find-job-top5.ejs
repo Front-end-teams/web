@@ -1,7 +1,6 @@
 <%- include ../header %>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/job.css">
 	<script type="text/javascript" src="javascripts/recruit.js"></script>
-
 <%- include ../nav %>
 	<div class="main">
 	    <p class="title">
@@ -11,13 +10,15 @@
 		<form action="/job-search" method='post'>
 		<ul class="searchJob clearfix" id="searchJob">
 			<li class="searchJob_li">
-				<input type="text" placeholder="招聘类型" id="recruitType" name="recruitType">
-				<ul class="searchJob_li_ul" id="recruitType_ul">
-				    <li>请选择</li>
-					<li><span></span>校园招聘</li>
-					<li><span></span>社会招聘</li>
-					<li><span></span>实习生招聘</li>
-				</ul>
+				<div id="test">
+					<input type="text" placeholder="招聘类型" id="recruitType" name="recruitType">
+					<ul class="searchJob_li_ul" id="recruitType_ul">
+					    <li>请选择</li>
+						<li><span></span>校园招聘</li>
+						<li><span></span>社会招聘</li>
+						<li><span></span>实习生招聘</li>
+					</ul>
+				</div>
 			</li>
 			<li class="searchJob_li">
 				<input type="text" placeholder="工作地点" id="workPlace" name="workPlace">

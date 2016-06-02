@@ -1,0 +1,91 @@
+<%- include ../header %>	
+	<link rel="stylesheet" type="text/css" href="/stylesheets/question.css">
+<%- include ../nav %>
+	<div id="container">
+		<div id="wenda-main">
+			<div id="wenda-recommand">
+				<h2>编辑推荐</h2>
+				<ul id="recommand-list">
+					<li><a href="">我是推荐一</li>
+				</ul>
+			</div>
+			<ul id="wenda-nav">
+				<li id="nav-new"><a href="/question">最新</a></li>
+				<li id="nav-hot"><a href="/questionHot">最热</a></li>
+				<li id="nav-unanswered"><a href="/questionNoAnswer">未答</a></li>
+			</ul>
+			<div id="wenda-list">
+			<% questions.forEach(function (question) { %>
+				<div class="wenda-container">
+					    <div class="wenda-img">
+					       <img class="wenda-img-icon" src="images/7.jpg">
+					     </div>
+					    <div class="wenda-content">
+							<h1 class="wenda-title">
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
+
+							</h1>
+							<div class="action-panel">
+							    
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%=question.comments.length%>/<%=question.pv%></a>
+								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
+								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span></a>
+								<span>
+								标签：
+								<% question.tags.forEach(function(tag){%>
+								<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
+								<%})%>
+								| <%= question.time.minute %>
+								</span>
+							</div>
+					    </div>					
+				</div>
+			<% }) %>
+			</div>
+			<!-- 分页 -->
+			<div id="pageslider">
+			     <%- include ../paging %>
+			</div>
+			
+		</div>
+		<div id="wenda-siderbar">
+			<div id="ask">
+				<a href="/ask">我要提问</a>
+			</div>
+			<div id="user-about">
+				<div id="user-skin">
+					<div id="headpic">
+						<img id="headpic-img" src="images/7.jpg">
+					</div>
+				</div>
+				<div id="user-wendainfo">
+					<div id="namebox"><%= user %></div>
+					<ul id="user-action">
+						<li><a href=""><strong class="user-action" id="user-question">100</strong><span>提问</span></a></li>
+						<li><a href=""><strong class="user-action" id="user-answer">100</strong><span>回答</span></a></li>
+						<li><a href=""><strong class="user-action" id="user-focus">100</strong><span>关注</span></a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="windsTagBall">
+				<% tags.forEach(function (tag) { %>
+				<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
+				<% }) %>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<hr/>
+		我是footer。<br/>
+		我是footer。<br/>
+		我是footer。<br/>
+		我是footer。<br/>
+		我是footer。
+	</footer>
+
+<!-- <%- include ../footer %> -->
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.windstagball.js"></script>
+<script type="text/javascript" src="/javascripts/xhr.js"></script>
+<script type="text/javascript" src="/javascripts/question.js"></script>
+<%- include ../end %>

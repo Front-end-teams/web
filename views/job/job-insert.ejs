@@ -1,11 +1,14 @@
 <%- include ../header %>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/job-insert.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="./wangEditor/dist/css/wangEditor.min.css">
 <%- include ../nav %>
-     <div class="wrap">
+<div class="main">
+     <div class="publicArea">
 		<form method="post">
-			<label>公司名称：</label><input type="text" id="companyName" name="companyName" /><br />
-		    <label>公司地点：</label><input type="text" id="companyLocation" name="companyLocation" /><br />
-		    <label>工作地点：</label>
+			<label>公司名称：</label><input type="text" id="companyName" name="companyName" placeholder="公司名称" required="required" /><br />
+		    <label>公司地址：</label><input type="text" id="companyLocation" name="companyLocation" placeholder="公司地点" required="required"/><br />
+		    <label>工作城市：</label>
 		    <select id="workLocation" name="workLocation">
 		    	<option>北京</option>
 		    	<option>上海</option>
@@ -18,6 +21,7 @@
 		    	<option>武汉</option>
 		    	<option>南京</option>
 		    	<option>郑州</option>
+		    	<option>其他</option>
 		    </select><br />
 		    <label>招聘类型：</label>
 		    <select id="jobType" name="jobType">
@@ -25,7 +29,13 @@
 		    	<option>社会招聘</option>
 		    	<option>实习生招聘</option>
 		    </select><br />
-		    <label>招聘人数：</label><input type="text" id="jobNum" name="jobNum" /><br />	    
+		    <label>招聘人数：</label>
+		    <select id="jobNum" name="jobNum">
+		    	<option>1~5人</option>
+		    	<option>6~10人</option>
+		    	<option>11~20人</option>
+		    	<option>20人以上</option>
+		    </select><br />
 		    <label>工作经验：</label>
 		    <select id="workTime" name="workTime">
 		    	<option>无工作经验</option>
@@ -33,20 +43,70 @@
 		    	<option>1-3年工作经验</option>
 		    	<option>3年以上工作经验</option>
 		    </select><br />
-		    <label>工资待遇：</label><input type="text" id="pay" name="pay" /><br />
-		    <label>学历要求：</label><input type="text" id="xueli" name="xueli" /><br />
-		    <label>每周几天：</label><input type="text" id="ave" name="ave" /><br />
-		    <label>实习时长：</label><input type="text" id="tim" name="tim" /><br />
-		    <label>公司主页：</label><input type="text" id="we" name="we" /><br />
-		    <label>公司行业：</label><input type="text" id="wl" name="wl" /><br />
-		    <label>公司人数：</label><input type="text" id="pep" name="pep" /><br />
-		    <label>截止日期：</label><input type="text" id="dl" name="dl" /><br />
+		    <label>工资待遇：</label>
+		    <select id="pay" name="pay">
+		    	<option>1000~3000元</option>
+		    	<option>3000~5000元</option>
+		    	<option>5000~8000元</option>
+		    	<option>8000~10000元</option>
+		    	<option>10000~15000元</option>
+		    	<option>15000元以上</option>
+		    </select><br />
+		   
+		    <label>学历要求：</label>
+		    <select id="xueli" name="xueli">
+		    	<option>不限</option>
+		    	<option>大专及以上</option>
+		    	<option>本科及以上</option>
+		    	<option>硕士及以上</option>
+		    	<option>博士</option>
+		    </select><br />
+		    <label>每周几天：</label>
+		    <select id="ave" name="ave">
+		    	<option>3天</option>
+		    	<option>4天</option>
+		    	<option>5天</option>
+		    	<option>5天以上</option>
+		    </select><br />
+		    <label>实习时长：</label>
+		    <select id="tim" name="tim">
+		    	<option>1~3个月</option>
+		    	<option>3~6个月</option>
+		    </select><br />
+		    <label>公司主页：</label><input type="text" id="we" name="we" placeholder="公司主页" required="required" value="http://"/><br />
+		    <label>公司行业：</label><input type="text" id="wl" name="wl" placeholder="公司行业" required="required"/><br />
+		    <label>公司人数：</label>
+		    <select id="pep" name="pep">
+		    	<option>1~49人</option>
+		    	<option>50~99人</option>
+		    	<option>100~499人</option>
+		    	<option>500~999人</option>
+		    	<option>1000人以上</option>
+		    </select><br />
+		    <label>截止日期：</label><input type="text" id="dl" name="dl" placeholder="截止日期" required="required"/><br />
 		    <div>
-		    	<label>职位要求：</label><br>
-		    	<textarea rows="15" cols="100" id="jobDetail" name="jobDetail"></textarea>
+		    	<label>职位要求：</label><br /><br />
+		    	<textarea rows="15" cols="100" id="jobDetail" name="jobDetail" required="required"></textarea>
 		    </div>
-		    <input type="submit" value="发布">
+		    <input type="submit" value="发布" class="submit">
 		</form>
-   </div>
+     </div>
+     <div class="notice">
+		<h1>提问注意事项</h1>
+          <dl>
+            <dd>1、大家每天可以免费提出两个问题，从第三个问题起，每个问题扣除2点积分，请知晓哦；</dd>
+            <dd>2、您是来解决问题？请先搜索是否已经有同类问题吧。这样您就省心少打字。</dd>
+            <dd>3、没找到是么？就在发问题时精确描述你的问题，不要写与问题无关的内容哟；</dd>
+            <dd>4、慕课讨论更热衷于解达您想要的答案。能引起思考和讨论的知识性问题；</dd>
+            <dt>问答禁止这些提问</dt>
+            <dd>1、禁止发布交易、推广、广告类与问答无关信息将一律清理。</dd>
+            <dd>2、尽可能详细描述您的问题，如标题与内容不符，或与问答无关的信息将被删除扣分。</dd>
+            <dd>3、问答刷屏用户一律冻结帐号</dd>
+          </dl>
+	</div>
+</div>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/javascripts/job-insert.js"></script>
+<script type="text/javascript" src="./wangEditor/dist/js/wangEditor.min.js"></script>
 <%- include ../footer %>
-

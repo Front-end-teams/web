@@ -100,7 +100,7 @@ jobHunting.Top5= function(location,callback) {
         collection.find(query, {
          // skip: (page - 1)*10,
          // limit: 10
-         limit:5
+         limit:10
         }).sort({
           time: -1
         }).toArray(function (err, docs) {

@@ -7,7 +7,7 @@
 * @version :v1.0
 * @create :2012.05.04
 */
-; (function($) {
+(function($) {
     $.fn.windstagball = function(options) {
 
         var defaults = {
