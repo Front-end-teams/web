@@ -51,7 +51,6 @@
 					boxHeight:300,
 					onChange:showPreview,
 					onSelect:showPreview,
-					aspectRatio:1
 				})
 				//初始化选区框的宽高为min（width，height）
 				api.setSelect([$("#upload-img").width()>$("#upload-img").height()?1/2*($("#upload-img").width()-$("#upload-img").height()):0,
@@ -60,6 +59,7 @@
 											$("#upload-img").width()>$("#upload-img").height()?$("#upload-img").height():1/2*($("#upload-img").height()+$("#upload-img").width())]);
 				
 			})
+
 		
 		})
 

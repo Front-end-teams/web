@@ -86,6 +86,7 @@ User.update = function(query, set, callback){
 }
 
 
+
 //读取email用户信息
 User.getEmail = function(email, callback) {
   //打开数据库
@@ -95,19 +96,22 @@ User.getEmail = function(email, callback) {
     }
     //读取 users 集合
     db.collection('users', function (err, collection) {
+      console.log("1111111");
       if (err) {
         mongodb.close();
         return callback(err);//错误，返回 err 信息
       }
       //查找email值为 email 一个文档
+
       collection.findOne({
         email: email
       }, function (err, user) {
         mongodb.close();
-        console.log(err);
+
         if (err) {
           return callback(err);//失败！返回 err 信息
         }
+         console.log("33311");
         callback(null, user);//成功！返回查询的用户信息
       });
     });
@@ -124,7 +128,7 @@ User.addAttention = function(follower,host,callback){
     if (err) {
       return callback(err);
     }
-    //读取 posts 集合
+    //读取 users 集合
     db.collection('users', function (err, collection) {
       if (err) {
         mongodb.close();

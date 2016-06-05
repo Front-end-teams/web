@@ -16,6 +16,8 @@ var pagination = require('express-paginate');
 
 var area = require("../models/area.js");
 
+var nodemailer = require('nodemailer');
+
 
 var imghandle = require('../models/imgHandle.js');
 
@@ -98,6 +100,7 @@ module.exports = function(app) {
       }
 
       req.session.user = newUser;//用户信息存入 session
+
 
       req.flash('success', '注册成功!');
       res.send("regsuccess");
@@ -571,6 +574,7 @@ app.post("/user/info/email",function(req,res){
   });
     res.send('success');
 })
+
 //用户更改密码
 app.post("/user/info/oldpw",function(req,res){
   var curpw = req.session.user.password;
@@ -669,7 +673,20 @@ app.post("/user/info/newpw",function(req,res){
 
   })
 
-//用户个人信息设置
+
+app.post("/user/info/newpw",function(req,res){
+  var newpw = req.body.newpw;
+  console.log(newpw);
+  User.update({name: req.session.user.name},{password:newpw},function(err){
+    if(err){
+      console.log(err);
+    }else{
+      res.send('成功更改密码');
+    }
+    
+  })
+})
+
 app.post("/user/info",function(req,res){
   User.update({name:req.session.user.name},
   {
@@ -687,8 +704,6 @@ app.post("/user/info",function(req,res){
   })
 })
 
-
-    
 
   
 // 发布问题
@@ -1279,6 +1294,7 @@ app.get("/user",function(req,res){
 })
 
 
+
 // -------------------------添加关注路由---------------------------
   app.post('/attention', checkLogin);
   app.post('/attention',function(req,res){
@@ -1290,5 +1306,4 @@ app.get("/user",function(req,res){
       }
     })
   })
-
 }
