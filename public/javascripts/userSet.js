@@ -6,9 +6,12 @@
 	var userImgUpload = document.getElementById("user-img-upload");
 
 
+	
+
+	// span.innerHTML = reginp[0].value;
+
 	EventUtil.addHandler(userImgUpload, "change", function(e){
 
-		var e = EventUtil.getEvent(e);
 		//上传图片 当上传成功后  触发弹出框
 		var formd = new FormData();
 			formd.append("file",this.files[0]);
@@ -127,9 +130,7 @@
 
 			
 		})
-
-
-
+		
 	EventUtil.addHandler(province,"change",function(e){
 		var e = EventUtil.getEvent(e);
 		var target = EventUtil.getTarget(e);
@@ -198,9 +199,94 @@
 			var val = parts[i].split("=");
 			result[val[0]]=val[1];
 		};
-		
+		console.log(JSON.stringify(result));
 		ajax("post","user/info","application/json",JSON.stringify(result),function(res){
 			console.log(res);
 		})
 	}) 
 
+	//邮箱验证功能
+
+	var verifybox = document.getElementById("verifyBox");
+	var email = verifybox.querySelectorAll('span')[0];
+	var mailVerify = document.getElementById("js-verify");
+	EventUtil.addHandler(mailVerify,"click",function(e){
+		var e=EventUtil.getEvent(e);
+		EventUtil.preventDefault(e);
+		var str = email.innerHTML;
+		var emailjson= {email:str};
+		var emailinfo = JSON.stringify(emailjson);
+		console.log(emailinfo);
+		ajax("post","user/info/email","application/json",emailinfo,function(res){
+			console.log(res);
+		})
+	}) 
+
+
+	//更改密码功能
+	var reset = document.getElementsByClassName('reset-inp');
+	var resetTip = document.getElementsByClassName('reset-tip-wrap');
+	var setResult = {
+		old:false,
+		new:false,
+		renew:false
+	};
+	console.log(reset[0]);
+	EventUtil.addHandler(reset[0],'blur',function(e){
+		var e=EventUtil.getEvent(e);
+		EventUtil.preventDefault(e);
+		var str = reset[0].value;
+		var strjson= {password:str};
+		var strinfo = JSON.stringify(strjson);
+		ajax("post","user/info/oldpw","application/json",strinfo,function(res){
+			if(res=="密码正确"){
+				resetTip[0].innerHTML= res;
+	        	resetTip[0].style.color = "green";
+	        	setResult.old=true;
+			}else if(res=="密码不正确"){
+				resetTip[0].innerHTML= '密码格式正确';
+				resetTip[0].style.color = "red";
+				setResult.old=false;
+			}else{
+				console.log(res);
+			}
+		})
+	})
+
+	EventUtil.addHandler(reset[1],'blur',function(e){
+		var str=reset[1].value;
+		if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
+	        resetTip[1].innerHTML= '密码格式正确';
+	        resetTip[1].style.color = "green";
+	        setResult.new=true;
+	    } else { 
+	        resetTip[1].innerHTML = '请输入6到16位字符且只能为数字和字母';
+	        resetTip[1].style.color = "red";
+	        setResult.new=false;
+	    }
+	})
+	
+	EventUtil.addHandler(reset[2],'blur',function(e){
+		var e=EventUtil.getEvent(e);
+		EventUtil.preventDefault(e);
+		if(reset[1].value==reset[2].value){
+			resetTip[2].innerHTML='输入正确';
+			resetTip[2].style.color = "green";
+			setResult.renew=true;
+		}else{
+			resetTip[2].innerHTML='两次密码输入不一致';
+			resetTip[2].style.color = "red";
+			setResult.renew=false;
+		}
+	})
+	var save = document.getElementById("resetpw-btn-save");
+	EventUtil.addHandler(save,'click',function(e){
+		var e=EventUtil.getEvent(e);
+		EventUtil.preventDefault(e);
+		var str = reset[1].value;
+		var strjson= {newpw:str};
+		var strinfo = JSON.stringify(strjson);
+		ajax("post","user/info/newpw","application/json",strinfo,function(res){
+			console.log(res);
+		})
+	})

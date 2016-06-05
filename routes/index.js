@@ -16,7 +16,11 @@ var pagination = require('express-paginate');
 
 var area = require("../models/area.js");
 
+
 var imghandle = require('../models/imgHandle.js');
+
+
+var nodemailer = require('nodemailer');
 
 
 
@@ -50,12 +54,10 @@ module.exports = function(app) {
     });
   });  
 	})
-
 	//注册页面
 
   app.get('/reg', function (req, res) {
     res.render('/reg', {
-
       title: '注册',
       user: req.session.user,
       success: req.flash('success').toString(),
@@ -63,80 +65,40 @@ module.exports = function(app) {
     });
 
   });
-
-
-  app.post('/', function (req, res) {
-    var name = req.body.name,
-        password = req.body.password,
-   	    repassword = req.body.repassword;
-    //检验用户两次输入的密码是否一致
-    if (repassword!== password) {
-      req.flash('error', '两次输入的密码不一致!'); 
-      return res.redirect('/');//返回注册页
-    }
-  });
-
-  app.post('/reg/name', function (req, res) {
-    res.setHeader('content-type', 'application/text');
-    //console.log(req.body);
-    var name = req.body.name;
-    //检查用户名是否已经存在 
-    User.getName(encodeURIComponent(name), function (err, user) {
-      if (err) {
-        req.flash('error', err);
-        return res.redirect('/reg');
-      }
-     //console.log(user);
-      if (user) {
-        res.send("用户已存在！");
-        return ;//返回注册页
-      }
-      res.send('success');//如果该用户不存在就返回
-      });
-  });
   app.post('/reg/email', function (req, res) {
-    res.setHeader('content-type', 'application/json');
     var email = req.body.email;
+    console.log(req.body);
     //检查email是否已经存在 
     User.getEmail(encodeURIComponent(email), function (err, user) {
       if (err) {
         req.flash('error', err);
-        return res.redirect('/reg');
       }
       if (user) {
-        res.send("email已经使用过！");
-        return ;//返回注册页
+        res.send("reged");
+        // return ;//返回注册页
       }
       res.send('success');//如果email不存在就返回
     });
   });
 
-
-
-  //前端页面submit时就新建一个用户，并将其存入数据库
+  //注册页面submit时就新建一个用户，并将其存入数据库
   app.post('/reg',function(req,res){
-    //console.log(req.body);
-    //res.setHeader('content-type', 'application/json');
-    var name = encodeURIComponent(req.body.name);
-    var password = encodeURIComponent(req.body.password);
-    var repassword = encodeURIComponent(req.body.repassword);
     var email = encodeURIComponent(req.body.email);
+    var password = encodeURIComponent(req.body.password);
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
-        //repassword = md5.update(req.body.repassword).digest('hex');
     var newUser = new User({
-        name: name,
-        password: password,
-        email: email
+        email: email,
+        password: password       
     });
-    //console.log(newUser);
     newUser.save(function(err,user){
       if(err){
         req.flash('error', err);
       }
+
       req.session.user = newUser;//用户信息存入 session
-     // console.log("cunjinlaile")
+
       req.flash('success', '注册成功!');
       res.send("regsuccess");
       //res.redirect('/');//注册成功后跳转主页
@@ -153,12 +115,11 @@ module.exports = function(app) {
         error: req.flash('error').toString()
       });
 	});
-  app.post('/login/name',function(req,res){
-
-    User.getName(encodeURIComponent(req.body.name),function(err,user){
-     // console.log("1111");
+  app.post('/login/email',function(req,res){
+    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+      console.log("aaaa");
       if(!user){     
-        res.send("用户不存在！");
+        res.send("邮箱不存在！");
       }else{
         res.send("exist");
       }
@@ -168,19 +129,16 @@ module.exports = function(app) {
   app.post('/login/password',function(req,res){
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');   
-    User.getName(encodeURIComponent(req.body.name),function(err,user){
+    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
       if(!user){     
-        res.send("用户不存在！");
+        res.send("邮箱不存在！");
       }else{
-          console.log("exist");
         if(user.password!==password){
-          res.send("用户名与密码不一致");
+          res.send("邮箱与密码不一致");
         }else{
           res.send('match');
         }
-           
       }
-      
     });
       
   });
@@ -189,8 +147,9 @@ module.exports = function(app) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
-    User.getName(encodeURIComponent(req.body.name),function(err,user){
-
+    console.log(req.body);
+    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+      console.log(user);
       if(!user){     
         res.send("用户不存在！");
       }else{
@@ -201,7 +160,6 @@ module.exports = function(app) {
         res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
       }
-      
     });
       
   });
@@ -211,9 +169,6 @@ module.exports = function(app) {
   app.get('/logout', function (req, res) {
     req.session.user = null;
     req.flash('success', '登出成功!');
-    /*res.render('/nav',{
-      user:flase
-    });*/
     res.redirect('/');//登出成功后跳转到主页
   });
 
@@ -267,6 +222,7 @@ function checkLogin(req, res, next) {
         page: page,
         isFirstPage: (page - 1) == 0,
         isLastPage: ((page - 1) * 10 + posts.length) == total,
+        LastPage:Math.ceil(total/10),
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
@@ -330,7 +286,7 @@ function checkLogin(req, res, next) {
         }
         console.log(posts);
         //访问量增加
-        //console.log(isAgree);
+        console.log(isAgree);
         Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
           Post.getArchive({author:req.session.user.name},function(err,docs){
             console.log(docs);
@@ -526,19 +482,20 @@ function checkLogin(req, res, next) {
 
   //用户设置
   app.get("/userSet",function(req,res){
-    console.log(req.session.user);
-    User.get(req.session.user.name,function(err,user){
+    User.getEmail(req.session.user.email,function(err,user){
       if(err){
         console.log(err);
       }
       console.log(user);
       res.render("user/userSet",{
       title: "用户设置",
-      user: user
+
+      user:req.session.user
     })
     })
     
   })
+
 //修改用户地址(城市)
 app.post("/user/info/city",function(req,res){
   console.log(req.body.province);
@@ -565,17 +522,84 @@ app.post("/user/info/area",function(req,res){
 
 
 })
-
-//用户个人信息设置
-app.post("/user/info",function(req,res){
-  console.log(req.body);
+//用户头像上传
+app.post('/userset/imgupload',upload.single("file"),function(req,res){
+  console.log("file");
+  console.log(req);
+  
+  //将信息存入文章数据库
+  var path = "/uploads/"+req.file.filename;
+  console.log("user");
+  console.log(req.session.user);
+  User.update({name: req.session.user.name},{img:path},function(err){
+    if(err){
+      console.log(err);
+    }
+    res.send({
+      img: path
+    })
+  })
 })
+//用户email验证
+app.post("/user/info/email",function(req,res){
+  console.log(req.body.email);
+   var nodemailer = require('nodemailer');
+
+  var transporter = nodemailer.createTransport({
+      host: "smtp.163.com", 
+      port: 25,
+      auth: {
+        user: 'chanda_yang@163.com',
+        pass: 'yangchang8025'
+      }
+  });
+
+  var mailOptions = {
+      from: 'yang <chanda_yang@163.com>', // sender address
+      to: '1013717388@qq.com', // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Hello world ✔', // plaintext body
+      html: '<b>Hello world ✔</b>' // html body
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+           console.log(error);
+      }else{
+          console.log('Message sent: ' + info.response);
+      }
+  });
+    res.send('success');
+})
+//用户更改密码
+app.post("/user/info/oldpw",function(req,res){
+  var curpw = req.session.user.password;
+  var oldpw = req.body.oldpw;
+  if(curpw ==oldpw){
+    res.send('密码正确');
+  }else{
+    res.send('密码不正确');
+  }
+})
+
+
+app.post("/user/info/newpw",function(req,res){
+  var newpw = req.body.newpw;
+  console.log(newpw);
+  User.update({name: req.session.user.name},{password:newpw},function(err){
+    if(err){
+      console.log(err);
+    }else{
+      res.send('成功更改密码');
+    }
+  })
+})
+
+
 //用户头像上传
   app.post('/userset/imgupload',upload.single("file"),function(req,res){
     console.log("file");
     console.log(req.body);
-
-    
     //将信息存入文章数据库
     var path = "/uploads/"+req.file.filename;
     console.log("user");
@@ -644,6 +668,26 @@ app.post("/user/info",function(req,res){
     })
 
   })
+
+//用户个人信息设置
+app.post("/user/info",function(req,res){
+  User.update({name:req.session.user.name},
+  {
+      nick:req.body.nick,
+      position:req.body.position,
+      sex:req.body.sex,
+      aboutme:req.body.aboutme,
+  },
+  function(err){
+    if(err){
+      console.log(err);
+    }else{
+      res.send('个人资料保存成功');
+    }
+  })
+})
+
+
     
 
   
@@ -676,6 +720,7 @@ app.post("/user/info",function(req,res){
          //发表成功跳转到主页
         });
   });
+
 //实现点赞
 app.post('/agree',function(req,res){
   console.log(333);
@@ -683,67 +728,50 @@ app.post('/agree',function(req,res){
   var day=req.body.day;
   var quesTitle=req.body.quesTitle;
   console.log(444); 
-  Ques.getOne(name, day, quesTitle, function (err, question) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      
-      console.log("question:"+(parseInt(question.agree.length)+1));
-      var temp=parseInt(question.agree.length)+1;
-      // if ( question.agree.indexOf(name) < 0 ){
-      Ques.agree(name, day, quesTitle,function(err) {
+  Ques.agree(name, day, quesTitle,function(err,question) {
         if (err) {
           req.flash('error', err);
           console.log(err);
+        }else{
+          if (question instanceof Object) {
+            var temp=parseInt(question.agree.length)+1;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }        
         }
-        
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        console.log("temp:"+temp);
-        res.send(temp.toString());
-        // res.json({temp:temp});
       });
-//    }
-    });
-
 });
-//实现点踩
+//实现点踩=
 app.post('/disagree',function(req,res){
   console.log(333);
-  var name=req.body.name;
-  console.log('name:'+name); 
+  var name=req.body.name; 
   var day=req.body.day;
-  console.log('day:'+day); 
   var quesTitle=req.body.quesTitle;
-  console.log('quesTitle:'+quesTitle); 
   console.log(444); 
-  Ques.getOne(name, day, quesTitle, function (err, question) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      
-      console.log("question:"+(parseInt(question.disagree.length)+1));
-      var temp=parseInt(question.disagree.length);
-      // if ( question.agree.indexOf(name) < 0 ){
-      Ques.disagree(name, day, quesTitle,function(err) {
+  Ques.disagree(name, day, quesTitle,function(err,question) {
         if (err) {
           req.flash('error', err);
           console.log(err);
+        }else{
+          if (question instanceof Object) {
+            var temp=parseInt(question.disagree.length)+1;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }        
         }
-        
-        //res.writeHead(200, { 'Content-Type': 'text/plain' });
-        console.log("temp:"+temp);
-        res.send(temp.toString());
-        // res.json({temp:temp+1});
       });
-//    }
-    });
-
 });
 
 
-  //------------------------------------显示问题
+  //------------------------------------显示问题(按最新排序)
 // app.get('/question', function (req, res) {
 //     //判断是否是第一页，并把请求的页数转换成 number 类型
 //     var page = req.query.p ? parseInt(req.query.p) : 1;
@@ -775,7 +803,8 @@ app.get('/question', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
-    Ques.getTen(null, page, function (err, questions, total) {
+    var num=5;
+    Ques.getTen(null, page, num, function (err, questions, total) {
       if (err) {
         questions = [];
       } 
@@ -784,6 +813,64 @@ app.get('/question', function (req, res) {
         tags = [];
       }
       res.render('qa/question', {
+        tags: tags,
+        title: '问题',
+        questions: questions,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * num + questions.length) == total,
+        LastPage:Math.ceil(total/num),
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+    });
+    });
+  });
+//---------------------------------显示问题(按最热排序)
+app.get('/questionHot', function (req, res) {
+    //判断是否是第一页，并把请求的页数转换成 number 类型
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    //查询并返回第 page 页的 10 篇文章
+    Ques.getMostHot(null, page, function (err, questions, total) {
+      if (err) {
+        questions = [];
+      } 
+      Ques.getTags(function(err, tags){
+      if (err) {
+        tags = [];
+      }
+      console.log("total:"+total);
+      res.render('qa/questionHot', {
+        tags: tags,
+        title: '问题',
+        questions: questions,
+        page: page,
+        isFirstPage: (page - 1) == 0,
+        isLastPage: ((page - 1) * 2 + questions.length) == total,
+        LastPage:Math.ceil(total/2),
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+    });
+    });
+  });
+//----------------------------显示问题(按没有回答的问题最新排序)
+app.get('/questionNoAnswer', function (req, res) {
+    //判断是否是第一页，并把请求的页数转换成 number 类型
+    var page = req.query.p ? parseInt(req.query.p) : 1;
+    //查询并返回第 page 页的 10 篇文章
+    Ques.getNoAnswer(null, page, function (err, questions, total) {
+      if (err) {
+        questions = [];
+      } 
+      Ques.getTags(function(err, tags){
+      if (err) {
+        tags = [];
+      }
+      console.log("total:"+total);
+      res.render('qa/questionNoAnswer', {
         tags: tags,
         title: '问题',
         questions: questions,
@@ -881,9 +968,12 @@ app.post('/questionDetail', function (req, res) {
         email: req.body.email,
         website: req.body.website,
         time:time,
-        content: req.body.content,
-        agreeNum:req.body.num?req.body.num:0,
-        reply:[]
+        content: req.body.content,       
+        reply:[],
+        agreeNum:0,
+        agree:[],
+        disagreeNum:0,
+        disagree:[]
     };
     var name=req.query.name,
         day=req.query.day,
@@ -908,6 +998,7 @@ app.post('/commentReply',function(req,res){
       commentReplyToName=req.body.commentReplyToName,
       commentReplyContent=req.body.commentReplyContent,
       commentId=req.body.commentId;
+      
   var date = new Date();
   var time = {
       date: date,
@@ -932,35 +1023,90 @@ app.post('/commentReply',function(req,res){
       res.send(commentreply);
   });
 });
- /*...............................................以下模块(dev by liangtan).............................................................*/
-
-   
-   app.get('/saveArticle',function(req,res){
-     res.render('post/writePost', {
-      title: '发表',
-      user: req.session.user,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
-   })
-  app.post('/saveArticle', function (req, res) {
-    //记得同时要get/post
-     var user=req.session.user;
-     //在session中
-     var body=req.body;
-     //获取消息体,封装到Article对象上面UID, title, tag, time, Browse,agree,review,content
-    var article=new Article(user,body.title,body.tag,new Date(),body.Browse,body.agree,body.review,body.content);
-    //实例对象直接调用save方法
-    article.save(function(err){
-          if(err){
-             req.flash('error',err);
-             return res.redirect('/');
+//----------------------------------------评论的点赞
+  app.post("/commentAgree",function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentId=req.body.commentId;
+    console.log(333);
+    console.log("name:"+name);
+    console.log("day:"+day);
+    console.log("quesTitle:"+quesTitle);
+    console.log("commentId:"+commentId);
+    quesComment.commentAgree(name,day,quesTitle,commentId,function(err,question){
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }else{
+          if (question instanceof Object) {
+            var temp=parseInt(question.comments[commentId].agree.length)+1;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
           }
-          req.flash('success','文章保存成功');
-          //把success的键值发送到主页
-            res.redirect('/');
+        }
     });
   });
+//--------------------------------------评论的点踩
+  app.post("/commentDisagree",function(req,res){
+  var name=req.body.name,
+      day=req.body.day,
+      quesTitle=req.body.quesTitle,
+      commentId=req.body.commentId;
+    console.log(333);
+    console.log("name:"+name);
+    console.log("day:"+day);
+    console.log("quesTitle:"+quesTitle);
+    console.log("commentId:"+commentId);
+    quesComment.commentDisagree(name,day,quesTitle,commentId,function(err,question){
+        if (err) {
+          req.flash('error', err);
+          console.log(err);
+        }else{
+          if (question instanceof Object) {
+            
+            var temp=parseInt(question.comments[commentId].disagree.length)+1;       
+            res.send(temp.toString());
+          }else{
+            var temp=question;
+            console.log("temp1:"+temp);
+            res.send(temp.toString());
+          }
+        }
+    });
+  });
+ /*...............................................以下模块(dev by liangtan).............................................................*/
+
+  //  app.get('/saveArticle',function(req,res){
+  //    res.render('post/writePost', {
+  //     title: '发表',
+  //     user: req.session.user,
+  //     success: req.flash('success').toString(),
+  //     error: req.flash('error').toString()
+  //   });
+  //  })
+  // app.post('/saveArticle', function (req, res) {
+  //   //记得同时要get/post
+  //    var user=req.session.user;
+  //    //在session中
+  //    var body=req.body;
+  //    //获取消息体,封装到Article对象上面UID, title, tag, time, Browse,agree,review,content
+  //   var article=new Article(user,body.title,body.tag,new Date(),body.Browse,body.agree,body.review,body.content);
+  //   //实例对象直接调用save方法
+  //   article.save(function(err){
+  //         if(err){
+  //            req.flash('error',err);
+  //            return res.redirect('/');
+  //         }
+  //         req.flash('success','文章保存成功');
+  //         //把success的键值发送到主页
+  //           res.redirect('/');
+  //   });
+  // });
  /*-----------------产生分页的模块,jobs表示数据库返回的jobs集合-------------*/
  app.get('/job-page',function(req,res){
     jobHunting.getAllJob(function(jobs){
@@ -997,32 +1143,17 @@ app.post('/commentReply',function(req,res){
 
  /*------------------工作的详细的信息-----------*/
  app.get('/job-detail',function(req,res){
-   console.log('查询id='+req.query.id);
       var id=(req.query.id);
+      console.log("ID:"+id);
       //获取工作的具体的id
       jobHunting.getSpecial(id,function(job){
-           console.log(job);
-         // res.render("job/job-detail-show",{
-         //   user: req.session.user,
-          //  title: "工作",
-          //  jobs:job});
-       res.render('job/index',{
-          location:job.workLocation,//工作地点
-          companyName:job.companyName,//公司名称
-          companyLocation:job.companyLocation,//公司地点
-          jobTime:job.jobTime,
-          pay:job.pay,
-          xueli:job.xueli,
-          ave:job.ave,
-          tim:job.tim,
-          jobDetail:job.jobDetail,
-          get:job.get,
-          temp:job.temp,
-          we:job.we,
-          wl:job.wl,
-          pep:job.pep,
-          dl:job.dl
-       });
+          //console.log(job.companyName);
+          //req.flash("jobs",job);
+          res.render("job/job-detail-show",{
+            user: req.session.user,
+            title: "工作",
+            jobs:job
+          });
       });
  })
 /*------------------工作条件查询-----------------*/
@@ -1047,7 +1178,7 @@ app.post('/commentReply',function(req,res){
      jobHunting.search(jobH,function(jobs){
       if(!jobs.length){
         console.log('获取到的工作的数量为0！');
-           res.render("job/job-search",{
+           res.render("job/find-job-top5",{
                title:'工作',
                watch:'根据您输入的条件没有任何招聘信息!',
                user:req.session.user
@@ -1055,7 +1186,7 @@ app.post('/commentReply',function(req,res){
            return;
        }else{
           req.flash("jobs",jobs);
-          res.render("job/job-search",{
+          res.render("job/find-job-top5",{
             user: req.session.user,
             title:"工作",
             watch:'',
@@ -1071,13 +1202,24 @@ app.post('/commentReply',function(req,res){
        res.redirect('user/login');
      }
       //这里我们把需要的数据全部保存到数据库中jobHunting(UID, companyName, companyLocation, workLocation, jobType,jobNum,workTime,jobTime,jobDetail) 
-      var body=req.body,jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,body.jobTime,body.jobDetail,body.pay,body.xueli,body.ave,body.tim,body.get,body.temp,body.we,body.wl,body.pep,body.dl);
+    var date = new Date();
+    var jobTime = {
+      date: date,
+      year : date.getFullYear(),
+      month : date.getFullYear() + "-" + (date.getMonth() + 1),
+      day : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+      minute : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
+      date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+  };
+      var body=req.body,
+      jobD=new jobHunting(req.session.user,body.companyName,body.companyLocation,body.workLocation,body.jobType,body.jobNum,body.workTime,jobTime,body.jobDetail,body.pay,body.xueli,body.ave,body.tim,body.we,body.wl,body.pep,body.dl);
        jobD.save(function(err){
          //如果出错了那么我们直接报错
          if(err){
            req.flash('error',error);
            return res.redirect('/job-insert-error');
          }
+         console.log('-----------------------1');
           res.redirect('/job-insert-succ');
        });
   });
@@ -1099,12 +1241,9 @@ app.get('/job-insert-succ', function(req, res){
    // res.write('<meta http-equiv="refresh" content="5;url=/job-insert"></meta>');
     res.end();
 });
-app.get('/auto-refresh',function(req,res){
-   res.render('job/profile');
-});
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
 app.get('/job-top5',function(req,res){
-  jobHunting.Top5('北京',function(jobs){
+  jobHunting.Top5('',function(jobs){
     //console.assert(jobs,'这里出错了.....');
     if((jobs instanceof Array)&&jobs.length==0){
       res.render('job/find-job-top5',{
@@ -1138,6 +1277,7 @@ app.get("/user",function(req,res){
   })
 	
 })
+
 
 // -------------------------添加关注路由---------------------------
   app.post('/attention', checkLogin);

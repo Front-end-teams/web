@@ -1,0 +1,26 @@
+.main
+{
+	background: #e1e1e1;
+	width: 100%;
+	height: 100%;
+	padding-top: 50px;
+}
+.recruitInfo
+{
+	background: #fff;
+	width: 50%;
+	margin-left: 22%;
+	box-shadow: 0 0 5px 5px #888;
+	border:1px solid #888;
+	padding: 40px 50px;
+}
+.recruitInfo p
+{
+	margin-bottom: 10px;
+}
+.recruitInfo .infoTitle
+{
+	font-size: 24px;
+	line-height: 30px;
+	text-align: center;
+}

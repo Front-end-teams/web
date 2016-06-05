@@ -12,11 +12,13 @@
 		
 		<ul class="index clearfix">
 		<% if (user) { %>
+
 		<% if (user.smallimg) { %>
 			<li><a href ="/user"><img src="<%= user.smallimg %>" class = 'user-small-img'></a></li>
 		<% } else { %>
 			<li><a href ="/user"><%= user.name %></a></li>
 		<% } %>
+
 			<li><a href="/logout" id="logout">退出</a></li>
 			
 			
@@ -51,50 +53,50 @@
 		<!-- tabPanel-->
 		<ul class="tab-bd">
 			<li>
-	            <form id="loginForm" >
-	            	<div>
-	            	   <input type="text" name="name" id="name" placeholder="请输入用户名">
-	            	   <p class="tip hide"></p>
-	            	   
-	            	</div>
-	            	<div>
-	            	   <input type="password" name="password" id="password" placeholder="请输入密码">
-	            	   <p class="tip hide"></p>
-	            	  
-	            	</div>
-	            	<div>
-	            		<input type="text" id="validate" placeholder="请输入验证码">
-	            		<canvas id="valCanvas" height="35px" width="100px" ></canvas>
-	            		<a href="javascript:void(0)" id="refresh"></a>
-	            		<p class="tip hide" id="validatetip"></p>
-	            	</div>
+	            <form id="loginForm" class="navform">
+	            	<div class="rlf-group">
+						<input class="ipt ipt-email" id="email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
+						<p class="tip hide"></p>
+					</div>
+					<div class="rlf-group">
+						<input class="ipt ipt-pwd" id="password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
+						<p class="tip hide"></p>
+					</div>
+					<div class="rlf-group" id="rl-pw">
+						<label class="rlf-autoin" hidefocus="true" for="auto-signin">
+						<input id="auto-signin" class="auto-cbx" type="checkbox" checked="checked">
+								下次自动登录
+						</label>
+						<a class="rlf-forget" hidefocus="true" target="_blank" href="/user/newforgot">忘记密码 </a>
+					</div>
 	            	<div>
 	            		<button type="submit" id="loginsub">立即登录</button>
 	            	</div>
 	            </form>
 	        </li>
 			<li>
-	            <form id="regForm" class="regshow">
-					<div>
-					   <input type="text" name="name" id="name" placeholder="请输入用户名">
-					   <p class="tip hide">必填，长度为4-15个字符</p>
+	            <form id="regForm" class="navform regshow">
+	            	<div class="rlf-group">
+						<input class="ipt ipt-email" id="email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
+						<p class="tip hide"></p>
 					</div>
-					<div>
-					   <input type="password" name="password" id="password" placeholder="请输入密码">
-					   <p class="tip hide">6~16位数字或字母</p>
+					<div class="rlf-group">
+						<input class="ipt ipt-pwd" id="password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
+						<p class="tip hide"></p>
 					</div>
-					<div>
-					   <input type="password" name="repassword" id="repassword" placeholder="请重复输入密码">
-					   <p class="tip hide">重复输入密码</p>
-					</div>
-					<div>
-					   <input type="email" name="email" id="email" placeholder="请输入邮箱地址">
-					   <p class="tip hide">输入不能为空</p>
-					  <!--  <i class="icon iconfont" style="width:40px;height:40px;">&#xe636;</i> -->
+					<div class="rlf-group">
+						<input class="ipt-verify" id="validate" type="text" placeholder="请输入验证码" data-minlength="4" maxlength="4" data-callback="checkverity" data-validate="require-string"  name="verify">
+						<a class="verify-img-wrap" hidefocus="true" href="javascript:void(0)">
+							<!-- <img class="verify-img" src="/passport/user/verifycode?t=1463144492807"> -->
+							<img class="verify-img">
+						</a>
+						<a class="icon-refresh" hidefocus="true" href="javascript:void(0)"></a>
+						<p class="tip hide"></p>
 					</div>
 					<div>
 						<button  type="submit" id="regsub">立即注册</button>
 					</div>
+					
 				</form>
 				<div id="regsuccess" class="hide">
 		    		<p id="p1">注册成功!</p>

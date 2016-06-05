@@ -62,6 +62,9 @@
 
 		        <!--<a style="" href="/job-insert">发布</a>-->
 		    </li>
+		    <li class="searchJob_li public">
+		        <a href="/job-insert">我要去发布</a>	        		        
+		    </li>
 		</ul>	
 		</form>
         <!--表单提交结束-->
@@ -79,14 +82,22 @@
 						    <label>招聘类型：</label><%= job.jobType %><br>
 						    <label>招聘人数：</label><%= job.jobNum %><br>		    
 						    <label>工作经验：</label><%= job.workTime %><br>
-						    <label>发布时间：</label><%= job.jobTime %><br>
+						    <label>发布时间：</label><%= job.jobTime.day %><br>
 					    </div>
-					    <div class="jobReq">
-					    &nbsp;职位要求：<br>
-					      <%= job.jobDetail %>
+					    <div class="infoList">
+						    <label>工资待遇：</label><%= job.pay %><br>
+						    <label>学历要求：</label><%= job.xueli %><br>
+						    <label>每周几天：</label><%= job.ave %><br>
+						    <label>实习时长：</label><%= job.tim %><br>
+						    <label>公司主页：</label><%= job.we %><br>
+						    <label>公司行业：</label><%= job.wl %><br>
+						    <label>公司人数：</label><%= job.pep %><br>
+					    </div>
+					    <div class="infoList">
+						    <label>截止时间：</label><%= job.dl %><br>
 					    </div>
 					    <a href="/job-detail?id=<%=job._id%>" class="more">点击查看详细信息</a>			    
-				   </div>
+		           </div>
 				 <% }) %>
 		        </div>
 				</div>		

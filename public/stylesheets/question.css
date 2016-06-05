@@ -1,8 +1,5 @@
-
-
-
-
 /*# sourceMappingURL=styles.css.map */
+* a{color: #333;}
 #container{
   width: 1100px;
   margin:0 auto;
@@ -11,7 +8,9 @@
   padding: 35px 0 50px;
   overflow: hidden;
 }
-
+#container a{
+  text-decoration: none;
+}
 #wenda-main{
   width: 800px;
   float: left;
@@ -44,7 +43,6 @@
   display: block;
   width: 52px;
   line-height: 22px;
-  text-decoration: none;
 }
 
 .wenda-container{
@@ -88,12 +86,6 @@
   text-indent: 5px;
 }
 
-#pageslider{
-  text-align: center;
-}
-#pageslider a{
-  padding: 8px;
-}
 
 #wenda-siderbar{
   width: 220px;

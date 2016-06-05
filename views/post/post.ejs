@@ -1,6 +1,7 @@
 <%- include ../header %><!-- 
 	<link rel="stylesheet" type="text/css" href="/stylesheets/reading.css"> -->
     <link rel="stylesheet" type="text/css" href="/stylesheets/post.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/paging.css">
 <%- include ../nav %>
 	<section>
 		<div class="container">
@@ -22,7 +23,6 @@
 
             
             <div class="post-cont"><%- post.art %></div>
-            
             
             <div class="article-message">
                 
@@ -118,6 +118,9 @@
          
     </div>   	
     </section>
+<div id="pageslider">
+    <%- include ../paging %>
+</div>
 <%- include ../footer %>
 <script type="text/javascript" src="/javascripts/post.js"></script>
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>

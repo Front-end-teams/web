@@ -123,45 +123,61 @@ font-size: 10px;
     outline: none;
     border:none;
   }
-  .tab-bd form{
-    text-align: center;
+  .tab-bd .navform{
+    width:280px;
+    margin:0 auto;
   }
-  .tab-bd form div{
+  .tab-bd .navform div{
     width:100%;
     height:50px;
-    margin:20px 0;
-    text-align: center;
+    margin:30px 0;
    }
   
- .regLogin .tab-bd form div input{
-      width:280px;
+ .rlf-group .ipt{
+      width:100%;
       height:45px;
       text-indent: 10px;
+      outline: none;
   }
-  .tab-bd form div p{
-    border:none;
+  .rlf-autoin{
+    float:left;
+    
+  }
+  .rlf-forget{
+    float:right;
+    text-decoration:none;
+    color:black;
+  }
+  #rl-pw{
+    margin:-10px 0;
+    height:30px;
   }
   .tab-bd form div button{
     background: #21e7c9 scroll 0 0;
-    width:100px;
+    width:280px;
     height:40px;
     color:white;
     outline: none;
+    border:none;
+    cursor:pointer;
   }
-  #validate{
-    display: inline-block;
+  .ipt-verify{
+    width:160px;
+    height:45px;
+  }
+  .verify-img-wrap{
     width:100px;
-    margin-left: -64px;
+    height:45px;
   }
-  #valCanvas{
-    margin-left: 20px;
-    display: inline-block!important;
-    vertical-align: middle;
+  .icon-refresh{
+    margin-left:10px;
+    height:45px;
+    line-height: 45px;
   }
-  #validatetip{
-    
-  }
-  
+
+
+
+
 
 /*注册成功跳转之前的页面*/
   #regsuccess{

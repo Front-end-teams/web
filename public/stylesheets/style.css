@@ -1,6 +1,12 @@
 /*input值为file时的样式 */
 /*通过div(.input-file)中包含input(type=file,
 class=file-button)和label(class="file-button-img)实现*/
+*{
+	margin: 0;
+	padding: 0;
+	font-family: "微软雅黑";
+	font-size:14px;
+}
 a input button{outline:none;}
 .input-file{
 	display: inline-block;
@@ -98,7 +104,6 @@ input::-webkit-input-placeholder {
 }
 
 .clearfix:after {content: "";clear: both;display: block;visibility: hidden;height: 0; }
- * { padding: 0;margin: 0;font-family: "microsoft yahei"; font-size: 14px; }
  body {min-width:915px; }
 /*  a { color: #00B7FF;}
 .clearfix:after {content: "";clear: both;display: block;visibility: hidden;height: 0; }

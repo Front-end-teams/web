@@ -1,15 +1,11 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: "汉仪旗黑X3-65W";
-  font-size: 14px; 
   }
-  body{
+  body
+  {
     overflow:scroll;
   }
-
-body {
-  min-width: 915px; }
 
 .clearfix:after {
   content: "";
@@ -17,23 +13,77 @@ body {
   display: block;
   visibility: hidden;
   height: 0; }
-
-
-
-
-.outer{
-	position:relative;
-	width:100%;
-	border:1px solid blue;
-	margin-top:50px;
+.main
+{
+	width: 1100px;
+	margin: 0 auto;
+	overflow: hidden;	
 }
-.inner{
-	position: absolute;
-	left:0;
-	top:0;
-	right:0;
-	bottom:0;
-	width:50%;
-	height:50%;
-	margin:auto;
+.publicArea
+{
+	float: left;
+	margin-top: 30px;
+	width: 800px;
+}
+.publicArea form
+{
+	font-family: "Arial";
+	font-size: 15px;
+}
+.publicArea input,select
+{
+	line-height: 24px;
+	padding:8px 15px;
+	font-size: 18px;
+	margin-bottom: 20px;
+}
+.publicArea input
+{
+	margin-left: 4px;
+	width: 410px;
+}
+.publicArea select
+{
+	width: 444px;
+}
+.publicArea textarea
+{
+	padding: 20px;
+}
+.publicArea .submit
+{
+	width: 200px;
+	outline: none;
+	float: right;
+	margin:10px 340px 0 0;
+}
+.notice
+{
+	float: right;
+	width: 280px;
+	margin-top: 30px;
+}
+.notice h1
+{
+	font-size: 18px;
+	font-family: "Arial";
+	text-indent: 60px;
+	height: 60px;
+	line-height: 60px;
+	background: url(../images/attention.png) no-repeat left center;
+}
+.notice dl dd
+{
+	font-size: 14px;
+	font-family: "Arial";
+}
+.notice dl dt,dd
+{
+	padding: 5px 0;
+	line-height: 24px;
+}
+.notice dl dt
+{
+	font-size: 16px;
+	font-weight: bold;
 }

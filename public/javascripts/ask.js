@@ -1,3 +1,4 @@
+
 var tags=document.getElementById('tags').getElementsByTagName('a');
 var count=0;
 //选择标签并且最多只能选三项
@@ -31,6 +32,13 @@ for(var i=0,leng=tags.length;i<leng;i++)
 		}
 	}    
 }
+  var editor=new wangEditor("content");
+  editor.config.uploadImgUrl="/wangEditor"
+  editor.config.uploadParams={
+    token: "abcd",
+    name: 'wang'
+  }
+  editor.create();
 $('#pubQues').click(function(){
 	var quesTitle=$('#ques_Title').val(),
 	    content=$('#content').val();

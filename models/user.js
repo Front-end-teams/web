@@ -2,19 +2,21 @@
 * @Author: Administrator
 * @Date:   2016-04-09 13:02:40
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-04-21 16:26:01
+* @Last Modified time: 2016-05-22 20:56:20
 */
 
 'use strict';
 var mongodb = require('./db');
 
 function User(user) {
-  this.name = user.name;
-  this.password = user.password;
-  this.repassword = user.repassword;
   this.email = user.email;
+  this.password = user.password;
   this.img = '';
-};
+  this.nick = user.nick;
+  this.position = user.position;
+  this.sex = user.sex;
+  this.aboutme = user.aboutme;
+}
 
 module.exports = User;
 
@@ -22,11 +24,13 @@ module.exports = User;
 User.prototype.save = function(callback) {
   //要存入数据库的用户文档
   var user = {
-      name: this.name,
-      password: this.password,
-      repassword:this.repassword,
       email: this.email,
-      img: '',
+      password: this.password,
+      img:'',
+      nick:this.nick,
+      position:this.position,
+      sex:this.sex,
+      aboutme:this.aboutme,
       postcoll:[]
   };
   //打开数据库
@@ -54,63 +58,6 @@ User.prototype.save = function(callback) {
   });
 };
 
-//读取用户信息
-User.get = function (name, callback) {
-  //打开数据库
-  mongodb.open(function (err, db) {
-    if (err) {
-      return callback(err);//错误，返回 err 信息
-    }
-    //读取 users 集合
-    db.collection('users', function (err, collection) {
-      if (err) {
-        mongodb.close();
-        return callback(err);//错误，返回 err 信息
-      }
-      //查找用户名（name键）值为 name 一个文档
-      collection.findOne({
-        name: name
-      }, function (err, user) {
-        mongodb.close();
-        if (err) {
-          return callback(err);//失败！返回 err 信息
-        }
-        callback(null, user);//成功！返回查询的用户信息
-      });
-    });
-  });
-};
-
-
-//查询用户name是否存在
-User.getName = function(name, callback) {
-  //打开数据库
-  mongodb.open(function (err, db) {
-    if (err) {
-      return callback(err);//错误，返回 err 信息
-    }
-    //读取 users 集合
-    db.collection('users', function (err, collection) {
-      if (err) {
-        mongodb.close();
-        return callback(err);//错误，返回 err 信息
-      }
-   
-      //查找name值为 name一个文档
-      collection.findOne({
-        name: name
-      }, function (err, user) {
-        mongodb.close();
-        console.log(user+"1");
-        if (err) {
-          return callback(err);//失败！返回 err 信息
-        }
-        callback(null, user);//成功！返回查询的用户信息
-        console.log(user+"222");
-      });
-    });
-  });
-};
 
 User.update = function(query, set, callback){
   mongodb.close();
@@ -118,7 +65,7 @@ User.update = function(query, set, callback){
     if (err) {
       return callback(err);
     }
-    //读取 posts 集合
+    //读取 users 集合
     db.collection('users', function (err, collection) {
       if (err) {
         mongodb.close();
@@ -137,6 +84,7 @@ User.update = function(query, set, callback){
     });
   });
 }
+
 
 //读取email用户信息
 User.getEmail = function(email, callback) {
@@ -204,3 +152,4 @@ User.addAttention = function(follower,host,callback){
     });
   });
 }
+

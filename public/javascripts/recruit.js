@@ -1,18 +1,4 @@
 window.onload=function(){
-     // var searchJob=document.getElementById('searchJob');
-     // var input=searchJob.getElementsByTagName('input');
-     // var options=searchJob.getElementsByTagName('ul');
-     // var option=options.querySelectorAll('li');
- 
-     // for(var i=0;i<input.length;i++)
-     // {
-     // 	input[i].onclick=function(){
-     // 		option[i].style.display='block';
-     // 	};
-     // }
-
-
-
   var recruitType=document.getElementById('recruitType');
   var workPlace=document.getElementById('workPlace');
   var experience=document.getElementById('experience');
@@ -27,30 +13,42 @@ window.onload=function(){
   var workPlace_ul_li=workPlace_ul.getElementsByTagName('li');
   var experience_ul_li=experience_ul.getElementsByTagName('li');
   var rank_ul_li=rank_ul.getElementsByTagName('li');
-   window.onclick=function(){
+
+  window.onclick=function(){
   	recruitType_ul.style.display='none';
   	workPlace_ul.style.display='none';
   	experience_ul.style.display='none';
   	rank_ul.style.display='none';
   };
+  recruitType.addEventListener('click',function(event){
+  	recruitType_ul.style.display='block';
+    workPlace_ul.style.display='none';
+    experience_ul.style.display='none';
+    rank_ul.style.display='none';
+  	event.stopPropagation();
+  },false);
 
-recruitType.addEventListener('click',function(event){
-	recruitType_ul.style.display='block';
-	event.stopPropagation();
-},false);
-
-workPlace.addEventListener('click',function(event){
-	workPlace_ul.style.display='block';
-	event.stopPropagation();
-},false);
-experience.addEventListener('click',function(event){
-	experience_ul.style.display='block';
-	event.stopPropagation();
-},false);
-rank.addEventListener('click',function(event){
-	rank_ul.style.display='block';
-	event.stopPropagation();
-},false);
+  workPlace.addEventListener('click',function(event){
+  	recruitType_ul.style.display='none';
+    workPlace_ul.style.display='block';
+    experience_ul.style.display='none';
+    rank_ul.style.display='none';
+  	event.stopPropagation();
+  },false);
+  experience.addEventListener('click',function(event){
+  	recruitType_ul.style.display='none';
+    workPlace_ul.style.display='none';
+    experience_ul.style.display='block';
+    rank_ul.style.display='none';
+  	event.stopPropagation();
+  },false);
+  rank.addEventListener('click',function(event){
+  	recruitType_ul.style.display='none';
+    workPlace_ul.style.display='none';
+    experience_ul.style.display='none';
+    rank_ul.style.display='block';
+  	event.stopPropagation();
+  },false);
 
 
   for(var i=0;i<recruitType_ul_li.length;i++)

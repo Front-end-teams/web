@@ -1,7 +1,6 @@
 <%- include ../header %>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/job.css">
 	<script type="text/javascript" src="javascripts/recruit.js"></script>
-
 <%- include ../nav %>
 	<div class="main">
 	    <p class="title">
@@ -11,18 +10,18 @@
 		<form action="/job-search" method='post'>
 		<ul class="searchJob clearfix" id="searchJob">
 			<li class="searchJob_li">
-				<input type="text" placeholder="招聘类型" id="recruitType" name="recruitType">
-				<!-- <span></span> -->
-				<ul class="searchJob_li_ul" id="recruitType_ul">
-				    <li>请选择</li>
-					<li><span></span>校园招聘</li>
-					<li><span></span>社会招聘</li>
-					<li><span></span>实习生招聘</li>
-				</ul>
+				<div id="test">
+					<input type="text" placeholder="招聘类型" id="recruitType" name="recruitType">
+					<ul class="searchJob_li_ul" id="recruitType_ul">
+					    <li>请选择</li>
+						<li><span></span>校园招聘</li>
+						<li><span></span>社会招聘</li>
+						<li><span></span>实习生招聘</li>
+					</ul>
+				</div>
 			</li>
 			<li class="searchJob_li">
 				<input type="text" placeholder="工作地点" id="workPlace" name="workPlace">
-			<!-- 	<span></span> -->
 				<ul class="searchJob_li_ul" id="workPlace_ul">
 				    <li>请选择</li>
 					<li><span></span>北京</li>
@@ -40,32 +39,28 @@
 			</li>
 			<li class="searchJob_li">
 				<input type="text" placeholder="工作经验" id="experience" name="experience">
-				<!-- <span></span> -->
 				<ul class="searchJob_li_ul" id="experience_ul">
 				    <li>请选择</li>
-					<li><span></span>无工作经验</li>
-					<li><span></span>1年以内工作经验</li>
-					<li><span></span>1-3年工作经验</li>
-					<li><span></span>3年以上工作经验</li>
+					<li>无工作经验</li>
+					<li>1年以内工作经验</li>
+					<li>1-3年工作经验</li>
+					<li>3年以上工作经验</li>
 				</ul>
 			</li>
 			<li class="searchJob_li">
 				<input type="text" placeholder="排序规则" id="rank" name="rank">
-				<!-- <span></span> -->
 				<ul class="searchJob_li_ul" id="rank_ul" >
 				    <li>请选择</li>
 				    <li><span></span>最新发布</li>
 					<li><span></span>历史发布</li>			
 				</ul>
 			</li>
-
-		    <li class="searchJob_li"  style="">
-		        <input type="submit" value="搜索">
-
-                 <!--
-		            <a style="" href="/job-insert">发布</a>
-		        -->
+		    <li class="searchJob_li search">
+		        <input type="submit" value="搜索"/>		        		        
 		    </li>
+		    <li class="searchJob_li public">
+		        <a href="/job-insert">我要去发布</a>	        		        
+		    </li>		    
 		</ul>	
 		</form>
         <!--表单提交结束-->
@@ -82,18 +77,27 @@
 				    <label>招聘类型：</label><%= job.jobType %><br>
 				    <label>招聘人数：</label><%= job.jobNum %><br>		    
 				    <label>工作经验：</label><%= job.workTime %><br>
-				    <label>发布时间：</label><%= job.jobTime %><br>
+				    <label>发布时间：</label><%= job.jobTime.day %><br>
 			    </div>
-			    <div class="jobReq">
-			    &nbsp;职位要求：<br>
-			      <%= job.jobDetail %>
+			    <div class="infoList">
+				    <label>工资待遇：</label><%= job.pay %><br>
+				    <label>学历要求：</label><%= job.xueli %><br>
+				    <label>每周几天：</label><%= job.ave %><br>
+				    <label>实习时长：</label><%= job.tim %><br>
+				    <label>公司主页：</label><%= job.we %><br>
+				    <label>公司行业：</label><%= job.wl %><br>
+				    <label>公司人数：</label><%= job.pep %><br>
 			    </div>
-			    <a href="#" class="more">点击查看详细信息</a>			    
+			    <div class="infoList">
+				    <label>截止时间：</label><%= job.dl %><br>
+			    </div>
+			    <a href="/job-detail?id=<%=job._id%>" class="more">点击查看详细信息</a>			    
 		   </div>
-		 <% }) %>
+		  <% }) %>
         </div>
-	</div>		
-   <%}%>
+	</div>
+	 <%}%>
+
 
 		
 <%- include ../footer %>
