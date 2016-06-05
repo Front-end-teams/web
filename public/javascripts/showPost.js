@@ -3,6 +3,8 @@ var agreeB = document.getElementById("agree");
 var agreeIcon = agreeB.getElementsByTagName("i");
 var collect = document.getElementById("collect"); 
 var collectIcon = collect.getElementsByTagName("i");
+var attention = document.getElementById('attention');
+var author = document.getElementById("post-author").innerHTML;
 
 var isAgree = agreeB.getAttribute("data");
 var isColl = collect.getAttribute("data");
@@ -12,7 +14,7 @@ if( isAgree == "true" ){
 }
 
 if( isColl == "true" ){
-	agreeIcon[0].style.color = "#EF5959";
+	collectIcon[0].style.color = "#EF5959";
 }
 
 
@@ -20,7 +22,7 @@ EventUtil.addHandler(agreeB, "click", agree);
 function agree(e){
 	var agreeNum = document.getElementById("agree-num");
 	var title = document.getElementById("post-title").innerHTML;
-	var author = document.getElementById("post-author").innerHTML;
+
 	var e = EventUtil.getEvent(e);
 	var target = EventUtil.getTarget(e);
 	
@@ -34,7 +36,7 @@ function agree(e){
 				if ( JSON.parse( res ).isAgree ) {
 					agreeIcon[0].style.color = "#EF5959";
 				} else {
-					agreeIcon[0].style.color = "";
+					agreeIcon[0].style.color = "#ccc";
 				}
 			
 		})
@@ -57,8 +59,14 @@ function collection(e){
 				if ( JSON.parse( res ).isColl) {
 					collectIcon[0].style.color = "#EF5959";
 				} else {
-					collectIcon[0].style.color = "";
+					collectIcon[0].style.color = "#ccc";
 				}
 			
 		})
 }
+
+EventUtil.addHandler(attention,'click',function(e){
+	ajax('post','/attention','application/json',{author:author},function(res){
+		console.log(res);
+	})
+})

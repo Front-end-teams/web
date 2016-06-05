@@ -1,4 +1,5 @@
 var mongodb = require('./db');
+
 var getCity = function( province,callback){
 	mongodb.open(function(err,db){
     if(err){

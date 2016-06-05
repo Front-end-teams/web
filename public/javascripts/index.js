@@ -1,19 +1,3 @@
-//选项卡
-var oTable=document.getElementById("table");
-var aLi=oTable.getElementsByTagName("li");
-var oDiv=oTable.getElementsByTagName("div");
-//console.log(oDiv);
-for(var i=0,len=aLi.length;i<len;i++){
-    aLi[i].id=i;
-    aLi[i].onclick=function(){
-        for(var j=0,len=aLi.length;j<len;j++){
-            aLi[j].className="";
-            oDiv[j].style.display="none";
-        }
-    this.className="active";
-    oDiv[this.id].style.display="block";
-    }
-}
 
 var container=document.getElementById("img-cont");
 var prev=document.getElementById("prev");
@@ -125,3 +109,38 @@ EventUtil.addHandler(buttons,"click",function(e){
 		}
 });
 
+//-------------------------------动画的实现
+
+$(window).scroll(function(event) {
+	/* Act on the event */
+	//三个图标的显示
+	if($(window).scrollTop() + $(window).height()  >$(".character-wrap").offset().top+ 1/2*$(".icon1").height()) {
+
+		$(".character-wrap>div").eq(0).animate({top:"30px",opacity:1},500,function(){
+			
+			$(".character-wrap>div").eq(1).animate({top:"30px",opacity:1},500,function(){
+				
+				$(".character-wrap>div").eq(2).animate({top:"30px",opacity:1},500)
+			});
+		});
+	
+	}
+	//介绍一的显示
+	if($(window).scrollTop() + $(window).height()  >$(".intro1").offset().top+ 1/2*$(".intro1").height()) {
+		$(".intro1 .intro1-text").animate({opacity: 1}, 1000);
+		$(".intro1 .intro1-img").animate({top:"5px",opacity:1},500);
+	}
+
+	//介绍二的显示
+	if($(window).scrollTop() + $(window).height() >$(".intro2").offset().top+ 1/2*$(".intro2").height() ) {
+		$(".intro2 .intro2-text").animate({opacity: 1}, 1000);
+		$(".intro2 .intro2-img").animate({top:"-30px",opacity:1},500);
+	}
+
+	if($(window).scrollTop() + $(window).height() >$(".intro3").offset().top+ 1/2*$(".intro3").height() ) {
+		$(".intro3 .intro3-text").animate({opacity: 1}, 1000);
+		$(".intro3 .intro3-img").animate({top:"5px",opacity:1},500);
+	}
+	
+
+});

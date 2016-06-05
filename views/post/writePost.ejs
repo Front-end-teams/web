@@ -1,4 +1,8 @@
-<%- include ../header %>
+<!DOCTYPE html>
+<html lang="en" manifest="../writePost.manifest">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
 <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 <link rel="stylesheet" type="text/css" href="/stylesheets/writePost.css">
 <link rel="stylesheet" type="text/css" href="/popout/style.css">
@@ -23,29 +27,29 @@
     </div>
   </div>
 
-<div class="user-info">
-	<img class="user-img" src="">
-	<div class="user-detail">
-	<span class="author"><%= user %></span><span>积分：100</span>
-	<div><a href="">个人主页</a></div>
-	</div>
-</div>
+<!-- <div class="user-info">
+  <img class="user-img" src="">
+  <div class="user-detail">
+  <span class="author"><%= user.name %></span><span>积分：100</span>
+  <div><a href="">个人主页</a></div>
+  </div>
+</div> -->
 
 
 <!-- 写文章区域 -->
 <article class="post-write">
 <form method="post" enctype="multipart/form-data" id="form-article">
 <div class="post-input">
-<label><span class="must">*</span>文章标题：</label><input type="text" name="title" placeholder="请输入标题" class="text-input" required="required" <% if (postTitle) { %> value= <%= postTitle %> <% } %>></input></div>
+<label class="middle"><span class="must">*</span>文章标题：</label><input type="text" name="title" placeholder="请输入标题" class="text-input" required="required" <% if (postTitle) { %> value= <%= postTitle %> <% } %>></input></div>
 
-<div class="post-input"><label>文章封面：</label>
-<div class="input-file">
+<!--<div class="post-input"><label class="middle">文章封面：</label>
+ <div class="input-file">
 
 <input  type="file" name="postImg" value="上传图片" id="upload" class="file-button" >
 
 <label class="file-button-img">上传封面</label>
 
-</div>
+</div> -->
 
 </div>
 
@@ -72,7 +76,7 @@
 <!-- 当标签文本框获得焦点时触发 显示常用标签 -->
 <div class="common-tags post-cont" id="common-tags">
   <div class="tags-show">
-  <table><tbody><tr><td>常用标签：</td><td id="tags">
+  <table><tbody><tr><td style="width:70px;vertical-align: top">常用标签：</td><td id="tags">
 	<% for(var i=0; i<tags.length; i++){ %>
 	<% if(tags[i]){ %>
   	<span class="tag-style"><%= tags[i] %></span>
@@ -86,7 +90,7 @@
 <!-- 个人分类 当分类文本框获得焦点是 显示个人分类 -->
 <div class="post-input"><label>个人分类：</label>
 <div class="post-cates-input">
-<input type="text" class="text-input"  id="cates-input" required="required"  <% if (postCates) { %> value= <%= postCates %> <% } %>></input><span class="tips">多个分类之间用","隔开</span>
+<input type="text" class="text-input"  id="cates-input" required="required" name=cates <% if (postCates) { %> value= <%= postCates %> <% } %>></input><span class="tips">多个分类之间用","隔开</span>
 
 <div class="common-cates" id="common-cates">
   <div class="cates-show">
@@ -117,23 +121,27 @@
 </div>
 </div>
 
-<div class="post-abs" id="post-abs"><label>摘要:</label>
+<!-- <div class="post-abs" id="post-abs"><label>摘要:</label>
 <div class="post-abs-detail">
   <p>默认自动提取您文章的前200个字显示在博客首页作为文章摘要，您也可以在这里自行编辑</p>
-  <textarea style="width:800px;height:200px" id="abs-text" name="abs-text" <% if (art) { %> value= <%= art %> <% } %>></textarea>
+  <div style="width:800px;height:200px;" id="abs-text" name="abs-text" ><% if (art) { %> <%- art %> <% } %></div>
+  
 </div>
+</div> -->
+<div class="submit">
+<% if(postTitle) { %>
+<input type="submit" class="button submit "  value="保存" id="save"></input>
+<% } else { %>
+<input type="submit"  class="button submit" value="发表文章" id="submit"></input>
+<% } %>
 </div>
-<div class="submit"><input type="submit"  class="button submit" value="发表文章" id="submit"></input>
-<input type="submit" class="button submit"  value="保存"></input></div>
+
 </form>
 </article>
 
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
 <script type="text/javascript" src="/javascripts/seriPost.js"></script> 
-
-
-
 
 <script type="text/javascript" src="/javascripts/writePost.js"></script>
 
@@ -151,4 +159,3 @@
 <%- include ../footer %> 
 
 <%- include ../end %> 
-

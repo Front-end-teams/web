@@ -16,6 +16,9 @@ var pagination = require('express-paginate');
 
 var area = require("../models/area.js");
 
+var imghandle = require('../models/imgHandle.js');
+
+
 
 
 module.exports = function(app) {
@@ -23,22 +26,23 @@ module.exports = function(app) {
 	app.post("/wangEditor",formidable);
 
   //上传的ajax触发的操作
-	app.post('/upload1',upload.single("file"),function(req,res){
+	app.post('/upload1',function(req,res){
     
     //将信息存入文章数据库
-    var path = "/uploads/"+req.file.filename;
+    console.log(req.body);
+   
     var artText=decodeURIComponent(req.body.post).substr(0,200);
     console.log(artText);
     var tags = decodeURIComponent(req.body.tags).split(",");
-    console.log(tags);
-    var post = new Post(req.session.user.name, decodeURIComponent(req.body.title),tags,decodeURIComponent(req.body.post),decodeURIComponent(req.body.cates),path,decodeURIComponent(artText));
+    
+    var post = new Post(req.session.user.name, decodeURIComponent(req.body.title),tags,decodeURIComponent(req.body.post),decodeURIComponent(req.body.cates),artText);
       post.save(function (err) {
     
       if (err) {  
         console.log("error");
       }
      res.send({
-                author: req.session.user,
+                author: req.session.user.name,
                 title: req.body.title,
                 tags: req.body.tags,
                 post: req.body.post,
@@ -131,7 +135,7 @@ module.exports = function(app) {
       if(err){
         req.flash('error', err);
       }
-      req.session.user = newUser.name;//用户信息存入 session
+      req.session.user = newUser;//用户信息存入 session
      // console.log("cunjinlaile")
       req.flash('success', '注册成功!');
       res.send("regsuccess");
@@ -180,7 +184,7 @@ module.exports = function(app) {
     });
       
   });
-  app.post('/login', checkNotLogin);
+  app.post('/login', checkLogin);
   app.post('/login', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
@@ -192,6 +196,7 @@ module.exports = function(app) {
       }else{
         //用户名密码都匹配后，将用户信息存入 session
         req.session.user = user;
+        req.session.save();
         req.flash('success', '登陆成功!');
         res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
@@ -217,25 +222,25 @@ module.exports = function(app) {
 function checkLogin(req, res, next) {
   if (!req.session.user) {
     req.flash('error', '未登录!'); 
-    //res.redirect('user/login');
+    res.redirect('/login');
   }
   next();
 }
 
-function checkNotLogin(req, res, next) {
+/*function checkNotLogin(req, res, next) {
   if (req.session.user) {
     req.flash('error', '已登录!'); 
     //res.redirect('back');//返回之前的页面
   }
   next();//执行下一个路由
-}
+}*/
 
 	//文章
 		
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: 'Express',
-	  						name: "cheng",
+	  						
 	  						author: '0001',
 	  						tag: 'fort',
 						    time: 'now',
@@ -254,6 +259,7 @@ function checkNotLogin(req, res, next) {
       if (err) {
         posts = [];
       } 
+      console.log(req.session.user);
      
       res.render('post/post', {
         title: '文章',
@@ -275,7 +281,7 @@ function checkNotLogin(req, res, next) {
 				console.log(err);
 				tags=[];
 			}
-			
+			console.log(req.session.user);
 			Post.getArchive({},function(err,cates){
 				if(err){
 					console.log("cates error");
@@ -283,7 +289,7 @@ function checkNotLogin(req, res, next) {
 				}
 				
 				res.render('post/writePost',{
-					user: "cc",
+					user: req.session.user,
 					title:"文章编辑",
 					tags: tags,
           postTags: null,
@@ -310,7 +316,8 @@ function checkNotLogin(req, res, next) {
       }
       console.log("render");
       //判断是否已点赞
-      if ( req.session.user && post.agree.indexOf(req.session.user.name)>=0 ) {
+      console.log(post);
+      if ( req.session.user && post.agree &&post.agree.indexOf(req.session.user.name)>=0 ) {
         isAgree = true;
       }
       if ( req.session.user && post.postcoll.indexOf(req.session.user.name)>0 ) {
@@ -325,43 +332,26 @@ function checkNotLogin(req, res, next) {
         //访问量增加
         //console.log(isAgree);
         Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
-          res.render('post/showPost', {
-          title: req.params.title,
-          post: post,
-          relate:posts,
-          user: req.session.user,
-          success: req.flash('success').toString(),
-          error: req.flash('error').toString(),
-          isAgree : isAgree,
-          isColl: isColl
+          Post.getArchive({author:req.session.user.name},function(err,docs){
+            console.log(docs);
+            res.render('post/showPost', {
+              title: req.params.title,
+              post: post,
+              relate: posts,
+              cates: docs,
+              user: req.session.user,
+              success: req.flash('success').toString(),
+              error: req.flash('error').toString(),
+              isAgree : isAgree,
+              isColl: isColl
+            })
         });
       })
-      })
-      
-
-      
+      })      
     });
   })
-	
-  //显示写完后的文章
-	app.get('/showPost',function(req,res){
-		var post=req.flash("success");
-		console.log(Object.prototype.toString.call(post));
-		res.render("post/showPost",{
-			title: "文章",
-      user: "cheng",
-			author: "cheng",
-			title: "post[0].title",
-			post: "post[0].post",
-			tag: "wenzhang",
-			Browse: '0',
-			agree: '0',
-			time: '0'
 
-		}
-
-		);
-	})
+ 
 
   //文章修改
   app.get("/writePost/:author/:title",function(req,res){
@@ -385,7 +375,7 @@ function checkNotLogin(req, res, next) {
       res.render("post/writePost",{
         title: "文章编辑",
         postTitle: post.title,
-        user: post.author,
+        user: req.session.user,
         postTags: post.tags,
         tags: tags,
         postCates:post.cates,
@@ -397,6 +387,28 @@ function checkNotLogin(req, res, next) {
     })
     })
     }) 
+  })
+
+  //更新文章
+  app.post('/post/update',function(req,res){
+    var artText=decodeURIComponent(req.body.post).substr(0,200);
+    console.log(artText);
+    var tags = decodeURIComponent(req.body.tags).split(",");
+    console.log(decodeURIComponent(req.body.post));
+    Post.update({author:req.session.user.name,title:decodeURIComponent(req.body.title)},
+                {post:decodeURIComponent(req.body.post),tags:tags,cates:decodeURIComponent(req.body.cates),art:artText},function(err){
+                  if(err){
+                    console.log(err);
+                  }
+                  console.log('update')
+                  res.send({
+                    author: req.session.user.name,
+                    title: req.body.title,
+                    tags: req.body.tags,
+                    post: req.body.post,
+                    cates: req.body.cates
+                  })
+  })
   })
   //文章点赞
   app.post("/agree/:author/:title", function(req,res){
@@ -490,7 +502,27 @@ function checkNotLogin(req, res, next) {
     }) 
   })
  
-  
+   //文章分类
+   //------------------未完成-----------------
+  app.get('/cates',function(req,res){
+    
+    console.log("chegn");
+    console.log({cates:req.query.cates,author:req.session.user.name});
+    Post.getTen({cates:req.query.cates,author:req.session.user.name},1,function(err,docs,total){
+      if(err){
+        console.log(err);
+      }
+      Post.getArchive({author:req.session.user.name},function(err,cates){
+        console.log(docs);
+        res.render('post/cate', {
+          title: '分类',
+          post: docs,
+          cates: cates,
+          user: req.session.user,
+        })
+      })    
+    })
+  })
 
   //用户设置
   app.get("/userSet",function(req,res){
@@ -502,7 +534,7 @@ function checkNotLogin(req, res, next) {
       console.log(user);
       res.render("user/userSet",{
       title: "用户设置",
-      user:user
+      user: user
     })
     })
     
@@ -539,14 +571,13 @@ app.post("/user/info",function(req,res){
   console.log(req.body);
 })
 //用户头像上传
-
-  app.post('/userset/imgupload',upload.array("files",10),function(req,res){
+  app.post('/userset/imgupload',upload.single("file"),function(req,res){
     console.log("file");
     console.log(req.body);
 
     
     //将信息存入文章数据库
-    /*var path = "/uploads/"+req.file.filename;
+    var path = "/uploads/"+req.file.filename;
     console.log("user");
     console.log(req.session.user);
     User.update({name: req.session.user.name},{img:path},function(err){
@@ -556,10 +587,65 @@ app.post("/user/info",function(req,res){
       res.send({
         img: path
       })
-    })*/
     })
+  })
+  //用户头像剪切
+  app.post("/upload/imgupload/size",function(req,res){
+    console.log("size");
+    console.log(req.body)
+
+    User.get(req.session.user.name, function(err, user){
+      if(err){
+        console.log(err);
+      }
+      console.log(user);
+
+      imghandle.imgCrop({path:user.img,
+        width:req.body.w,
+        height:req.body.h,
+        x:req.body.x,
+        y:req.body.y,
+        rWidth:200,
+        rHeight:200
+      },function(err,bigpath){
+        console.log(imghandle.imgResize);
+        imghandle.imgResize({path:bigpath,rWidth:100,rHeight:100},function(err,middlepath){
+          console.log(middlepath);
+          imghandle.imgResize({
+            path:middlepath,
+            rWidth:30,
+            rHeight:30
+          },function(err,smallpath){
+            console.log(bigpath);
+            console.log(middlepath);
+
+            User.update({name: req.session.user.name},{bigimg:bigpath,middleimg:middlepath,smallimg:smallpath},function(err){
+              if(err){
+                console.log(err);
+              };
+              User.get(req.session.user.name, function(err, user){
+                req.session.save(function(err){
+                  req.session.reload(function(err){
+                    req.session.user = user;
+                  })
+                })
+                req.session.save();
+                res.send({
+                  bigimg: bigpath,
+                  smallimg: smallpath
+                })
+              })
+            })
+          })
+        })
+   
+      });
+
+    })
+
+  })
     
-    
+
   
 // 发布问题
   app.get('/ask', checkLogin);
@@ -765,7 +851,7 @@ app.get('/questionTags', function (req, res) {
       });
     });
   });
-//----------------------------------显示某个问题的某个评论的具体内容
+//----------------------------------显示某个问题的某个评论的具体内容----------
 app.post('/getReplyOfComment',function(req,res){
   var name=req.body.name,
       day=req.body.day,
@@ -781,7 +867,7 @@ app.post('/getReplyOfComment',function(req,res){
          res.send(reply);
   });
 });
-//-----------------------------回答问题
+//-----------------------------回答问题------------------------
 app.post('/questionDetail', function (req, res) {
     var date = new Date(),
         time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
@@ -813,7 +899,7 @@ app.post('/questionDetail', function (req, res) {
       res.redirect('back');
     });
   });
-//-----------------------------回复评论
+//-----------------------------回复评论------------------------
 app.post('/commentReply',function(req,res){
   var name=req.body.name,
       day=req.body.day,
@@ -940,7 +1026,7 @@ app.post('/commentReply',function(req,res){
       });
  })
 /*------------------工作条件查询-----------------*/
-  //app.post('/job-search', checkNotLogin);
+  //app.post('/job-search', checkLogin);
 //下面是工作模块,根据用户输入的信息去数据库查询信息
   app.post('/job-search',function(req,res){
       console.log('job-search被调用');
@@ -978,7 +1064,7 @@ app.post('/commentReply',function(req,res){
      });
   });
   /*------------------工作插入-----------------*/
- //app.post('/job-insert', checkNotLogin);
+ //app.post('/job-insert', checkLogin);
    //如果没有登陆那么直接回到主页
   app.post('/job-insert',function(req,res){
      if(!req.session.user){
@@ -995,7 +1081,7 @@ app.post('/commentReply',function(req,res){
           res.redirect('/job-insert-succ');
        });
   });
-  //app.get('/job-insert', checkNotLogin);
+  //app.get('/job-insert', checkLogin);
   //这里是渲染一个页面用于插入数据
   app.get('/job-insert',function(req,res){
     res.render('job/job-insert',{
@@ -1039,14 +1125,30 @@ app.get('/job-top5',function(req,res){
   });
 });
 
-
 /*-----------------用户界面路由部分---------------------*/
 app.get("/user",function(req,res){
-	res.render("user/user",{
-		title: "用户",
-		user: "cheng"
-	});
+  console.log(req.session.user);
+  Post.getTen({author:req.session.user.name},1,function(err,docs,total){
+    console.log(docs);
+    res.render("user/user",{
+      post: docs,
+      title: "用户",
+      user: req.session.user.name
+    });
+  })
+	
 })
 
+// -------------------------添加关注路由---------------------------
+  app.post('/attention', checkLogin);
+  app.post('/attention',function(req,res){
+    console.log(req.body);
+
+    User.update({user:req.session.user.name},{author:req.body.author},function(err){
+      if(err){
+        console.log(err);
+      }
+    })
+  })
 
 }

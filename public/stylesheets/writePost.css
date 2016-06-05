@@ -27,14 +27,15 @@ a{
 
 }
 .user-info .user-detail span{
-	
 	display: inline-block;
 	margin-left: 10px;
 	padding:5px;
 }
 /* 文章样式 */
 .post-write{
+
 	width:1050px;
+	padding:10px 0;
 	margin:0 auto;
 }
 .must{
@@ -47,6 +48,10 @@ label{
 	padding-right: 5px;
 	text-align: right;
 	vertical-align: top;
+}
+
+label.middle{
+	vertical-align: middle;
 }
 .post-input{
 	margin:10px;
@@ -96,6 +101,7 @@ label{
 	padding-left:5px;
 	padding-right:5px;
 	margin-left:10px;
+	margin-bottom:5px;
 
 }
 .post-tags{

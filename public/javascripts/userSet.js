@@ -4,86 +4,130 @@
 	var citySelect = document.getElementById("city-select");
 	var area = document.getElementById("area-select");
 	var userImgUpload = document.getElementById("user-img-upload");
-	var userImgShow = document.getElementById("user-img-show");
-	console.log(userImgUpload);
 
 
 	EventUtil.addHandler(userImgUpload, "change", function(e){
+
 		var e = EventUtil.getEvent(e);
-		imgData(e,200,200,function(dataBig,typeBig){
-			imgData(e,100,100,function(dataMiddle,typeMiddle){
-				imgData(e,50,50,function(dataSmall,typeSmall){
-					//图片上传，将base64的图片转成二进制对象，塞进formdata上传
-			
-				//可以直接把Base64的字符串上传到服务器，然后由服务端解码为JPG图片，
-				//也可以在前端解码上传。如果要在前端解码并以文件方式上传，
-				//先要用atob函数把Base64解开，然后转换为ArrayBuffer，再用它创建一个Blob对象。
-				var textBig = window.atob(dataBig.split(",")[1]);
-				var bufferBig = new ArrayBuffer(textBig.length);
-	      var ubufferBig = new Uint8Array(bufferBig);
+		//上传图片 当上传成功后  触发弹出框
+		var formd = new FormData();
+			formd.append("file",this.files[0]);
+			ajax("post","userSet/imgupload", null, formd, function(res){
+				var str = "<div class='img-wrap'><div class='upload-origin'><img id='upload-img' src="+JSON.parse(res).img+"></img></div><div class='pre-img'><span id='pre-big'><img id='crop-pre-big' src="
+								+JSON.parse(res).img+"></span><span id='pre-middle'><img id='crop-pre-middle' src="+JSON.parse(res).img+"></span><span id='pre-small'><img id='crop-pre-small' src="+JSON.parse(res).img+
+								"></span></div><input type='hidden' id='x' name='x' />"+
+	                  "<input type='hidden' id='y' name='y' />"+
+	                  "<input type='hidden' id='w' name='w' />"+
+	                  "<input type='hidden' id='h' name='h' />";
+	    //Popular为弹出框类
+  		var pop2 = document.querySelector('.p2');
+	  	var p2 = Popuper({
+		    wrap: pop2,
+		    type: 'success',
+		   	//confirm: function(){},
+		    cancel: function() {
+		      alert('cancel callback');
+		    }
 
-				var textMiddle = window.atob(dataMiddle.split(",")[1]);
-				var bufferMiddle = new ArrayBuffer(textMiddle.length);
-	      var ubufferMiddle = new Uint8Array(bufferMiddle);
+			}).edit({
 
-	      var textSmall = window.atob(dataSmall.split(",")[1]);
-				var bufferSmall = new ArrayBuffer(textSmall.length);
-	      var ubufferSmall = new Uint8Array(bufferSmall);
-	      for (var i = 0; i < textBig.length; i++) {
-	        ubufferBig[i] = textBig.charCodeAt(i);
-	      }
-	      for (var i = 0; i < textMiddle.length; i++) {
-	        ubufferMiddle[i] = textMiddle.charCodeAt(i);
-	      }
-	      for (var i = 0; i < textSmall.length; i++) {
-	        ubufferSmall[i] = textSmall.charCodeAt(i);
-	      }
-	      //创建blob对象
-	      var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
-	        var blobBig,blobMiddle,blobSmall;
-
-	        if (Builder) {
-	            var builderBig = new Builder();
-	            builderBig.append(bufferBig);
-	            blobBig = builderBig.getBlob(typeBig);
-
-	            var builderMiddle = new Builder();
-	            builderMiddle.append(bufferMiddle);
-	            blobMiddle = builderBig.getBlob(typeMiddle);
-
-	            var builderSmall = new Builder();
-	            builderSmall.append(bufferSmall);
-	            blobSmall = builderBig.getBlob(typeSmall);
-
-	        } else {
-	            blobBig = new window.Blob([bufferBig], {type: typeBig});
-	            blobMiddle = new window.Blob([bufferMiddle], {type: typeMiddle});
-	            blobSmall = new window.Blob([bufferSmall], {type: typeSmall});
-	        }
-
-
-	     // var buffer = new ArrayBuffer(text.length);
-	      //建立8为不带符号的整数的视图
-	       //var ubuffer = new Uint8Array(buffer);
-	       var blob = [];
-	       blob.push(blobBig);
-	       blob.push(blobMiddle);
-	       blob.push(blobSmall);
-				var formd = new FormData();
-				formd.append('files', blob);
+		    title: '头像上传',
+		    content: str
+			}).show();
+			p2.toggle().edit({
+				type:'info'
+			});
+  	
+  	//当图片加载完后增加jcrop类
+	
+			$("#upload-img").on("load",function(){
+				console.log("cheng");
+				console.log($("#upload-img"));
+				var api = $.Jcrop("#upload-img",{
+					boxWidth:300,
+					boxHeight:300,
+					onChange:showPreview,
+					onSelect:showPreview,
+					aspectRatio:1
+				})
+				//初始化选区框的宽高为min（width，height）
+				api.setSelect([$("#upload-img").width()>$("#upload-img").height()?1/2*($("#upload-img").width()-$("#upload-img").height()):0,
+											$("#upload-img").width()>$("#upload-img").height()?0:1/2*($("#upload-img").height()-$("#upload-img").width()),
+											$("#upload-img").width()>$("#upload-img").height()?1/2*($("#upload-img").width()+$("#upload-img").height()):$("#upload-img").height(),
+											$("#upload-img").width()>$("#upload-img").height()?$("#upload-img").height():1/2*($("#upload-img").height()+$("#upload-img").width())]);
 				
+			})
+		
+		})
 
-				ajax("post","userSet/imgupload",null, formd, function(res){
-					console.log(res);
-					//userImgShow.src = JSON.parse(res).img;
-				})
+	
+	})
+		//当选区框改变时触发的操作
+		function showPreview(coords){
+			console.log(coords);//返回的是相对于原图像裁切的宽高信息
+					$("#x").val(coords.x);
+					$("#y").val(coords.y);
+					$("#w").val(coords.w);
+					$("#h").val(coords.h);
+					//预览图的生成 通过改变图片的宽高
+					if(parseInt(coords.w)>0){
+						var bigRx = $("#pre-big").width()/coords.w;
+						var bigRy = $("#pre-big").height()/coords.h;
+						console.log(bigRx)
+						$("#crop-pre-big").css({
+							width:Math.round(bigRx*$("#upload-img").width())+"px",
+							height:Math.round(bigRy*$("#upload-img").height())+"px",
+							marginLeft:"-"+Math.round(bigRx*coords.x)+"px",
+							marginTop:"-"+Math.round(bigRy*coords.y)+"px"
+						})
+
+						var middleRx = $("#pre-middle").width()/coords.w;
+						var middleRy = $("#pre-middle").height()/coords.h;
+						$("#crop-pre-middle").css({
+							width:Math.round(middleRx*$("#upload-img").width())+"px",
+							height:Math.round(middleRy*$("#upload-img").height())+"px",
+							marginLeft:"-"+Math.round(middleRx*coords.x)+"px",
+							marginTop:"-"+Math.round(middleRy*coords.y)+"px"
+						})
+
+						var smallRx = $("#pre-small").width()/coords.w;
+						var smallRy = $("#pre-small").height()/coords.h;
+						$("#crop-pre-small").css({
+							width:Math.round(smallRx*$("#upload-img").width())+"px",
+							height:Math.round(smallRy*$("#upload-img").height())+"px",
+							marginLeft:"-"+Math.round(smallRx*coords.x)+"px",
+							marginTop:"-"+Math.round(smallRy*coords.y)+"px"
+						})
+					}
+				}
 			
-				})
+		$('#crop-form').submit(function(event) {
+			event.preventDefault() 
+		});
+   //点击提交按钮时 将form表单以ajax方式提交 
+   
+		$("#upload-submit").on("click",function(e){
+			e.stopPropagation();
+			console.log("fjkdfajk");
+			$(".p2").css("display","none");
+
+			$.ajax({
+				url:"/upload/imgupload/size",
+				type:"POST",
+				data:$("#crop-form").serialize(),
+				success:function(data){
+					console.log(data.img);
+
+
+					$("#user-img-show").prop('src',data.bigimg );
+					$('.user-small-img').prop('src',data.smallimg);
+					console.log($("#user-img-show"));
+				}
 			})
 
 			
-		
-	})});
+		})
+
 
 
 	EventUtil.addHandler(province,"change",function(e){

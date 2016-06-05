@@ -4,9 +4,13 @@ text-decoration: none;
 color:#000;
 }
 .header {
+position: fixed;
+top:0px;
+width:100%;
 color: #fff;
 height: 50px;
-background-color: #21e7c9; }
+background-color: #21e7c9;
+z-index: 100 }
 .header .logo {
 width: 100px;
 font-size: 30px;
@@ -28,16 +32,45 @@ font-size: 16px;
 line-height: 20px;
 cursor: pointer;
 }
+.header .index li a .user-small-img{
+  border-radius:15px;
+}
+
 .header .index li:hover {
 border-bottom: 2px solid #fff; }
+.header .index li.search{
+  padding-bottom: 5px;
+}
 .header .index li.search:hover {
 border-bottom: 0px; }
 .header .index li.search .search-text {
+  margin-right: 5px;
 background-color: #21e7c9;
 border: 1px solid #fff;
 width: 200px;
+height:30px;
 border-radius: 5px;
-font-size: 10px; }
+outline: none;
+font-size: 10px; 
+}
+
+
+@font-face {font-family: "iconfont";
+  src: url('/icon/part-icon/iconfont.eot?t=1462859034'); /* IE9*/
+  src: url('/icon/part-icon/iconfont.eot?t=1462859034#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('/icon/part-icon/iconfont.woff?t=1462859034') format('woff'), /* chrome, firefox */
+  url('/icon/part-icon/iconfont.ttf?t=1462859034') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('/icon/part-icon/iconfont.svg?t=1462859034#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:20px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+  color:#fff;}
 
 
 

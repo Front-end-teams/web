@@ -113,6 +113,7 @@ User.getName = function(name, callback) {
 };
 
 User.update = function(query, set, callback){
+  mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
       return callback(err);
@@ -164,3 +165,42 @@ User.getEmail = function(email, callback) {
     });
   });
 };
+/**
+ * 添加关注执行的操作
+ * @param {json} follower 执行关注操作的人{user:name}
+ * @param {json} fans     关注的人{author:name}
+ */
+User.addAttention = function(follower,host,callback){
+  mongodb.close();
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    //读取 posts 集合
+    db.collection('users', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      //更新文章内容
+      collection.update(follower, {
+        $push: {attention:host.author}
+      }, function (err) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        collection.update(host,{
+          $push:{fans:follower.user}
+        },function(err){
+          mongodb.close();
+          if (err) {
+            return callback(err);
+          }
+          callback(null);
+        })
+        
+      });
+    });
+  });
+}

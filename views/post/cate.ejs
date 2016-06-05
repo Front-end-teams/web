@@ -1,0 +1,50 @@
+<%- include ../header %>
+<link rel="stylesheet" type="text/css" href="stylesheets/cate.css"> 
+<%- include ../nav %>
+<div class='cate-wrap'>
+<div class="user-cont clearfix">
+<span class="cont-header">我的文章</span>
+<div class="user-post">
+	
+	<% for(var i=0;i<post.length;i++){ %>
+	<div class='mypost-wrap'>
+		<div class="mypost">
+		
+			<h2 class="mypost-title"><%- post[i].title %></h2>
+			<div><%- post[i].art %></div>
+			<div class="mypost-info">
+				<span>评论 </span>
+				<span>点赞<%- post[i].agree.length %></span>
+				<span>浏览<%- post[i].pv %></span>
+			</div>
+			<div class="mypost-img"></div>
+		</div>
+		<span class='time-tag'></span>
+		<div class='time-show'>
+			<b class='time-show-year'><%- post[i].time.split('-')[0] %></b>
+			<span class='time-show-month'><%- post[i].time.split('-')[1] %>月<%- post[i].time.split('-')[2]%>日</span>
+		</div>
+	</div>
+
+	<% } %>
+	
+</div>
+</div>
+
+	<div class="relate-post">
+	<header class="relate-post-header">文章分类</header>
+	<% if(cates) { %>
+	<% for( var i = 0 ;i <cates.length; i++) { %>
+	<div class="relate-post-title"><a href="/cates?cates=<%= cates[i] %>"><%= cates[i] %></a></div>
+	<% } %>
+	
+	<% } %>
+	<div class="relate-post-detail">
+		
+	</div>
+</div>
+
+</div>
+
+<%- include ../footer %>
+<%- include ../end %> 

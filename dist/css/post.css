@@ -1,0 +1,190 @@
+
+.container{
+  color:#3D3D3D;
+  width:1100px;
+  position:relative;
+  top:20px;
+  margin:0 auto;
+
+}
+
+.container hr{
+  width:698px;
+  border-color:#F6F6F6;
+  opacity:0.6;
+}
+.container a:hover{
+  cursor:pointer;
+}
+.tabs a:nth-child(1){
+  padding-left:0;
+}
+.tabs{
+  text-align:center;
+}
+.main_left{
+  positon:absolute;
+  left:0;
+  top:0;
+  width:700px;
+}
+.writeNote{
+  border:1px solid #43EAB6;
+  
+  background:white scroll 0 0;
+  width:100%;
+  text-align: center;
+  margin:10px 0;
+}
+.writeNote #write{
+  display: inline-block;
+  width:100%;
+  padding:10px 0;
+  text-decoration: none;
+  color:#21e7c9;
+  font-size: 20px;
+}
+.writeNote #write:hover{
+  background-color:#21e7c9;
+  color:#fff; 
+}
+.main_right{
+  position:absolute;
+  right:0;
+  top:0;
+  width:350px;
+  /* border:1px solid green; */
+}
+.main_right hr{
+  width:348px;
+}
+.hot-article{
+  padding:10px;
+  border-bottom: 1px solid #eee;
+}
+.hot-article .author{
+  display: inline-block;
+  width:40px;
+  height:60px;
+}
+.hot-article .author img{
+  display:inline-block;
+  width:40px;
+  height:40px;
+  border-radius:20px;
+  overflow:hidden;
+}
+.hot-article .author .author-name{
+  text-align: center;
+}
+.hot-article .time{
+  float:right;
+}
+.title{
+  display: inline-block;
+  vertical-align: top;
+  color:#1F1F1F;
+  font-size:25px;
+  padding:10px;
+  text-decoration: none;
+}
+.post-cont{
+  padding:10px 5px 20px;
+  margin-left:40px;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.article-message{
+  margin-left: 30px;
+}
+
+.article-message .article-tag{
+  display:inline-block;
+  margin-left: 10px;
+
+  background-color: #F0EFEF;
+  color:#9E9E9E;
+  text-decoration: none;
+  padding:2px 5px;
+  border-radius: 5px;
+}
+.post-info{
+  display: inline-block;
+  float:right;
+}
+.post-info span{
+  margin-left: 10px;
+}
+.recommend{
+
+  padding:10px 0 10px 10px;
+}
+/* 用户部分样式 */
+#user-about{
+  height: 185px;
+  overflow: hidden;
+}
+#user-skin{
+  height: 75px;
+  background: #eee;
+  position: relative;
+}
+#headpic{
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  bottom:-20px;
+  left:50%;
+  margin-left: -30px;
+  overflow: hidden;
+}
+#headpic img{
+  height: 60px;
+  width: 60px;
+}
+#user-wendainfo{
+  padding:16px 16px 9px 16px;
+  background-color: #eee;
+  overflow: hidden;
+  
+}
+#namebox{
+  text-align: center;
+  margin: 10px auto 10px auto;
+}
+#user-action{
+  list-style-type: none;
+  text-align: center;
+  width:150px;
+
+  margin:0 auto;
+
+
+}
+#user-action li{
+  float:left;
+  
+  text-align: center;
+  padding:0px 10px;
+}
+#user-action li a{
+  display: inline-block;
+  text-decoration: none;
+  color:black;
+ 
+}
+#user-action li:last-child{
+  border-right: 0px;
+}
+.user-action{
+  width: 100%;
+  display: block;
+}
+
+.tagClound{
+  /* border:1px solid purple; */
+  width:100%;
+  padding:10px 0 10px 10px;
+}

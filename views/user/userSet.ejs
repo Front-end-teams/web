@@ -1,7 +1,23 @@
 <%- include ../header %>
 <link rel="stylesheet" type="text/css" href="/tab/tabcard.css">
 <link rel="stylesheet" type="text/css" href="/stylesheets/userSet.css">
+<link rel="stylesheet" type="text/css" href="/popout/style.css">
+<link rel="stylesheet" type="text/css" href="/Jcrop/css/jquery.Jcrop.min.css">
 <%- include ../nav %> 
+
+<div class="pop-cont p2" id="pop-cont">
+<form id="crop-form" enctype="multipart/form-data">
+    <div class="pop" >
+      <section class="pop-title"><h3>头像上传</h3></section>
+      <section class="pop-content"></section>
+      <section class="pop-footer">
+        <input type="submit" class="confirm" value="上传头像" id="upload-submit">
+        
+      </section>
+
+    </div>
+</form>
+</div>
 
 <div id="tab">
 <!-- tabHead -->
@@ -125,7 +141,8 @@
 	<li class="tabhide"> 
     <div class="head-image">
       <div class="avator-image">
-         <img width="220" height="220" id="user-img-show"> 
+         <!-- <img width="220" height="220" id="user-img-show" > -->
+         <img id = 'user-img-show' src = '<%= user.bigimg %>' style="width:200px;height:200px"> 
       </div>
       <div>
         <input class="js-avator-try avator-try" type="button" value="换一换" hidefocus="true">
@@ -226,12 +243,15 @@
 </div>
 
  <%- include ../footer %> 
+ <script type="text/javascript" src="javascripts/jquery.js"></script>
 <script type="text/javascript" src="tab/tabcard.js"></script>
+<script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.js"></script>
 <script type="text/javascript">
 
    tabcard = new TabCard("tab","defaultStyle","clickStyle");
    tabcard.click();
 </script>
+<script type="text/javascript" src="/popout/popular.js"></script>
 <script type="text/javascript" src="/javascripts/imgcut.js"></script>
 <script type="text/javascript" src="/javascripts/userSet.js"></script>
 

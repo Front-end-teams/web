@@ -8,7 +8,6 @@
     Popuper.prototype = {
 
         constructor: Popuper,
-
         container: null,
         wrap: null,
         header: null,
@@ -21,7 +20,6 @@
 
 
             this.container = param.wrap || null;
-            console.log(this.container);
             this.wrap = this.container.querySelector('.pop') || null;
             this.header = this.container.querySelector('.pop-title') || null;
 
@@ -41,8 +39,13 @@
 
             //绑定确定按钮事件
             if (!!confirm) {
-                confirm.addEventListener('click', function () {
-                    param.confirm();
+                confirm.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if(param.confirm){
+                        param.confirm();
+                    }
+                    
                     self.hide();
                 }, false);
             }
@@ -126,7 +129,7 @@
 
                 if (self.isDown) {
                     self.isDown = false;
-                    document.removeEventListener('mousemove', _move);
+                    //document.removeEventListener('mousemove', _move);
                 }
             }
 
@@ -163,6 +166,7 @@
         hide: function () {
 
             this.container.className = this.container.className.replace(/show/g, '').trim();
+
             this.wrap.style.cssText = '';
             this.status = false;
 

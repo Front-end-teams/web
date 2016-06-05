@@ -4,9 +4,28 @@
 <section class="wrap clearfix">
 
 <%- include subPost %>
+<aside>
+<div id="user-about">
+  <div id="user-skin">
+      <div id="headpic">
+          <img id="headpic-img" src="images/7.jpg">
+      </div>
+  </div>
+  <div id="user-wendainfo">
+      <div id="namebox"><%= post.author %></div>
+      <span class='attention' id='attention'>关注</span>
+  </div>
+</div>
+
 <% if (user.name && user.name==post.author) {%>
 <div class="relate-post">
 	<header class="relate-post-header">文章分类</header>
+	<% if(cates) { %>
+	<% for( var i = 0 ;i <cates.length; i++) { %>
+	<div class="relate-post-title"><a href="/cates?cates=<%= cates[i] %>"><%= cates[i] %></a></div>
+	<% } %>
+	
+	<% } %>
 	<div class="relate-post-detail">
 		
 	</div>
@@ -29,6 +48,7 @@
 </div>
 
 <% } %>
+</aside>
 </section>
 
 <%- include ../footer %>

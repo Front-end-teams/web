@@ -1,11 +1,10 @@
 var mongodb=require('./db');
-function Post(author,title,tags,post,cates,img,art){
+function Post(author,title,tags,post,cates,art){
   this.author=author;
   this.title=title;
   this.tags=tags;
   this.post=post;
   this.cates=cates;
-  this.img=img;
   this.art=art;
 }
 
@@ -24,13 +23,12 @@ Post.prototype.save=function(callback){
   }
   // pv记录了访问量
   var post={
-    author: "cheng",
+    author: this.author,
     title: this.title,
     time: time.year+'-'+time.month+'-'+time.day+'-'+time.hour+'-'+time.minute,
     tags: this.tags,
     cates: this.cates,
     post: this.post,
-    img: this.img,
     art: this.art,
     postcoll: [],
     comments: [],
@@ -134,23 +132,7 @@ Post.getOne = function(query,callback) {
           return callback(err);
         }
         mongodb.close();
-        console.log("doc");
-        /*if (doc) {
-
-          //每访问 1 次，pv 值增加 1
-          collection.update(query, {
-            $inc: {"pv": 1}
-          }, function (err) {
-            mongodb.close();
-            if (err) {
-              return callback(err);
-            }
-          });*/
-          //解析 markdown 为 html
-          //doc.post = markdown.toHTML(doc.post);
-          // doc.comments.forEach(function (comment) {
-          //   comment.content = markdown.toHTML(comment.content);
-          // });
+        
 
           callback(null, doc);//返回查询的一篇文章
         //}
@@ -185,7 +167,9 @@ Post.edit = function(query, callback) {
 };
 
 //更新一篇文章及其相关信息
-Post.update = function(query, callback) {
+Post.update = function(query, updateJson,callback) {
+  console.log(query);
+  console.log(updateJson);
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
@@ -197,9 +181,10 @@ Post.update = function(query, callback) {
         mongodb.close();
         return callback(err);
       }
+      console.log('post update')
       //更新文章内容
       collection.update(query, {
-        $set: {post: post}
+        $set: updateJson
       }, function (err) {
         mongodb.close();
         if (err) {

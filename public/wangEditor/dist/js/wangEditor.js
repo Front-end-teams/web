@@ -3075,7 +3075,7 @@ _e(function (E, $) {
         cancel: '取消',
         unlink: '取消链接',
         table: '表格',
-        emotion: '表情',
+        //emotion: '表情',
         img: '图片',
         video: '视频',
         'width': '宽',
@@ -3118,7 +3118,7 @@ _e(function (E, $) {
         cancel: 'Cancel',
         unlink: 'Unlink',
         table: 'Table',
-        emotion: 'Emotions',
+        //emotion: 'Emotions',
         img: 'Image',
         video: 'Video',
         'width': 'width',
@@ -3184,7 +3184,7 @@ _e(function (E, $) {
         'link',
         'unlink',
         'table',
-        'emotion',
+        //'emotion',
         '|',
         'img',
         'video',
@@ -3238,7 +3238,7 @@ _e(function (E, $) {
     };
 
     // 表情包
-    E.config.emotionsShow = 'icon'; // 显示项，默认为'icon'，也可以配置成'value'
+    /*E.config.emotionsShow = 'icon'; // 显示项，默认为'icon'，也可以配置成'value'
     E.config.emotions = {
         'default': {
             title: '默认',
@@ -3306,7 +3306,7 @@ _e(function (E, $) {
             ]
         }
     };
-
+*/
     // 百度地图的key
     E.config.mapAk = 'TVhjYjq1ICT2qqL5LdS8mwas';
 
@@ -3426,10 +3426,10 @@ _e(function (E, $) {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-table"></i></a>',
             selected: '.selected'
         },
-        emotion: {
+        /*emotion: {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-happy"></i></a>',
             selected: '.selected'
-        },
+        },*/
         img: {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-picture"></i></a>',
             selected: '.selected'
@@ -4978,7 +4978,7 @@ _e(function (E, $) {
 
 });
 // emotion 菜单
-_e(function (E, $) {
+/*_e(function (E, $) {
 
     E.createMenu(function (check) {
         var menuId = 'emotion';
@@ -5135,7 +5135,7 @@ _e(function (E, $) {
         editor.menus[menuId] = menu;
     });
 
-});
+});*/
 // img 菜单
 _e(function (E, $) {
 
@@ -7891,7 +7891,7 @@ _e(function (E, $) {
         }
 
         // 判断img是否是一个表情
-        function isEmotion(imgSrc) {
+        /*function isEmotion(imgSrc) {
             var result = false;
             if (!editor.emotionUrls) {
                 return result;
@@ -7907,7 +7907,7 @@ _e(function (E, $) {
                 }
             });
             return result;
-        }
+        }*/
 
         // click img 事件
         $currentTxt.on('mousedown', 'img', function (e) {
@@ -7916,11 +7916,11 @@ _e(function (E, $) {
             var $img = $(e.currentTarget);
             var src = $img.attr('src');
 
-            if (!src || isEmotion(src)) {
+            /*if (!src || isEmotion(src)) {
                 // 是一个表情图标
                 return;
             }
-
+*/
             // ---------- 不是表情图标 ---------- 
 
             // 渲染

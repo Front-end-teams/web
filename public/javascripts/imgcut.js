@@ -4,7 +4,7 @@
     
     
     var target = EventUtil.getTarget(e);
-    var maxsize = 100 * 1024;
+    /*var maxsize =50 * 1024;*/
     console.log(target);
         if (!target.files.length) return;
 
@@ -27,13 +27,13 @@
                 img.src = result;
 
                 //如果图片大小小于200kb，则直接上传
-                if (result.length <= maxsize) {
+                /*if (result.length <= maxsize) {
                     //$(li).css("background-image", "url(" + result + ")");
                     img = null;
                     //直接上传
                     callback(result);
                     return;
-                }
+                }*/
 
                 //图片加载完毕之后进行压缩，然后上传
                 if (img.complete) {

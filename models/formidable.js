@@ -2,14 +2,14 @@ var fs=require('fs');
 
 var formidable = require('formidable');
 
-var uploadImg = function(req,res){
+var uploadImg = function(req, res){
 		//formidable.IncomingForm.UPLOAD_DIR = "./tmp/"
 		//var uploadfolderpath = path.join(__dirname, uploadfoldername);
  		var form=new formidable.IncomingForm();
  		form.keepExtensions = true;//使用原来的扩展名
  		form.uploadDir='./tmp/';
  		//处理request
- 		form.parse(req,function(err,fields,files){
+ 		form.parse(req,function(err, fields, files){
  			if(err){
  				return console.log('formidable,form parse err');
  			}
@@ -19,7 +19,7 @@ var uploadImg = function(req,res){
  			console.log(fields);
 
  			var item;
- 			var length=0;
+ 			var length = 0;
  			for(item in files){
  				length++;
  			}
@@ -29,10 +29,10 @@ var uploadImg = function(req,res){
  			}
  			console.log(length);
  			for(item in files){
+
  				var file=files[item];
  				//formidable会将上传的文件存储为一个临时文件，现在获取文件的目录
- 				
- 				
+ 		
  				//file.path='./tmp/'+file.name;
  				var tempfilepath=file.path;
  				console.log(tempfilepath);
@@ -51,7 +51,7 @@ var uploadImg = function(req,res){
  				//构建将要存储的文件路径(?????)
  				var filenewpath = "./public/uploads/"+filename;
  				//将临时文件保存为正式文件
- 				fs.rename(tempfilepath,filenewpath,function(err){
+ 				fs.rename(tempfilepath, filenewpath, function(err){
  					console.log(filenewpath);
  					//存储结果
  					var result = '';
@@ -70,7 +70,6 @@ var uploadImg = function(req,res){
  					res.writeHead(200,{"Content-type":"text/html"});
  					res.end(result);
  				})
-
  			}
  		})
  }

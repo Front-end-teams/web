@@ -72,6 +72,9 @@ a input button{outline:none;}
 /*按钮样式完*/
 
 /*input中的text样式  兼容IE的处理方法（去掉IE文本框后面的叉叉） */
+input[type="text"]{
+	text-indent:4px;
+}
 input::-ms-value {
     padding: 4px;
 }

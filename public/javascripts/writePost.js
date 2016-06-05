@@ -12,7 +12,8 @@ var commonCates=document.getElementById("common-cates");
 var catesTable=document.getElementById("cates-table");
 var upload=document.getElementById("upload");
 
-var submit=document.getElementById("submit");
+
+
 
 // 给标签文本框添加事件 当获取焦点时 显示常用标签栏
 EventUtil.addHandler(tagsInput,"focus",tagsShow);
@@ -196,40 +197,46 @@ function tagsHidden(e){
 		}
 	}
 
-	EventUtil.addHandler(editor,"click",extract);
+	//EventUtil.addHandler(editor,"click",extract);
 	// 提取文章的前200个字作为摘要
-	function extract(){
+/*	function extract(){
 		console.log("start");
 		var value=editor.value;
 		var extraVal=value.substr(0,200);
 		absText.innerHTML=extraVal;
-	}
+	}*/
+	if(document.getElementById("submit")){
 
 
+	var submit = document.getElementById("submit");
 	EventUtil.addHandler(submit,"click",function(e){
-		var e=EventUtil.getEvent(e);
+		var e = EventUtil.getEvent(e);
 		EventUtil.preventDefault(e);
-		var form=document.getElementById("form-article");
-		var result=seriPost(form);
-		
+		EventUtil.stopPropagation(e);
+		var form = document.getElementById("form-article");
+		var result = seriPost(form);
+		var sendResult = {}
+		console.log(result);
 
-		var formD=new FormData();
+		//var formD=new FormData();
 
 		var postCont=document.getElementById("pop-cont");
-		var author=document.querySelector(".author").innerHTML;
+		// var author=document.querySelector(".author").innerHTML;
 
 
 		for(var i = 0; i < result.length; i++){
 			var val = result[i].split("=");
-			formD.append(val[0],val[1]);
+			sendResult[val[0]] = val[1];
+			// formD.append(val[0],val[1]);
 		}
-		console.log(upload.files[0]);
+		console.log(decodeURIComponent(sendResult.post));
+		/*console.log(upload.files[0]);
 		if(upload.files[0]){
 			formD.append("file",upload.files[0]);
-		}
+		}*/
 		
 
-		ajax("post","/upload1",null,formD,function(res){
+		ajax("post","/upload1","application/json",JSON.stringify(sendResult),function(res){
 			console.log(res);
 			
 			var pop2 = document.querySelector('.p2');
@@ -244,7 +251,7 @@ function tagsHidden(e){
 			    cancel: function() {
 			    	//查看博客
 			        var cancel=document.querySelector(".cancel");
-			        cancel.setAttribute("href","/detail/cheng/"+form.elements["title"].value);
+			        cancel.setAttribute("href","/detail/"+ JSON.parse(res).author+'/'+form.elements["title"].value);
 			    }
 
 			}).edit({
@@ -260,4 +267,58 @@ function tagsHidden(e){
 		})
 
 	})
+}
+if(document.getElementById('save')){
+	var save = document.getElementById('save');
+	EventUtil.addHandler(save,"click",function(e){
+		var e = EventUtil.getEvent(e);
+		EventUtil.preventDefault(e);
+		EventUtil.stopPropagation(e);
+		var form = document.getElementById("form-article");
+		var result = seriPost(form);
+		var sendResult = {}
+		console.log(result);
+
+		var postCont=document.getElementById("pop-cont");
+
+		for(var i = 0; i < result.length; i++){
+			var val = result[i].split("=");
+			sendResult[val[0]] = val[1];
+
+		}
+		console.log(sendResult);
+		
+		ajax("post","/post/update","application/json",JSON.stringify(sendResult),function(res){
+			console.log(res);
+			
+			var pop2 = document.querySelector('.p2');
+			
+			var p2 = Popuper({
+			    wrap: pop2,
+			    type: 'success',
+			    confirm: function() {
+			    		//继续写博客
+			        //window.location="localhost:3008/showPost?author="+author;
+			    },
+			    cancel: function() {
+			    	//查看博客
+			        var cancel=document.querySelector(".cancel");
+			        cancel.setAttribute("href","/detail/"+ JSON.parse(res).author+'/'+form.elements["title"].value);
+			    }
+
+			}).edit({
+
+			    title: '提示',
+			    content: '文章保存成功'
+
+			}).show();
+
+			p2.toggle().edit({
+	        type: 'info'
+	    });
+		})
+
+	})
+
+}
 

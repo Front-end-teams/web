@@ -259,3 +259,45 @@
     text-decoration:none;
     background: #21e7c9;
 }
+
+/*------------弹出框样式---------------*/
+form .pop{
+	width:600px;
+}
+/* .img-wrap{
+	vertical-align: middle;
+} */
+.upload-origin{
+	/*float: left;*/
+	display: inline-block;
+	padding:10px;
+	margin-right: 10px;
+	vertical-align: top;
+
+}
+.pre-img{
+
+	display:inline-block;
+	width:200px;
+	text-align:center;
+	overflow: hidden
+
+}
+.pre-img span{
+	display: block;
+	overflow: hidden;
+	margin-bottom:10px;
+	text-indent:0;
+}
+.pre-img #pre-big{
+	width:200px;
+	height:200px;
+}
+.pre-img #pre-middle{
+	width:100px;
+	height:100px;
+}
+.pre-img #pre-small{
+	width:50px;
+	height:50px;
+}

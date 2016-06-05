@@ -1,0 +1,204 @@
+
+
+
+
+/*# sourceMappingURL=styles.css.map */
+#container{
+  width: 1100px;
+  margin:0 auto;
+  position: relative;
+  margin-bottom: 10px;
+  padding: 35px 0 50px;
+  overflow: hidden;
+}
+
+#wenda-main{
+  width: 800px;
+  float: left;
+  color: #000;
+}
+#recommand-list{
+  list-style-type: none;
+  margin-bottom: 20px;
+  color: #000;
+}
+#recommand-list li{
+  border-top: 1px solid grey;
+  padding:8px;
+}
+#wenda-nav{
+  border-bottom: 1px solid grey;
+  list-style-type: none;
+  color: #000;
+}
+#wenda-nav:after{
+  display: block;
+  height: 0;
+  clear: both;
+  content:"";
+}
+#wenda-nav li{
+  float:left;
+}
+#wenda-nav a{
+  display: block;
+  width: 52px;
+  line-height: 22px;
+  text-decoration: none;
+}
+
+.wenda-container{
+  border-bottom: 1px solid grey;
+  overflow: hidden;
+  padding:20px 0;
+}
+.wenda-content{
+  margin-left: 50px;
+}
+.wenda-img{
+  width: 40px;
+  height: 40px;
+  margin-right:15px;
+  float:left;
+}
+.wenda-img span
+{
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+}
+.wenda-img-icon{
+  width: 100%;
+  height: 100%;
+}
+.wenda-source{
+  color: #999;
+}
+.source-user{
+  margin-right: 3px;
+}
+.wenda-title{
+  height: 40px;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 40px;
+}
+.wenda-description{
+  margin: 20px 0;
+  text-indent: 5px;
+}
+
+#pageslider{
+  text-align: center;
+}
+#pageslider a{
+  padding: 8px;
+}
+
+#wenda-siderbar{
+  width: 220px;
+  float: right;
+}
+#ask{
+  height: 100px;
+  background: silver;
+  margin-bottom: 20px;
+  position: relative;
+}
+#ask a{
+  display: block;
+  width:220px;
+  height: 100px;
+  background: #21e7c9;
+  font-size: 25px;
+  text-align: center;
+  line-height: 100px;
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+#user-about{
+  height: 185px;
+  overflow: hidden;
+}
+#user-skin{
+  height: 75px;
+  background: #21e7c9;
+  position: relative;
+}
+#headpic{
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  bottom:-20px;
+  left:50%;
+  margin-left: -30px;
+  overflow: hidden;
+}
+#headpic img{
+  height: 60px;
+  width: 60px;
+}
+#user-wendainfo{
+  padding:16px 16px 9px 16px;
+  background-color: #21e7c9;
+  overflow: hidden;
+}
+#namebox{
+  text-align: center;
+  margin: 10px auto 10px auto;
+}
+#user-action{
+  list-style-type: none;
+}
+#user-action li{
+  float:left;
+  border-right: 1px solid grey;
+  text-align: center;
+}
+#user-action a{
+  display: block;
+  width: 60px;
+}
+#user-action li:last-child{
+  border-right: 0px;
+}
+.user-action{
+  width: 100%;
+  display: block;
+}
+.action-panel
+{
+  text-indent: 5px;
+}
+#follow-class{
+  margin-top: 20px;
+  background-color: #999;
+  height: 200px;
+}
+footer{
+  text-align: center;
+}
+#windsTagBall 
+{
+  position:relative; 
+  width:220px; 
+  height:220px; 
+  margin: 20px auto 0; 
+}
+#windsTagBall a 
+{
+  position:absolute; 
+  top:0px; 
+  left:0px; 
+ color:#000; 
+ font-weight:bold; 
+ text-decoration:none; 
+ padding: 3px 6px; 
+}
+#windsTagBall a:hover 
+{
+  color: red;
+}

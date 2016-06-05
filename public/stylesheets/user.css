@@ -13,6 +13,7 @@ body {
 }
 .user-header{
 	height:250px;
+	min-width: 1340px;
 	width:100%;
 	background-color: #3AAE2D;
 	position: relative;
@@ -54,7 +55,7 @@ body {
   color:#7D7D7D;
 
 }
-.iconfont:before { content: "\e74c"; }
+.user-set:before { content: "\e74c"; }
 .user-info .user-detail{
 	display: inline-block;
 	margin-left:20px;
@@ -116,7 +117,7 @@ body {
 	width:200px;
 	height: 60px;
 	border-bottom: 1px solid #eee;
-	/*margin-left:40px;*/
+	
 	text-align: center;
 	line-height: 60px;
 	
@@ -131,11 +132,12 @@ body {
 	opacity: .6;
 
 }
+
 .slider ul li a:hover{
 	opacity: 1;
 }
 .user-cont{
-	width:880px;
+	width:750px;
 	/*margin-left: 40px;*/
 	float: right;
 	/*border:1px solid red;*/
@@ -143,19 +145,31 @@ body {
 }
 .user-post{
 	border-bottom:1px solid #eee;
-	padding:5px;
+	padding:10px 10px 10px 70px;
+
+}
+.user-post .mypost-wrap{
+	position: relative;
+	padding:0px 20px;
+	border-left:1px solid #ccc;
 }
 .cont-header{
-	
+	display: block;
 	font-size: 1.2rem;
-	line-height: 40px;
+	line-height: 50px;
+	height:50px;
+	vertical-align: bottom;
 	font-weight: normal;
 	border-bottom: 2px solid #ccc;
+	margin-bottom:5px;
 }
 
 .mypost{
-	height:100px;
+
 	position: relative;
+	border-bottom: 1px solid #ccc;
+	padding-left: 10px;
+	
 
 }
 .mypost-time{
@@ -163,14 +177,16 @@ body {
 	color:#ccc;
 }
 .mypost-title{
-	margin-top: 10px;
-	font-size: 1.6rem;
-	font-weight: bold;
-	height:30px;
+	/* margin-top: 10px;
+	margin-bottom: 10px; */
+	font-size: 1.8rem;
+	font-weight: 500;
+	height:50px;
+	padding:10px 5px;
 
 }
 .mypost-info{
-	margin-top: 10px;
+	margin: 10px 0;
 	color:#bbb;
 }
 .mypost-info span{
@@ -184,4 +200,51 @@ body {
 	position: absolute;
 	right:20px;
 	bottom:10px;
+}
+/*-------------------时间轴----------------------*/
+.time-tag{
+	display: inline-block;
+	width:10px;
+	height:10px;
+	border-radius: 5px;
+	background-color: #ccc;
+	position: absolute;
+	top:15px;
+	left:-5px;
+}
+.time-show{
+	width:60px;
+	color:#8a8c8f;
+	position:absolute;
+	left:-70px;
+	top:10px;
+	text-align: right;
+}
+.time-show .time-show-year{
+	font-size: 1.4rem;
+	display:block;
+
+}
+.time-show .time-show-month{
+	font-size: 1rem
+	
+}
+
+@font-face {font-family: "iconfont1";
+  src: url('/icon/3-icon/iconfont.eot?t=1464871943'); /* IE9*/
+  src: url('/icon/3-icon/iconfont.eot?t=1464871943#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('/icon/3-icon/iconfont.woff?t=1464871943') format('woff'), /* chrome, firefox */
+  url('/icon/3-icon/iconfont.ttf?t=1464871943') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('/icon/3-icon/iconfont.svg?t=1464871943#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.user-index{
+  font-family:"iconfont1" !important;
+  font-size:20px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  padding-right:5px;
 }

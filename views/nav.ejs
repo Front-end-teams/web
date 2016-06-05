@@ -6,13 +6,17 @@
 <script type="text/javascript" src="/javascripts/xhr.js"></script>
 <script type="text/javascript" src="/javascripts/seriPost.js"></script>
 </head>
-<body>
+<body style="margin-top: 50px">
 	<header class="header">
 		<div class="logo">新世界</div>
 		
 		<ul class="index clearfix">
 		<% if (user) { %>
-			<li><img src=""><%= user.name %></li>
+		<% if (user.smallimg) { %>
+			<li><a href ="/user"><img src="<%= user.smallimg %>" class = 'user-small-img'></a></li>
+		<% } else { %>
+			<li><a href ="/user"><%= user.name %></a></li>
+		<% } %>
 			<li><a href="/logout" id="logout">退出</a></li>
 			
 			
@@ -26,8 +30,8 @@
 			<li><a href='/post'>文章</a></li>
 			<li><a href="/question">问答</a></li>
 			<li><a href="/">首页</a></li>
-			<li class="search"><input type="text" name="search" class="search-text" placeholder="请输入您要搜索的内容"></input>
-		<span class="glyphicon glyphicon-search" aria-hidden="true"></span></li>
+			<li class="search"><input type="text" name="search" class="search-text" placeholder="请输入您要搜索的内容"></input><span class = iconfont>&#xe752</span>
+		</li>
 			
 		</ul>
 	</header>

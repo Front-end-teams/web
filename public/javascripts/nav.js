@@ -11,6 +11,8 @@
 
 
 $(function(){
+
+	
 		var login = document.getElementById("login");
 		var reg = document.getElementById("reg");
 		var close = document.getElementById("close");
