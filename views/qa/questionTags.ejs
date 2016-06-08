@@ -2,7 +2,11 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/questionTags.css">
 <link rel="stylesheet" type="text/css" href="/stylesheets/question.css">
 <%- include ../nav %>
-<div class="tagIntro"></div>
+<div class="tagInfo">
+  <img src="<%-tagInfo.tagLogo%>"><br />
+  <h3><%=tagInfo.tagName%></h3>
+  <p><%=tagInfo.tagIntro%></p>
+</div>
 <% questions.forEach(function (question) { %>
 				<div class="wenda-container">
 					    <div class="wenda-img">
@@ -13,12 +17,9 @@
 							<h1 class="wenda-title">
 								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
 							</h1>
-							<p class="wenda-description"><%= question.quesDetail %></p>
+							<p class="wenda-description"><%- question.quesDetail %></p>
 							<div class="action-panel">
-							    提问的日期：<%= question.time.minute %> |
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">去回答</a> |
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">已有 <%=question.comments.length%> 条回答</a>
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>">浏览量 <%=question.pv%></a>
+								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%=question.comments.length%>/<%=question.pv%></a>
 								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
 								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
 								<span>
@@ -26,6 +27,7 @@
 								<% question.tags.forEach(function(tag){%>
 								<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
 								<%})%>
+                | <%= question.time.minute %>
 								</span>
 							</div>
 					    </div>

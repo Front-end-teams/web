@@ -1,5 +1,10 @@
 /*# sourceMappingURL=styles.css.map */
 * a{color: #333;}
+.action:hover
+{
+    cursor: pointer;
+    color: rgb(255,0,0);
+}
 #container{
   width: 1100px;
   margin:0 auto;

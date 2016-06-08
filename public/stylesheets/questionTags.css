@@ -4,3 +4,24 @@
 * @Last Modified by:   Administrator
 * @Last Modified time: 2016-04-30 18:20:38
 */
+.tagInfo{
+	width: 100%;
+	padding: 40px 0;
+	background-color: #eee;
+}
+.tagInfo img{
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	display: block;
+	margin: 0 auto;
+}
+.tagInfo h3{
+	text-align: center;
+}
+.tagInfo p{
+	width: 610px;
+	text-align: center;
+	margin: 4px auto;
+	line-height: 30px;
+}

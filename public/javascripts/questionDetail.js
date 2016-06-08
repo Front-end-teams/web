@@ -41,8 +41,15 @@ for(var i=(page-1)*num;i<length;i++)
                     for(var i=0,leng=data.length;i<leng;i++)
                       {
                         li=document.createElement('li');
-                        li.innerHTML="<div class='commentReplyFromNamePic'><a href='#'><img src='images/9.png'></a></div>"+"<div  class='commentReplyFromName'><a href='#'>"+data[i].commentReplyFromName+"</a>"+" 回复 "+"<a href='#'>"+data[i].commentReplyToName+"</a>"+"<span class='time'>"+data[i].time.minute+"</span>"+"</div>"+"<div class='commentReplyContent'>"+data[i].commentReplyContent+"</div>"+
-                        "<a onclick=replyAction(this) data-fromName='"+data[i].commentReplyFromName+"'>回复</a>";
+                        li.innerHTML=
+                        "<div class='commentReplyFromNamePic'><a href='#'><img src='images/9.png'></a></div>"+
+                        "<div  class='commentReplyFromName'><a href='#'>"+
+                        data[i].commentReplyFromName+"</a>"+
+                        " 回复 "+"<a href='#'>"+data[i].commentReplyToName+"</a>"+
+                        "<span class='commTime'>"+data[i].time.minute+"</span>"+
+                        "</div>"+
+                        "<div class='commentReplyContent'>"+data[i].commentReplyContent+"</div>"+
+                        "<a onclick=replyAction(this) class='replyAction action' data-fromName='"+data[i].commentReplyFromName+"'>回复</a>";
                         fragment.appendChild(li);
                       }; 
                     ul.appendChild(fragment);
@@ -88,8 +95,15 @@ for(var i=(page-1)*num;i<length;i++)
                 var fragment=document.createDocumentFragment(),
                     ul=that.parentNode.parentNode.parentNode.previousElementSibling,
                     li=document.createElement('li');
-                    li.innerHTML="<div class='commentReplyFromNamePic'><a href='#'><img src='images/9.png'></a></div>"+"<div class='commentReplyFromName'><a href='#'>"+data.commentReplyFromName+"</a>"+" 回复 "+"<a href='#'>"+data.commentReplyToName+"</a>"+"<span class='time'>"+data.time.minute+"</span>"+"</div>"+"<div class='commentReplyContent'>"+data.commentReplyContent+"</div>"+
-                    "<a onclick=replyAction() data-fromName='"+data.commentReplyFromName+"'>回复</a>";
+                    li.innerHTML=
+                    "<div class='commentReplyFromNamePic'><a href='#'><img src='images/9.png'></a></div>"+
+                    "<div class='commentReplyFromName'><a href='#'>"+
+                    data.commentReplyFromName+"</a>"+" 回复 "+
+                    "<a href='#'>"+data.commentReplyToName+"</a>"+
+                    "<span class='commTime'>"+data.time.minute+"</span>"+
+                    "</div>"+
+                    "<div class='commentReplyContent'>"+data.commentReplyContent+"</div>"+
+                    "<a onclick=replyAction() class='replyAction action' data-fromName='"+data.commentReplyFromName+"'>回复</a>";
                 fragment.appendChild(li);
                 ul.appendChild(fragment);
                 that.previousElementSibling.value="";

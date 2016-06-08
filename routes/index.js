@@ -911,8 +911,15 @@ app.get('/questionTags', function (req, res) {
         req.flash('error',err); 
         return res.redirect('/');
       }
-      res.render('qa/questionTags', {
+    
+     Ques.getTagInfo(tag,function(err,tagInfo){
+        if (err) {
+        req.flash('error',err); 
+        return res.redirect('/');
+       }
+       res.render('qa/questionTags', {
         tag:tag,
+        tagInfo:tagInfo,
         title: 'TAG:' + tag,
         questions: questions,
         page: page,
@@ -923,8 +930,10 @@ app.get('/questionTags', function (req, res) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
       });
-    });
+     });
+     });
   });
+
 //------------------------------显示问题具体内容
   app.get('/questionDetail', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;

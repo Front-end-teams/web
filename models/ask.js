@@ -282,7 +282,7 @@ Ques.getTag = function(tag, page, callback) {
       //查询所有 tags 数组内包含 tag 的文档
       //并返回只含有 name、time、title 组成的数组
       var query={"tags":tag};
-     collection.count(query, function (err, total) { 
+      collection.count(query, function (err, total) { 
       collection.find(query,{
           skip: (page - 1)*2,
           limit: 2
@@ -297,6 +297,41 @@ Ques.getTag = function(tag, page, callback) {
         callback(null, docs, total);
       });
     });
+    });
+  });
+};
+//获取某个标签的信息
+Ques.getTagInfo = function(tag,callback) {
+  // mongodb.close();
+  console.log("tag111");
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+      console.log("openErr:"+err);
+    }
+    console.log("tag222");
+    db.collection('tags', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        console.log("getTagErr:"+err);
+        return callback(err);   
+      }
+      console.log("tag333");
+      //查询所有 tags 数组内包含 tag 的文档
+      //并返回只含有 name、time、title 组成的数组
+      var query={"tagName":tag};
+      console.log("tag444");
+      collection.findOne({"tagName":tag},function (err, docs) {
+        mongodb.close();
+        console.log("tag555");
+        if (err) {
+          console.log("err111:"+err);
+          return callback(err);
+        }
+        console.log("tag666");
+        callback(null, docs);
+        console.log("tag777");
+      });
     });
   });
 };

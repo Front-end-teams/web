@@ -32,51 +32,58 @@
       <div class="comment">
           <div class="comment_main">
              <div class="commHead">
-               <img src="<%= comments[i].head %>" width="40px" height="40px" class="l_head" />
-               <span><a href="<%= comments[i].website %>"><%= comments[i].name %></a></span>
-             </div>  
-             <div class="commCont">
-               <p><%= comments[i].content %></p>
-               <span class="info"> <%= comments[i].time %></span>
+               <a href="" ><img src="<%= comments[i].head %>" class="l_head" /></a>
              </div>
+             <div class="commName">
+               <a href="<%= comments[i].website %>" class="action"><%= comments[i].name %></a>
+               <span class="commTime"><%= comments[i].time %></span>
+             </div> 
+             <div class="commCont">
+               <p><%= comments[i].content %></p> 
+             </div>            
              <div class="commAction">
                <span id="commentAgree_<%=i%>" 
                data-commentid="<%=i%>"
                data-questitle="<%=quesTitle %>" 
                data-name="<%= name %>"
-               data-day="<%= day %>">
-               赞同 <%=comments[i].agreeNum%></span>
+               data-day="<%= day %>"
+               class="action">
+               赞同 <%=comments[i].agreeNum%>
                </span>
                <span id="commentDisagree_<%=i%>"
                data-commentid="<%=i%>"
                data-questitle="<%=quesTitle %>" 
                data-name="<%= name %>"
-               data-day="<%= day %>">
-               反对 <%=comments[i].disagreeNum%></span>
+               data-day="<%= day %>"
+               class="action">
+               反对 <%=comments[i].disagreeNum%>
+               </span>
+               <span class="space"></span>
                <span id="reply_<%=i%>"
                   data-questitle="<%=quesTitle %>" 
                   data-name="<%= name %>"
                   data-day="<%= day %>"
                   data-commentid="<%=i%>"
-                  data-fromName="<%= comments[i].name %>"><%=comments[i].reply.length%>条回复
-                </span>
+                  data-fromName="<%= comments[i].name %>"
+                  class="action"><%=comments[i].reply.length%>条回复
+               </span>
              </div>
           </div>
           <div class="comment_reply">
             <ul class="reply_list" id="reply_list"></ul>
             <div class="pub_reply">
-              <div class="reply_head"></div>
+              <!-- <div class="reply_head"></div> -->
               <div class="reply_main">
                 <div class="commentReplyFromNamePic">
                    <a href="#">
                      <img src="images/9.png">
                    </a>                   
                 </div>
-                <div class="commentReplyFromName">
+                <div class="commentReplyFromName action">
                   <a class="reply_name" href="#"><%=user.name%></a>
-                </div>             
+                </div>       
                 <div class="reply_content">
-                  <textarea cols="70" rows="2" id="comment_reply_<%=i%>"></textarea>
+                  <textarea cols="75" rows="2" id="comment_reply_<%=i%>" placeholder="写下你的回复~"></textarea>
                   <button id="comment_reply_btn_<%=i%>" 
                   data-questitle="<%=quesTitle %>" 
                   data-name="<%= name %>"
