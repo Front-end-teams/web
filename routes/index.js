@@ -77,16 +77,18 @@ module.exports = function(app) {
       }
       if (user) {
         res.send("reged");
+        return;
         // return ;//返回注册页
       }
       res.send('success');//如果email不存在就返回
     });
-  });
+  });  
 
   //注册页面submit时就新建一个用户，并将其存入数据库
   app.post('/reg',function(req,res){
-    var email = encodeURIComponent(req.body.email);
-    var password = encodeURIComponent(req.body.password);
+    console.log(req.body);
+    var email = decodeURIComponent(req.body.email);
+    var password = decodeURIComponent(req.body.password);
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
@@ -94,6 +96,7 @@ module.exports = function(app) {
         email: email,
         password: password       
     });
+    console.log(newUser);
     newUser.save(function(err,user){
       if(err){
         req.flash('error', err);
@@ -621,8 +624,9 @@ app.post("/user/info/newpw",function(req,res){
   app.post("/upload/imgupload/size",function(req,res){
     console.log("size");
     console.log(req.body)
+    console.log(req.session.user);
 
-    User.get(req.session.user.name, function(err, user){
+    User.getEmail(req.session.user.name, function(err, user){
       if(err){
         console.log(err);
       }
