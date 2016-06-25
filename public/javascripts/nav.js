@@ -4,7 +4,7 @@
 * @Last Modified by:   Administrator
 <<<<<<< HEAD
 <<<<<<< HEAD
-* @Last Modified time: 2016-06-08 21:56:15
+* @Last Modified time: 2016-06-25 11:25:02
 =======
 * @Last Modified time: 2016-04-24 12:25:36
 >>>>>>> origin/master
@@ -27,12 +27,12 @@ $(function(){
 	   		tabcard.click();
 
 
-	  var regForm = document.getElementById("regForm");
+	    var regForm = document.getElementById("regForm");
 		var reginp = regForm.querySelectorAll("input");
 		var regtips = regForm.querySelectorAll(".tip");
 		var regsub = document.getElementById("regsub");
 
-	  var loginForm = document.getElementById("loginForm");
+	    var loginForm = document.getElementById("loginForm");
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
