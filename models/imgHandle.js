@@ -14,6 +14,7 @@ function newPath(oldpath,rWidth){
 }
 
 function imgCrop(param,callback){
+	console.log('imgCrop');
 	
 	var newpath = newPath(param.path,param.rWidth);
 	// var cropImg = function(){

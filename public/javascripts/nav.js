@@ -2,11 +2,7 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-<<<<<<< HEAD
 * @Last Modified time: 2016-05-22 19:12:36
-=======
-* @Last Modified time: 2016-04-24 12:25:36
->>>>>>> origin/master
 */
 
 
@@ -23,12 +19,12 @@ $(function(){
 	   		tabcard.click();
 
 
-	   	var regForm = document.getElementById("regForm");
+	  var regForm = document.getElementById("regForm");
 		var reginp = regForm.querySelectorAll("input");
 		var regtips = regForm.querySelectorAll(".tip");
 		var regsub = document.getElementById("regsub");
 
-	   	var loginForm = document.getElementById("loginForm");
+	  var loginForm = document.getElementById("loginForm");
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
@@ -36,51 +32,82 @@ $(function(){
 			reg.onclick = function(){
 				regtab.className="show";
 				mask.className="maskshow";
-		   		var tabPanel = tabcard.panel;
-		   		var input = tabPanel.querySelectorAll("input");
-		   		for(var i=0;i<input.length;i++){
-		   			input[i].value="";
-		   		}
-		   		var tips = tabPanel.querySelectorAll(".tip");
-		   		for(var i=0;i<tips.length;i++){
-		   			tips[i].innerHTML="";
-		   		}
-		   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
-		   		var tabNav = firstUl.getElementsByTagName("li");
-		   		tabNav[0].className = "defaultStyle";
-		   		tabNav[1].className = "clickStyle";
-		   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
-		   		var tabBd = lastUl.getElementsByTagName("li");
-		   		tabBd[0].className = "tabhide";
-		   		tabBd[1].className = "tabshow";
+	   		var tabPanel = tabcard.panel;
+	   		var input = tabPanel.querySelectorAll("input");
+	   		for(var i=0;i<input.length;i++){
+	   			input[i].value="";
+	   		}
+	   		var tips = tabPanel.querySelectorAll(".tip");
+	   		for(var i=0;i<tips.length;i++){
+	   			tips[i].innerHTML="";
+	   		}
+	   		var firstUl = tabPanel.firstElementChild||tabPanel.firstChild;
+	   		var tabNav = firstUl.getElementsByTagName("li");
+	   		tabNav[0].className = "defaultStyle";
+	   		tabNav[1].className = "clickStyle";
+	   		var lastUl = tabPanel.lastElementChild||tabPanel.lastChild;
+	   		var tabBd = lastUl.getElementsByTagName("li");
+	   		tabBd[0].className = "tabhide";
+	   		tabBd[1].className = "tabshow";
 
-		   		//监听注册页面文本框内value变化时tip的变化
-		   		for(var i=0;i<reginp.length;i++){
-		   			if(!!window.ActiveXObject){
-		   				reginp[i].onpropertychange = regfn;
-		   			}else{
-		   				EventUtil.addHandler(reginp[0],"input",regfn);
-		   				EventUtil.addHandler(reginp[1],"input",regfn);
-		   				// EventUtil.addHandler(reginp[2],"input",regfn);
-		   			}
-		   			var regfn=function(e){
-		   				var ev = e||window.e;
-		   				var target = ev.target||ev.srcElement;
-		   				var nextTarget = target.nextElementSibling||target.nextSibling;
-		   				target.style.border = "1px solid yellow";
-		   				nextTarget.style.display = "block";
-		   				check(target);
-		   			}
-		   			EventUtil.addHandler(reginp[i],"blur",function(e){
-		   				var ev = e||window.e;
-		   				var target = ev.target||ev.srcElement;
-		   				target.style.border = "1px solid #1AE6E6";								
-		   			});
-		   		};
+	   		var regfn=function(e){
+					var ev = e||window.e;
+					var target = ev.target||ev.srcElement;
+					var nextTarget = target.nextElementSibling||target.nextSibling;
+					target.style.border = "1px solid yellow";
+					nextTarget.style.display = "block";
+					check(target);
+				}
 
+	   		//监听注册页面文本框内value变化时tip的变化
+	   		for(var i=0;i<reginp.length;i++){
+	   			if(!!window.ActiveXObject){
+	   				reginp[i].onpropertychange = regfn;
+	   			}else{
+	   				
+	   				// EventUtil.addHandler(reginp[2],"input",regfn);
+	   			}
+	   			EventUtil.addHandler(reginp[i],"blur",function(e){
+	   				var ev = e||window.e;
+	   				var target = ev.target||ev.srcElement;
+	   				target.style.border = "1px solid #1AE6E6";								
+	   			});
+			  };
+			  EventUtil.addHandler(reginp[0],"input",regfn);
+		  	EventUtil.addHandler(reginp[0],"blur",regCheckExist);
 
+		  	EventUtil.addHandler(reginp[1],"input",regfn);
 			};
-		};
+		
+			
+	  };
+	  
+	  //验证邮箱是否已注册
+		function regCheckExist(e){
+			console.log("lig");
+			var e = EventUtil.getEvent(e);
+			var ele = EventUtil.getTarget(e);
+			var str = ele.value;
+			var emailjson= {email:str};
+			var emailinfo = JSON.stringify(emailjson);
+
+			var nextEle=ele.nextElementSibling||ele.nextSibling;
+
+			console.log(emailinfo);
+				ajax("post","/reg/email","application/json",emailinfo,function(res){
+				console.log("pot");
+				console.log(res);
+				if(res=="reged"){
+					nextEle.innerHTML = "已注册";
+					nextEle.style.color = "red";
+					regResult.emails=false;
+				}else if(res=="success"){
+					nextEle.innerHTML = '邮箱可用';
+					nextEle.style.color = "green";
+					//regResult.emails=true;
+				}
+			});
+   	}
 		if(login!==null){
 			login.onclick=  function(){
 				regtab.className="show";
@@ -113,6 +140,7 @@ $(function(){
 	   				}else{
 	   					//console.log(logininp[i]);
 	   					EventUtil.addHandler(logininp[0],"input",loginfn);
+
 	   					EventUtil.addHandler(logininp[1],"input",loginfn);
 	   				}
 	   				var loginfn=function(e){
@@ -160,21 +188,13 @@ $(function(){
 				console.log(str);
 				console.log(reg.test(str));
 				if (reg.test(str)){
-					ajax("post","/reg/email","application/json",emailinfo,function(res){
-						if(res=="reged"){
-							nextEle.innerHTML = "已注册";
-							nextEle.style.color = "red";
-							regResult.emails=false;
-						}else if(res=="success"){
-							nextEle.innerHTML = '邮箱可用';
-							nextEle.style.color = "green";
-							regResult.emails=true;
-						}
-					});
+					nextEle.innerHTML = '邮箱格式正确';
+					nextEle.style.color = "green";
+					regResult.emails=true;
 				}else{
 					nextEle.innerHTML = '请输入正确的邮箱';
-				    nextEle.style.color = "red";
-				    regResult.emails=false;
+				  nextEle.style.color = "red";
+				  regResult.emails=false;
 				}
 			};
 			if(ele.id=="password"){
