@@ -2,7 +2,9 @@
 * @Author: Administrator
 * @Date:   2016-04-17 14:23:24
 * @Last Modified by:   Administrator
-* @Last Modified time: 2016-05-22 19:12:36
+
+* @Last Modified time: 2016-06-25 11:25:02
+
 */
 
 
@@ -185,7 +187,9 @@ $(function(){
 				nextEle.style.color = "red";
 				return;
 			}
+
 			if(ele.id=="reg-email"){
+
 				var reg = new RegExp('^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$', 'i');
 				var emailjson= {email:str};
 				var emailinfo = JSON.stringify(emailjson);
@@ -326,8 +330,10 @@ $(function(){
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
+
 			
 			if(regResult.emails==true&&regResult.passwords==true){
+
 				var target = EventUtil.getTarget(e);
 				EventUtil.preventDefault(e);
 				var form=target.parentNode.parentNode;
