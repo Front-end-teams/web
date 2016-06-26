@@ -16,12 +16,12 @@
 
 	<div class="user-data">
 		<div class="user-item">
-			<em>0</em>
+			<em><%= user.attention.length %></em>
 			<span>关注</span>
 
 		</div>
 		<div class="user-item">
-			<em>0</em>
+			<em><%= user.fans.length %></em>
 			<span>粉丝</span>
 		</div>
 
@@ -77,4 +77,4 @@
 </div>
  <%- include ../footer %>
  <script type="text/javascript" src="./javascripts/user.js"></script>
- <%- include ../end%>
+ <%- include ../end %>

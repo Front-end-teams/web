@@ -84,15 +84,15 @@
             <div id="user-about">
                 <div id="user-skin">
                     <div id="headpic">
-                        <img id="headpic-img" src="images/7.jpg">
+                        <img id="headpic-img" src="<%= user.middleimg %>">
                     </div>
                 </div>
                 <div id="user-wendainfo">
                     <div id="namebox"><%= user.name %></div>
                     <ul id="user-action" class="clearfix">
-                        <li><strong class="user-action" id="user-question">100</strong><a href="">文章</a></li>
-                        <li><strong class="user-action" id="user-question">100</strong><a href="">收藏</a></li>
-                        <li><strong class="user-action" id="user-question">100</strong><a href="">关注</a></li>
+                        <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
+                        <li><strong class="user-action" id="user-question"><%= user.postcoll.length %></strong><a href="">收藏</a></li>
+                        <li><strong class="user-action" id="user-question"><%= user.attention.length %></strong><a href="">关注</a></li>
                     </ul>
                 </div>
             </div>

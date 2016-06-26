@@ -21,10 +21,7 @@ var nodemailer = require('nodemailer');
 
 var imghandle = require('../models/imgHandle.js');
 
-
 var nodemailer = require('nodemailer');
-
-
 
 
 module.exports = function(app) {
@@ -41,14 +38,14 @@ module.exports = function(app) {
     console.log(artText);
     var tags = decodeURIComponent(req.body.tags).split(",");
     
-    var post = new Post(req.session.user.name, decodeURIComponent(req.body.title),tags,decodeURIComponent(req.body.post),decodeURIComponent(req.body.cates),artText);
+    var post = new Post(req.session.user.email, decodeURIComponent(req.body.title),tags,decodeURIComponent(req.body.post),decodeURIComponent(req.body.cates),artText);
       post.save(function (err) {
     
       if (err) {  
         console.log("error");
       }
      res.send({
-                author: req.session.user.name,
+                author: req.session.user.email,
                 title: req.body.title,
                 tags: req.body.tags,
                 post: req.body.post,
@@ -58,7 +55,7 @@ module.exports = function(app) {
 	})
 	//注册页面
 
-  app.get('/reg', function (req, res) {
+  /*app.get('/reg', function (req, res) {
     res.render('/reg', {
       title: '注册',
       user: req.session.user,
@@ -66,12 +63,12 @@ module.exports = function(app) {
       error: req.flash('error').toString()
     });
 
-  });
+  });*/
   app.post('/reg/email', function (req, res) {
     var email = req.body.email;
     console.log(req.body);
     //检查email是否已经存在 
-    User.getEmail(encodeURIComponent(email), function (err, user) {
+    User.getEmail(email, function (err, user) {
       if (err) {
         req.flash('error', err);
       }
@@ -121,8 +118,8 @@ module.exports = function(app) {
         error: req.flash('error').toString()
       });
 	});
-  app.post('/login/email',function(req,res){
-    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+ /* app.post('/login/email',function(req,res){
+    User.getEmail(decodeURIComponent(req.body.email),function(err,user){
       console.log("aaaa");
       if(!user){     
         res.send("邮箱不存在！");
@@ -131,11 +128,11 @@ module.exports = function(app) {
       }
       
     });
-  });
+  });*/
   app.post('/login/password',function(req,res){
     var md5 = crypto.createHash('md5'),
-        password = md5.update(encodeURIComponent(req.body.password)).digest('hex');   
-    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+        password = md5.update(decodeURIComponent(req.body.password)).digest('hex');   
+    User.getEmail(decodeURIComponent(req.body.email),function(err,user){
       if(!user){     
         res.send("邮箱不存在！");
       }else{
@@ -152,22 +149,23 @@ module.exports = function(app) {
   app.post('/login', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
-        password = md5.update(encodeURIComponent(req.body.password)).digest('hex');
+        password = md5.update(decodeURIComponent(req.body.password)).digest('hex');
     console.log(req.body);
-    User.getEmail(encodeURIComponent(req.body.email),function(err,user){
+    User.getEmail(decodeURIComponent(req.body.email),function(err,user){
       console.log(user);
       if(!user){     
         res.send("用户不存在！");
+        return;
       }else{
         //用户名密码都匹配后，将用户信息存入 session
+        console.log('ccc');
         req.session.user = user;
         req.session.save();
-        req.flash('success', '登陆成功!');
-        res.send("loginsuccess");
+        //req.flash('success', '登陆成功!');
+        //res.send("loginsuccess");
         //res.redirect('/');//登陆成功后跳转到主页
       }
-    });
-      
+    });     
   });
 
   //退出页面
@@ -215,25 +213,32 @@ function checkLogin(req, res, next) {
 
   app.get('/post', function (req, res) {
   	var page = req.query.p ? parseInt(req.query.p) : 1;
-
-   	Post.getTen(null, page, function (err, posts, total) {
-      if (err) {
-        posts = [];
-      } 
-      console.log(req.session.user);
-     
-      res.render('post/post', {
-        title: '文章',
-        posts: posts,
-        page: page,
-        isFirstPage: (page - 1) == 0,
-        isLastPage: ((page - 1) * 10 + posts.length) == total,
-        LastPage:Math.ceil(total/10),
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+    Post.countPost({author:req.session.user.email},function(err,count){
+      if(err){
+        console.log(err);
+      }
+      Post.getTen(null, page, function (err, posts, total) {
+        if (err) {
+          posts = [];
+        } 
+        console.log(req.session.user);
+       
+        res.render('post/post', {
+          title: '文章',
+          posts: posts,
+          count:count,
+          page: page,
+          isFirstPage: (page - 1) == 0,
+          isLastPage: ((page - 1) * 10 + posts.length) == total,
+          LastPage:Math.ceil(total/10),
+          user: req.session.user,
+          success: req.flash('success').toString(),
+          error: req.flash('error').toString()
+        });
       });
-    });
+    })
+
+   	
   });
     /*需要写文章的页面*/
   app.get('/writePost',checkLogin);
@@ -279,13 +284,16 @@ function checkLogin(req, res, next) {
       console.log("render");
       //判断是否已点赞
       console.log(post);
-      if ( req.session.user && post.agree &&post.agree.indexOf(req.session.user.name)>=0 ) {
+      if ( req.session.user && post.agree &&post.agree.indexOf(req.session.user.email)>=0 ) {
         isAgree = true;
       }
-      if ( req.session.user && post.postcoll.indexOf(req.session.user.name)>0 ) {
+      //判断是否已收藏
+      if ( req.session.user && post.postcoll.indexOf(req.session.user.email)>=0 ) {
         isColl = true;
       }
       console.log(post.tags);
+      //获取作者的头像（昵称的问题）
+      
       Post.getTen({tags:{$in:post.tags}},1,function(err, posts, totle){
         if ( err ){
           console.log(err);
@@ -294,7 +302,7 @@ function checkLogin(req, res, next) {
         //访问量增加
         console.log(isAgree);
         Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
-          Post.getArchive({author:req.session.user.name},function(err,docs){
+          Post.getArchive({author:req.session.user.email},function(err,docs){
             console.log(docs);
             res.render('post/showPost', {
               title: req.params.title,
@@ -357,14 +365,14 @@ function checkLogin(req, res, next) {
     console.log(artText);
     var tags = decodeURIComponent(req.body.tags).split(",");
     console.log(decodeURIComponent(req.body.post));
-    Post.update({author:req.session.user.name,title:decodeURIComponent(req.body.title)},
+    Post.update({author:req.session.user.email,title:decodeURIComponent(req.body.title)},
                 {post:decodeURIComponent(req.body.post),tags:tags,cates:decodeURIComponent(req.body.cates),art:artText},function(err){
                   if(err){
                     console.log(err);
                   }
                   console.log('update')
                   res.send({
-                    author: req.session.user.name,
+                    author: req.session.user.email,
                     title: req.body.title,
                     tags: req.body.tags,
                     post: req.body.post,
@@ -391,10 +399,10 @@ function checkLogin(req, res, next) {
    var jsonUpdate={
         author: req.body.author,
         title: req.body.title,
-        user: req.session.user.name
+        user: req.session.user.email
       }
       console.log(jsonUpdate);
-      console.log(agree.indexOf(req.session.user.name));
+      console.log(agree.indexOf(req.session.user.email));
      if ( agree.indexOf(jsonUpdate.user) < 0 ){
       console.log("agree");
       Post.agree(jsonUpdate, function(err){
@@ -438,7 +446,7 @@ function checkLogin(req, res, next) {
        var jsonUpdate={
             author: req.body.author,
             title: req.body.title,
-            user: req.session.user.name
+            user: req.session.user.email
           }
       console.log(jsonUpdate);
        res.setHeader('content-type', 'application/json');
@@ -450,7 +458,17 @@ function checkLogin(req, res, next) {
             console.log("err");
             console.log(err);
           }
-        res.json({isColl: true}); 
+          User.getEmail(req.session.user.email,function(err,user){
+            if(err){
+              console.log(err);
+            }
+            console.log(user);
+            req.session.user = user;
+            req.session.save();
+            console.log(req.session.user);
+            res.json({isColl: true}); 
+          })
+
         })
       } else {
         console.log("disagree");
@@ -458,7 +476,19 @@ function checkLogin(req, res, next) {
           if( err ) {
             console.log(err);
           }
-          res.json({isColl:false});
+          User.getEmail(req.session.user.email,function(err,user){
+            if(err){
+              console.log(err);
+            }
+            console.log(user);
+            req.session.user = user;
+            req.session.save();
+            console.log(req.session.user);
+            res.json({isColl: false}); 
+
+
+          })
+          
         })
       }  
     }) 
@@ -469,12 +499,12 @@ function checkLogin(req, res, next) {
   app.get('/cates',function(req,res){
     
     console.log("chegn");
-    console.log({cates:req.query.cates,author:req.session.user.name});
-    Post.getTen({cates:req.query.cates,author:req.session.user.name},1,function(err,docs,total){
+    console.log({cates:req.query.cates,author:req.session.user.email});
+    Post.getTen({cates:req.query.cates,author:req.session.user.email},1,function(err,docs,total){
       if(err){
         console.log(err);
       }
-      Post.getArchive({author:req.session.user.name},function(err,cates){
+      Post.getArchive({author:req.session.user.email},function(err,cates){
         console.log(docs);
         res.render('post/cate', {
           title: '分类',
@@ -495,7 +525,6 @@ function checkLogin(req, res, next) {
       console.log(user);
       res.render("user/userSet",{
       title: "用户设置",
-
       user:req.session.user
     })
     })
@@ -537,7 +566,7 @@ app.post('/userset/imgupload',upload.single("file"),function(req,res){
   var path = "/uploads/"+req.file.filename;
   console.log("user");
   console.log(req.session.user);
-  User.update({name: req.session.user.name},{img:path},function(err){
+  User.update({email: req.session.user.email},{img:path},function(err){
     if(err){
       console.log(err);
     }
@@ -593,7 +622,7 @@ app.post("/user/info/oldpw",function(req,res){
 app.post("/user/info/newpw",function(req,res){
   var newpw = req.body.newpw;
   console.log(newpw);
-  User.update({name: req.session.user.name},{password:newpw},function(err){
+  User.update({email: req.session.user.email},{password:newpw},function(err){
     if(err){
       console.log(err);
     }else{
@@ -611,7 +640,7 @@ app.post("/user/info/newpw",function(req,res){
     var path = "/uploads/"+req.file.filename;
     console.log("user");
     console.log(req.session.user);
-    User.update({name: req.session.user.name},{img:path},function(err){
+    User.update({email: req.session.user.email},{img:path},function(err){
       if(err){
         console.log(err);
       }
@@ -626,7 +655,7 @@ app.post("/user/info/newpw",function(req,res){
     console.log(req.body)
     console.log(req.session.user);
 
-    User.getEmail(req.session.user.name, function(err, user){
+    User.getEmail(req.session.user.email, function(err, user){
       if(err){
         console.log(err);
       }
@@ -651,16 +680,12 @@ app.post("/user/info/newpw",function(req,res){
             console.log(bigpath);
             console.log(middlepath);
 
-            User.update({name: req.session.user.name},{bigimg:bigpath,middleimg:middlepath,smallimg:smallpath},function(err){
+            User.update({email: req.session.user.email},{bigimg:bigpath,middleimg:middlepath,smallimg:smallpath},function(err){
               if(err){
                 console.log(err);
               };
-              User.get(req.session.user.name, function(err, user){
-                req.session.save(function(err){
-                  req.session.reload(function(err){
-                    req.session.user = user;
-                  })
-                })
+              User.getEmail(req.session.user.email, function(err, user){
+                req.session.user = user;
                 req.session.save();
                 res.send({
                   bigimg: bigpath,
@@ -681,7 +706,7 @@ app.post("/user/info/newpw",function(req,res){
 app.post("/user/info/newpw",function(req,res){
   var newpw = req.body.newpw;
   console.log(newpw);
-  User.update({name: req.session.user.name},{password:newpw},function(err){
+  User.update({email: req.session.user.email},{password:newpw},function(err){
     if(err){
       console.log(err);
     }else{
@@ -692,7 +717,7 @@ app.post("/user/info/newpw",function(req,res){
 })
 
 app.post("/user/info",function(req,res){
-  User.update({name:req.session.user.name},
+  User.update({email:req.session.user.email},
   {
       nick:req.body.nick,
       position:req.body.position,
@@ -1295,12 +1320,12 @@ app.get('/job-top5',function(req,res){
 /*-----------------用户界面路由部分---------------------*/
 app.get("/user",function(req,res){
   console.log(req.session.user);
-  Post.getTen({author:req.session.user.name},1,function(err,docs,total){
+  Post.getTen({author:req.session.user.email},1,function(err,docs,total){
     console.log(docs);
     res.render("user/user",{
       post: docs,
       title: "用户",
-      user: req.session.user.name
+      user: req.session.user
     });
   })
 	
@@ -1313,10 +1338,12 @@ app.get("/user",function(req,res){
   app.post('/attention',function(req,res){
     console.log(req.body);
 
-    User.update({user:req.session.user.name},{author:req.body.author},function(err){
+    User.addAttention({email:req.session.user.email},{email:req.body.author},function(err){
       if(err){
         console.log(err);
+        return
       }
+      res.send('success');
     })
   })
 }

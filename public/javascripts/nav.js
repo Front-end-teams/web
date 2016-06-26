@@ -28,6 +28,24 @@ $(function(){
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
+
+	/*	var loginfn=function(e){
+			var ev = e||window.e;
+			var target = ev.target||ev.srcElement;
+			var nextTarget = target.nextElementSibling||target.nextSibling;
+			target.style.border = "1px solid yellow";
+			//nextTarget.style.display = "block";
+			checkLog(target);
+		}*/
+
+		var regfn=function(e){
+			var ev = e||window.e;
+			var target = ev.target||ev.srcElement;
+			var nextTarget = target.nextElementSibling||target.nextSibling;
+			target.style.border = "1px solid yellow";
+			nextTarget.style.display = "block";
+			check(target);
+		}
 		if(reg!==null){
 			reg.onclick = function(){
 				regtab.className="show";
@@ -50,14 +68,7 @@ $(function(){
 	   		tabBd[0].className = "tabhide";
 	   		tabBd[1].className = "tabshow";
 
-	   		var regfn=function(e){
-					var ev = e||window.e;
-					var target = ev.target||ev.srcElement;
-					var nextTarget = target.nextElementSibling||target.nextSibling;
-					target.style.border = "1px solid yellow";
-					nextTarget.style.display = "block";
-					check(target);
-				}
+	   		
 
 	   		//监听注册页面文本框内value变化时tip的变化
 	   		for(var i=0;i<reginp.length;i++){
@@ -139,18 +150,11 @@ $(function(){
 	   					logininp[i].onpropertychange = loginfn;
 	   				}else{
 	   					//console.log(logininp[i]);
-	   					EventUtil.addHandler(logininp[0],"input",loginfn);
+	   					// EventUtil.addHandler(logininp[0],"input",loginfn);
 
-	   					EventUtil.addHandler(logininp[1],"input",loginfn);
+	   					// EventUtil.addHandler(logininp[1],"input",loginfn);
 	   				}
-	   				var loginfn=function(e){
-	   					var ev = e||window.e;
-	   					var target = ev.target||ev.srcElement;
-	   					var nextTarget = target.nextElementSibling||target.nextSibling;
-	   					target.style.border = "1px solid yellow";
-	   					nextTarget.style.display = "block";
-	   					checkLog(target);
-	   				}
+	   				
 	   				EventUtil.addHandler(logininp[i],"blur",function(e){
 	   					var ev = e||window.e;
 	   					var target = ev.target||ev.srcElement;
@@ -165,6 +169,7 @@ $(function(){
 			regtab.className= "hide";
 			mask.className = "maskhide";
 		};
+
 		//注册的验证函数
 		var regResult={
 			emails:false,
@@ -180,7 +185,7 @@ $(function(){
 				nextEle.style.color = "red";
 				return;
 			}
-			if(ele.id=="email"){
+			if(ele.id=="reg-email"){
 				var reg = new RegExp('^([a-zA-Z0-9_\.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$', 'i');
 				var emailjson= {email:str};
 				var emailinfo = JSON.stringify(emailjson);
@@ -197,7 +202,7 @@ $(function(){
 				  regResult.emails=false;
 				}
 			};
-			if(ele.id=="password"){
+			if(ele.id=="reg-password"){
 				if (str.match(/^[a-zA-Z0-9]{6,16}$/)) {
 		            nextEle.innerHTML= '密码格式正确';
 		            nextEle.style.color = "green";
@@ -251,60 +256,77 @@ $(function(){
 			emails:false,
 			passwords:false,
 		};
-		function checkLog(ele){
-			var str = ele.value;
-			var nextEle=ele.nextElementSibling||ele.nextSibling;
-			if(str.length===0){
-				nextEle.innerHTML="输入不能为空";
-				nextEle.style.color = "red";
+		function checkLog(e){
+			EventUtil.preventDefault(e);
+			var email_str = document.getElementById('log-email').value;
+			var pass_str = document.getElementById('log-password').value;
+			var tip = document.querySelector('.tip')
+			if(email_str.length === 0 || pass_str.length === 0){
+				tip.style.display = 'block';
+				tip.innerHTML="用户名和密码不能为空";
+				tip.style.color = "red";
 				return;
 			}
-			if(ele.id=="email"){
-				var emailjson= {email:str};
-				var emailinfo = JSON.stringify(emailjson);
-				
-				ajax("post","/login/email","application/json",emailinfo,function(res){
-					if(res!=="exist"){
-						nextEle.innerHTML = '邮箱不存在';
-						nextEle.style.color = "red";
-						logResult.emails=false;
-					}else{
-						nextEle.innerHTML ="";
-						logResult.emails=true;
-					}
-				});
-
-			};
-
-
-			if(logResult.emails==true){
-				var emailstr = document.getElementById("email").value;
-				if(ele.id=="password"){
-					var totaljson= {email:emailstr,password:str};
-					var totalinfo = JSON.stringify(totaljson);
-					
-					ajax("post","/login/password","application/json",totalinfo,function(res){
-						if(res!=="match"){
-							nextEle.innerHTML = '用户名与密码不一致';
-							nextEle.style.color = "red";
-							logResult.passwords=false;
-						}else{
-							nextEle.innerHTML ="";
-							logResult.passwords=true;
-						}
-					});
+			
+			/*var emailjson= {email:email_str};
+			var emailinfo = JSON.stringify(emailjson);
+			
+			ajax("post","/login/email","application/json",emailinfo,function(res){
+				if(res !== "exist"){
+					tip.style.display = 'block';
+					tip.innerHTML = '邮箱不存在';
+					tip.style.color = "red";
+					logResult.emails=false;
+				}else{
+					tip.innerHTML ="";
+					logResult.emails=true;
 				}
-			};
+			});*/
+
+			var totaljson= {email:email_str,password:pass_str};
+			var totalinfo = JSON.stringify(totaljson);
+			
+			ajax("post","/login/password","application/json",totalinfo,function(res){
+				if(res!=="match"){
+					tip.style.display = 'block';
+					tip.innerHTML = '用户名与密码不一致';
+					tip.style.color = "red";
+					// logResult.passwords=false;
+					return;
+				}else{
+					console.log("ccc");
+					// logResult.passwords=true;
+					// if(logResult.emails == true && logResult.passwords == true){
+						console.log("ddd");
+						var target = EventUtil.getTarget(e);
+						EventUtil.preventDefault(e);
+						var form=target.parentNode.parentNode;
+						var resultJ=seriPost(form);
+						var resultJson={};
+						for(var i = 0; i < resultJ.length; i++){
+							var val = resultJ[i].split("=");
+							resultJson[val[0]]=val[1];
+						};
+						var str =JSON.stringify(resultJson);
+						console.log(resultJson);
+						ajax("post","/login","application/json",str,function(res){
+							console.log(res);
+							if(res == "loginsuccess"){
+								location.href="/";
+							}else{
+								return;
+							}
+						});
+					/*}else{
+						return;
+					}*/
+				}
+			});		
 		}
-	   		
-	   		
-
-
-		
-		
 
 		//注册表单提交时需要先验证再用ajax提交数据
 		EventUtil.addHandler(regsub,"click",function(e){
+			
 			if(regResult.emails==true&&regResult.passwords==true){
 				var target = EventUtil.getTarget(e);
 				EventUtil.preventDefault(e);
@@ -340,37 +362,13 @@ $(function(){
 					}
 				});
 			}else{
-				alert("请检查输入信息！");
+				alert("请检查输入");
 			}
 		});
 		
 		// 登录表单提交时需要先验证再用ajax提交数据
-		EventUtil.addHandler(loginsub,"click",function(e){
-			EventUtil.preventDefault(e);
-				if(logResult.emails==true&&logResult.passwords==true){
-					var target = EventUtil.getTarget(e);
-					EventUtil.preventDefault(e);
-					var form=target.parentNode.parentNode;
-					var resultJ=seriPost(form);
-					var resultJson={};
-					for(var i = 0; i < resultJ.length; i++){
-						var val = resultJ[i].split("=");
-						resultJson[val[0]]=val[1];
-					};
-					var str =JSON.stringify(resultJson);
-					console.log(resultJson);
-					ajax("post","/login","application/json",str,function(res){
-						console.log(res);
-						if(res=="loginsuccess"){
-							location.href="/";
-						}else{
-							return;
-						}
-					});
-				}else{
-					alert("请检查输入");
-				}		
-		});
+
+		EventUtil.addHandler(loginsub,"click",checkLog);
 
 });
 

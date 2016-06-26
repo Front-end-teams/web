@@ -64,9 +64,11 @@ function collection(e){
 			
 		})
 }
-
+// 添加关注
 EventUtil.addHandler(attention,'click',function(e){
-	ajax('post','/attention','application/json',{author:author},function(res){
-		console.log(res);
+	ajax('post','/attention','application/json',JSON.stringify({author:author}),function(res){
+		if(res == 'success'){
+			attention.innerHTML = '已关注';
+		}
 	})
 })

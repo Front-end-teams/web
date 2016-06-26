@@ -31,7 +31,9 @@ User.prototype.save = function(callback) {
       position:this.position,
       sex:this.sex,
       aboutme:this.aboutme,
-      postcoll:[]
+      postcoll:[],
+      attention:[],
+      fans:[]
   };
   //打开数据库
   mongodb.open(function (err, db) {
@@ -123,6 +125,7 @@ User.getEmail = function(email, callback) {
  * @param {json} fans     关注的人{author:name}
  */
 User.addAttention = function(follower,host,callback){
+  console.log("attention");
   mongodb.close();
   mongodb.open(function (err, db) {
     if (err) {
@@ -134,16 +137,16 @@ User.addAttention = function(follower,host,callback){
         mongodb.close();
         return callback(err);
       }
-      //更新文章内容
+      //更新user内容
       collection.update(follower, {
-        $push: {attention:host.author}
+        $push: {attention:host.email}
       }, function (err) {
-        mongodb.close();
+        //mongodb.close();
         if (err) {
           return callback(err);
         }
         collection.update(host,{
-          $push:{fans:follower.user}
+          $push:{fans:follower.email}
         },function(err){
           mongodb.close();
           if (err) {
