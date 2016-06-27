@@ -33,10 +33,14 @@ body {
 .user-info .user-img{
 	display: inline-block;
 	border-radius: 100px;
+	/* overflow:hidden; */
 	background-color: #C1D843;
 	position: relative;
 	width:200px;
 	height:200px;
+}
+.user-info .user-img img{
+	border-radius:100px;
 }
 .user-info .user-img .user-set{
 	position: absolute;

@@ -322,3 +322,17 @@ if(document.getElementById('save')){
 
 }
 
+
+function onUpdateReady(){
+	alert('found new version');
+}
+
+EventUtil.addHandler(window.applicationCache,'updateready',onUpdateReady)
+if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+	onUpdateReady();
+}
+
+EventUtil.addHandler('window','unload',function(e){
+	console.log('unload');
+	applicationCache.update();
+})

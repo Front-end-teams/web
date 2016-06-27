@@ -30,6 +30,7 @@ Post.prototype.save=function(callback){
     cates: this.cates,
     post: this.post,
     art: this.art,
+    
     postcoll: [],
     comments: [],
     agree: [],
@@ -505,17 +506,16 @@ Post.viewNum = function(query, callback) {
 //文章收藏功能
 Post.addCollect = function(query,callback){
 
-  console.log("start");
   mongodb.close();
-  console.log("close");
+
   mongodb.open(function(err,db){
    
-    console.log("open");
+
     if(err){
       console.log(err);
       return callback(err);
     }
-    console.log("posts");
+
     db.collection('posts',function(err,collection){
       if(err){
         console.log(err);
@@ -541,7 +541,7 @@ Post.addCollect = function(query,callback){
         console.log(err);
         return callback(err);
       }
-      collection.update({name:query.user},{
+      collection.update({email:query.user},{
         $push: {"postcoll": {author:query.author,title:query.title}}
       }, function (err) {
         
@@ -605,4 +605,33 @@ Post.deleteCollect= function(query,callback){
     })
   })
 })
+}
+
+// 统计作者写的总文章数
+Post.countPost = function(query,callback){
+  //打开数据库
+  mongodb.open(function (err, db) {
+
+    if (err) {
+      return callback(err);
+    }
+
+    //读取 posts 集合
+    db.collection('posts', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      console.log("update");
+
+     //更新文章内容
+      collection.count(query, function (err,count) {
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null,count);
+      });
+    });
+ });
 }

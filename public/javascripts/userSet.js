@@ -119,9 +119,7 @@
 				type:"POST",
 				data:$("#crop-form").serialize(),
 				success:function(data){
-					console.log(data.img);
-
-
+					console.log(data);
 					$("#user-img-show").prop('src',data.bigimg );
 					$('.user-small-img').prop('src',data.smallimg);
 					console.log($("#user-img-show"));

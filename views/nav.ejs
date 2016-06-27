@@ -54,35 +54,37 @@
 		<!-- tabPanel-->
 		<ul class="tab-bd">
 			<li>
-	            <form id="loginForm" class="navform">
-	            	<div class="rlf-group">
-						<input class="ipt ipt-email" id="email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
-						<p class="tip hide"></p>
-					</div>
-					<div class="rlf-group">
-						<input class="ipt ipt-pwd" id="password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
-						<p class="tip hide"></p>
-					</div>
-					<div class="rlf-group" id="rl-pw">
-						<label class="rlf-autoin" hidefocus="true" for="auto-signin">
-						<input id="auto-signin" class="auto-cbx" type="checkbox" checked="checked">
-								下次自动登录
-						</label>
-						<a class="rlf-forget" hidefocus="true" target="_blank" href="/user/newforgot">忘记密码 </a>
-					</div>
-	            	<div>
-	            		<button type="submit" id="loginsub">立即登录</button>
-	            	</div>
-	            </form>
-	        </li>
+        <form id="loginForm" class="navform">
+          <p class="tip hide"></p>
+          	<div class="rlf-group">
+							<input class="ipt ipt-email" id="log-email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
+							
+						</div>
+						<div class="rlf-group">
+							<input class="ipt ipt-pwd" id="log-password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
+							
+						</div>
+						<div class="rlf-group" id="rl-pw">
+							<label class="rlf-autoin" hidefocus="true" for="auto-signin">
+							<input id="auto-signin" class="auto-cbx" type="checkbox" checked="checked">
+									下次自动登录
+							</label>
+							<a class="rlf-forget" hidefocus="true" target="_blank" href="/user/newforgot">忘记密码 </a>
+						</div>
+          	<div>
+          		<button type="submit" id="loginsub">立即登录</button>
+          	</div>
+          </form>
+      </li>
 			<li>
 	            <form id="regForm" class="navform regshow">
+	            
 	            	<div class="rlf-group">
-						<input class="ipt ipt-email" id="email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
+						<input class="ipt ipt-email" id="reg-email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
 						<p class="tip hide"></p>
 					</div>
 					<div class="rlf-group">
-						<input class="ipt ipt-pwd" id="password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
+						<input class="ipt ipt-pwd" id="reg-password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
 						<p class="tip hide"></p>
 					</div>
 					<div class="rlf-group">
