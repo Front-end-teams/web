@@ -535,7 +535,7 @@ app.post('/userset/imgupload',upload.single("file"),function(req,res){
   var path = "/uploads/"+req.file.filename;
   console.log("user");
   console.log(req.session.user);
-  User.update({name: req.session.user.name},{img:path},function(err){
+  User.update({email: req.session.user.email},{img:path},function(err){
     if(err){
       console.log(err);
     }
