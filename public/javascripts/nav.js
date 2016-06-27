@@ -32,6 +32,8 @@ $(function(){
 		var logininp = loginForm.querySelectorAll("input");
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
+		var searchAll=document.getElementById('searchAll');
+		var searchAllAction=document.getElementById('searchAllAction');
 		if(reg!==null){
 			reg.onclick = function(){
 				regtab.className="show";
@@ -351,6 +353,20 @@ $(function(){
 					alert("请检查输入");
 				}		
 		});
-
+		EventUtil.addHandler(searchAllAction,'click',function(e){
+			var searchContent=searchAll.value;
+			$.ajax({
+               url:"/searchall?keyword="+searchContent,
+               type:'get',
+               success:function(data){
+                    console.log('这是data');
+                    console.log(data);
+                    console.log("这是data");
+               },
+               err:function(jqXHR, textStatus, errorThrown){
+                  alert('error ' + textStatus + " " + errorThrown); 
+              }
+             });
+		});
 });
 
