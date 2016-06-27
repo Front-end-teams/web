@@ -16,7 +16,7 @@
 				<li id="nav-unanswered"><a href="/questionNoAnswer" class="action">未答</a></li>
 			</ul>
 			<div id="wenda-list">
-			<% questions.forEach(function (question) { %>
+			<% if(questions){questions.forEach(function (question) { %>
 				<div class="wenda-container">
 					    <div class="wenda-img">
 					       <img class="wenda-img-icon" src="images/7.jpg">
@@ -39,7 +39,11 @@
 							</div>
 					    </div>				
 				</div>
-			<% }) %>
+			<% }) }else{%>
+				<div class="wenda-container">
+					<span>暂时没有问题，<a href="/ask">去提问</a></span>
+				</div>
+			<%}%>
 			</div>
 			<!-- 分页 -->
 			<div id="pageslider">
