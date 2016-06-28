@@ -145,7 +145,7 @@ module.exports = function(app) {
     });
       
   });
-  app.post('/login', checkLogin);
+  //app.post('/login', checkLogin);
   app.post('/login', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
@@ -212,29 +212,38 @@ function checkLogin(req, res, next) {
 	//文章二级页面
 
   app.get('/post', function (req, res) {
-  	var page = req.query.p ? parseInt(req.query.p) : 1;
+  	var newPage = req.query.p ? parseInt(req.query.p) : 1;
+    var hotPage = req.query.p ? parseInt(req.query.p) : 1;
     Post.countPost({author:req.session.user.email},function(err,count){
       if(err){
         console.log(err);
       }
-      Post.getTen(null, page, function (err, posts, total) {
+      Post.getTen(null, newPage,{time:-1}, function (err, new_posts, new_total) {
         if (err) {
           posts = [];
         } 
-        console.log(req.session.user);
+        Post.getTen(null,hotPage,{pv:-1},function(err,hot_posts,hot_total){
+           console.log(req.session.user);
+          
+          res.render('post/post', {
+            title: '文章',
+            new_posts:new_posts,
+            hot_posts:hot_posts,
+            count:count,
+            newPage: newPage,
+            newIsFirstPage: (newPage - 1) == 0,
+            newIsLastPage: ((newPage - 1) * 10 + new_posts.length) == new_total,
+            newLastPage:Math.ceil(new_total/10),
+            hotPage: hotPage,
+            hotIsFirstPage: (hotPage - 1) == 0,
+            hotIsLastPage: ((hotPage - 1) * 10 + hot_posts.length) == hot_total,
+            hotLastPage:Math.ceil(hot_total/10),
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+          });
+        })
        
-        res.render('post/post', {
-          title: '文章',
-          posts: posts,
-          count:count,
-          page: page,
-          isFirstPage: (page - 1) == 0,
-          isLastPage: ((page - 1) * 10 + posts.length) == total,
-          LastPage:Math.ceil(total/10),
-          user: req.session.user,
-          success: req.flash('success').toString(),
-          error: req.flash('error').toString()
-        });
       });
     })
 
@@ -291,10 +300,12 @@ function checkLogin(req, res, next) {
       if ( req.session.user && post.postcoll.indexOf(req.session.user.email)>=0 ) {
         isColl = true;
       }
+      //------------------------------昵称问题--------------------------------
+      // if( req.session.user && req.session.user.attention && req.session.user.attention.indexOf(req.session))
       console.log(post.tags);
       //获取作者的头像（昵称的问题）
       
-      Post.getTen({tags:{$in:post.tags}},1,function(err, posts, totle){
+      Post.getTen({tags:{$in:post.tags}},1,{pv:-1},function(err, posts, totle){
         if ( err ){
           console.log(err);
         }
@@ -748,7 +759,7 @@ app.post("/user/info",function(req,res){
   app.post('/ask',function(req,res){
     var currentUser = req.session.user,
         quesTitle = req.body.quesTitle,
-        name = currentUser.name,
+        name = currentUser.email,
         head = currentUser.head,
         quesDetail=req.body.quesDetail,
         tags=req.body.tags,
@@ -856,6 +867,7 @@ app.get('/question', function (req, res) {
       if (err) {
         tags = [];
       }
+      console.log(questions);
       res.render('qa/question', {
         tags: tags,
         title: '问题',
@@ -1320,13 +1332,26 @@ app.get('/job-top5',function(req,res){
 /*-----------------用户界面路由部分---------------------*/
 app.get("/user",function(req,res){
   console.log(req.session.user);
-  Post.getTen({author:req.session.user.email},1,function(err,docs,total){
-    console.log(docs);
-    res.render("user/user",{
-      post: docs,
-      title: "用户",
-      user: req.session.user
-    });
+  Post.getTen({author:req.session.user.email},1,{time:-1},function(err,docs,total){
+    if(err){
+      console.log(err);
+      return;
+    }
+    Ques.getTen(req.session.user.email,1,10,function(err,asks,total){
+      if(err){
+        console.log(err);
+        return;
+      }
+      console.log(docs);
+      console.log(asks);
+      res.render("user/user",{
+        ques:asks,
+        post: docs,
+        title: "用户",
+        user: req.session.user
+      });
+    })
+    
   })
 	
 })

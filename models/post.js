@@ -69,7 +69,7 @@ Post.prototype.save=function(callback){
   })
 }
   //一次获取十篇文章(query为查询条件 是一个json对象)
-Post.getTen=function(query,page,callback){
+Post.getTen=function(query,page,order_rule,callback){
   //打开数据库
   console.log("start");
   mongodb.open(function (err, db) {
@@ -88,10 +88,7 @@ Post.getTen=function(query,page,callback){
       collection.find(query,{
         skip: (page-1)*10,
         limit: 10
-      }).sort({
-        /*按照时间降序排列*/
-        time: -1
-      }).toArray(function(err,docs){
+      }).sort(order_rule).toArray(function(err,docs){
         mongodb.close(); 
         if(err){
           return callback(err);

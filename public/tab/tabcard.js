@@ -15,6 +15,7 @@ function TabCard(panel,deS,clS,moS){
 }
 TabCard.prototype.clear = function(){
 	//console.log(this.inps);
+	
 	for(var i=0;i<this.inps.length;i++){
 		this.inps[i].value="";
 		//console.log(this.inps);

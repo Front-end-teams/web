@@ -5,7 +5,7 @@
 <%- include ../nav %>
 	<section>
 		<div class="container">
-			<div class="main_left">
+			<div class="main_left" id='maincard'>
 				
 			<ul class="tab-nav">
             <li><a href="javascript:void(0)">最新</a></li>
@@ -15,7 +15,7 @@
             <!-- tabPanel-->
             <ul class="tab-bd">
             <li class="tabshow">
-            <% posts.forEach(function (post, index) { %>
+            <% new_posts.forEach(function (post, index) { %>
         <div class="hot-article">
             <div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
                         <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
@@ -45,7 +45,7 @@
        
         </li>
             <li class="tabhide">
-              <% posts.forEach(function (post, index) { %>
+              <% hot_posts.forEach(function (post, index) { %>
         <div class="hot-article">
             <div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
                         <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
@@ -67,7 +67,7 @@
                 <% } %>
                 <div class="post-info">
                 <span class="browser">浏览 <%= post.pv %></span>
-                <span class="like">点赞 <%= post.agree %></span>
+                <span class="like">点赞 <%= post.agree.length %></span>
                 <span class="comment">评论</span>
                 </div>
             </div>
@@ -91,8 +91,8 @@
                     <div id="namebox"><%= user.name %></div> 
                     <ul id="user-action" class="clearfix">
                         <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
-                        <li><strong class="user-action" id="user-question"><%= user.postcoll.length %></strong><a href="">收藏</a></li>
-                        <li><strong class="user-action" id="user-question"><%= user.attention.length %></strong><a href="">关注</a></li>
+                        <li><strong class="user-action" id="user-question"><%= user.postcoll? user.postcoll.length:0 %></strong><a href="">收藏</a></li>
+                        <li><strong class="user-action" id="user-question"><%= user.attention? user.attention.length:0  %></strong><a href="">关注</a></li>
                     </ul>
                 </div>
             </div>
@@ -118,9 +118,7 @@
          
     </div>   	
     </section>
-<div id="pageslider">
-    <%- include ../paging %>
-</div>
+
 <%- include ../footer %>
 <script type="text/javascript" src="/javascripts/post.js"></script>
 <script type="text/javascript" src="/javascripts/commonFunc.js"></script>
