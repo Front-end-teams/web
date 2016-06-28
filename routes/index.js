@@ -5,6 +5,7 @@ var upload = require('../models/multerUtil');
 var formidable = require("../models/formidable.js")
 var Ques = require('../models/ask.js');
 var quesComment = require('../models/quesComment.js');
+var searchall=require('../models/searchAll.js')
 
 var crypto = require('crypto'),
     User = require('../models/user.js'),
@@ -663,8 +664,6 @@ app.post("/user/info/newpw",function(req,res){
   //用户头像剪切
   app.post("/upload/imgupload/size",function(req,res){
     console.log("size");
-    console.log(req.body)
-    console.log(req.session.user);
 
     User.getEmail(req.session.user.email, function(err, user){
       if(err){
@@ -1369,6 +1368,17 @@ app.get("/user",function(req,res){
         return
       }
       res.send('success');
-    })
-  })
+    });
+  });
+//--------------------------全局搜索
+    app.get("/searchall",function(req,res){
+      var searchAllContent=req.query.keyword;
+      console.log("searchAllContent:"+searchAllContent);
+      searchall.searchAll(null,function(err,questions,total){
+        console.log("what:"+questions);
+      });
+    });
+
+
+
 }

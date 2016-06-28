@@ -31,6 +31,10 @@ $(function(){
 		var logintips = loginForm.querySelectorAll(".tip");
 		var loginsub = document.getElementById("loginsub");
 
+		var searchAll=document.getElementById('searchAll');
+		var searchAllAction=document.getElementById('searchAllAction');
+
+
 	/*	var loginfn=function(e){
 			var ev = e||window.e;
 			var target = ev.target||ev.srcElement;
@@ -48,6 +52,7 @@ $(function(){
 			nextTarget.style.display = "block";
 			check(target);
 		}
+
 		if(reg!==null){
 			reg.onclick = function(){
 				regtab.className="show";
@@ -373,9 +378,10 @@ $(function(){
 			}
 		});
 		
-		// 登录表单提交时需要先验证再用ajax提交数据
+
 
 		EventUtil.addHandler(loginsub,"click",checkLog);
+
 
 });
 
