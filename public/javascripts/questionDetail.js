@@ -23,7 +23,7 @@ for(var i=(page-1)*num;i<length;i++)
         that.parentNode.parentNode.nextElementSibling.style.display="block";
         replyAction(that);
         var params={
-            "name":that.getAttribute('data-name'),
+            "email":that.getAttribute('data-name'),
             "day":that.getAttribute('data-day'),
             "quesTitle":that.getAttribute('data-questitle'),
             "commentId":that.getAttribute('data-commentid')
@@ -70,7 +70,7 @@ for(var i=(page-1)*num;i<length;i++)
           commentreplytoname=temp.substring(indexstart,indexend);
           commentReplyContent=temp.substring(indexend+1);
       var params={
-        "name":that.getAttribute('data-name'),
+        "email":that.getAttribute('data-name'),
         "day":that.getAttribute('data-day'),
         "quesTitle":that.getAttribute('data-questitle'),
         "commentReplyFromName":that.getAttribute('data-commentreplyfromname'),
@@ -117,7 +117,7 @@ for(var i=(page-1)*num;i<length;i++)
    $('#commentAgree_'+i).bind("click",function(){
     var that=this;
     var params ={
-                "name":that.getAttribute('data-name'),
+                "email":that.getAttribute('data-name'),
                 "day":that.getAttribute('data-day'),
                 "quesTitle":that.getAttribute('data-questitle'),
                 "commentId":that.getAttribute('data-commentid')
@@ -145,7 +145,7 @@ for(var i=(page-1)*num;i<length;i++)
    $('#commentDisagree_'+i).bind("click",function(){
     var that=this;
      var params ={
-                "name":that.getAttribute('data-name'),
+                "email":that.getAttribute('data-name'),
                 "day":that.getAttribute('data-day'),
                 "quesTitle":that.getAttribute('data-questitle'),
                 "commentId":that.getAttribute('data-commentid')

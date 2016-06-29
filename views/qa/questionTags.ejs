@@ -12,17 +12,17 @@
 				<div class="wenda-container">
 					    <div class="wenda-img">
 					       <img class="wenda-img-icon" src="images/7.jpg">
-					       <span><%= question.name %></span>
+					       <span><%= question.email %></span>
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
 							</h1>
 							<p class="wenda-description"><%- question.quesDetail %></p>
 							<div class="action-panel">
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%=question.comments.length%>/<%=question.pv%></a>
-								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
-								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%=question.comments.length%>/<%=question.pv%></a>
+								<a id="agree<%=question.email+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
+								<a id="disagree<%=question.email+question.time.day+question.quesTitle%>" email="disagree" href="javascript:disagree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
 								<span>
 								标签：
 								<% question.tags.forEach(function(tag){%>

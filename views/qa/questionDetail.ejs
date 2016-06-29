@@ -6,19 +6,19 @@
     <h2 class="quesTitle"><%=quesTitle %></h2>
     <p class="quesDetail"><%-quesDetail %></p>
     <p class="info">
-        提问者：<a href="#"><%= name %></a> | 
+        提问者：<a href="#"><%= email %></a> | 
         日期：<%= day %>
     </p>
     <br />
     <form method="post">
     <% if (user) { %>
     <div style="display: none;">
-      姓名：<input type="text" name="name" value="<%= user.name %>"/><br />
+      姓名：<input type="text" name="name" value="<%= user.email %>"/><br />
       邮箱：<input type="text" name="email" value="<%= user.email %>"/><br />
-      网址：<input type="text" name="website" value="/u/<%= user.name %>"/><br />
+      网址：<input type="text" name="website" value="/u/<%= user.email %>"/><br />
     </div>
     <% } else { %>
-      姓名：<input type="text" name="name" /><br />
+      姓名：<input type="text" name="email" /><br />
       邮箱：<input type="text" name="email" /><br />
       网址：<input type="text" name="website" value="http://" /><br />
     <% } %>
@@ -35,7 +35,7 @@
                <a href="" ><img src="<%= comments[i].head %>" class="l_head" /></a>
              </div>
              <div class="commName">
-               <a href="<%= comments[i].website %>" class="action"><%= comments[i].name %></a>
+               <a href="<%= comments[i].website %>" class="action"><%= comments[i].email %></a>
                <span class="commTime"><%= comments[i].time %></span>
              </div> 
              <div class="commCont">
@@ -45,7 +45,7 @@
                <span id="commentAgree_<%=i%>" 
                data-commentid="<%=i%>"
                data-questitle="<%=quesTitle %>" 
-               data-name="<%= name %>"
+               data-name="<%= email %>"
                data-day="<%= day %>"
                class="action">
                赞同 <%=comments[i].agreeNum%>
@@ -53,7 +53,7 @@
                <span id="commentDisagree_<%=i%>"
                data-commentid="<%=i%>"
                data-questitle="<%=quesTitle %>" 
-               data-name="<%= name %>"
+               data-name="<%= email %>"
                data-day="<%= day %>"
                class="action">
                反对 <%=comments[i].disagreeNum%>
@@ -61,10 +61,10 @@
                <span class="space"></span>
                <span id="reply_<%=i%>"
                   data-questitle="<%=quesTitle %>" 
-                  data-name="<%= name %>"
+                  data-name="<%= email %>"
                   data-day="<%= day %>"
                   data-commentid="<%=i%>"
-                  data-fromName="<%= comments[i].name %>"
+                  data-fromName="<%= comments[i].email %>"
                   class="action"><%=comments[i].reply.length%>条回复
                </span>
              </div>
@@ -80,15 +80,15 @@
                    </a>                   
                 </div>
                 <div class="commentReplyFromName action">
-                  <a class="reply_name" href="#"><%=user.name%></a>
+                  <a class="reply_name" href="#"><%=user.email%></a>
                 </div>       
                 <div class="reply_content">
                   <textarea cols="75" rows="2" id="comment_reply_<%=i%>" placeholder="写下你的回复~"></textarea>
                   <button id="comment_reply_btn_<%=i%>" 
                   data-questitle="<%=quesTitle %>" 
-                  data-name="<%= name %>"
+                  data-name="<%= email %>"
                   data-day="<%= day %>"
-                  data-commentreplyfromname="<%=user.name%>"
+                  data-commentreplyfromname="<%=user.email%>"
                   data-commentid="<%=i%>"
                   >回复</button>
                 </div>
@@ -100,49 +100,49 @@
     </div>
       <br />
       <div class="answer">
-        <span class="prepage"><a title="首页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= 1 %>">首页</a></span>
+        <span class="prepage"><a title="首页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= 1 %>">首页</a></span>
 
         <% if ((page-1)>=1) { %>
-        <span class="prepage"><a title="上一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>">上一页</a></span>
+        <span class="prepage"><a title="上一页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>">上一页</a></span>
         <% }else{}%>
 
         <% if ((page-3)==1) { %> 
-          <span class="prepage"><a title="上两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=1">1</a></span>
+          <span class="prepage"><a title="上两页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=1">1</a></span>
         <% }else if ((page-3)>1){%>
-          <span class="prepage"><a title="上两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=1">1</a></span>
+          <span class="prepage"><a title="上两页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=1">1</a></span>
           <span class="prepage"><a title="省略">...</a></span>
         <%}%>
 
         <% if ((page-2)>=1) { %> 
-        <span class="prepage"><a title="上两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-2 %>"><%= page-2 %></a></span>
+        <span class="prepage"><a title="上两页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-2 %>"><%= page-2 %></a></span>
         <% }else{}%>
 
         <% if ((page-1)>=1) { %> 
-        <span class="prepage"><a title="上一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>"><%= page-1 %></a></span>
+        <span class="prepage"><a title="上一页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page-1 %>"><%= page-1 %></a></span>
         <% }else{}%>
 
-          <span class="currentpage"><a title="当前页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
+          <span class="currentpage"><a title="当前页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
 
         <% if ((page+1)<=LastPage) { %> 
-        <span class="nextpage"><a title="下一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>"><%= page+1 %></a></span>
+        <span class="nextpage"><a title="下一页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>"><%= page+1 %></a></span>
         <% }else{}%>
 
         <% if ((page+2)<=LastPage) { %> 
-        <span class="nextpage"><a title="下两页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+2 %>"><%= page+2 %></a></span>
+        <span class="nextpage"><a title="下两页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+2 %>"><%= page+2 %></a></span>
         <% }else{}%>
         
         <% if ((page+3)== LastPage) { %> 
-          <span class="nextpage"><a title="下三页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%=LastPage%>"><%=LastPage%></a></span>
+          <span class="nextpage"><a title="下三页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%=LastPage%>"><%=LastPage%></a></span>
         <% }else if((page+3)< LastPage) {%>
          <span class="nextpage"><a title="省略">...</a></span>
-         <span class="nextpage"><a title="末页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%=LastPage%>"><%=LastPage%></a></span>
+         <span class="nextpage"><a title="末页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%=LastPage%>"><%=LastPage%></a></span>
         <% }%>
 
         <% if ((page+1)<=LastPage) { %>
-          <span class="nextpage"><a title="下一页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>">下一页</a></span>
+          <span class="nextpage"><a title="下一页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= page+1 %>">下一页</a></span>
         <% }else{}%>
 
-         <span class="nextpage"><a title="末页" href="/questionDetail?name=<%= name %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= LastPage %>">末页</a></span>
+         <span class="nextpage"><a title="末页" href="/questionDetail?email=<%= email %>&day=<%= day %>&quesTitle=<%= quesTitle %>&p=<%= LastPage %>">末页</a></span>
       </div>
 </div>
 <div class="notice">

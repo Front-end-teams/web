@@ -18,6 +18,7 @@
 	<div class="user-data">
 		<div class="user-item">
 			<em><%= user.attention? user.attention.length:0 %></em>
+
 			<span>关注</span>
 
 		</div>
@@ -38,15 +39,18 @@
 <!-- 左侧导航 -->
 <div class="user-wrap clearfix" id="user-wrap">
  <nav class="slider">
+
 	<ul class= 'tab-nav' style='border: none'>
 		<li class='index-1'><a href="#"><span class="user-index">&#xe602</span>我的文章</a></li>
 		<li class='index-2'><a href="#"><span class="user-index">&#xe60a</span>我的提问</a></li>
 		<li class='index-3'><a href="#"><span class="user-index">&#xe61c</span>我的回答</a></li>
 		<li class='index-4'><a href="#"><span class="user-index">&#xe62b</span>我的收藏</a></li>
+
 	</ul>
 </nav> 
 
 <!-- 导航右侧具体内容 -->
+
 <ul class = 'tab-bd'>
 <li class="user-cont tab-show">
 <span class="cont-header">我的文章</span>
@@ -87,8 +91,8 @@
 			<h2 class="mypost-title"><%- asks[i].quesTitle %></h2>
 			<div><%- asks[i].quesDetail %></div>
 			<div class="mypost-info">
-				<span>回答 </span>
-				<span>点赞<%- asks[i].agreeNum%></span>
+				<span>回答<%- asks[i].comments.length %> </span>
+				<span>点赞<%- asks[i].agreeNum %></span>
 				<span>浏览<%- asks[i].pv %></span>
 			</div>
 			<div class="mypost-img"></div>
@@ -104,6 +108,36 @@
 	</div>
 
 </li> 
+
+<li class='user-ask tabhide'>
+	<span class="cont-header">我的回答</span>
+	<div class='user-post'>
+	<% for(var i=0;i<userComments.length;i++){ %>
+	<div class='mypost-wrap'>
+		<div class="mypost">
+		
+			<h2 class="mypost-title"><%- userComments[i].quesTitle %></h2>
+			<div><%- userComments[i].comments.content %></div>
+			<div class="mypost-info">
+				
+				
+				<span>回复<%- userComments[i].comments.reply.length %></span>
+				
+			
+			</div>
+			<div class="mypost-img"></div>
+		</div>
+		<span class='time-tag'></span>
+		<div class='time-show'>
+			<b class='time-show-year'><%- userComments[i].comments.time.day.split('-')[0] %></b>
+			<span class='time-show-month'><%- userComments[i].comments.time.day.split('-')[1] %>月<%- userComments[i].comments.time.day.split('-')[2] %>日</span>
+		</div>
+	</div>
+
+	<% } %>
+	</div>
+
+</li>
 
 <li class = 'user-coll tabhide' id='user-coll'>
 <span class="cont-header">我的收藏</span>
@@ -122,4 +156,5 @@
  <%- include ../footer %>
  <script type="text/javascript" src="./javascripts/user.js"></script>
  <script type="tab/tabcard.js"></script>
+
  <%- include ../end %>

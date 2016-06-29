@@ -23,12 +23,12 @@
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action"><%= question.quesTitle %></a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action"><%= question.quesTitle %></a>
 							</h1>
 							<div class="action-panel">							    
-								<a href="/questionDetail?name=<%= question.name %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action"><%=question.comments.length%>/<%=question.pv%></a>
-								<a id="agree<%=question.name+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')" class="action">赞 <span><%=parseInt(question.agree.length)%></span> </a>
-								<a id="disagree<%=question.name+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.name%>','<%= question.time.day %>','<%= question.quesTitle %>')" class="action">踩 <span><%=parseInt(question.disagree.length)%></span></a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action"><%=question.comments.length%>/<%=question.pv%></a>
+								<a id="agree<%=question.email+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')" class="action">赞 <span><%=parseInt(question.agree.length)%></span> </a>
+								<a id="disagree<%=question.email+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')" class="action">踩 <span><%=parseInt(question.disagree.length)%></span></a>
 								<span>
 								标签：
 								<% question.tags.forEach(function(tag){%>
@@ -39,7 +39,6 @@
 							</div>
 					    </div>				
 				</div>
-
 			<% })%>
 			</div>
 			<!-- 分页 -->
@@ -55,15 +54,15 @@
 			<div id="user-about">
 				<div id="user-skin">
 					<div id="headpic">
-						<img id="headpic-img" src="images/7.jpg">
+						<a href="/user"><img id="headpic-img" src="images/7.jpg"></a>
 					</div>
 				</div>
 				<div id="user-wendainfo">
-					<div id="namebox"><%= user.name %></div>
+					<div id="namebox"><%= user.email %></div>
 					<ul id="user-action">
-						<li><a href=""><strong class="user-action" id="user-question">100</strong><span>提问</span></a></li>
-						<li><a href=""><strong class="user-action" id="user-answer">100</strong><span>回答</span></a></li>
-						<li><a href=""><strong class="user-action" id="user-focus">100</strong><span>关注</span></a></li>
+						<li><a href="/user"><strong class="user-action" id="user-question"><%=userQuestionsTotal%></strong><span>提问</span></a></li>
+						<li><a href="/user"><strong class="user-action" id="user-answer"><%=userCommentsTotal%></strong><span>回答</span></a></li>
+						<li><a href="/user"><strong class="user-action" id="user-focus">100</strong><span>关注</span></a></li>
 					</ul>
 				</div>
 			</div>
