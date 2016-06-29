@@ -8,12 +8,12 @@
 <div id="user-about">
   <div id="user-skin">
       <div id="headpic">
-          <img id="headpic-img" src="images/7.jpg">
+          <img id="headpic-img" src="<%= author_detail.middleimg %>">
       </div>
   </div>
   <div id="user-wendainfo">
       <div id="namebox"><%= post.author %></div>
-      <span class='attention' id='attention'>关注</span>
+      <span class='attention' id='attention' data="<%= isAttention %>">关注</span>
   </div>
 </div>
 

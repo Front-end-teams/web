@@ -71,7 +71,7 @@ Post.prototype.save=function(callback){
   //一次获取十篇文章(query为查询条件 是一个json对象)
 Post.getTen=function(query,page,order_rule,callback){
   //打开数据库
-  console.log("start");
+ 
   mongodb.open(function (err, db) {
     if (err) {
       return callback(err);
@@ -82,7 +82,7 @@ Post.getTen=function(query,page,order_rule,callback){
         console.log(err);
         return callback(err);
       }
-    console.log("count");
+   
     collection.count(query,function(err,total){
       //根据query条件查询 并跳过前(page-1)*10个结果，返回之后的10个结果
       collection.find(query,{
@@ -94,7 +94,6 @@ Post.getTen=function(query,page,order_rule,callback){
           return callback(err);
         }
         
-        console.log("end");
         callback(null,docs,total);
       })
     })
@@ -588,7 +587,7 @@ Post.deleteCollect= function(query,callback){
         return callback(err);
       }
       console.log("update");
-      collection.update({name:query.user},{
+      collection.update({email:query.user},{
         $pull: {"postcoll": {author:query.author,title:query.title}}
       }, function (err) {
         

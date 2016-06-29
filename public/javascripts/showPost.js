@@ -8,6 +8,7 @@ var author = document.getElementById("post-author").innerHTML;
 
 var isAgree = agreeB.getAttribute("data");
 var isColl = collect.getAttribute("data");
+var isAttention = attention.getAttribute('data');
 
 if( isAgree == "true" ){
 	agreeIcon[0].style.color = "#EF5959";
@@ -16,7 +17,10 @@ if( isAgree == "true" ){
 if( isColl == "true" ){
 	collectIcon[0].style.color = "#EF5959";
 }
+if( isAttention == 'true'){
+	attention.innerHTML = '取消关注';
 
+}
 
 EventUtil.addHandler(agreeB, "click", agree);
 function agree(e){
@@ -65,10 +69,27 @@ function collection(e){
 		})
 }
 // 添加关注
-EventUtil.addHandler(attention,'click',function(e){
-	ajax('post','/attention','application/json',JSON.stringify({author:author}),function(res){
-		if(res == 'success'){
-			attention.innerHTML = '已关注';
-		}
-	})
-})
+EventUtil.addHandler(attention,'click',attentionFunc)
+function attentionFunc(e){
+	console.log("collection");
+	var title = document.getElementById("post-title").innerHTML;
+	var author = document.getElementById("post-author").innerHTML;
+	/*var e = EventUtil.getEvent(e);
+	var target = EventUtil.getTarget(e);*/
+	
+	var collurl = "/attention/" + author;
+	var mes =JSON.stringify({author: author}) ;
+
+		ajax( "post", collurl, "application/json", mes, function(res){
+				
+			console.log(typeof res);
+				if ( JSON.parse( res ).isAttention == 'add') {
+					console.log("qquxia");
+					attention.innerHTML = '取消关注';
+				} else {
+					console.log("ia");
+					attention.innerHTML = '关注';
+				}
+			
+		})
+}

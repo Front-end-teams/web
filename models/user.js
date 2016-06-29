@@ -12,6 +12,9 @@ function User(user) {
   this.email = user.email;
   this.password = user.password;
   this.img = '';
+  this.bigimg = user.bigimg,
+  this.middleimg = user.middleimg,
+  this.smallimg = user.smallimg,
   this.nick = user.nick;
   this.position = user.position;
   this.sex = user.sex;
@@ -27,6 +30,9 @@ User.prototype.save = function(callback) {
       email: this.email,
       password: this.password,
       img:'',
+      bigimg : this.bigimg,
+      middleimg : this.middleimg,
+      smallimg : this.smallimg,
       nick:this.nick,
       position:this.position,
       sex:this.sex,
@@ -81,6 +87,7 @@ User.update = function(query, set, callback){
         if (err) {
           return callback(err);
         }
+        
         callback(null);
       });
     });
@@ -114,6 +121,7 @@ User.getEmail = function(email, callback) {
           return callback(err);//失败！返回 err 信息
         }
         console.log("33311");
+        
         callback(null, user);//成功！返回查询的用户信息
       });
     });
@@ -149,9 +157,11 @@ User.addAttention = function(follower,host,callback){
           $push:{fans:follower.email}
         },function(err){
           mongodb.close();
+          console.log("attention");
           if (err) {
             return callback(err);
           }
+          
           callback(null);
         })
         
@@ -159,4 +169,69 @@ User.addAttention = function(follower,host,callback){
     });
   });
 }
+// 取消关注
+User.deleteAttention = function(follower,host,callback){
+  console.log("deleteattention");
+  mongodb.close();
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);
+    }
+    //读取 users 集合
+    db.collection('users', function (err, collection) {
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      //更新user内容
+      collection.update(follower, {
+        $pull: {attention:host.email}
+      }, function (err) {
+        //mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        collection.update(host,{
+          $pull:{fans:follower.email}
+        },function(err){
+          mongodb.close();
+          if (err) {
+            return callback(err);
+          }
 
+          callback(null);
+        })
+        
+      });
+    });
+  });
+}
+//
+User.getOne = function(query, callback) {
+  //打开数据库
+  mongodb.open(function (err, db) {
+    if (err) {
+      return callback(err);//错误，返回 err 信息
+    }
+    //读取 users 集合
+    db.collection('users', function (err, collection) {
+      console.log("1111111");
+      if (err) {
+        mongodb.close();
+        return callback(err);//错误，返回 err 信息
+      }
+      //查找email值为 email 一个文档
+
+      collection.findOne(query, function (err, user) {
+        mongodb.close();
+
+        if (err) {
+          return callback(err);//失败！返回 err 信息
+        }
+        console.log("33311");
+
+        callback(null, user);//成功！返回查询的用户信息
+      });
+    });
+  });
+};

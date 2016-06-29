@@ -92,7 +92,10 @@ module.exports = function(app) {
         password = md5.update(req.body.password).digest('hex');
     var newUser = new User({
         email: email,
-        password: password       
+        password: password,
+        bigimg: 'uploads/default200.jpg',
+        middleimg: 'uploads/default100.jpg',
+        smallimg: 'uploads/default30.jpg'         
     });
     console.log(newUser);
     newUser.save(function(err,user){
@@ -285,15 +288,17 @@ function checkLogin(req, res, next) {
   	
     var isAgree = false;
     var isColl = false;
+    var isAttention = false;
+    console.log(req.session.user);
     Post.getOne({author: req.params.author,title: req.params.title}, function (err, post) {
       if (err) {
         req.flash('error', err); 
         
         console.log(err);
       }
-      console.log("render");
+      
       //判断是否已点赞
-      console.log(post);
+      
       if ( req.session.user && post.agree &&post.agree.indexOf(req.session.user.email)>=0 ) {
         isAgree = true;
       }
@@ -301,35 +306,38 @@ function checkLogin(req, res, next) {
       if ( req.session.user && post.postcoll.indexOf(req.session.user.email)>=0 ) {
         isColl = true;
       }
-      //------------------------------昵称问题--------------------------------
-      // if( req.session.user && req.session.user.attention && req.session.user.attention.indexOf(req.session))
-      console.log(post.tags);
-      //获取作者的头像（昵称的问题）
-      
-      Post.getTen({tags:{$in:post.tags}},1,{pv:-1},function(err, posts, totle){
-        if ( err ){
-          console.log(err);
+      User.getOne({email:req.params.author},function(err,author_detail){
+        //------------------------------昵称问题--------------------------------
+        if( req.session.user && req.session.user.attention && req.session.user.attention.indexOf(req.params.author) >=0){
+          isAttention = true;
         }
-        console.log(posts);
-        //访问量增加
-        console.log(isAgree);
-        Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
-          Post.getArchive({author:req.session.user.email},function(err,docs){
-            console.log(docs);
-            res.render('post/showPost', {
-              title: req.params.title,
-              post: post,
-              relate: posts,
-              cates: docs,
-              user: req.session.user,
-              success: req.flash('success').toString(),
-              error: req.flash('error').toString(),
-              isAgree : isAgree,
-              isColl: isColl
-            })
-        });
-      })
-      })      
+        console.log(isAttention);
+      //获取作者的头像（昵称的问题）
+        Post.getTen({tags:{$in:post.tags}},1,{pv:-1},function(err, posts, totle){
+          if ( err ){
+            console.log(err);
+          }
+          
+          //访问量增加
+          
+          Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
+            Post.getArchive({author:req.session.user.email},function(err,docs){
+              console.log(docs);
+              res.render('post/showPost', {
+                title: req.params.title,
+                post: post,
+                relate: posts,
+                cates: docs,
+                user: req.session.user,
+                author_detail:author_detail,
+                isAgree : isAgree,
+                isColl: isColl,
+                isAttention:isAttention
+              })
+            });
+          })
+        }) 
+      })     
     });
   })
 
@@ -1342,9 +1350,10 @@ app.get("/user",function(req,res){
         return;
       }
       console.log(docs);
-      console.log(asks);
+      console.log("cccc");
+      console.log(req.session.user);
       res.render("user/user",{
-        ques:asks,
+        asks:asks,
         post: docs,
         title: "用户",
         user: req.session.user
@@ -1358,18 +1367,73 @@ app.get("/user",function(req,res){
 
 
 // -------------------------添加关注路由---------------------------
-  app.post('/attention', checkLogin);
-  app.post('/attention',function(req,res){
-    console.log(req.body);
-
-    User.addAttention({email:req.session.user.email},{email:req.body.author},function(err){
-      if(err){
-        console.log(err);
-        return
-      }
-      res.send('success');
-    });
+  app.post('/attention/:author', checkLogin);
+  app.post('/attention/:author',function(req,res){
+    console.log(req.params);
+    console.log(req.session.user);
+    if(req.session.user.attention && req.session.user.attention.indexOf(req.params.author) >=0 ){
+      User.deleteAttention({email:req.session.user.email},{email:req.body.author},function(err){
+        if(err){
+          console.log(err);
+          return
+        }
+        User.getOne({email:req.session.user.email},function(err,user){
+          if(err){
+            console.log(err);
+            return
+          }
+          req.session.user = user;
+          req.session.save();
+          res.send({isAttention:'delete'});
+        })
+        
+      })
+    } else {
+      User.addAttention({email:req.session.user.email},{email:req.body.author},function(err){
+        if(err){
+          console.log(err);
+          return
+        }
+        User.getOne({email:req.session.user.email},function(err,user){
+          if(err){
+            console.log(err);
+            return
+          }
+          
+          req.session.user = user;
+          req.session.save();
+          res.send({isAttention:'add'});
+        })
+        
+      })
+       
+    }
+    
   });
+
+  // 取消收藏
+  app.get("/deletecoll/:author/:title",function(req,res){
+    var jsonColl = {author:req.params.author,title:req.params.title,user:req.session.user.email};
+    Post.deleteCollect(jsonColl,function(err){
+      if( err ) {
+        console.log(err);
+      }
+      User.getEmail(req.session.user.email,function(err,user){
+        if(err){
+          console.log(err);
+        }
+        console.log(user);
+        req.session.user = user;
+        req.session.save();
+        console.log(req.session.user);
+        res.json({isColl: false}); 
+
+
+      })
+      
+    })
+  })
+  
 //--------------------------全局搜索
     app.get("/searchall",function(req,res){
       var searchAllContent=req.query.keyword;

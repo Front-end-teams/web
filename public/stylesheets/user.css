@@ -15,7 +15,8 @@ body {
 	height:250px;
 	min-width: 1340px;
 	width:100%;
-	background-color: #3AAE2D;
+	background-image:url('/images/user-header.jpg');
+	background-position:center;
 	position: relative;
 }
 
@@ -26,7 +27,7 @@ body {
 	height:200px;
 	width:700px;
 	/*border-radius: 100px;*/
-	background-color: #6FD175;
+	/* background-color: #6FD175; */
 
 }
 
@@ -86,7 +87,7 @@ body {
 .user-data{
 	position: absolute;
 	right:20px;
-	bottom: 10px;
+	bottom: 25px;
 }
 
 .user-data .user-item{
@@ -140,13 +141,19 @@ body {
 .slider ul li a:hover{
 	opacity: 1;
 }
-.user-cont{
+.tab-bd{
 	width:750px;
 	/*margin-left: 40px;*/
 	float: right;
 	/*border:1px solid red;*/
-
 }
+/* .user-cont,.user-ask{
+	width:750px;
+	margin-left: 40px;
+	float: right;
+	border:1px solid red;
+
+} */
 .user-post{
 	border-bottom:1px solid #eee;
 	padding:10px 10px 10px 70px;
@@ -205,6 +212,41 @@ body {
 	right:20px;
 	bottom:10px;
 }
+
+/* --------------收藏样式---------------- */
+.coll-post{
+	height:50px;
+	position:relative;
+
+}
+.coll-post:nth-child(2n+1){
+	background-color:#F9F9F9;
+}
+.coll-post-title{
+	line-height:50px;
+
+}
+.coll-post-title a{
+	text-decoration:none;
+	color:#000;
+}
+.coll-post-title a:hover{
+	color:#84CBF5;
+}
+.del-coll{
+	position:absolute;
+	line-height:50px;
+	right:15px;
+	cursor:pointer;
+}
+.del-coll a{
+	text-decoration:none;
+	color:#000;
+}
+.del-coll a:hover{
+	color:#EB5280;
+}
+
 /*-------------------时间轴----------------------*/
 .time-tag{
 	display: inline-block;
