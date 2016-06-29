@@ -321,6 +321,7 @@ $(function(){
 						ajax("post","/login","application/json",str,function(res){
 							console.log(res);
 							if(res == "loginsuccess"){
+								
 								location.href="/";
 							}else{
 								return;

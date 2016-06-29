@@ -14,8 +14,9 @@
 		<% if (user) { %>
 
 
-		<% if (user.img) { %>
-			<li><a href ="/user"><img src="<%= user.img %>" class = 'user-small-img'></a></li>
+
+		<% if (user.smallimg) { %>
+			<li class = 'li-img'><a href ="/user"><img src="<%= user.smallimg %>" class = 'user-small-img'></a></li>
 		<% } else { %>
 			<li><a href ="/user"><%= user.name %></a></li>
 		<% } %>

@@ -38,6 +38,8 @@ cursor: pointer;
 
 .header .index li:hover {
 border-bottom: 2px solid #fff; }
+.header .index .li-img:hover {
+border-bottom: none }
 .header .index li.search{
   padding-bottom: 5px;
 }

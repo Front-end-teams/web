@@ -38,9 +38,9 @@ function animate(ele,end){
 			ele.style.left=ele.offsetLeft+speed+'px';
 	
 		}else{
-			//当偏移量大于-600或小于-3000时的处理方式
+			
 			clearInterval(timer);
-			ele.style.left = ele.offsetLeft + 'px';
+			ele.style.left = end + 'px';
       if(parseInt(ele.style.left)>-1350){
           ele.style.left = "-4050px" ;
       }
@@ -96,7 +96,7 @@ prev.onclick=function(){
 	
 	showButton();
 }
-EventUtil.addHandler(buttons,"click",function(e){
+EventUtil.addHandler(button,"click",function(e){
 	//点击span元素时 出现相应的图片 并改变相应span的背景色
 	if (animated) {
     return;
