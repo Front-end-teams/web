@@ -2,9 +2,9 @@
             radius:120,
             speed:10
      });
-  	function agree(name,day,quesTitle){
+  	function agree(email,day,quesTitle){
 			var params ={
-                "name":name,
+                "email":email,
                 "day":day,
                 "quesTitle":quesTitle,
             };
@@ -19,7 +19,7 @@
                 	console.log(data);
                 	console.log('这是data');
                    
-                  $('#agree'+name+day+quesTitle).html("赞 "+data);
+                  $('#agree'+email+day+quesTitle).html("赞 "+data);
                   
                 },
                 error: function(jqXHR, textStatus, errorThrown){
@@ -28,9 +28,9 @@
             });
             console.log(222);
 		}
-		function disagree(name,day,quesTitle){
+		function disagree(email,day,quesTitle){
 			var params ={
-                "name":name,
+                "email":email,
                 "day":day,
                 "quesTitle":quesTitle,
             };
@@ -45,7 +45,7 @@
                 	console.log(data);
                 	console.log('这是data');
                    
-                  $('#disagree'+name+day+quesTitle).html("踩 "+data);
+                  $('#disagree'+email+day+quesTitle).html("踩 "+data);
                   
                 },
                 error: function(jqXHR, textStatus, errorThrown){

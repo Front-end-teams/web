@@ -1,6 +1,6 @@
 var mongodb = require('./db');
-function Ques(name, head, quesTitle, quesDetail,tags) {
-  this.name = name;
+function Ques(email, head, quesTitle, quesDetail,tags) {
+  this.email = email;
   this.head = head;
   this.quesTitle = quesTitle;
   this.quesDetail = quesDetail;
@@ -21,7 +21,7 @@ Ques.prototype.save = function(callback) {
   }
   //要存入数据库的文档
   var question = {
-      name: this.name,
+      email: this.email,
       head: this.head,
       time: time,
       quesTitle:this.quesTitle,
@@ -59,7 +59,7 @@ Ques.prototype.save = function(callback) {
   });
 };
 //一次获取十篇问题
-Ques.getTen = function(name, page, num, callback) {
+Ques.getTen = function(email, page, num, callback) {
   //打开数据库
   // mongodb.close();
   mongodb.open(function (err, db) {
@@ -74,8 +74,8 @@ Ques.getTen = function(name, page, num, callback) {
         return callback(err);
       }
       var query = {};
-      if (name) {
-        query.name = name;
+      if (email) {
+        query.email = email;
       }
       //使用 count 返回特定查询的文档数 total
       collection.count(query, function (err, total) {
@@ -103,7 +103,7 @@ Ques.getTen = function(name, page, num, callback) {
   });
 };
 //获取最热文章
-Ques.getMostHot = function(name, page, callback) {
+Ques.getMostHot = function(email, page, callback) {
   //打开数据库
   // mongodb.close();
   mongodb.open(function (err, db) {
@@ -118,8 +118,8 @@ Ques.getMostHot = function(name, page, callback) {
         return callback(err);
       }
       var query = {};
-      if (name) {
-        query.name = name;
+      if (email) {
+        query.email = email;
       }
       //使用 count 返回特定查询的文档数 total
       collection.count(query, function (err, total) {
@@ -147,7 +147,7 @@ Ques.getMostHot = function(name, page, callback) {
   });
 };
 //获取没有回答的问题
-Ques.getNoAnswer = function(name, page, callback) {
+Ques.getNoAnswer = function(email, page, callback) {
   //打开数据库
   // mongodb.close();
   mongodb.open(function (err, db) {
@@ -164,8 +164,8 @@ Ques.getNoAnswer = function(name, page, callback) {
       var query = {
         comments:[]
       };
-      if (name) {
-        query.name = name;
+      if (email) {
+        query.email = email;
 
       }
       //使用 count 返回特定查询的文档数 total
@@ -194,7 +194,7 @@ Ques.getNoAnswer = function(name, page, callback) {
   });
 };
 //获取一篇
-Ques.getOne = function(name, day, title, callback) {
+Ques.getOne = function(email, day, title, callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
@@ -208,7 +208,7 @@ Ques.getOne = function(name, day, title, callback) {
       }
       //根据用户名、发表日期及文章名进行查询
       collection.findOne({
-        "name": name,
+        "email": email,
         "time.day": day,
         "quesTitle": title
       }, function (err, doc) {
@@ -219,7 +219,7 @@ Ques.getOne = function(name, day, title, callback) {
         if (doc) {
           //每访问 1 次，pv 值增加 1
           collection.update({
-            "name": name,
+            "email": email,
             "time.day": day,
             "quesTitle": title
           }, {
@@ -375,7 +375,7 @@ Ques.getTagInfo = function(tag,callback) {
 //     });
 //  });
 // };
-Ques.agree = function(name, day, title, callback) {
+Ques.agree = function(email, day, title, callback) {
   //打开数据库
   mongodb.close();
   mongodb.open(function (err, db) {
@@ -390,7 +390,7 @@ Ques.agree = function(name, day, title, callback) {
       }
       //根据用户名、发表日期及文章名进行查询
       collection.findOne({
-        "name": name,
+        "email": email,
         "time.day": day,
         "quesTitle": title
       }, function (err, doc) {
@@ -402,13 +402,13 @@ Ques.agree = function(name, day, title, callback) {
           //每访问 1 次，pv 值增加 1
           var temp=doc;
           console.log("temp:"+temp);
-          if (temp.agree.indexOf(name) < 0) {
+          if (temp.agree.indexOf(email) < 0) {
           collection.update({
-            "name": name,
+            "email": email,
             "time.day": day,
             "quesTitle": title
           }, {
-            $push: {"agree": name},
+            $push: {"agree": email},
             $inc: {"agreeNum":1}
           }, function (err) {
             mongodb.close();
@@ -433,7 +433,7 @@ Ques.agree = function(name, day, title, callback) {
     });
   });
 };
-Ques.disagree = function(name, day, title, callback) {
+Ques.disagree = function(email, day, title, callback) {
   //打开数据库
   mongodb.close();
   mongodb.open(function (err, db) {
@@ -448,7 +448,7 @@ Ques.disagree = function(name, day, title, callback) {
       }
       //根据用户名、发表日期及文章名进行查询
       collection.findOne({
-        "name": name,
+        "email": email,
         "time.day": day,
         "quesTitle": title
       }, function (err, doc) {
@@ -460,13 +460,13 @@ Ques.disagree = function(name, day, title, callback) {
           //每访问 1 次，pv 值增加 1
           var temp=doc;
           console.log("temp:"+temp);
-          if (temp.disagree.indexOf(name) < 0) {
+          if (temp.disagree.indexOf(email) < 0) {
           collection.update({
-            "name": name,
+            "email": email,
             "time.day": day,
             "quesTitle": title
           }, {
-            $push: {"disagree": name},
+            $push: {"disagree": email},
             $inc: {"disagreeNum":1}
           }, function (err) {
             mongodb.close();

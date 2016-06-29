@@ -16,12 +16,12 @@
 
 	<div class="user-data">
 		<div class="user-item">
-			<em><%= user.attention.length %></em>
+			<em><%= 10 %></em>
 			<span>关注</span>
 
 		</div>
 		<div class="user-item">
-			<em><%= user.fans.length %></em>
+			<em><%= 10 %></em>
 			<span>粉丝</span>
 		</div>
 
@@ -39,42 +39,60 @@
  <nav class="slider">
 	<ul>
 		<li><a href="#"><span class="user-index">&#xe602</span>我的文章</a></li>
-		<li><a href="#"><span class="user-index">&#xe60a</span>我的回答</a></li>
-		<li><a href="#"><span class="user-index">&#xe61c</span>我的提问</a></li>
+		<li><a id="myallcomment"><span class="user-index">&#xe60a</span>我的回答</a></li>
+		<li><a id="myallask"><span class="user-index">&#xe61c</span>我的提问</a></li>
 		<li><a href="#"><span class="user-index">&#xe62b</span>我的收藏</a></li>
 	</ul>
 </nav> 
 
 <!-- 导航右侧具体内容 -->
-<div class="user-cont">
-<span class="cont-header">我的文章</span>
-<div class="user-post">
-	
-	<% for(var i=0;i<post.length;i++){ %>
-	<div class='mypost-wrap'>
-		<div class="mypost">
-		
-			<h2 class="mypost-title"><%- post[i].title %></h2>
-			<div><%- post[i].art %></div>
-			<div class="mypost-info">
-				<span>评论 </span>
-				<span>点赞<%- post[i].agree.length %></span>
-				<span>浏览<%- post[i].pv %></span>
-			</div>
-			<div class="mypost-img"></div>
-		</div>
-		<span class='time-tag'></span>
-		<div class='time-show'>
-			<b class='time-show-year'><%- post[i].time.split('-')[0] %></b>
-			<span class='time-show-month'><%- post[i].time.split('-')[1] %>月<%- post[i].time.split('-')[2]%>日</span>
-		</div>
+	<div class="user-cont" id="user-cont">	 
+	  <span class='cont-header' id="cont-header">我的文章</span>	  
+	  <div class="user-post" id="user-post">
+	  </div>	   
 	</div>
-
-	<% } %>
-	
-</div>
-</div>
 </div>
  <%- include ../footer %>
  <script type="text/javascript" src="./javascripts/user.js"></script>
+ <script type="text/javascript" src="./javascripts/jquery.js"></script>
+ <script type="text/javascript">
+   $("#myallask").click(function(){
+   	   $.ajax({
+   	   	  url:"/myAllAsk",
+   	   	  method:"get",
+   	   	  success: function(data){
+                  console.log('这是data');
+                  var questions=JSON.parse(data);
+                  $("#cont-header").html("我的提问");
+                  $("#user-post").html("");
+                  for(var i=0,leng=questions.length;i<leng;i++){
+                  	$("#user-post").append("<div class='mypost-wrap'><div class='mypost'><h2 class='mypost-title'><a href='/questionDetail?email="+questions[i].email+"&day="+questions[i].time.day+"&quesTitle="+questions[i].quesTitle+"'>"+questions[i].quesTitle+"</a></h2><p>"+questions[i].time.day+" "+questions[i].comments.length+"个回答</p></div></div>");
+                  }
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('error ' + textStatus + " " + errorThrown);
+                }
+   	   });
+   });
+      $("#myallcomment").click(function(){
+   	   $.ajax({
+   	   	  url:"/myAllComment",
+   	   	  method:"get",
+   	   	  success: function(data){
+                  console.log('这是data');
+                  console.log(data);
+                  var questions=data;
+                  console.log('这是data');
+                  $("#cont-header").html("我的回答");
+                  $("#user-post").html("");
+                  for(var i=0,leng=questions.length;i<leng;i++){
+                  	$("#user-post").append("<div class='mypost-wrap'><div class='mypost'><h2 class='mypost-title'><a href='/questionDetail?email="+questions[i].email+"&day="+questions[i].time.day+"&quesTitle="+questions[i].quesTitle+"'>"+questions[i].quesTitle+"</a></h2><p>我的回答<br />"+questions[i].comments.content+"</p><p>"+questions[i].comments.time.day+" "+questions[i].comments.reply.length+"个回复</p></div></div>");
+                  }
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('error ' + textStatus + " " + errorThrown);
+                }
+   	   });
+   });
+ </script>
  <%- include ../end %>

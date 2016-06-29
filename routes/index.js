@@ -747,11 +747,11 @@ app.post("/user/info",function(req,res){
   app.post('/ask',function(req,res){
     var currentUser = req.session.user,
         quesTitle = req.body.quesTitle,
-        name = currentUser.name,
+        email = currentUser.email,
         head = currentUser.head,
         quesDetail=req.body.quesDetail,
         tags=req.body.tags,
-        questionDetail=new Ques(name, head, quesTitle,quesDetail,tags);
+        questionDetail=new Ques(email, head, quesTitle,quesDetail,tags);
         questionDetail.save(function(err){
          if (err) {
           req.flash('error', err); 
@@ -767,11 +767,11 @@ app.post("/user/info",function(req,res){
 //实现点赞
 app.post('/agree',function(req,res){
   console.log(333);
-  var name=req.body.name; 
+  var email=req.body.email; 
   var day=req.body.day;
   var quesTitle=req.body.quesTitle;
   console.log(444); 
-  Ques.agree(name, day, quesTitle,function(err,question) {
+  Ques.agree(email, day, quesTitle,function(err,question) {
         if (err) {
           req.flash('error', err);
           console.log(err);
@@ -791,11 +791,11 @@ app.post('/agree',function(req,res){
 //实现点踩=
 app.post('/disagree',function(req,res){
   console.log(333);
-  var name=req.body.name; 
+  var email=req.body.email; 
   var day=req.body.day;
   var quesTitle=req.body.quesTitle;
   console.log(444); 
-  Ques.disagree(name, day, quesTitle,function(err,question) {
+  Ques.disagree(email, day, quesTitle,function(err,question) {
         if (err) {
           req.flash('error', err);
           console.log(err);
@@ -847,14 +847,30 @@ app.get('/question', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
     var num=5;
-    Ques.getTen(null, page, num, function (err, questions, total) {
+Ques.getTen(null, page, num, function (err, questions, total) {
       if (err) {
         questions = [];
       } 
-      Ques.getTags(function(err, tags){
+  Ques.getTags(function(err, tags){
       if (err) {
         tags = [];
       }
+    Ques.getTen(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal){
+
+      quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
+        console.log(userComments);
+        var arr=[];
+        for(var i=0,leng=userComments.length;i<leng;i++){
+          console.log("userComments.length:"+userComments.length);
+          for(var j=0,len=userComments[i].comments.length;j<len;j++){
+            if (req.session.user.email==userComments[i].comments[j].email) {
+              arr.push({
+                  quesTitle:userComments[i].quesTitle,
+                  comments:userComments[i].comments[j]
+                });
+            }
+          }
+        }
       res.render('qa/question', {
         tags: tags,
         title: '问题',
@@ -865,11 +881,16 @@ app.get('/question', function (req, res) {
         LastPage:Math.ceil(total/num),
         user: req.session.user,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        userQuestionsTotal:userQuestionsTotal,
+        userCommentsTotal:arr.length
+      });
       });
     });
     });
+    });
   });
+
 //---------------------------------显示问题(按最热排序)
 app.get('/questionHot', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
@@ -966,7 +987,7 @@ app.get('/questionTags', function (req, res) {
   app.get('/questionDetail', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
     var num=2;
-    Ques.getOne(req.query.name, req.query.day, req.query.quesTitle, function (err, question) {
+    Ques.getOne(req.query.email, req.query.day, req.query.quesTitle, function (err, question) {
       if (err) {
         req.flash('error', err); 
         return res.redirect('/');
@@ -976,7 +997,7 @@ app.get('/questionTags', function (req, res) {
         quesTitle: req.query.quesTitle,
         quesDetail: question.quesDetail,
         day:question.time.day,
-        name:question.name,
+        email:question.email,
         user: req.session.user,
         comments:question.comments,
         commentsLength:question.comments.length,
@@ -992,15 +1013,15 @@ app.get('/questionTags', function (req, res) {
   });
 //----------------------------------显示某个问题的某个评论的具体内容----------
 app.post('/getReplyOfComment',function(req,res){
-  var name=req.body.name,
+  var email=req.body.email,
       day=req.body.day,
       questitle=req.body.quesTitle,
       commentid=req.body.commentId;
-  console.log("name:"+name);
+  console.log("email:"+email);
   console.log("day:"+day);
   console.log("quesTitle:"+questitle);
   console.log("commentId:"+commentid);
-  quesComment.getReplyOfComment(name, day, questitle, commentid, function(err,question){
+  quesComment.getReplyOfComment(email, day, questitle, commentid, function(err,question){
          var reply=question.comments[0].reply;
          console.log('reply:'+reply);
          res.send(reply);
@@ -1008,16 +1029,21 @@ app.post('/getReplyOfComment',function(req,res){
 });
 //-----------------------------回答问题------------------------
 app.post('/questionDetail', function (req, res) {
-    var date = new Date(),
-        time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
-               date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    var date = new Date();
+    var time = {
+      date: date,
+      year : date.getFullYear(),
+      month : date.getFullYear() + "-" + (date.getMonth() + 1),
+      day : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
+      minute : date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + 
+      date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+  };
     var md5 = crypto.createHash('md5'),
         email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
         head = "images/7.jpg"; 
     var comment = {
-        name: req.body.name,
-        head: head,
         email: req.body.email,
+        head: head,
         website: req.body.website,
         time:time,
         content: req.body.content,       
@@ -1027,10 +1053,10 @@ app.post('/questionDetail', function (req, res) {
         disagreeNum:0,
         disagree:[]
     };
-    var name=req.query.name,
+    var email=req.query.email,
         day=req.query.day,
         quesTitle=req.query.quesTitle; 
-    var newQuesComment = new quesComment(name, day, quesTitle, comment);
+    var newQuesComment = new quesComment(email, day, quesTitle, comment);
     newQuesComment.save(function (err) {
       if (err) {
         console.log(err);
@@ -1043,7 +1069,7 @@ app.post('/questionDetail', function (req, res) {
   });
 //-----------------------------回复评论------------------------
 app.post('/commentReply',function(req,res){
-  var name=req.body.name,
+  var email=req.body.email,
       day=req.body.day,
       quesTitle=req.body.quesTitle,
       commentReplyFromName=req.body.commentReplyFromName,
@@ -1066,7 +1092,7 @@ app.post('/commentReply',function(req,res){
       "commentReplyContent":commentReplyContent,
       "time":time
   };
-    quesComment.commentreply(name,day,quesTitle,commentId,commentreply,function(err){
+    quesComment.commentreply(email,day,quesTitle,commentId,commentreply,function(err){
         if (err) {
         req.flash('error', err); 
         console.log("err:"+err);
@@ -1077,16 +1103,16 @@ app.post('/commentReply',function(req,res){
 });
 //----------------------------------------评论的点赞
   app.post("/commentAgree",function(req,res){
-  var name=req.body.name,
+  var email=req.body.email,
       day=req.body.day,
       quesTitle=req.body.quesTitle,
       commentId=req.body.commentId;
     console.log(333);
-    console.log("name:"+name);
+    console.log("email:"+email);
     console.log("day:"+day);
     console.log("quesTitle:"+quesTitle);
     console.log("commentId:"+commentId);
-    quesComment.commentAgree(name,day,quesTitle,commentId,function(err,question){
+    quesComment.commentAgree(email,day,quesTitle,commentId,function(err,question){
         if (err) {
           req.flash('error', err);
           console.log(err);
@@ -1105,16 +1131,16 @@ app.post('/commentReply',function(req,res){
   });
 //--------------------------------------评论的点踩
   app.post("/commentDisagree",function(req,res){
-  var name=req.body.name,
+  var email=req.body.email,
       day=req.body.day,
       quesTitle=req.body.quesTitle,
       commentId=req.body.commentId;
     console.log(333);
-    console.log("name:"+name);
+    console.log("email:"+email);
     console.log("day:"+day);
     console.log("quesTitle:"+quesTitle);
     console.log("commentId:"+commentId);
-    quesComment.commentDisagree(name,day,quesTitle,commentId,function(err,question){
+    quesComment.commentDisagree(email,day,quesTitle,commentId,function(err,question){
         if (err) {
           req.flash('error', err);
           console.log(err);
@@ -1329,8 +1355,37 @@ app.get("/user",function(req,res){
   })
 	
 })
-
-
+//我的提问
+app.get("/myAllAsk",function(req,res){
+   var email=req.session.user.email;
+   Ques.getTen(email,null,null,function(err,userQuestions,userQuestionsTotal){
+      if (err) {
+        questions = [];
+      } 
+      res.json(JSON.stringify(userQuestions));
+   });
+});
+//我的回答
+app.get("/myAllComment",function(req,res){
+    quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
+        console.log(userComments);
+        var arr=[];
+        for(var i=0,leng=userComments.length;i<leng;i++){
+          console.log("userComments.length:"+userComments.length);
+          for(var j=0,len=userComments[i].comments.length;j<len;j++){
+            if (req.session.user.email==userComments[i].comments[j].email) {
+              arr.push({
+                  quesTitle:userComments[i].quesTitle,
+                  time:userComments[i].time,
+                  email:userComments[i].email,
+                  comments:userComments[i].comments[j]
+                });
+            }
+          }
+        }
+      res.json(arr);
+      });
+});
 
 // -------------------------添加关注路由---------------------------
   app.post('/attention', checkLogin);
