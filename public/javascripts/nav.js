@@ -35,6 +35,8 @@ $(function(){
 		var searchAllAction=document.getElementById('searchAllAction');
 
 
+
+
 	/*	var loginfn=function(e){
 			var ev = e||window.e;
 			var target = ev.target||ev.srcElement;
@@ -379,8 +381,6 @@ $(function(){
 		});
 		
 
-
-		EventUtil.addHandler(loginsub,"click",checkLog);
 
 
 });

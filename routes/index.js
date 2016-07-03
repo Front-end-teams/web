@@ -115,12 +115,13 @@ module.exports = function(app) {
 
   //登录页面
   app.get('/login', function (req, res) {
-    res.render('/login', {
+   
+    /*res.render('/login', {
         title: '登录',
         user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
-      });
+      });*/
 	});
  /* app.post('/login/email',function(req,res){
     User.getEmail(decodeURIComponent(req.body.email),function(err,user){
@@ -184,9 +185,9 @@ module.exports = function(app) {
 //用户权限函数
 function checkLogin(req, res, next) {
   if (!req.session.user) {
-    req.flash('error', '未登录!'); 
     res.redirect('/login');
   }
+ 
   next();
 }
 
@@ -202,7 +203,7 @@ function checkLogin(req, res, next) {
 		
 	app.get('/', function(req, res, next) {
 
-	  res.render('index', { title: 'Express',
+	  res.render('index', { title: '前端交流',
 	  						
 	  						author: '0001',
 	  						tag: 'fort',
@@ -567,12 +568,13 @@ app.post("/user/info/city",function(req,res){
 //修改用户地址(区县)
 app.post("/user/info/area",function(req,res){
   console.log(req.body.city);
+  console.log(req.body);
   area.getArea(req.body,function(err,area){
     if(err){
       console.log(err);
     }
     console.log(area);
-    res.send(area.city);
+    res.send(area);
   })
 
 
@@ -750,9 +752,7 @@ app.post("/user/info",function(req,res){
     }
   })
 })
-
-
-  
+ 
 // 发布问题
   app.get('/ask', checkLogin);
   app.get('/ask',function(req,res){
@@ -1475,12 +1475,9 @@ app.get("/myAllComment",function(req,res){
           req.session.user = user;
           req.session.save();
           res.send({isAttention:'add'});
-        })
-        
-      })
-       
-    }
-    
+        })        
+      })       
+    }    
   });
 
   // 取消收藏
@@ -1499,10 +1496,7 @@ app.get("/myAllComment",function(req,res){
         req.session.save();
         console.log(req.session.user);
         res.json({isColl: false}); 
-
-
-      })
-      
+      })      
     })
   })
   

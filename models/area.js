@@ -37,13 +37,20 @@ var getArea = function(query,callback){
 	        console.log(err);
 	        return callback(err);
 	      }
-      	collection.findOne({"prov":query.province},{"city.county_name":query.city},function(err,area){
+      	collection.findOne({"prov":query.province},{"city.city_name":'1',"city.county_name":1},function(err,area){
         	mongodb.close();
         	if(err){
         		console.log(err);
           	return callback(err);
         	}
-        callback(null,area);
+          
+          var re_area = area.city.filter(function(item,index,array){
+            console.log(item);
+            return (item.city_name == query.city);
+          })
+
+
+          callback(null,re_area);
       })
       //console.log("dddd");
     })

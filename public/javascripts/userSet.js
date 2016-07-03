@@ -137,10 +137,15 @@
 		var sendValue = {};
 		sendValue.province = value;
 		var cOpt = citySelect.getElementsByTagName("option");
+		citySelect.innerHTML = '<option>请输入城市</option>';
+		area.innerHTML = '<option>请输入县区</option>';
 
-		for (var i = 1; i < cOpt.length-1; i++) {
+		/*console.log(cOpt);
+		for (var i = 1; i < cOpt.length - 1; i++) {
+			console.log(i);
 			citySelect.removeChild(cOpt[i]);
-		}
+		}*/
+		console.log(cOpt);
 		//ajax调用 取出该省对应的市
 		ajax("post","user/info/city","application/json",JSON.stringify(sendValue),function(res){
 			res = JSON.parse(res);
@@ -165,11 +170,13 @@
 		var sendValue = {};
 		sendValue.province = provValue;
 		sendValue.city = cityvalue;
+		console.log(sendValue);
 		var cOpt = area.getElementsByTagName("option");
+		area.innerHTML = '<option>请输入县区</option>'
 
-		for (var i = 1; i < cOpt.length-1; i++) {
+		/*for (var i = 1; i < cOpt.length-1; i++) {
 			area.removeChild(cOpt[i]);
-		}
+		}*/
 		//ajax调用 取出该省对应的市
 		ajax("post","user/info/area","application/json",JSON.stringify(sendValue),function(res){
 			res = JSON.parse(res);
