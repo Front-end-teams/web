@@ -3,11 +3,12 @@
 
   <h1 class="post-title" id = "post-title"><%= post.title %></h1>
   <div class="post-detail"><span class="post-author" id = "post-author"><%= post.author %></span> <span class="post-time">发布时间:<%= post.time.split("-")[0] + '.' + post.time.split("-")[1] + '.'+post.time.split("-")[2] %></span> <span class="post-view">访问量:<%= post.pv %></span>
+<% if( post.author == user.email) { %>
 
   <div class="author-editor">
-    <span><a href="/writePost/<%= post.author %>/<%= post.title %>">编辑</a></span><span>删除</span>
+    <span><a href="/writePost/<%= post.author %>/<%= post.title %>">编辑</a></span><span id='post-delete'>删除</span>
   </div>
-  
+<% }  %>
   </div>
   </header>
       <div class="re-cont">
@@ -17,9 +18,9 @@
       </div>
       
       <footer class="re-footer clearfix">
-        <div class="footer-left">
+        <!-- <div class="footer-left">
           <span>上一篇：</span><span>|下一篇：</span>
-        </div>
+        </div> -->
         <div class="footer-right ">
         <div class="like">
           <span id = "agree" data="<%= isAgree %>" class="like-span"><i class="icon-agree">&#xe761</i></span><span id="agree-num"><%= post.agree.length %></span>

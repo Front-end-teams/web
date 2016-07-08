@@ -18,6 +18,8 @@ body {
 }
 .post-title{
 	font-size:2.4rem; 
+	font-weight:500;
+	color:#242729;
 }
 .post-detail{
 	padding:5px;
@@ -29,6 +31,11 @@ body {
 }
 .re-cont-detail{
 	padding:5px;
+
+}
+.re-cont-detail{
+	line-height:20px;
+	color:#333;
 }
 .re-footer{
 	border-top:2px solid #eee;
@@ -109,9 +116,8 @@ aside{
 /* .icon-agree:before { content: "\e761"; }
 .icon-collect:before { content: "\e733"; }  */
 
-/*----------------用户样式-------------------*/
 #user-about{
-  height: 200px;
+  
   overflow: hidden;
 }
 #user-skin{
@@ -121,34 +127,74 @@ aside{
 }
 #headpic{
   border-radius: 50%;
-  height: 60px;
-  width: 60px;
+  height: 80px;
+  width: 80px;
   position: absolute;
   bottom:-20px;
   left:50%;
-  margin-left: -30px;
+  margin-left: -40px;
   overflow: hidden;
 }
 #headpic img{
-  height: 60px;
-  width: 60px;
-}
-#user-wendainfo{
-  padding:20px ;
-  background-color: #eee;
-  overflow: hidden;
-  text-align:center;
+  height: 80px;
+  width: 80px;
   
 }
+#user-wendainfo{
+  padding:16px 16px 9px 16px;
+  background-color: #eee;
+  overflow: hidden; 
+}
+#namebox{
+  text-align: center;
+  margin: 10px auto 10px auto;
+}
+#user-action{
+  list-style-type: none;
+  text-align: center;
+  width:150px;
+  padding:5px;
+  margin:0 auto;
+}
+#user-action li{
+  float:left;
+  
+  text-align: center;
+  padding:0px 10px;
+}
+#user-action li a{
+  display: inline-block;
+  text-decoration: none;
+  color:black;
+ 
+}
+#user-action li:last-child{
+  border-right: 0px;
+}
+.user-action{
+  width: 100%;
+  display: block;
+}
 /*---------------------关注样式------------------------*/
+.atte-cont{
+	position: relative;
+	height:50px;
+	width:100%;
+}
 .attention{
+	position:absolute;
+	left:50%;
+	transform:translate(-50%,0);
+
 	width:100px;
+	text-align:center;
 	display: inline-block;
 	height: 40px;
 	line-height: 40px;
 	color:#43EDB8;
 	font-size: 1.2em;
 	border: 1px solid #43EDB8;
+
 }
 
 .attention:hover  {

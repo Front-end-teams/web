@@ -1,3 +1,4 @@
+(function(){
 // 点击点赞按钮时应该响应的功能
 var agreeB = document.getElementById("agree");
 var agreeIcon = agreeB.getElementsByTagName("i");
@@ -8,7 +9,8 @@ var author = document.getElementById("post-author").innerHTML;
 
 var isAgree = agreeB.getAttribute("data");
 var isColl = collect.getAttribute("data");
-var isAttention = attention.getAttribute('data');
+
+var deletePost = document.getElementById('post-delete');
 
 if( isAgree == "true" ){
 	agreeIcon[0].style.color = "#EF5959";
@@ -17,10 +19,13 @@ if( isAgree == "true" ){
 if( isColl == "true" ){
 	collectIcon[0].style.color = "#EF5959";
 }
-if( isAttention == 'true'){
-	attention.innerHTML = '取消关注';
-
+if(attention){
+	var isAttention = attention.getAttribute('data');
+	if(isAttention && isAttention == 'true'){
+		attention.innerHTML = '取消关注';
+	}
 }
+
 
 EventUtil.addHandler(agreeB, "click", agree);
 function agree(e){
@@ -69,7 +74,10 @@ function collection(e){
 		})
 }
 // 添加关注
-EventUtil.addHandler(attention,'click',attentionFunc)
+if(attention){
+	EventUtil.addHandler(attention,'click',attentionFunc);
+}
+
 function attentionFunc(e){
 	console.log("collection");
 	var title = document.getElementById("post-title").innerHTML;
@@ -93,3 +101,33 @@ function attentionFunc(e){
 			
 		})
 }
+
+console.log(deletePost);
+EventUtil.addHandler(deletePost,'click',function(){
+	var pop2 = document.querySelector('.p2');
+			
+			var p2 = Popuper({
+			    wrap: pop2,
+			    type: 'success',
+			    confirm: function() {
+		    		//继续写博客
+		        //window.location="localhost:3008/showPost?author="+author;
+		        //var confirm = document.querySelector(".confirm");
+		        //confirm.setAttribute("href","/deletePost/<% decodeURIComponent(post.author) %>/<% decodeURIComponent(post.title) %>");
+			    },
+			    cancel: function() {
+			    	//查看博客
+			    }
+
+			}).edit({
+
+			    title: '提示',
+			    content: '是否删除该文章'
+
+			}).show();
+
+			p2.toggle().edit({
+	        type: 'info'
+	    });
+})
+})()

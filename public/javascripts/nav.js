@@ -381,7 +381,7 @@ $(function(){
 		});
 		
 
-
+		EventUtil.addHandler(loginsub,"click",checkLog);
 
 });
 

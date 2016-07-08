@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3008);
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon1.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json({limit:'1mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));

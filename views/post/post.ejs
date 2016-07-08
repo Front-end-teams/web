@@ -81,22 +81,22 @@
 
 		<aside  class="main_right">
         <div class="writeNote"><a href="/writePost" id="write">写文章</a></div>
-            <div id="user-about">
-                <div id="user-skin">
-                    <div id="headpic">
-                        <img id="headpic-img" src="<%= user.middleimg %>">
-                    </div>
-                </div>
-                <div id="user-wendainfo">
-                    <div id="namebox"><%= user.name %></div> 
-                    <ul id="user-action" class="clearfix">
-                        <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
-                        <li><strong class="user-action" id="user-question"><%= user.postcoll? user.postcoll.length:0 %></strong><a href="">收藏</a></li>
-                        <li><strong class="user-action" id="user-question"><%= user.attention? user.attention.length:0  %></strong><a href="">关注</a></li>
-                    </ul>
+        <div id="user-about">
+            <div id="user-skin">
+                <div id="headpic">
+                    <img id="headpic-img" src="<%= user.middleimg %>">
                 </div>
             </div>
-            <div id="sidetab">
+            <div id="user-wendainfo">
+                <div id="namebox"><%= user.nick || user.email %></div> 
+                <ul id="user-action" class="clearfix">
+                    <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
+                    <li><strong class="user-action" id="user-question"><%= user.postcoll? user.postcoll.length:0 %></strong><a href="">收藏</a></li>
+                    <li><strong class="user-action" id="user-question"><%= user.attention? user.attention.length:0  %></strong><a href="">关注</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="sidetab">
         <!-- tabHead -->
         <ul class="tab-nav">
           <li><a href="javascript:void(0)">推荐</a></li>

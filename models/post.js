@@ -76,12 +76,44 @@ Post.getTen=function(query,page,order_rule,callback){
     if (err) {
       return callback(err);
     }
+
+    /*db.collection('posts',function(err,collection){
+      if(err){
+        mongodb.close();
+        return callback(err);
+      }
+      collection.aggregate([{$lookup:{
+        from:user,
+        localField:author,
+        foreignField:email,
+        as:user_info
+      }}],function(err,results){
+        if(err){
+          console.log(err)
+          return;
+        }
+        console.log(results);
+      })
+    })*/
   db.collection('posts', function (err, collection) {
       if (err) {
         mongodb.close();
         console.log(err);
         return callback(err);
       }
+      
+      /*collection.aggregate([{$lookup:{
+        from:user,
+        localField:author,
+        foreignField:email,
+        as:user_info
+      }}],function(err,results){
+        if(err){
+          console.log(err)
+          return;
+        }
+        console.log(results);
+      })*/
    
     collection.count(query,function(err,total){
       //根据query条件查询 并跳过前(page-1)*10个结果，返回之后的10个结果
@@ -172,6 +204,7 @@ Post.update = function(query, updateJson,callback) {
     if (err) {
       return callback(err);
     }
+    
     //读取 posts 集合
     db.collection('posts', function (err, collection) {
       if (err) {
@@ -190,6 +223,7 @@ Post.update = function(query, updateJson,callback) {
         callback(null);
       });
     });
+
   });
 };
 
@@ -206,49 +240,17 @@ Post.remove = function(query, callback) {
         mongodb.close();
         return callback(err);
       }
-      //查询要删除的文档
-      collection.findOne(query, function (err, doc) {
+      //删除转载来的文章所在的文档
+      collection.remove(query, {
+        w: 1
+      }, function (err) {
+        mongodb.close();
         if (err) {
-          mongodb.close();
           return callback(err);
         }
-        //如果有 reprint_from，即该文章是转载来的，先保存下来 reprint_from
-        var reprint_from = "";
-        if (doc.reprint_info.reprint_from) {
-          reprint_from = doc.reprint_info.reprint_from;
-        }
-        if (reprint_from != "") {
-          //更新原文章所在文档的 reprint_to
-          collection.update({
-            "name": reprint_from.name,
-            "time.day": reprint_from.day,
-            "title": reprint_from.title
-          }, {
-            $pull: {
-              "reprint_info.reprint_to": {
-                "name": name,
-                "day": day,
-                "title": title
-            }}
-          }, function (err) {
-            if (err) {
-              mongodb.close();
-              return callback(err);
-            }
-          });
-        }
-
-        //删除转载来的文章所在的文档
-        collection.remove(query, {
-          w: 1
-        }, function (err) {
-          mongodb.close();
-          if (err) {
-            return callback(err);
-          }
-          callback(null);
-        });
+        callback(null);
       });
+      
     });
   });
 };

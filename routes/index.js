@@ -35,7 +35,7 @@ module.exports = function(app) {
     //将信息存入文章数据库
     console.log(req.body);
    
-    var artText=decodeURIComponent(req.body.post).substr(0,200);
+    var artText=decodeURIComponent(req.body.post).substr(0,100);
     console.log(artText);
     var tags = decodeURIComponent(req.body.tags).split(",");
     
@@ -168,7 +168,7 @@ module.exports = function(app) {
         req.session.save();
         //req.flash('success', '登陆成功!');
         //res.send("loginsuccess");
-        //res.redirect('/');//登陆成功后跳转到主页
+        res.redirect('/');//登陆成功后跳转到主页
       }
     });     
   });
@@ -297,9 +297,7 @@ function checkLogin(req, res, next) {
         
         console.log(err);
       }
-      
       //判断是否已点赞
-      
       if ( req.session.user && post.agree &&post.agree.indexOf(req.session.user.email)>=0 ) {
         isAgree = true;
       }
@@ -318,7 +316,10 @@ function checkLogin(req, res, next) {
           if ( err ){
             console.log(err);
           }
-          
+          Post.countPost({author:req.session.user.email},function(err,count){
+            if(err){
+              console.log(err);
+             }
           //访问量增加
           
           Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
@@ -329,6 +330,7 @@ function checkLogin(req, res, next) {
                 post: post,
                 relate: posts,
                 cates: docs,
+                count:count,
                 user: req.session.user,
                 author_detail:author_detail,
                 isAgree : isAgree,
@@ -337,12 +339,23 @@ function checkLogin(req, res, next) {
               })
             });
           })
+          })
         }) 
       })     
     });
   })
 
- 
+  // 文章删除
+  app.get('deletePost/:author/:title',function(req,res){
+    console.log('delete');
+    Post.remove(req.params,function(err){
+      if(err){
+        console.log(err);
+        return
+      }
+      res.redirect('/user');
+    })
+  })
 
   //文章修改
   app.get("/writePost/:author/:title",function(req,res){

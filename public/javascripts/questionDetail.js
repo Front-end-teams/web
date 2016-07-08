@@ -1,3 +1,4 @@
+(function(){
 var page=document.getElementById('commentsLength').dataset.page;
 var num=document.getElementById('commentsLength').dataset.num;
 var length=document.getElementById('commentsLength').dataset.length;
@@ -170,4 +171,5 @@ for(var i=(page-1)*num;i<length;i++)
             });
             console.log(222);
    });
-}
+}  
+})()

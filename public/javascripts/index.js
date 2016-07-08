@@ -1,5 +1,5 @@
-
-var container=document.getElementById("img-cont");
+(function(){
+	var container=document.getElementById("img-cont");
 var prev=document.getElementById("prev");
 var next=document.getElementById("next");
 var list=document.getElementById("list");
@@ -144,3 +144,4 @@ $(window).scroll(function(event) {
 	
 
 });
+})()

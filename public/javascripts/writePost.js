@@ -1,4 +1,4 @@
-
+(function(){
 var tagsInput=document.getElementById("tags-input");
 var commonShow=document.getElementById("common-tags");
 
@@ -197,14 +197,7 @@ function tagsHidden(e){
 		}
 	}
 
-	//EventUtil.addHandler(editor,"click",extract);
-	// 提取文章的前200个字作为摘要
-/*	function extract(){
-		console.log("start");
-		var value=editor.value;
-		var extraVal=value.substr(0,200);
-		absText.innerHTML=extraVal;
-	}*/
+
 	if(document.getElementById("submit")){
 
 
@@ -218,22 +211,19 @@ function tagsHidden(e){
 		var sendResult = {}
 		console.log(result);
 
-		//var formD=new FormData();
+
 
 		var postCont=document.getElementById("pop-cont");
-		// var author=document.querySelector(".author").innerHTML;
+	
 
 
 		for(var i = 0; i < result.length; i++){
 			var val = result[i].split("=");
 			sendResult[val[0]] = val[1];
-			// formD.append(val[0],val[1]);
+			
 		}
 		console.log(decodeURIComponent(sendResult.post));
-		/*console.log(upload.files[0]);
-		if(upload.files[0]){
-			formD.append("file",upload.files[0]);
-		}*/
+	
 		
 
 		ajax("post","/upload1","application/json",JSON.stringify(sendResult),function(res){
@@ -323,16 +313,8 @@ if(document.getElementById('save')){
 }
 
 
-function onUpdateReady(){
-	alert('found new version');
-}
-
-EventUtil.addHandler(window.applicationCache,'updateready',onUpdateReady)
-if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
-	onUpdateReady();
-}
-
 EventUtil.addHandler('window','unload',function(e){
-	console.log('unload');
-	applicationCache.update();
+	
+
 })
+})()

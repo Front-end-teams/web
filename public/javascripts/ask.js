@@ -1,5 +1,5 @@
-
-var tags=document.getElementById('tags').getElementsByTagName('a');
+(function(){
+	var tags=document.getElementById('tags').getElementsByTagName('a');
 var count=0;
 //选择标签并且最多只能选三项
 for(var i=0,leng=tags.length;i<leng;i++)
@@ -99,3 +99,5 @@ $('#pubQues').click(function(){
             });}
 });
 
+
+})()

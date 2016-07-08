@@ -1,23 +1,50 @@
 <%- include ../header %>
 <link rel="stylesheet" type="text/css" href="/stylesheets/showPost.css">
+<link rel="stylesheet" type="text/css" href="/popout/style.css">
 <%- include ../nav %>
-<section class="wrap clearfix">
+<div class="pop-cont p2" id="pop-cont">
+  <div class="pop">
+    <section class="pop-title"><h3>提示</h3></section>
+    <section class="pop-content">是否删除该文章</section>
+    <section class="pop-footer">
+      <a class="confirm" href="/deletePost/<%= post.author %>/<%= post.title  %>" >确定</a>
+      <a class="cancel">取消</a>
+    
+    </section>
 
-<%- include subPost %>
-<aside>
-<div id="user-about">
-  <div id="user-skin">
-      <div id="headpic">
-          <img id="headpic-img" src="<%= author_detail.middleimg %>">
-      </div>
-  </div>
-  <div id="user-wendainfo">
-      <div id="namebox"><%= post.author %></div>
-      <span class='attention' id='attention' data="<%= isAttention %>">关注</span>
   </div>
 </div>
 
-<% if (user.name && user.name==post.author) {%>
+<section class="wrap clearfix">
+
+<%- include subPost %>
+
+
+<aside>
+<div id="user-about">
+  <div id="user-skin">
+    <div id="headpic">
+      <img id="headpic-img" src="<%= author_detail.middleimg %>">
+    </div>
+  </div>
+  <div id="user-wendainfo">
+    <div id="namebox"><%= user.nick||user.email %></div> 
+
+    <ul id="user-action" class="clearfix">
+      <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
+      <li><strong class="user-action" id="user-question"><%= user.postcoll? user.postcoll.length:0 %></strong><a href="">收藏</a></li>
+      <li><strong class="user-action" id="user-question"><%= user.attention? user.attention.length:0  %></strong><a href="">关注</a></li>
+    </ul>
+    <div class='atte-cont'>
+    <% if(post.author != user.email) { %>
+      <span class='attention' id='attention' data="<%= isAttention %>">关注</span>
+    <%} %>
+    </div>
+  </div>
+</div>
+
+
+<% if (user.email && user.email==post.author) {%>
 <div class="relate-post">
 	<header class="relate-post-header">文章分类</header>
 	<% if(cates) { %>
@@ -52,5 +79,7 @@
 </section>
 
 <%- include ../footer %>
+<script type="text/javascript" src='/popout/popular.js'></script>
 <script type="text/javascript" src="/javascripts/showPost.js"></script>
+
 <%- include ../end %>
