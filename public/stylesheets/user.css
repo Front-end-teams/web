@@ -190,11 +190,17 @@ body {
 .mypost-title{
 	/* margin-top: 10px;
 	margin-bottom: 10px; */
+	display:inline-block;
+	text-decoration:none;
+	color:#000;
 	font-size: 1.8rem;
 	font-weight: 500;
 	height:50px;
-	padding:10px 5px;
+	padding:5px;
 
+}
+.mypost-title:hover{
+	color:#888;
 }
 .mypost-info{
 	margin: 10px 0;
@@ -204,7 +210,7 @@ body {
 	margin-right: 10px
 }
 
-.mypost-img{
+/* .mypost-img{
 	width:80px;
 	height:80px;
 	background-color: #63D075;
@@ -212,7 +218,7 @@ body {
 	right:20px;
 	bottom:10px;
 }
-
+ */
 /* --------------收藏样式---------------- */
 .coll-post{
 	height:50px;

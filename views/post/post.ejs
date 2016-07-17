@@ -17,7 +17,7 @@
             <li class="tabshow">
             <% new_posts.forEach(function (post, index) { %>
         <div class="hot-article">
-            <div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
+            <div class="author"><img src="<%= new_userImg[index].smallimg %>" alt="author"/><div class="author-name"><%= new_userImg[index].nick || new_userImg[index].email %></div></div>
                         <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
                         <span class="time"><%= post.time %></span>
 
@@ -47,7 +47,7 @@
             <li class="tabhide">
               <% hot_posts.forEach(function (post, index) { %>
         <div class="hot-article">
-            <div class="author"><img src="/images/1.jpg" alt="author"/><div class="author-name">111</div></div>
+            <div class="author"><img src="<%= hot_userImg[index].smallimg %>" alt="author"/><div class="author-name"><%= hot_userImg[index].nick || hot_userImg[index].email %></div></div>
                         <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
                         <span class="time"><%= post.time %></span>
 
@@ -96,14 +96,14 @@
                 </ul>
             </div>
         </div>
-        <div id="sidetab">
-        <!-- tabHead -->
+        <!-- <div id="sidetab">
+        tabHead
         <ul class="tab-nav">
           <li><a href="javascript:void(0)">推荐</a></li>
           <li><a href="javascript:void(0)">原创</a></li>
         </ul>
-     
-        <!-- tabPanel-->
+             
+        tabPanel
         <ul class="tab-bd">
           <li class="tabshow">
             aiasfhhsfahfhahfah 
@@ -112,8 +112,15 @@
             safifahkkfakhfakh
           </li>
         </ul>
-      </div>
-    
+              </div> -->
+
+
+    <div>
+        <title>今日推荐</title>
+        <div>
+            
+        </div>
+    </div>
     </aside> 
          
     </div>   	

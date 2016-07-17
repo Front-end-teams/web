@@ -76,6 +76,9 @@
 }
 .hot-article .author .author-name{
   text-align: center;
+  width:40px;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .hot-article .time{
   float:right;

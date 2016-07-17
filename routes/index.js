@@ -223,30 +223,44 @@ function checkLogin(req, res, next) {
       if(err){
         console.log(err);
       }
-      Post.getTen(null, newPage,{time:-1}, function (err, new_posts, new_total) {
+      Post.getTen(null, newPage,{time:-1}, function (err, new_posts, new_total,new_userImg) {
         if (err) {
-          posts = [];
+          new_posts = [];
         } 
-        Post.getTen(null,hotPage,{pv:-1},function(err,hot_posts,hot_total){
-           console.log(req.session.user);
+        Post.getTen(null,hotPage,{pv:-1},function(err,hot_posts,hot_total,hot_userImg){
+          if(err){
+            hot_posts = [];
+          }
+          Post.getTen(null,hotPage,{agree:-1},function(err,recom_posts,recom_total,recom_userImg){
+            if(err){
+              console.log(err);
+              return;
+            }
+            console.log(recom_total);
+            console.log(req.session.user);
+            console.log(new_userImg);
+            console.log(hot_userImg);
+            res.render('post/post', {
+              title: '文章',
+              new_posts:new_posts,
+              hot_posts:hot_posts,
+              count:count,
+              newPage: newPage,
+              newIsFirstPage: (newPage - 1) == 0,
+              newIsLastPage: ((newPage - 1) * 10 + new_posts.length) == new_total,
+              newLastPage:Math.ceil(new_total/10),
+              hotPage: hotPage,
+              hotIsFirstPage: (hotPage - 1) == 0,
+              hotIsLastPage: ((hotPage - 1) * 10 + hot_posts.length) == hot_total,
+              hotLastPage:Math.ceil(hot_total/10),
+              user: req.session.user,
+              new_userImg:new_userImg,
+              hot_userImg:hot_userImg,
+              success: req.flash('success').toString(),
+              error: req.flash('error').toString()
+            });
+          })
           
-          res.render('post/post', {
-            title: '文章',
-            new_posts:new_posts,
-            hot_posts:hot_posts,
-            count:count,
-            newPage: newPage,
-            newIsFirstPage: (newPage - 1) == 0,
-            newIsLastPage: ((newPage - 1) * 10 + new_posts.length) == new_total,
-            newLastPage:Math.ceil(new_total/10),
-            hotPage: hotPage,
-            hotIsFirstPage: (hotPage - 1) == 0,
-            hotIsLastPage: ((hotPage - 1) * 10 + hot_posts.length) == hot_total,
-            hotLastPage:Math.ceil(hot_total/10),
-            user: req.session.user,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-          });
         })
        
       });
@@ -312,7 +326,7 @@ function checkLogin(req, res, next) {
         }
         console.log(isAttention);
       //获取作者的头像（昵称的问题）
-        Post.getTen({tags:{$in:post.tags}},1,{pv:-1},function(err, posts, totle){
+        Post.getTen({tags:{$in:post.tags}},1,{pv:-1},function(err, posts, totle,userImg){
           if ( err ){
             console.log(err);
           }
@@ -529,12 +543,12 @@ function checkLogin(req, res, next) {
   })
  
    //文章分类
-   //------------------未完成-----------------
+
   app.get('/cates',function(req,res){
     
     console.log("chegn");
     console.log({cates:req.query.cates,author:req.session.user.email});
-    Post.getTen({cates:req.query.cates,author:req.session.user.email},1,function(err,docs,total){
+    Post.getTen({cates:req.query.cates,author:req.session.user.email},1,{time:-1},function(err,docs,total,userImg){
       if(err){
         console.log(err);
       }

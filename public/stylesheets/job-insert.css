@@ -1,18 +1,4 @@
-* {
-  padding: 0;
-  margin: 0;
-  }
-  body
-  {
-    overflow:scroll;
-  }
 
-.clearfix:after {
-  content: "";
-  clear: both;
-  display: block;
-  visibility: hidden;
-  height: 0; }
 .main
 {
 	width: 1100px;

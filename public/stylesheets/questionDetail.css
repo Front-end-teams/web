@@ -1,12 +1,7 @@
-*
-{
-    margin: 0;
-    padding: 0;
-}
+
 * a
 {
     text-decoration: none;
-
     color: #333;
 }
 .main
@@ -78,108 +73,6 @@
     outline: none;
     background-color: red;
 }
-// .comment:first-child
-// {
-// 	border-top: 1px solid grey;
-// }
-// .comment
-// {
-//   border-bottom: 1px solid grey;
-//   overflow: hidden;
-//   padding:20px 0 10px 0;
-//   position: relative;
-// }
-// .comment .main
-// {
-// 	overflow: hidden;
-// }
-// .comment .commHead
-// {
-//   width: 40px;
-//   margin-right:15px;
-//   float: left;
-// }
-// .comment .commHead img
-// {
-// 	width: 100%;
-// 	height: 100%;
-// }
-// .comment .commHead span
-// {
-//   display: inline-block;
-//   width: 40px;
-//   text-align: center;
-// }
-// .comment .commHead span a
-// {
-// 	color: #000;
-// }
-// .comment .commCont
-// {
-// 	margin-left: 50px;
-
-// }
-// .comment .commCont p
-// {
-// 	margin: 10px 0;
-//    text-indent: 5px;
-//    font-size: 18px;
-// }
-// .comment .commCont span
-// {
-// 	display: inline-block;
-// 	position: absolute;
-// 	text-indent: 8px;
-// 	font-size: 8px;
-// 	right: 0;
-// 	top: 5px;
-// 	color:rgba(0,0,0,0.75);
-// }
-// .comment .commAction
-// {
-// 	margin-left: 55px;	
-// }
-// .comment .commAction span a
-// {
-// 	color: #000;
-// 	font-size: 14px;
-// 	padding: 0 5px;
-// }
-// .comment .comment_reply
-// {
-// 	width: 700px;
-// 	display: none;
-// 	margin-top: 20px;
-// }
-// .comment .comment_reply ul li
-// {
-// 	width: 100%;
-// 	list-style: none;
-// 	margin:5px 0;
-// 	background-color: #eee;
-// 	overflow: hidden;
-// 	padding: 10px 0 10px 20px;
-// }
-// .comment .comment_reply ul li .commentReplyFromNamePic
-// {
-// 	width: 40px;
-// 	height: 40px;
-// 	float: left;
-// 	margin-left: 20px;
-// }
-// .comment .comment_reply ul li .commentReplyFromNamePic a img
-// {
-// 	width: 40px;
-// 	height: 40px;
-// }
-// .comment .comment_reply ul li .commentReplyFromName
-// {
-// 	margin-left: 70px;
-// }
-// .comment .comment_reply ul li .commentReplyContent
-// {
-// 	margin-left: 70px;
-// }
 
 
 
@@ -345,13 +238,6 @@
 	right: 37px;
 	top: 68px;
 }
-
-
-
-
-
-
-
 
 .prepage a
 {

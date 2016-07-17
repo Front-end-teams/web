@@ -1,7 +1,4 @@
-      *{
-      	 margin:0;
-      	 padding:0;
-      }
+
       html ,body{
       	background-color: #f1f4f6;
       }
@@ -268,8 +265,4 @@
 	padding-left:12px;
 	padding-right:10px;
 	padding-top: 50px;
-}
-.bds_tsina{
-}
-.bds_weixin{
 }

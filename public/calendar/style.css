@@ -1,0 +1,227 @@
+/*-----主体样式------*/
+
+*{
+    margin:0px;
+    padding:0px;
+    font-family: "微软雅黑";
+    /*font-size: 14px;*/
+}
+
+.cal-cont{
+    margin:auto;
+    width:300px;
+}
+
+select{
+    -webkit-appearance:none;
+    appearance:none;
+    width: 100px;
+
+    /*注意在下拉框中，width是包括border的宽度的*/
+     
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #E9F2AB;
+    background-color: white;
+    background-repeat: no-repeat;
+    /*背景图像的尺寸：第一个值为宽度，第二值为高度*/
+    background-size: 4px 8px, 4px 8px, 20px 30px, 1px 30px;
+    /*背景图片：多张图片用","分割*/
+    /*repeating-linear-gradient() 函数用于重复线性渐变：参数分别为角度，颜色1，颜色2,...*/
+     /*组合成三角形图标*/
+    background-image: repeating-linear-gradient(225deg, rgb(105, 123, 149) 0%, rgb(105, 123, 149) 50%, transparent 50%, transparent 100%),
+    
+     
+    repeating-linear-gradient(135deg, rgb(105, 123, 149) 0%, rgb(105, 123, 149) 50%, transparent 50%, transparent 100%),
+    
+     
+    linear-gradient(#FFFFFF 0%, #F8F9Fd, #EFFAFA 100%),
+     
+    repeating-linear-gradient( rgb(191, 204, 220) 0%, rgb(191, 204, 220) 100%);
+    /*竖分割线*/
+    /*背景图片的位置：第一个参数为水平位置，第二参数为垂直位置*/
+     
+    background-position: 85px 10px, 89px 10px, right top, 77px top;
+}
+/*对表格应用样式*/  
+ 
+table.cal{  
+    /*margin-right: 10px;*/
+    float:left;
+    border-collapse:separate;  
+    border-spacing:0;/*控制单元格之间的距离 IE7和更低版本不支持这个属性 需要使用老式但可靠的cellspacing属性（html属性）*/  
+    text-align: center;  
+    color:#333;  
+}  
+/*删除默认的内边距和外边距*/  
+.cal th, .cal td{  
+    margin:0;  
+    padding:0;  
+}  
+.cal caption{  
+    /*font-size:1.25em;  */
+    padding-top: 0.692em;  
+    padding-bottom:0.692em;  
+    background-color: rgb(249,245,241);
+     
+}  
+.cal caption .year-month{
+    margin-left:100px;
+    float: left;
+}
+.cal caption .year{
+    display: inline-block;
+
+}
+.cal caption .month{
+    display: inline-block;
+    margin-left: 50px;
+    
+}
+.cal caption .month select{
+    margin:0;
+}
+.cal caption .time{
+    float:right;
+    color:#945f43;
+    margin-right: 30px;
+}
+.cal caption span.control{
+
+    vertical-align: middle;
+    display: inline-block;
+
+    height:0px;
+    width:0px;
+    overflow: hidden;
+    border-style: solid;
+    cursor:pointer;
+    opacity: .6;
+    
+}
+.cal caption span[rel="prev"]{  
+   border-width:8px 8px 8px 0px;
+    border-color: transparent #ACD0F6 transparent transparent;
+}  
+.cal caption span[rel="next"]{  
+   
+    border-width:8px 0px 8px 8px;
+    border-color: transparent  transparent transparent #ACD0F6;
+
+}  
+.cal caption #now{
+    font-size: 25px;
+
+}
+ 
+.cal caption span.control:hover{  
+    opacity: 1  
+}  
+.cal thead th{
+    background-color:rgb(254,251,235);
+    height:40px;  
+    padding:5px;
+    border-bottom:1px solid #a9bacb;  
+}  
+ 
+.cal tbody td{  
+    border:1px solid #eee;
+    width:100px;
+    height:70px; 
+    cursor: pointer;
+}  
+.cal tbody td span{  
+    display: block;  
+    /*font-family: "黑体";*/
+    font-size: 12px; 
+    font-weight: 500;  
+    text-align: center;
+    padding:0.385em 0.692em 0.308em 0.692em;
+     
+}  
+.cal tbody td div{
+    font-size:12px;
+    //padding:0.385em 0.692em 0.308em 0.692em;
+    //transform:scale(0.5, 0.5);
+}
+
+.cal tbody a:hover,.cal tbody a:focus ,.cal tbody a:active,.cal tbody .selected a:visited,  
+.cal tbody .selected a:hover,.cal tbody .selected a:focus,.cal tbody .selected a:active{  
+    background-color: #6d8ab7;  
+    color:white;  
+    /*text-shadow:1px 1px 2px #22456b;  */
+}  
+
+/*侧边详细信息样式*/
+aside{
+    border: 1px dashed #ccc;
+    float:right;
+    width:300px;
+    text-align: center;
+}
+aside .sunlar{
+    line-height:50px;
+    height:50px;
+    background-color: #b04343;
+    color: white;
+}
+aside .sunlar-day{
+    line-height:100px;
+    color:#b04343;
+    font-size:100px;
+}
+aside .lunar,aside .cycle,aside .ani-year,aside .festival{
+    padding:10px;
+    font-size:14px;
+    line-height: 14px;
+    color:#6a6a6a;
+}
+
+
+/*当日的颜色*/
+.todayColor{
+    background-color: #FCD1D1;
+}
+/*不是当月日的颜色*/
+.nonMonth{
+    background-color: #f5f5f5;
+    opacity: 0.6;
+
+}
+
+@media (max-width: 640px) {
+    table.cal{
+        margin:auto;
+    }
+    aside{
+        display:none;
+    }
+    .cal-cont{
+        width:500px;
+    }
+    .cal caption .year-month{
+        margin-left:20px;
+        float: left;
+    }   
+    .cal tbody td{
+        width:60px;
+        height:60px;
+        border: 1px solid #fff;
+    }
+    .cal tbody td span{  
+        display: block;  
+        /*font-family: "黑体";*/
+        font-size: 12px; 
+        font-weight: normal; 
+        text-align: center;
+        padding:2px;
+         
+    }  
+    .cal tbody td div{
+        font-size:12px;
+        padding:5px;
+        transform:scale(0.5, 0.5);
+    }
+
+
+}

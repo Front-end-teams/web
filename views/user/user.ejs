@@ -27,10 +27,7 @@
 			<span>粉丝</span>
 		</div>
 
-		<div class="user-item">
-			<em>0</em>
-			<span>积分</span>
-		</div>
+		
 	</div>
 </header>
 
@@ -60,14 +57,14 @@
 	<div class='mypost-wrap'>
 		<div class="mypost">
 		
-			<h2 class="mypost-title"><%- post[i].title %></h2>
+			<a href='detail/<%= post[i].author %>/<%= post[i].title %>' class="mypost-title"><%- post[i].title %></a>
 			<div><%- post[i].art %></div>
 			<div class="mypost-info">
 				<span>评论 </span>
 				<span>点赞<%- post[i].agree.length %></span>
 				<span>浏览<%- post[i].pv %></span>
 			</div>
-			<div class="mypost-img"></div>
+			
 		</div>
 		<span class='time-tag'></span>
 		<div class='time-show'>

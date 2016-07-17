@@ -76,63 +76,80 @@ Post.getTen=function(query,page,order_rule,callback){
     if (err) {
       return callback(err);
     }
-
-    /*db.collection('posts',function(err,collection){
-      if(err){
-        mongodb.close();
-        return callback(err);
-      }
-      collection.aggregate([{$lookup:{
-        from:user,
-        localField:author,
-        foreignField:email,
-        as:user_info
-      }}],function(err,results){
-        if(err){
-          console.log(err)
-          return;
-        }
-        console.log(results);
-      })
-    })*/
-  db.collection('posts', function (err, collection) {
+  	db.collection('posts', function (err, collection) {
       if (err) {
         mongodb.close();
         console.log(err);
         return callback(err);
       }
-      
-      /*collection.aggregate([{$lookup:{
-        from:user,
-        localField:author,
-        foreignField:email,
-        as:user_info
-      }}],function(err,results){
-        if(err){
-          console.log(err)
-          return;
-        }
-        console.log(results);
-      })*/
    
-    collection.count(query,function(err,total){
-      //根据query条件查询 并跳过前(page-1)*10个结果，返回之后的10个结果
-      collection.find(query,{
-        skip: (page-1)*10,
-        limit: 10
-      }).sort(order_rule).toArray(function(err,docs){
-        mongodb.close(); 
-        if(err){
-          return callback(err);
-        }
-        
-        callback(null,docs,total);
-      })
-    })
+    	collection.count(query,function(err,total){
+      	//根据query条件查询 并跳过前(page-1)*10个结果，返回之后的10个结果
+      	collection.find(query,{
+        	skip: (page-1)*10,
+        	limit: 10
+      	}).sort(order_rule).toArray(function(err,docs){
+       
+        	if(err){
+          	return callback(err);
+        	}
 
-  })
-
-})
+	        /*var result = [];*/
+	    		var usernames = [];
+			    for (var i = 0; i < docs.length; i++) {
+			      var item = docs[i];
+			      var username = item.author;
+			      usernames.push(username);
+			    }
+	   			var op = {email: {"$in": usernames}};
+   			 	//查看B表中这条数据
+    			db.collection('users',function(err,coll){
+    				if(err){
+    					mongodb.close();
+    					console.log(err);
+    					return callback(err);
+    				}
+    				var authorImg = [];
+    				/*
+    				for(var i = 0;i < docs.length; i++){
+  						coll.findOne({email:docs[i].author},function(err,user){
+  							if(err){
+  								mongodb.close();
+  								console.log(err);
+  								return callback(err);
+  							}
+  							console.log(user);
+  							authorImg[i] = user.smallimg;
+  						})
+  					}
+  					console.log(authorImg);
+  					callback(null,docs,total);*/
+    				console.log(docs);
+    				console.log(op);
+    				coll.find(op).toArray(function(err, bdata){
+    					if(err){
+    						mongodb.close();
+    						console.log(err);
+    						return callback(err);
+    					}
+    					mongodb.close();
+      				console.log(bdata);
+      				console.log(docs);
+      				for(var i = 0; i< docs.length; i++){
+      					for(var j = 0; j< bdata.length;j++){
+      						if(docs[i].author == bdata[j].email){
+      							authorImg[i] = bdata[j];
+      						}
+      					}
+      				}
+      				console.log(authorImg);
+        		  callback(null,docs,total,authorImg);  
+      			})
+    			})  
+      	})
+    	})
+  	})
+	})
 }
 
 //获取一篇文章
@@ -306,7 +323,7 @@ Post.getArchive = function(quary,callback) {
         if (err) {
           return callback(err);
         }
-       
+       console.log(docs);
         callback(null, docs);
       });
     });
