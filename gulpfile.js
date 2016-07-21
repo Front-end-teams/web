@@ -18,7 +18,7 @@ var scriptsPath = 'public/javascripts'
 // 样式处理
 gulp.task('css', function () {
 var cssSrc = 'public/stylesheets/*.css',
-    cssDst = 'dist/css';
+    cssDst = 'public/dist/css';
 
 gulp.src(cssSrc)
 
@@ -31,7 +31,7 @@ gulp.src(cssSrc)
 // 图片处理
 gulp.task('images', function(){
     var imgSrc = 'public/images/**/*',
-        imgDst = 'dist/images';
+        imgDst = 'public/dist/images';
     gulp.src(imgSrc)
         .pipe(changed(imgDst))
         .pipe(imagemin({
@@ -52,7 +52,7 @@ function getFolders(dir){
 }
 gulp.task('js', function () {
 var jsSrc = 'public/javascripts/*.js',
-    jsDst ='dist/js';
+    jsDst ='public/dist/js';
 var folders = getFolders(scriptsPath);
 
 var tasks = folders.map(function(folder){
@@ -82,7 +82,7 @@ return merge(tasks);
 
 // 清空图片、样式、js
 gulp.task('clean', function() {
-gulp.src(['dist/css', 'dist/js', 'dist/images'], {read: false})
+gulp.src(['public/dist/css', 'public/dist/js', 'public/dist/images'], {read: false})
     .pipe(clean());
 });
 

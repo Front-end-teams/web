@@ -1,0 +1,133 @@
+.cate-wrap{
+	width:1100px;
+	margin:0 auto;
+}
+
+.user-cont{
+	width:750px;
+	display: inline-block;
+	/*margin-left: 40px;*/
+	/*border:1px solid red;*/
+
+}
+
+.user-post{
+
+	border-bottom:1px solid #eee;
+	padding:10px 10px 10px 70px;
+
+}
+.user-post .mypost-wrap{
+	position: relative;
+	padding:0px 20px;
+	border-left:1px solid #ccc;
+}
+.cont-header{
+	display: block;
+	font-size: 1.2rem;
+	line-height: 50px;
+	height:50px;
+	vertical-align: bottom;
+	font-weight: normal;
+	border-bottom: 2px solid #ccc;
+	margin-bottom:5px;
+}
+
+.mypost{
+
+	position: relative;
+	border-bottom: 1px solid #ccc;
+	padding-left: 10px;
+	
+
+}
+.mypost-time{
+	
+	color:#ccc;
+}
+
+.mypost-title{
+	/* margin-top: 10px;
+	margin-bottom: 10px; */
+	display:inline-block;
+	text-decoration:none;
+	color:#000;
+	font-size: 1.8rem;
+	font-weight: 500;
+	height:50px;
+	padding:5px;
+
+}
+.mypost-title:hover{
+	color:#888;
+}
+.mypost-info{
+	margin: 10px 0;
+	color:#bbb;
+}
+.mypost-info span{
+	margin-right: 10px
+}
+
+
+/*-------------------时间轴----------------------*/
+.time-tag{
+	display: inline-block;
+	width:10px;
+	height:10px;
+	border-radius: 5px;
+	background-color: #ccc;
+	position: absolute;
+	top:15px;
+	left:-5px;
+}
+.time-show{
+	width:60px;
+	color:#8a8c8f;
+	position:absolute;
+	left:-70px;
+	top:10px;
+	text-align: right;
+}
+.time-show .time-show-year{
+	font-size: 1.4rem;
+	display:block;
+
+}
+.time-show .time-show-month{
+	font-size: 1rem
+	
+}
+
+@font-face {font-family: "iconfont1";
+  src: url('/icon/3-icon/iconfont.eot?t=1464871943'); /* IE9*/
+  src: url('/icon/3-icon/iconfont.eot?t=1464871943#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('/icon/3-icon/iconfont.woff?t=1464871943') format('woff'), /* chrome, firefox */
+  url('/icon/3-icon/iconfont.ttf?t=1464871943') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('/icon/3-icon/iconfont.svg?t=1464871943#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.user-index{
+  font-family:"iconfont1" !important;
+  font-size:20px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  padding-right:5px;
+}
+
+/*------------------分类文章-------------------*/
+.relate-post{
+	margin-top: 15px;
+	width:300px;
+	float:right;
+
+}
+.relate-post-header{
+	font-size: 1.4em;
+	font-weight: bold;
+	padding-bottom: 5px;
+	border-bottom: 2px solid #eee;
+}

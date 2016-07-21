@@ -1,0 +1,128 @@
+/*input值为file时的样式 */
+/*通过div(.input-file)中包含input(type=file,
+class=file-button)和label(class="file-button-img)实现*/
+*{
+	margin: 0;
+	padding: 0;
+	font-family: "微软雅黑";
+	font-size:14px;
+}
+a input button{outline:none;}
+.input-file{
+	display: inline-block;
+	height:50px;
+	width: 120px;
+	/*background-color: #56F06F;*/
+	text-align: center;
+	cursor: pointer;
+	position:relative;
+}
+
+.file-button{
+	opacity: 0;
+	position: absolute;
+	left:0;
+	top:0;
+	width:120px;
+	height: 50px;
+
+}
+
+.file-button-img{
+	line-height: 50px;
+	text-align: center;
+	display: inline-block;
+	margin-top: 5px;
+	color:#fff;
+	font-size: 18px;
+	width:100%;
+	height:100%;
+	display: block;
+	cursor:pointer;
+	background-color: #3EF5B1;
+}
+
+/*样式完*/
+
+
+/* 按钮样式 */
+.button{
+
+	text-align: center;
+	line-height: 40px;
+	display: inline-block;
+	padding-left: 15px;
+	padding-right:15px;
+	height:40px;
+	background-color: #3EF5B1;
+	color:#fff;
+	border:none;
+	border-radius: 5px;
+	outline: none;
+
+}
+
+.button:hover{
+	opacity: .6
+}
+
+.button:active{
+	opacity: 1;
+	border: none;
+}
+.button::-moz-focus-inner,
+.button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+/*按钮样式完*/
+
+/*input中的text样式  兼容IE的处理方法（去掉IE文本框后面的叉叉） */
+input[type="text"]{
+	text-indent:4px;
+}
+input::-ms-value {
+    padding: 4px;
+}
+input::-ms-clear{
+	 display: none; 
+}
+/*input中的password样式 兼容IE的处理方法（去掉IE密码框后的眼睛）*/
+input::-ms-reveal { display: none; }
+
+
+
+/*input中的placeholder样式的处理*/
+input::-moz-placeholder {
+    text-indent: 5px; 
+}
+input:-ms-input-placeholder {
+    text-indent: 5px;
+}
+input::-webkit-input-placeholder {
+    text-indent: 5px;
+}
+
+.clearfix:after {content: "";clear: both;display: block;visibility: hidden;height: 0; }
+ body {min-width:915px; }
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset;
+    }
+
+
+ @font-face {font-family: 'iconfont';
+    src: url('iconfont.eot'); /* IE9*/
+    src: url('iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('iconfont.woff') format('woff'), /* chrome、firefox */
+    url('iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;}

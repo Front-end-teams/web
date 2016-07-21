@@ -1,0 +1,1 @@
+#pageslider{text-align:center}#pageslider a{padding:5px 10px}#pageslider .currentpage{background-color:red}#pageslider .currentpage a{text-decoration:none;background-color:red;color:#fff;padding:5px 10px;font-weight:700}#pageslider .prepage a:hover,.nextpage a:hover{text-decoration:none;background-color:red;color:#fff;-webkit-transition:color .2s linear}
