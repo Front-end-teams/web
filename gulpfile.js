@@ -1,5 +1,8 @@
 // 引入 gulp及组件
 var gulp    = require('gulp'),                 //基础库
+    fs = require('fs'),
+    path = require('path'),
+    merge = require('merge-stream'),
     imagemin = require('gulp-imagemin'),       //图片压缩
     //sass = require('gulp-ruby-sass'),          //sass
     minifycss = require('gulp-minify-css'),    //css压缩
@@ -8,9 +11,9 @@ var gulp    = require('gulp'),                 //基础库
     rename = require('gulp-rename'),           //重命名
     concat  = require('gulp-concat'),          //合并文件
     clean = require('gulp-clean'),             //清空文件夹
-    changed=require('gulp-changed');            //只操作有过修改的文件
-
-
+    changed=require('gulp-changed'),            //只操作有过修改的文件
+    pngquant = require('imagemin-pngquant');
+var scriptsPath = 'public/javascripts'
 
 // 样式处理
 gulp.task('css', function () {
@@ -31,23 +34,50 @@ gulp.task('images', function(){
         imgDst = 'dist/images';
     gulp.src(imgSrc)
         .pipe(changed(imgDst))
-        .pipe(imagemin())
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],//不要移除svg的viewbox属性
+            use: [pngquant()] //使用pngquant深度压缩png图片的imagemin插件))
+        }))
+            
         .pipe(gulp.dest(imgDst));
 })
 
 // js处理
+function getFolders(dir){
+    return fs.readdirSync(dir)
+        .filter(function(file){
+            return fs.statSync(path.join(dir,file)).isDirectory();
+        })
+}
 gulp.task('js', function () {
 var jsSrc = 'public/javascripts/*.js',
     jsDst ='dist/js';
+var folders = getFolders(scriptsPath);
 
-gulp.src(jsSrc)
+var tasks = folders.map(function(folder){
+    //拼接成foldername.js
+    //写入输出
+    //压缩
+    //重命名
+    //再一次写入输出
+    return gulp.src(path.join(scriptsPath,folder,'/*.js'))
+        .pipe(concat(folder + '.js'))
+        .pipe(gulp.dest(jsDst))
+        .pipe(uglify())
+        .pipe(rename(folder + '.min.js'))
+        .pipe(gulp.dest(jsDst));
+})
+return merge(tasks);
+
+/*gulp.src(jsSrc)
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(concat('main.js'))
     .pipe(gulp.dest(jsDst))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
-    .pipe(gulp.dest(jsDst));
+    .pipe(gulp.dest(jsDst));*/
 });
 
 // 清空图片、样式、js

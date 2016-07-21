@@ -1,5 +1,5 @@
 <%- include ../header %>
-<link rel="stylesheet" type="text/css" href="/stylesheets/showPost.css">
+<link rel="stylesheet" type="text/css" href="/dist/css/showPost.min.css">
 <link rel="stylesheet" type="text/css" href="/popout/style.css">
 <%- include ../nav %>
 <div class="pop-cont p2" id="pop-cont">
@@ -28,7 +28,7 @@
     </div>
   </div>
   <div id="user-wendainfo">
-    <div id="namebox"><%= user.nick||user.email %></div> 
+    <div id="namebox"><%= author_detail.nick||author_detail.email %></div> 
 
     <ul id="user-action" class="clearfix">
       <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
@@ -80,6 +80,6 @@
 
 <%- include ../footer %>
 <script type="text/javascript" src='/popout/popular.js'></script>
-<script type="text/javascript" src="/javascripts/showPost.js"></script>
+<script type="text/javascript" src="/dist/js/showPost.min.js"></script>
 
 <%- include ../end %>

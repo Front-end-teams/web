@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');//解析json、url等的中间件
 var session = require('express-session');
 var nodemailer = require('nodemailer');
 
+var compression = require('compression');
+
 //connect-mongo包实现在一个数据库连接中需要另一个连接
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
@@ -25,6 +27,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3008);
 // uncomment after placing your favicon in /public
+app.use(compression());
 app.use(favicon(path.join(__dirname, 'public', 'favicon1.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json({limit:'1mb'}));
