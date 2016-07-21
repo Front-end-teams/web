@@ -7,6 +7,7 @@
 *  用户的头像裁切与上传 用户基本信息的修改
 *  问答问题的回答与评价
 *  工作的发布与浏览
+
 ##3 主要使用nodejs工具
 * 框架：express 4.13.1
 * 中间件：bodyparser、session、favicon、cookie-parser、express-session、morgan(服务器生成请求日志)
@@ -16,3 +17,6 @@
 * 图像裁切处理模块：gm  imageick  前端库jcrop
 * 连接数据库的模块：mongodb
 * 防止程序崩溃模块:forever
+
+##4 构建工具
+主要使用gulp构建工具完成js、css和图片的压缩
