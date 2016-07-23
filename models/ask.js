@@ -1,7 +1,6 @@
 var mongodb = require('./db');
-function Ques(email, head, quesTitle, quesDetail,tags) {
+function Ques(email, quesTitle, quesDetail,tags) {
   this.email = email;
-  this.head = head;
   this.quesTitle = quesTitle;
   this.quesDetail = quesDetail;
   this.tags=tags;
@@ -22,7 +21,6 @@ Ques.prototype.save = function(callback) {
   //要存入数据库的文档
   var question = {
       email: this.email,
-      head: this.head,
       time: time,
       quesTitle:this.quesTitle,
       quesDetail: this.quesDetail,
@@ -87,19 +85,60 @@ Ques.getTen = function(email, page, num, callback) {
         }).sort({
           time: -1
         }).toArray(function (err, docs) {
-          mongodb.close();
+         // mongodb.close();
           if (err) {
             return callback(err);
           }
-          //解析 markdown 为 html
-          // docs.forEach(function (doc) {
-          //   doc.question = markdown.toHTML(doc.question);
-          // }); 
+          /*var result = [];*/
+          var usernames = [];
+          for (var i = 0; i < docs.length; i++) {
+            var item = docs[i];
+            var username = item.email;
+            usernames.push(username);
+          }
+          var op = {email: {"$in": usernames}};
+          //查看B表中这条数据
+          db.collection('users',function(err,coll){
+            if(err){
+              mongodb.close();
+              return callback(err);
+            }
+            var authorImg = [];
+            /*
+            for(var i = 0;i < docs.length; i++){
+              coll.findOne({email:docs[i].author},function(err,user){
+                if(err){
+                  mongodb.close();
+                  console.log(err);
+                  return callback(err);
+                }
+                console.log(user);
+                authorImg[i] = user.smallimg;
+              })
+            }
+            console.log(authorImg);
+            callback(null,docs,total);*/
+            coll.find(op).toArray(function(err, bdata){
+              if(err){
+                mongodb.close();
+                console.log(err);
+                return callback(err);
+              }
+              for(var i = 0; i< docs.length; i++){
+                for(var j = 0; j< bdata.length;j++){
+                  if(docs[i].email == bdata[j].email){
+                    authorImg[i] = bdata[j];
+                  }
+                }
+              }
+              console.log("authorImg"+authorImg);
           
-          callback(null, docs, total);
+          callback(null, docs, total,authorImg);
+         });
         });
       });
     });
+  });
   });
 };
 //获取最热文章
@@ -131,19 +170,60 @@ Ques.getMostHot = function(email, page, num,callback) {
         }).sort({
           pv: -1
         }).toArray(function (err, docs) {
-          mongodb.close();
+          //mongodb.close();
           if (err) {
             return callback(err);
           }
-          //解析 markdown 为 html
-          // docs.forEach(function (doc) {
-          //   doc.question = markdown.toHTML(doc.question);
-          // }); 
+          /*var result = [];*/
+          var usernames = [];
+          for (var i = 0; i < docs.length; i++) {
+            var item = docs[i];
+            var username = item.email;
+            usernames.push(username);
+          }
+          var op = {email: {"$in": usernames}};
+          //查看B表中这条数据
+          db.collection('users',function(err,coll){
+            if(err){
+              mongodb.close();
+              return callback(err);
+            }
+            var authorImg = [];
+            /*
+            for(var i = 0;i < docs.length; i++){
+              coll.findOne({email:docs[i].author},function(err,user){
+                if(err){
+                  mongodb.close();
+                  console.log(err);
+                  return callback(err);
+                }
+                console.log(user);
+                authorImg[i] = user.smallimg;
+              })
+            }
+            console.log(authorImg);
+            callback(null,docs,total);*/
+            coll.find(op).toArray(function(err, bdata){
+              if(err){
+                mongodb.close();
+                console.log(err);
+                return callback(err);
+              }
+              for(var i = 0; i< docs.length; i++){
+                for(var j = 0; j< bdata.length;j++){
+                  if(docs[i].email == bdata[j].email){
+                    authorImg[i] = bdata[j];
+                  }
+                }
+              }
+              console.log("authorImg"+authorImg); 
 
-          callback(null, docs, total);
+          callback(null, docs, total,authorImg);
         });
       });
     });
+  });
+  });
   });
 };
 //获取没有回答的问题
@@ -178,20 +258,61 @@ Ques.getNoAnswer = function(email, page, num,callback) {
         }).sort({
           time: -1
         }).toArray(function (err, docs) {
-          mongodb.close();
+          //mongodb.close();
           if (err) {
             return callback(err);
           }
-          //解析 markdown 为 html
-          // docs.forEach(function (doc) {
-          //   doc.question = markdown.toHTML(doc.question);
-          // }); 
+          /*var result = [];*/
+          var usernames = [];
+          for (var i = 0; i < docs.length; i++) {
+            var item = docs[i];
+            var username = item.email;
+            usernames.push(username);
+          }
+          var op = {email: {"$in": usernames}};
+          //查看B表中这条数据
+          db.collection('users',function(err,coll){
+            if(err){
+              mongodb.close();
+              return callback(err);
+            }
+            var authorImg = [];
+            /*
+            for(var i = 0;i < docs.length; i++){
+              coll.findOne({email:docs[i].author},function(err,user){
+                if(err){
+                  mongodb.close();
+                  console.log(err);
+                  return callback(err);
+                }
+                console.log(user);
+                authorImg[i] = user.smallimg;
+              })
+            }
+            console.log(authorImg);
+            callback(null,docs,total);*/
+            coll.find(op).toArray(function(err, bdata){
+              if(err){
+                mongodb.close();
+                console.log(err);
+                return callback(err);
+              }
+              for(var i = 0; i< docs.length; i++){
+                for(var j = 0; j< bdata.length;j++){
+                  if(docs[i].email == bdata[j].email){
+                    authorImg[i] = bdata[j];
+                  }
+                }
+              }
+              console.log("authorImg"+authorImg);
 
-          callback(null, docs, total);
+          callback(null, docs, total,authorImg);
         });
       });
     });
   });
+ });
+});
 };
 //获取一篇
 Ques.getOne = function(email, day, title, callback) {

@@ -10,10 +10,10 @@
 				<li id="nav-unanswered"><a href="/questionNoAnswer" style="color: #000;">未答</a></li>
 			</ul>
 			<div id="wenda-list">
-			<% questions.forEach(function (question) { %>
+			<% questions.forEach(function (question,index) { %>
 				<div class="wenda-container">
 					    <div class="wenda-img">
-					       <img class="wenda-img-icon" src="images/7.jpg">
+					       <img class="wenda-img-icon" src="<%=authorImg[index].bigimg%>">
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
@@ -48,7 +48,7 @@
 			<div id="user-about">
 				<div id="user-skin">
 					<div id="headpic">
-						<img id="headpic-img" src="images/7.jpg">
+						<img id="headpic-img" src="<%=userImg[0].bigimg%>">
 					</div>
 				</div>
 				<div id="user-wendainfo">
