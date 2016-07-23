@@ -1,0 +1,30 @@
+<% new_posts.forEach(function (post, index) { %>
+<div class="hot-article">
+  <div class="author">
+    <img src="<%= new_userImg[index].smallimg %>" alt="author"/>
+    <div class="author-name"><%= new_userImg[index].nick || new_userImg[index].email %></div>
+  </div>
+  <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
+  <span class="time"><%= post.time %></span>
+
+  
+  <div class="post-cont"><%- post.art %></div>
+  
+  <div class="article-message">
+      
+    <% if (typeof post.tags == "string") { %>
+        <a class="article-tag" href="#"><%= post.tags %></a>
+    <% }else{ %>
+
+    <% for (var i = 0; i < post.tags.length; i++ ){ %>
+    <a class="article-tag" href="#"><%= post.tags[i] %></a>
+    <% } %>
+    <% } %>
+    <div class="post-info">
+    <span class="browser">浏览 <%= post.pv %></span>
+    <span class="like">点赞 <%= post.agree.length %></span>
+    <span class="comment">评论</span>
+    </div>
+  </div>
+</div>
+<% }) %>

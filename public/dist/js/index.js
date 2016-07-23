@@ -57,7 +57,7 @@ function animate(ele,end){
 function play(){
 	time=setInterval(function(){
 		next.onclick();
-	},3000);
+	},5000);
 }
 
 function stop(){

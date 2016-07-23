@@ -23,6 +23,7 @@ var nodemailer = require('nodemailer');
 var imghandle = require('../models/imgHandle.js');
 
 var nodemailer = require('nodemailer');
+var ejs = require('ejs');
 
 
 module.exports = function(app) {
@@ -231,7 +232,7 @@ function checkLogin(req, res, next) {
           if(err){
             hot_posts = [];
           }
-          Post.getTen(null,hotPage,{agree:-1},function(err,recom_posts,recom_total,recom_userImg){
+          Post.getTen(null,hotPage,{agreeLength:-1,time:-1},function(err,recom_posts,recom_total,recom_userImg){
             if(err){
               console.log(err);
               return;
@@ -243,18 +244,11 @@ function checkLogin(req, res, next) {
               hot_posts:hot_posts,
               count:count,
               newPage: newPage,
-              newIsFirstPage: (newPage - 1) == 0,
-              newIsLastPage: ((newPage - 1) * 10 + new_posts.length) == new_total,
-              newLastPage:Math.ceil(new_total/10),
               hotPage: hotPage,
-              hotIsFirstPage: (hotPage - 1) == 0,
-              hotIsLastPage: ((hotPage - 1) * 10 + hot_posts.length) == hot_total,
-              hotLastPage:Math.ceil(hot_total/10),
               user: req.session.user,
               new_userImg:new_userImg,
               hot_userImg:hot_userImg,
-              success: req.flash('success').toString(),
-              error: req.flash('error').toString()
+              recom_posts:recom_posts
             });
           })
           
@@ -264,23 +258,63 @@ function checkLogin(req, res, next) {
     })   	
   });
 
-app.get('/postpage/new/:id',function(req,res){
-
-  Post.getTen(null, newPage,{time:-1}, function (err, new_posts, new_total,new_userImg) {
+app.get('/postpage/new/:item',function(req,res){
+  
+  var newPage = req.params.item;
+  Post.getTen(null, req.params.item,{time:-1}, function (err, new_posts, new_total,new_userImg) {
+    
     if (err) {
       new_posts = [];
     }  
-    res.send({
-      new_posts:new_posts,
-      count:count,
+   var newPost = {
+      new_posts:new_posts,     
       newPage: newPage,
       newIsFirstPage: (newPage - 1) == 0,
-      newIsLastPage: ((newPage - 1) * 10 + new_posts.length) == new_total,
+      newIsLastPage: ((newPage - 1) * 10 + new_posts.length) >= new_total,
       newLastPage:Math.ceil(new_total/10),
       new_userImg:new_userImg,
-      success: req.flash('success').toString(),
-      error: req.flash('error').toString()
-    });
+    };
+    ejs.renderFile('./views/post/newpost.ejs',newPost,function(err,htmlres){
+      if(err){
+        console.log(err)
+        return;
+      }
+
+      res.send({
+        htmlres:htmlres,
+        newIsLastPage:newPost.newIsLastPage
+      });   
+    })
+  })   
+})
+
+app.get('/postpage/hot/:item',function(req,res){
+  
+  var hotPage = req.params.item;
+  Post.getTen(null, req.params.item,{pv:-1}, function (err, hot_posts, hot_total,hot_userImg) {
+    
+    if (err) {
+      new_posts = [];
+    }  
+   var hotPost = {
+      new_posts:hot_posts,     
+      newPage: hotPage,
+      newIsFirstPage: (hotPage - 1) == 0,
+      newIsLastPage: ((hotPage - 1) * 10 + hot_posts.length) >= hot_total,
+      newLastPage:Math.ceil(hot_total/10),
+      new_userImg:hot_userImg,
+    };
+    ejs.renderFile('./views/post/newpost.ejs',hotPost,function(err,htmlres){
+      if(err){
+        console.log(err)
+        return;
+      }
+      
+      res.send({
+        htmlres:htmlres,
+        hotIsLastPage:hotPost.newIsLastPage
+      });   
+    })
   })   
 })
  /*需要写文章的页面*/
@@ -291,7 +325,7 @@ app.get('/postpage/new/:id',function(req,res){
 				console.log(err);
 				tags=[];
 			}
-			console.log(req.session.user);
+			
 			Post.getArchive({},function(err,cates){
 				if(err){
 					console.log("cates error");
@@ -319,7 +353,7 @@ app.get('/postpage/new/:id',function(req,res){
     var isAgree = false;
     var isColl = false;
     var isAttention = false;
-    console.log(req.session.user);
+    
     Post.getOne({author: req.params.author,title: req.params.title}, function (err, post) {
       if (err) {
         req.flash('error', err); 
@@ -339,7 +373,7 @@ app.get('/postpage/new/:id',function(req,res){
         if( req.session.user && req.session.user.attention && req.session.user.attention.indexOf(req.params.author) >=0){
           isAttention = true;
         }
-        console.log(isAttention);
+       
       //获取作者的头像（昵称的问题）
         Post.getTen({tags:{$in:post.tags}},1,{pv:-1},function(err, posts, totle,userImg){
           if ( err ){
@@ -353,7 +387,7 @@ app.get('/postpage/new/:id',function(req,res){
           
           Post.viewNum( {author: req.params.author,title: req.params.title},function(err){
             Post.getArchive({author:req.session.user.email},function(err,docs){
-              console.log(docs);
+              
               res.render('post/showPost', {
                 title: req.params.title,
                 post: post,
@@ -376,7 +410,7 @@ app.get('/postpage/new/:id',function(req,res){
 
   // 文章删除
   app.get('deletePost/:author/:title',function(req,res){
-    console.log('delete');
+   
     Post.remove(req.params,function(err){
       if(err){
         console.log(err);
@@ -388,7 +422,7 @@ app.get('/postpage/new/:id',function(req,res){
 
   //文章修改
   app.get("/writePost/:author/:title",function(req,res){
-    console.log(req.params);
+   
     Post.getOne(req.params,function(err,post){
       if(err){
         console.log(err);
@@ -425,9 +459,9 @@ app.get('/postpage/new/:id',function(req,res){
   //更新文章
   app.post('/post/update',function(req,res){
     var artText=decodeURIComponent(req.body.post).substr(0,200);
-    console.log(artText);
+    
     var tags = decodeURIComponent(req.body.tags).split(",");
-    console.log(decodeURIComponent(req.body.post));
+    
     Post.update({author:req.session.user.email,title:decodeURIComponent(req.body.title)},
                 {post:decodeURIComponent(req.body.post),tags:tags,cates:decodeURIComponent(req.body.cates),art:artText},function(err){
                   if(err){
@@ -454,9 +488,9 @@ app.get('/postpage/new/:id',function(req,res){
          console.log("err:"+err);
         return res.redirect('/');
       }
-      console.log("post:"+post);
+    
       agree = post.agree;
-      console.log("agree:"+agree);
+   
     
     //console.log(agree);
    var jsonUpdate={
@@ -464,8 +498,7 @@ app.get('/postpage/new/:id',function(req,res){
         title: req.body.title,
         user: req.session.user.email
       }
-      console.log(jsonUpdate);
-      console.log(agree.indexOf(req.session.user.email));
+  
      if ( agree.indexOf(jsonUpdate.user) < 0 ){
       console.log("agree");
       Post.agree(jsonUpdate, function(err){
@@ -511,7 +544,7 @@ app.get('/postpage/new/:id',function(req,res){
             title: req.body.title,
             user: req.session.user.email
           }
-      console.log(jsonUpdate);
+      
        res.setHeader('content-type', 'application/json');
       if ( coll.indexOf ( jsonUpdate.user ) < 0 ) {
         console.log("collection");
@@ -525,7 +558,7 @@ app.get('/postpage/new/:id',function(req,res){
             if(err){
               console.log(err);
             }
-            console.log(user);
+            
             req.session.user = user;
             req.session.save();
             console.log(req.session.user);
@@ -534,7 +567,7 @@ app.get('/postpage/new/:id',function(req,res){
 
         })
       } else {
-        console.log("disagree");
+        
         Post.deleteCollect(jsonUpdate,function(err){
           if( err ) {
             console.log(err);
@@ -623,13 +656,13 @@ app.post("/user/info/area",function(req,res){
 })
 //用户头像上传
 app.post('/userset/imgupload',upload.single("file"),function(req,res){
-  console.log("file");
+  
   console.log(req);
   
   //将信息存入文章数据库
   var path = "/uploads/"+req.file.filename;
   console.log("user");
-  console.log(req.session.user);
+  
   User.update({email: req.session.user.email},{img:path},function(err){
     if(err){
       console.log(err);
@@ -641,7 +674,7 @@ app.post('/userset/imgupload',upload.single("file"),function(req,res){
 })
 //用户email验证
 app.post("/user/info/email",function(req,res){
-  console.log(req.body.email);
+  
    var nodemailer = require('nodemailer');
 
   var transporter = nodemailer.createTransport({
@@ -703,7 +736,7 @@ app.post("/user/info/newpw",function(req,res){
     //将信息存入文章数据库
     var path = "/uploads/"+req.file.filename;
     console.log("user");
-    console.log(req.session.user);
+  
     User.update({email: req.session.user.email},{img:path},function(err){
       if(err){
         console.log(err);
@@ -721,7 +754,7 @@ app.post("/user/info/newpw",function(req,res){
       if(err){
         console.log(err);
       }
-      console.log(user);
+      
 
       imghandle.imgCrop({path:user.img,
         width:req.body.w,
@@ -731,7 +764,7 @@ app.post("/user/info/newpw",function(req,res){
         rWidth:200,
         rHeight:200
       },function(err,bigpath){
-        console.log(imghandle.imgResize);
+      
         imghandle.imgResize({path:bigpath,rWidth:100,rHeight:100},function(err,middlepath){
           console.log(middlepath);
           imghandle.imgResize({
@@ -739,8 +772,7 @@ app.post("/user/info/newpw",function(req,res){
             rWidth:30,
             rHeight:30
           },function(err,smallpath){
-            console.log(bigpath);
-            console.log(middlepath);
+          
 
             User.update({email: req.session.user.email},{bigimg:bigpath,middleimg:middlepath,smallimg:smallpath},function(err){
               if(err){
@@ -767,7 +799,7 @@ app.post("/user/info/newpw",function(req,res){
 
 app.post("/user/info/newpw",function(req,res){
   var newpw = req.body.newpw;
-  console.log(newpw);
+
   User.update({email: req.session.user.email},{password:newpw},function(err){
     if(err){
       console.log(err);

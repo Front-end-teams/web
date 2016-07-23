@@ -34,6 +34,7 @@ Post.prototype.save=function(callback){
     postcoll: [],
     comments: [],
     agree: [],
+    agreeLength : 0,
     pv: 0
 
   };
@@ -444,7 +445,8 @@ console.log(query);//成功
       //更新文章内容
       console.log("update");
       collection.update({author: query.author,title: query.title}, {
-        $push: {"agree": query.user}
+        $push: {"agree": query.user},
+        $inc: {'agreeLength':1}
       }, function (err) {
         
         if (err) {
@@ -475,7 +477,8 @@ Post.disagree = function(query, callback) {
 
       //更新文章内容
       collection.update({author: query.author,title: query.title}, {
-        $pull: {"agree": query.user}
+        $pull: {"agree": query.user},
+        $inc:{'agreeLength':-1}
       }, function (err) {
         mongodb.close();
         if (err) {

@@ -206,6 +206,7 @@
 		};
 		console.log(JSON.stringify(result));
 		ajax("post","user/info","application/json",JSON.stringify(result),function(res){
+			alert("设置成功");
 			console.log(res);
 		})
 	}) 
@@ -254,6 +255,7 @@
 				setResult.old=false;
 			}else{
 				console.log(res);
+				alert("修改成功");
 			}
 		})
 	})

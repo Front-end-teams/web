@@ -6,127 +6,119 @@
 		<div class="container">
 			<div class="main_left" id='maincard'>
 				
-			<ul class="tab-nav">
-            <li><a href="javascript:void(0)">最新</a></li>
-            <li><a href="javascript:void(0)">最热</a></li>
-            </ul>
+			<ul class="tab-nav" id = 'sub-nav'>
+          <li id = 'sub-nav-new'><a href="javascript:void(0)">最新</a></li>
+          <li id = 'sub-nav-hot'><a href="javascript:void(0)">最热</a></li>
+      </ul>
      
-            <!-- tabPanel-->
-            <ul class="tab-bd">
-            <li class="tabshow" id='new-post'>
-            <% new_posts.forEach(function (post, index) { %>
-        <div class="hot-article">
-            <div class="author"><img src="<%= new_userImg[index].smallimg %>" alt="author"/><div class="author-name"><%= new_userImg[index].nick || new_userImg[index].email %></div></div>
-                        <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
-                        <span class="time"><%= post.time %></span>
+      <!-- tabPanel-->
+      <ul class="tab-bd">
+        <li class="tabshow" id='new-post'>
+        <% new_posts.forEach(function (post, index) { %>
+          <div class="hot-article">
+            <div class="author">
+              <img src="<%= new_userImg[index].smallimg %>" alt="author"/>
+              <div class="author-name"><%= new_userImg[index].nick || new_userImg[index].email %></div>
+            </div>
+            <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
+            <span class="time"><%= post.time %></span>
 
             
             <div class="post-cont"><%- post.art %></div>
             
             <div class="article-message">
                 
-                <% if (typeof post.tags == "string") { %>
-                    <a class="article-tag" href="#"><%= post.tags %></a>
-                <% }else{ %>
+              <% if (typeof post.tags == "string") { %>
+                  <a class="article-tag" href="#"><%= post.tags %></a>
+              <% }else{ %>
 
-                <% for (var i = 0; i < post.tags.length; i++ ){ %>
-                <a class="article-tag" href="#"><%= post.tags[i] %></a>
-                <% } %>
-                <% } %>
-                <div class="post-info">
-                <span class="browser">浏览 <%= post.pv %></span>
-                <span class="like">点赞 <%= post.agree.length %></span>
-                <span class="comment">评论</span>
-                </div>
+              <% for (var i = 0; i < post.tags.length; i++ ){ %>
+              <a class="article-tag" href="#"><%= post.tags[i] %></a>
+              <% } %>
+              <% } %>
+              <div class="post-info">
+              <span class="browser">浏览 <%= post.pv %></span>
+              <span class="like">点赞 <%= post.agree.length %></span>
+              <span class="comment">评论</span>
+              </div>
             </div>
-        </div>
-        <% }) %>
+          </div>
+          <% }) %>
+      
+        </li>
+        <li class="tabhide" id='hot-post'>
+          <% hot_posts.forEach(function (post, index) { %>
+          <div class="hot-article">
+            <div class="author">
+              <img src="<%= hot_userImg[index].smallimg %>" alt="author"/>
+              <div class="author-name"><%= hot_userImg[index].nick || hot_userImg[index].email %></div>
+            </div>
+            <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
+            <span class="time"><%= post.time %></span>
+            <div class="post-cont"><%- post.art %></div>
+               
+            <div class="article-message">
+              
+              <% if (typeof post.tags == "string") { %>
+                <a class="article-tag" href="#"><%= post.tags %></a>
+              <% }else{ %>
+
+              <% for (var i = 0; i < post.tags.length; i++ ){ %>
+                <a class="article-tag" href="#"><%= post.tags[i] %></a>
+              <% } %>
+              <% } %>
+              <div class="post-info">
+              <span class="browser">浏览 <%= post.pv %></span>
+              <span class="like">点赞 <%= post.agree.length %></span>
+              <span class="comment">评论</span>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+         
        
         </li>
-            <li class="tabhide">
-              <% hot_posts.forEach(function (post, index) { %>
-        <div class="hot-article">
-            <div class="author"><img src="<%= hot_userImg[index].smallimg %>" alt="author"/><div class="author-name"><%= hot_userImg[index].nick || hot_userImg[index].email %></div></div>
-                        <a class="title" href="/detail/<%= post.author %>/<%= post.title %>"><%= post.title %></a>
-                        <span class="time"><%= post.time %></span>
-
-            
-            <div class="post-cont"><%- post.art %></div>
-            
-            
-            <div class="article-message">
-                
-                <% if (typeof post.tags == "string") { %>
-                    <a class="article-tag" href="#"><%= post.tags %></a>
-                <% }else{ %>
-
-                <% for (var i = 0; i < post.tags.length; i++ ){ %>
-                <a class="article-tag" href="#"><%= post.tags[i] %></a>
-                <% } %>
-                <% } %>
-                <div class="post-info">
-                <span class="browser">浏览 <%= post.pv %></span>
-                <span class="like">点赞 <%= post.agree.length %></span>
-                <span class="comment">评论</span>
-                </div>
-            </div>
-        </div>
-        <% }) %>
-       
-       
-            </li>
-            </ul>
+      </ul>
 		</div>		
 
 		<aside  class="main_right">
-        <div class="writeNote"><a href="/writePost" id="write">写文章</a></div>
-        <div id="user-about">
-            <div id="user-skin">
-                <div id="headpic">
-                    <img id="headpic-img" src="<%= user.middleimg %>">
-                </div>
-            </div>
-            <div id="user-wendainfo">
-                <div id="namebox"><%= user.nick || user.email %></div> 
-                <ul id="user-action" class="clearfix">
-                    <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
-                    <li><strong class="user-action" id="user-question"><%= user.postcoll? user.postcoll.length:0 %></strong><a href="">收藏</a></li>
-                    <li><strong class="user-action" id="user-question"><%= user.attention? user.attention.length:0  %></strong><a href="">关注</a></li>
-                </ul>
-            </div>
+      <div class="writeNote"><a href="/writePost" id="write">写文章</a></div>
+      <div id="user-about">
+        <div id="user-skin">
+          <div id="headpic">
+            <img id="headpic-img" src="<%= user.middleimg %>">
+          </div>
         </div>
-        <!-- <div id="sidetab">
-        tabHead
-        <ul class="tab-nav">
-          <li><a href="javascript:void(0)">推荐</a></li>
-          <li><a href="javascript:void(0)">原创</a></li>
-        </ul>
-             
-        tabPanel
-        <ul class="tab-bd">
-          <li class="tabshow">
-            aiasfhhsfahfhahfah 
-          </li>
-          <li class="tabhide">
-            safifahkkfakhfakh
-          </li>
-        </ul>
-              </div> -->
-
-
-    <div>
-        <title>今日推荐</title>
-        <div>
-            
+        <div id="user-wendainfo">
+          <div id="namebox"><%= user.nick || user.email %></div> 
+          <ul id="user-action" class="clearfix">
+            <li><strong class="user-action" id="user-question"><%= count %></strong><a href="">文章</a></li>
+            <li><strong class="user-action" id="user-question"><%= user.postcoll? user.postcoll.length:0 %></strong><a href="">收藏</a></li>
+            <li><strong class="user-action" id="user-question"><%= user.attention? user.attention.length:0  %></strong><a href="">关注</a></li>
+          </ul>
         </div>
-    </div>
+      </div>
+      <div>
+        <div class='today-recom-title'>今日推荐</div>  
+        <div class="today-recom">
+        <% if(recom_posts){ %>
+
+        
+          <% for(var i = 0; i< recom_posts.length; i++) { %>
+            <div class="recom-post-title"><a href="/detail/<%= recom_posts[i].author %>/<%= recom_posts[i].title %>"><%= recom_posts[i].title %></a></div>
+          <% } %>
+          <% } %>
+        </div>
+         
+      </div>
     </aside> 
          
     </div>   	
     </section>
 
 <%- include ../footer %>
+
 <script type="text/javascript" src="/dist/js/common.min.js"></script>
-<script type="text/javascript" src="/javascripts/post/post.js"></script>
+<script type="text/javascript" src="/dist/js/post.min.js"></script>
 
 <%- include ../end %>
