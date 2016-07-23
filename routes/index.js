@@ -1074,6 +1074,7 @@ app.get('/questionTags', function (req, res) {
         req.flash('error',err); 
         return res.redirect('/');
        }
+       console.log(tagInfo);
        res.render('qa/questionTags', {
         tags:tags,
         tag:tag,

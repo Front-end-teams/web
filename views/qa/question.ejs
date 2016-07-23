@@ -1,6 +1,6 @@
 <%- include ../header %>	
-	<link rel="stylesheet" type="text/css" href="/stylesheets/question.css">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/paging.css">
+	<link rel="stylesheet" type="text/css" href="/dist/css/question.css">
+	<link rel="stylesheet" type="text/css" href="/dist/css/paging.css">
 <%- include ../nav %>
 	<div id="container">
 		<div id="wenda-main">
@@ -18,16 +18,16 @@
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" ><%= question.quesTitle %></a>
+								<span class="questionTime"><%= question.time.minute %></span>
 							</h1>
 							<div class="action-panel">							    
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">浏览量 <%=question.pv%></a>
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">回答 <%=question.comments.length%></a>
-								<span>
-								标签：
+								<span class="tags">
+								&nbsp;标签：
 								<% question.tags.forEach(function(tag){%>
 								<a href="/questionTags?tag=<%=tag%>" class="action"><%=tag%></a>
 								<%})%>
-								| <%= question.time.minute %>
 								</span>
 							</div>
 					    </div>				

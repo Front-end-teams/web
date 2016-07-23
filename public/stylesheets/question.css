@@ -91,6 +91,13 @@
 .wenda-title{
   margin-bottom: 10px;
 }
+.wenda-title .questionTime{
+  float: right; 
+  font-size: 12px; 
+  color: #b5b9bc; 
+  font-family: 'Microsoft Yahei'; 
+  font-weight:normal;
+}
 .wenda-title a{
   font-weight: bold;
   font-size: 18px;
@@ -182,6 +189,14 @@
 .action-panel
 {
   text-indent: 5px;
+}
+.action-panel .tags a{
+  background-color:#555;
+  color:#fff;padding:3px;
+  border-radius:4px;
+}
+.action-panel .tags a:hover{
+  color:#F64917;
 }
 #follow-class{
   margin-top: 20px;
