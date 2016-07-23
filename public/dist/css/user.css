@@ -10,6 +10,7 @@
 
 body {
 	font-size: 62.5%;/*10 ÷ 16 × 100% = 62.5%*/
+	overflow:scroll;
 }
 .user-header{
 	height:250px;

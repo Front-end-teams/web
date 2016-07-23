@@ -85,7 +85,7 @@
 	<div class='mypost-wrap'>
 		<div class="mypost">
 		
-			<h2 class="mypost-title"><%- asks[i].quesTitle %></h2>
+			<a class="mypost-title" href="/questionDetail?email=<%= asks[i].email %>&day=<%= asks[i].time.day %>&quesTitle=<%= asks[i].quesTitle %>"><%- asks[i].quesTitle %></a>
 			<div><%- asks[i].quesDetail %></div>
 			<div class="mypost-info">
 				<span>回答<%- asks[i].comments.length %> </span>
@@ -113,7 +113,7 @@
 	<div class='mypost-wrap'>
 		<div class="mypost">
 		
-			<h2 class="mypost-title"><%- userComments[i].quesTitle %></h2>
+			<a class="mypost-title" href="/questionDetail?email=<%= userComments[i].email %>&day=<%= userComments[i].time.day %>&quesTitle=<%= userComments[i].quesTitle %>#<%=i+1%>"><%- userComments[i].quesTitle %></a>
 			<div><%- userComments[i].comments.content %></div>
 			<div class="mypost-info">
 				
@@ -135,6 +135,7 @@
 	</div>
 
 </li>
+
 
 <li class = 'user-coll tabhide' id='user-coll'>
 <span class="cont-header">我的收藏</span>

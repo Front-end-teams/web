@@ -1,91 +1,111 @@
 <%- include ../header %>
-<link rel="stylesheet" type="text/css" href="/dist/css/questionTags.min.css">
 <link rel="stylesheet" type="text/css" href="/dist/css/question.min.css">
+<link rel="stylesheet" type="text/css" href="/dist/css/paging.min.css">
+<link rel="stylesheet" type="text/css" href="/dist/css/questionTags.min.css">
 <%- include ../nav %>
 <div class="tagInfo">
   <img src="<%-tagInfo.tagLogo%>"><br />
   <h3><%=tagInfo.tagName%></h3>
-  <p><%=tagInfo.tagIntro%></p>
-  
+  <p><%=tagInfo.tagIntro%></p> 
 </div>
-<% questions.forEach(function (question) { %>
-				<div class="wenda-container">
+<div id="container">
+<div id="wenda-main">
+<% questions.forEach(function (question) { %>		
+           <div class="wenda-container">
 					    <div class="wenda-img">
 					       <img class="wenda-img-icon" src="images/7.jpg">
-					       <span><%= question.email %></span>
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
 							</h1>
-							<p class="wenda-description"><%- question.quesDetail %></p>
 							<div class="action-panel">
-								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%=question.comments.length%>/<%=question.pv%></a>
-								<a id="agree<%=question.email+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')">赞 <span><%=parseInt(question.agree.length)%></span> </a>
-								<a id="disagree<%=question.email+question.time.day+question.quesTitle%>" email="disagree" href="javascript:disagree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')">踩 <span><%=parseInt(question.disagree.length)%></span> </a>
-								<span>
-								标签：
-								<% question.tags.forEach(function(tag){%>
-								<a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
-								<%})%>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">浏览量 <%=question.pv%></a>
+                <a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">回答 <%=question.comments.length%></a>
+                <span>
+                标签：
+                <% question.tags.forEach(function(tag){%>
+                <a href="/questionTags?tag=<%=tag%>" class="action"><%=tag%></a>
+                <%})%>
                 | <%= question.time.minute %>
-								</span>
+                </span>
 							</div>
 					    </div>
-				</div>
+        </div>			
 <% }) %>
-      <div class="answer">
-        <span class="prepage"><a title="首页" href="/questionTags?tag=<%=tag%>&p=<%= 1 %>">首页</a></span>
 
-        <% if ((page-1)>=1) { %>
-        <span class="prepage"><a title="上一页" href="/questionTags?tag=<%=tag%>&p=<%= page-1 %>">上一页</a></span>
-        <% }else{}%>
+      <div id="pageslider">
+      <br>
+        <div>
+          <span class="prepage"><a title="首页" href="/questionTags?tag=<%=tag%>&p=<%= 1 %>">首页</a></span>
 
-        <% if ((page-3)==1) { %> 
-          <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=1">1</a></span>
-        <% }else if ((page-3)>1){%>
-          <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=1">1</a></span>
-          <span class="prepage"><a title="省略">...</a></span>
-        <%}%>
+          <% if ((page-1)>=1) { %>
+          <span class="prepage"><a title="上一页" href="/questionTags?tag=<%=tag%>&p=<%= page-1 %>">上一页</a></span>
+          <% }else{}%>
 
-        <% if ((page-2)>=1) { %> 
-        <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=<%= page-2 %>"><%= page-2 %></a></span>
-        <% }else{}%>
+          <% if ((page-3)==1) { %> 
+            <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=1">1</a></span>
+          <% }else if ((page-3)>1){%>
+            <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=1">1</a></span>
+            <span class="prepage"><a title="省略">...</a></span>
+          <%}%>
 
-        <% if ((page-1)>=1) { %> 
-        <span class="prepage"><a title="上一页" href="/questionTags?tag=<%=tag%>&p=<%= page-1 %>"><%= page-1 %></a></span>
-        <% }else{}%>
+          <% if ((page-2)>=1) { %> 
+          <span class="prepage"><a title="上两页" href="/questionTags?tag=<%=tag%>&p=<%= page-2 %>"><%= page-2 %></a></span>
+          <% }else{}%>
 
-          <span class="currentpage"><a title="当前页" href="/questionTags?tag=<%=tag%>&p=<%= page %>" style="color: #fff;"><%= page %></a></span>
+          <% if ((page-1)>=1) { %> 
+          <span class="prepage"><a title="上一页" href="/questionTags?tag=<%=tag%>&p=<%= page-1 %>"><%= page-1 %></a></span>
+          <% }else{}%>
 
-        <% if ((page+1)<=LastPage) { %> 
-        <span class="nextpage"><a title="下一页" href="/questionTags?tag=<%=tag%>&p=<%= page+1 %>"><%= page+1 %></a></span>
-        <% }else{}%>
+            <span class="currentpage"><a title="当前页" href="/questionTags?tag=<%=tag%>&p=<%= page %>"><%= page %></a></span>
 
-        <% if ((page+2)<=LastPage) { %> 
-        <span class="nextpage"><a title="下两页" href="/questionTags?tag=<%=tag%>&p=<%= page+2 %>"><%= page+2 %></a></span>
-        <% }else{}%>
-        
-        <% if ((page+3)== LastPage) { %> 
-          <span class="nextpage"><a title="下三页" href="/questionTags?tag=<%=tag%>&p=<%=LastPage%>"><%=LastPage%></a></span>
-        <% }else if((page+3)< LastPage) {%>
-         <span class="nextpage"><a title="省略">...</a></span>
-         <span class="nextpage"><a title="末页" href="/questionTags?tag=<%=tag%>&p=<%=LastPage%>"><%=LastPage%></a></span>
-        <% }%>
+          <% if ((page+1)<=LastPage) { %> 
+          <span class="nextpage"><a title="下一页" href="/questionTags?tag=<%=tag%>&p=<%= page+1 %>"><%= page+1 %></a></span>
+          <% }else{}%>
 
-        <% if ((page+1)<=LastPage) { %>
-          <span class="nextpage"><a title="下一页" href="/questionTags?tag=<%=tag%>&p=<%= page+1 %>">下一页</a></span>
-        <% }else{}%>
+          <% if ((page+2)<=LastPage) { %> 
+          <span class="nextpage"><a title="下两页" href="/questionTags?tag=<%=tag%>&p=<%= page+2 %>"><%= page+2 %></a></span>
+          <% }else{}%>
+          
+          <% if ((page+3)== LastPage) { %> 
+            <span class="nextpage"><a title="下三页" href="/questionTags?tag=<%=tag%>&p=<%=LastPage%>"><%=LastPage%></a></span>
+          <% }else if((page+3)< LastPage) {%>
+           <span class="nextpage"><a title="省略">...</a></span>
+           <span class="nextpage"><a title="末页" href="/questionTags?tag=<%=tag%>&p=<%=LastPage%>"><%=LastPage%></a></span>
+          <% }%>
 
-         <span class="nextpage"><a title="末页" href="/questionTags?tag=<%=tag%>&p=<%= LastPage %>">末页</a></span>
+          <% if ((page+1)<=LastPage) { %>
+            <span class="nextpage"><a title="下一页" href="/questionTags?tag=<%=tag%>&p=<%= page+1 %>">下一页</a></span>
+          <% }else{}%>
+
+           <span class="nextpage"><a title="末页" href="/questionTags?tag=<%=tag%>&p=<%= LastPage %>">末页</a></span>
+       </div>
       </div>
-	<footer>
-		<hr/>
-		我是footer。<br/>
-		我是footer。<br/>
-		我是footer。<br/>
-		我是footer。<br/>
-		我是footer。
-	</footer>
+      </div>
+  <div id="wenda-siderbar">
+      <div id="ask">
+        <a href="/ask">我要提问</a>
+      </div>
+      <div id="user-about">
+        <div id="user-skin">
+          <div id="headpic">
+            <a href="/user"><img id="headpic-img" src="images/7.jpg"></a>
+          </div>
+        </div>
+        <div id="user-wendainfo">
+          <div id="namebox"><%= user.email %></div>
+        </div>
+      </div>
+      <div id="windsTagBall">
+        <% tags.forEach(function (tag) { %>
+        <a href="/questionTags?tag=<%=tag%>"><%=tag%></a>
+        <% }) %>
+      </div>
+    </div>
+</div>
 <%- include ../footer %>
+<script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript" src="/jquery.windstagball.js"></script>
+<script type="text/javascript" src="/dist/js/questionTags.min.js"></script>
 <%- include ../end %>

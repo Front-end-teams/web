@@ -3,23 +3,22 @@
 }
 #pageslider a{
   padding: 5px 10px;
-
-}
-#pageslider .currentpage
-{
-  background-color: red;
+  color: #666;
 }
 #pageslider .currentpage a{
   text-decoration:none;
-  background-color:#f00;
-  color:#fff;
-  padding: 5px 10px;
-  font-weight:bold;
+  color: #000;
+  font-size: 16px;
 }
-#pageslider .prepage a:hover,.nextpage a:hover
+#pageslider .prepage a:hover
 {
   text-decoration:none;
-  background-color:#f00;
-  color:#fff;
+  color: #000;
+  -webkit-transition:color .2s linear;
+}
+#pageslider .nextpage a:hover
+{
+  text-decoration:none;
+  color: #000;
   -webkit-transition:color .2s linear;
 }

@@ -103,7 +103,7 @@ Ques.getTen = function(email, page, num, callback) {
   });
 };
 //获取最热文章
-Ques.getMostHot = function(email, page, callback) {
+Ques.getMostHot = function(email, page, num,callback) {
   //打开数据库
   // mongodb.close();
   mongodb.open(function (err, db) {
@@ -126,8 +126,8 @@ Ques.getMostHot = function(email, page, callback) {
         //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
 
         collection.find(query, {
-          skip: (page - 1)*2,
-          limit: 2
+          skip: (page - 1)*num,
+          limit: num
         }).sort({
           pv: -1
         }).toArray(function (err, docs) {
@@ -147,7 +147,7 @@ Ques.getMostHot = function(email, page, callback) {
   });
 };
 //获取没有回答的问题
-Ques.getNoAnswer = function(email, page, callback) {
+Ques.getNoAnswer = function(email, page, num,callback) {
   //打开数据库
   // mongodb.close();
   mongodb.open(function (err, db) {
@@ -173,8 +173,8 @@ Ques.getNoAnswer = function(email, page, callback) {
         //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
 
         collection.find(query, {
-          skip: (page - 1)*2,
-          limit: 2
+          skip: (page - 1)*num,
+          limit: num
         }).sort({
           time: -1
         }).toArray(function (err, docs) {

@@ -13,7 +13,7 @@
      
             <!-- tabPanel-->
             <ul class="tab-bd">
-            <li class="tabshow">
+            <li class="tabshow" id='new-post'>
             <% new_posts.forEach(function (post, index) { %>
         <div class="hot-article">
             <div class="author"><img src="<%= new_userImg[index].smallimg %>" alt="author"/><div class="author-name"><%= new_userImg[index].nick || new_userImg[index].email %></div></div>
@@ -127,6 +127,6 @@
 
 <%- include ../footer %>
 <script type="text/javascript" src="/dist/js/common.min.js"></script>
-<script type="text/javascript" src="/dist/js/post.min.js"></script>
+<script type="text/javascript" src="/javascripts/post/post.js"></script>
 
 <%- include ../end %>

@@ -4,7 +4,7 @@ class=file-button)和label(class="file-button-img)实现*/
 *{
 	margin: 0;
 	padding: 0;
-	font-family: "微软雅黑";
+	font-family: "Microsoft Yahei";
 	font-size:14px;
 }
 a input button{outline:none;}

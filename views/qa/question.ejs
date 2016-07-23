@@ -1,19 +1,13 @@
 <%- include ../header %>	
-	<link rel="stylesheet" type="text/css" href="/dist/css/question.min.css">
-	<link rel="stylesheet" type="text/css" href="/dist/css/paging.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/question.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/paging.css">
 <%- include ../nav %>
 	<div id="container">
 		<div id="wenda-main">
-			<div id="wenda-recommand">
-				<h2>编辑推荐</h2>
-				<ul id="recommand-list">
-					<li><a href="">我是推荐一</li>
-				</ul>
-			</div>
 			<ul id="wenda-nav">
-				<li id="nav-new"><a href="/question" class="action">最新</a></li>
-				<li id="nav-hot"><a href="/questionHot" class="action">最热</a></li>
-				<li id="nav-unanswered"><a href="/questionNoAnswer" class="action">未答</a></li>
+				<li id="nav-new"><a href="/question" style="color: #000;">最新</a></li>
+				<li id="nav-hot"><a href="/questionHot" >最热</a></li>
+				<li id="nav-unanswered"><a href="/questionNoAnswer">未答</a></li>
 			</ul>
 			<div id="wenda-list">
 			<% questions.forEach(function (question) { %>
@@ -23,12 +17,11 @@
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
-								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action"><%= question.quesTitle %></a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" ><%= question.quesTitle %></a>
 							</h1>
 							<div class="action-panel">							    
-								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action"><%=question.comments.length%>/<%=question.pv%></a>
-								<a id="agree<%=question.email+question.time.day+question.quesTitle%>" name="agree" href="javascript:agree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')" class="action">赞 <span><%=parseInt(question.agree.length)%></span> </a>
-								<a id="disagree<%=question.email+question.time.day+question.quesTitle%>" name="disagree" href="javascript:disagree('<%=question.email%>','<%= question.time.day %>','<%= question.quesTitle %>')" class="action">踩 <span><%=parseInt(question.disagree.length)%></span></a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">浏览量 <%=question.pv%></a>
+								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">回答 <%=question.comments.length%></a>
 								<span>
 								标签：
 								<% question.tags.forEach(function(tag){%>
@@ -75,7 +68,7 @@
 	</div>
 
 
-<!-- <%- include ../footer %> -->
+<%- include ../footer %>
 <script type="text/javascript" src="/jquery.js"></script>
 <script type="text/javascript" src="/jquery.windstagball.js"></script>
 <script type="text/javascript" src="/dist/js/common.min.js"></script>

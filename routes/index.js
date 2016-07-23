@@ -236,10 +236,7 @@ function checkLogin(req, res, next) {
               console.log(err);
               return;
             }
-            console.log(recom_total);
-            console.log(req.session.user);
-            console.log(new_userImg);
-            console.log(hot_userImg);
+           
             res.render('post/post', {
               title: '文章',
               new_posts:new_posts,
@@ -264,11 +261,29 @@ function checkLogin(req, res, next) {
         })
        
       });
-    })
-
-   	
+    })   	
   });
-    /*需要写文章的页面*/
+
+app.get('/postpage/new/:id',function(req,res){
+
+  Post.getTen(null, newPage,{time:-1}, function (err, new_posts, new_total,new_userImg) {
+    if (err) {
+      new_posts = [];
+    }  
+    res.send({
+      new_posts:new_posts,
+      count:count,
+      newPage: newPage,
+      newIsFirstPage: (newPage - 1) == 0,
+      newIsLastPage: ((newPage - 1) * 10 + new_posts.length) == new_total,
+      newLastPage:Math.ceil(new_total/10),
+      new_userImg:new_userImg,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
+    });
+  })   
+})
+ /*需要写文章的页面*/
   app.get('/writePost',checkLogin);
 	app.get('/writePost',function(req,res){
 		Post.getTags({},function(err,tags){
@@ -892,7 +907,7 @@ app.get('/question', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
-    var num=5;
+    var num=8;
 Ques.getTen(null, page, num, function (err, questions, total) {
       if (err) {
         questions = [];
@@ -942,27 +957,47 @@ app.get('/questionHot', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
-    Ques.getMostHot(null, page, function (err, questions, total) {
+    var num=8;
+Ques.getMostHot(null, page, num, function (err, questions, total) {
       if (err) {
         questions = [];
       } 
-      Ques.getTags(function(err, tags){
+  Ques.getTags(function(err, tags){
       if (err) {
         tags = [];
       }
-      console.log("total:"+total);
+
+    Ques.getMostHot(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal){
+      quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
+        console.log(userComments);
+        var arr=[];
+        for(var i=0,leng=userComments.length;i<leng;i++){
+          console.log("userComments.length:"+userComments.length);
+          for(var j=0,len=userComments[i].comments.length;j<len;j++){
+            if (req.session.user.email==userComments[i].comments[j].email) {
+              arr.push({
+                  quesTitle:userComments[i].quesTitle,
+                  comments:userComments[i].comments[j]
+                });
+            }
+          }
+        }
       res.render('qa/questionHot', {
         tags: tags,
         title: '问题',
         questions: questions,
         page: page,
         isFirstPage: (page - 1) == 0,
-        isLastPage: ((page - 1) * 2 + questions.length) == total,
-        LastPage:Math.ceil(total/2),
+        isLastPage: ((page - 1) * num + questions.length) == total,
+        LastPage:Math.ceil(total/num),
         user: req.session.user,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        userQuestionsTotal:userQuestionsTotal,
+        userCommentsTotal:arr.length
       });
+      });
+    });
     });
     });
   });
@@ -971,27 +1006,47 @@ app.get('/questionNoAnswer', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
-    Ques.getNoAnswer(null, page, function (err, questions, total) {
+    var num=8;
+Ques.getNoAnswer(null, page, num, function (err, questions, total) {
       if (err) {
         questions = [];
       } 
-      Ques.getTags(function(err, tags){
+  Ques.getTags(function(err, tags){
       if (err) {
         tags = [];
       }
-      console.log("total:"+total);
+
+    Ques.getNoAnswer(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal){
+      quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
+        console.log(userComments);
+        var arr=[];
+        for(var i=0,leng=userComments.length;i<leng;i++){
+          console.log("userComments.length:"+userComments.length);
+          for(var j=0,len=userComments[i].comments.length;j<len;j++){
+            if (req.session.user.email==userComments[i].comments[j].email) {
+              arr.push({
+                  quesTitle:userComments[i].quesTitle,
+                  comments:userComments[i].comments[j]
+                });
+            }
+          }
+        }
       res.render('qa/questionNoAnswer', {
         tags: tags,
         title: '问题',
         questions: questions,
         page: page,
         isFirstPage: (page - 1) == 0,
-        isLastPage: ((page - 1) * 2 + questions.length) == total,
-        LastPage:Math.ceil(total/2),
+        isLastPage: ((page - 1) * num + questions.length) == total,
+        LastPage:Math.ceil(total/num),
         user: req.session.user,
         success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+        error: req.flash('error').toString(),
+        userQuestionsTotal:userQuestionsTotal,
+        userCommentsTotal:arr.length
       });
+      });
+    });
     });
     });
   });
@@ -1001,7 +1056,11 @@ app.get('/questionTags', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
     var tag = req.query.tag;
     //查询并返回第 page 页的 10 篇文章
-    Ques.getTag(tag, page, function (err, questions,total) {
+    Ques.getTags(function(err, tags){ 
+      if (err) {
+        tags = [];
+      }
+     Ques.getTag(tag, page, function (err, questions,total) {
       if (err) {
         req.flash('error',err); 
         return res.redirect('/');
@@ -1013,6 +1072,7 @@ app.get('/questionTags', function (req, res) {
         return res.redirect('/');
        }
        res.render('qa/questionTags', {
+        tags:tags,
         tag:tag,
         tagInfo:tagInfo,
         title: 'TAG:' + tag,
@@ -1027,17 +1087,19 @@ app.get('/questionTags', function (req, res) {
       });
      });
      });
+   });
   });
 
 //------------------------------显示问题具体内容
   app.get('/questionDetail', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
-    var num=2;
+    var num=8;
     Ques.getOne(req.query.email, req.query.day, req.query.quesTitle, function (err, question) {
       if (err) {
         req.flash('error', err); 
         return res.redirect('/');
       }
+
       res.render('qa/questionDetail', {
         title:"具体问题",
         quesTitle: req.query.quesTitle,

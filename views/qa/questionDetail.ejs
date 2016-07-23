@@ -1,10 +1,10 @@
 <%- include ../header %>
-	<link rel="stylesheet" type="text/css" href="/dist/js/questionDetail.css">
+	<link rel="stylesheet" type="text/css" href="/dist/css/questionDetail.css">
 <%- include ../nav %>
 <div class="warp clearfix">
 <div class="main">
     <h2 class="quesTitle"><%=quesTitle %></h2>
-    <p class="quesDetail"><%-quesDetail %></p>
+    <div class="quesDetail"><%-quesDetail %></div>
     <p class="info">
         提问者：<a href="#"><%= email %></a> | 
         日期：<%= day %>
@@ -36,10 +36,10 @@
              </div>
              <div class="commName">
                <a href="<%= comments[i].website %>" class="action"><%= comments[i].email %></a>
-               <span class="commTime"><%= comments[i].time %></span>
+               <span class="commTime"><%= comments[i].time.minute %></span>
              </div> 
              <div class="commCont">
-               <p><%= comments[i].content %></p> 
+               <p id="<%=i%>"><%= comments[i].content %></p> 
              </div>            
              <div class="commAction">
                <span id="commentAgree_<%=i%>" 

@@ -15,3 +15,22 @@ window.onload=function(){
 	}
 	
 };
+
+(function(){
+	var newPost = document.getElementById('new-post');
+	var newPostPage = 1;
+	EventUtil.addHandler(window,'scroll',function(e){
+		
+		var totalHeight = document.documentElement.scrollTop + document.body.scrollTop + document.documentElement.clientHeight ;
+	
+		if(totalHeight > newPost.offsetTop + newPost.offsetHeight) {
+			console.log('ddd');
+			if(newPostPage < 10) {
+				newPostPage++;
+				ajax('GET','/postpage/new/'+ newPostPage,null,null,function(res){
+					console.log(res);
+				})
+			}			
+		}
+	})
+})();
