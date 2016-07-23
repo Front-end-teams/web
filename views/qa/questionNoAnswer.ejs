@@ -4,37 +4,30 @@
 <%- include ../nav %>
 	<div id="container">
 		<div id="wenda-main">
-			<div id="wenda-recommand">
-				<h2>编辑推荐</h2>
-				<ul id="recommand-list">
-					<li><a href="">我是推荐一</li>
-				</ul>
-			</div>
 			<ul id="wenda-nav">
 				<li id="nav-new"><a href="/question">最新</a></li>
 				<li id="nav-hot"><a href="/questionHot">最热</a></li>
 				<li id="nav-unanswered"><a href="/questionNoAnswer" style="color: #000;">未答</a></li>
 			</ul>
 			<div id="wenda-list">
-			<% questions.forEach(function (question) { %>
+			<% questions.forEach(function (question,index) { %>
 				<div class="wenda-container">
 					    <div class="wenda-img">
-					       <img class="wenda-img-icon" src="images/7.jpg">
+					       <img class="wenda-img-icon" src="<%=authorImg[index].bigimg%>">
 					     </div>
 					    <div class="wenda-content">
 							<h1 class="wenda-title">
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>"><%= question.quesTitle %></a>
-
+								<span class="questionTime"><%= question.time.minute %></span>
 							</h1>
 							<div class="action-panel">							    
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">浏览量 <%=question.pv%></a>
 								<a href="/questionDetail?email=<%= question.email %>&day=<%= question.time.day %>&quesTitle=<%= question.quesTitle %>" class="action">回答 <%=question.comments.length%></a>
-								<span>
-								标签：
+								<span class="tags">
+								&nbsp;标签：
 								<% question.tags.forEach(function(tag){%>
 								<a href="/questionTags?tag=<%=tag%>" class="action"><%=tag%></a>
 								<%})%>
-								| <%= question.time.minute %>
 								</span>
 							</div>
 					    </div>					
@@ -54,7 +47,7 @@
 			<div id="user-about">
 				<div id="user-skin">
 					<div id="headpic">
-						<img id="headpic-img" src="images/7.jpg">
+						<a href="/user"><img id="headpic-img" src="<%=userImg[0].bigimg%>"></a>
 					</div>
 				</div>
 				<div id="user-wendainfo">
@@ -73,16 +66,7 @@
 			</div>
 		</div>
 	</div>
-	<footer>
-		<hr/>
-		我是footer。<br/>
-		我是footer。<br/>
-		我是footer。<br/>
-		我是footer。<br/>
-		我是footer。
-	</footer>
-
-<!-- <%- include ../footer %> -->
+<%- include ../footer %>
 <script type="text/javascript" src="/jquery.js"></script>
 <script type="text/javascript" src="/jquery.windstagball.js"></script>
 <script type="text/javascript" src="/dist/js/common.min.js"></script>

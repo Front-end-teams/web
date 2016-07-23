@@ -940,7 +940,7 @@ app.get('/question', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
     var num=8;
-Ques.getTen(null, page, num, function (err, questions, total) {
+Ques.getTen(null, page, num, function (err, questions, total,authorImg) {
       if (err) {
         questions = [];
       } 
@@ -948,13 +948,10 @@ Ques.getTen(null, page, num, function (err, questions, total) {
       if (err) {
         tags = [];
       }
-
-    Ques.getTen(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal){
+    Ques.getTen(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal,userImg){
       quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
-        console.log(userComments);
         var arr=[];
         for(var i=0,leng=userComments.length;i<leng;i++){
-          console.log("userComments.length:"+userComments.length);
           for(var j=0,len=userComments[i].comments.length;j<len;j++){
             if (req.session.user.email==userComments[i].comments[j].email) {
               arr.push({
@@ -976,7 +973,9 @@ Ques.getTen(null, page, num, function (err, questions, total) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),
         userQuestionsTotal:userQuestionsTotal,
-        userCommentsTotal:arr.length
+        userCommentsTotal:arr.length,
+        authorImg:authorImg,
+        userImg:userImg
       });
       });
     });
@@ -990,7 +989,7 @@ app.get('/questionHot', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
     var num=8;
-Ques.getMostHot(null, page, num, function (err, questions, total) {
+Ques.getMostHot(null, page, num, function (err, questions, total,authorImg) {
       if (err) {
         questions = [];
       } 
@@ -999,7 +998,7 @@ Ques.getMostHot(null, page, num, function (err, questions, total) {
         tags = [];
       }
 
-    Ques.getMostHot(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal){
+    Ques.getMostHot(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal,userImg){
       quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
         console.log(userComments);
         var arr=[];
@@ -1026,7 +1025,9 @@ Ques.getMostHot(null, page, num, function (err, questions, total) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),
         userQuestionsTotal:userQuestionsTotal,
-        userCommentsTotal:arr.length
+        userCommentsTotal:arr.length,
+        authorImg:authorImg,
+        userImg:userImg
       });
       });
     });
@@ -1039,7 +1040,7 @@ app.get('/questionNoAnswer', function (req, res) {
     var page = req.query.p ? parseInt(req.query.p) : 1;
     //查询并返回第 page 页的 10 篇文章
     var num=8;
-Ques.getNoAnswer(null, page, num, function (err, questions, total) {
+Ques.getNoAnswer(null, page, num, function (err, questions, total,authorImg) {
       if (err) {
         questions = [];
       } 
@@ -1048,7 +1049,7 @@ Ques.getNoAnswer(null, page, num, function (err, questions, total) {
         tags = [];
       }
 
-    Ques.getNoAnswer(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal){
+    Ques.getNoAnswer(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal,userImg){
       quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
         console.log(userComments);
         var arr=[];
@@ -1075,7 +1076,9 @@ Ques.getNoAnswer(null, page, num, function (err, questions, total) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString(),
         userQuestionsTotal:userQuestionsTotal,
-        userCommentsTotal:arr.length
+        userCommentsTotal:arr.length,
+        authorImg:authorImg,
+        userImg:userImg
       });
       });
     });
@@ -1103,6 +1106,7 @@ app.get('/questionTags', function (req, res) {
         req.flash('error',err); 
         return res.redirect('/');
        }
+       console.log(tagInfo);
        res.render('qa/questionTags', {
         tags:tags,
         tag:tag,
