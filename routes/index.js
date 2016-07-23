@@ -655,7 +655,7 @@ app.post("/user/info/email",function(req,res){
 
   var mailOptions = {
       from: 'yang <chanda_yang@163.com>', // sender address
-      to: '1013717388@qq.com', // list of receivers
+      to: req.body.email, // list of receivers
       subject: 'Hello ✔', // Subject line
       text: 'Hello world ✔', // plaintext body
       html: '<b>Hello world ✔</b>' // html body
