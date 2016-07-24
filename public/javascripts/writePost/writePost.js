@@ -236,7 +236,8 @@ function tagsHidden(e){
 			    type: 'success',
 			    confirm: function() {
 			    		//继续写博客
-			        //window.location="localhost:3008/showPost?author="+author;
+			       
+			        window.location.reload();
 			    },
 			    cancel: function() {
 			    	//查看博客
@@ -288,7 +289,8 @@ if(document.getElementById('save')){
 			    type: 'success',
 			    confirm: function() {
 			    		//继续写博客
-			        //window.location="localhost:3008/showPost?author="+author;
+			    		var confirm = document.querySelector('.confirm');
+			        confirm.setArrribute("href","/writePost");
 			    },
 			    cancel: function() {
 			    	//查看博客

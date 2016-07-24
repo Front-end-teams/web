@@ -116,16 +116,27 @@ function attentionFunc(e){
 
 console.log(deletePost);
 EventUtil.addHandler(deletePost,'click',function(){
+	var title = document.getElementById("post-title").innerHTML;
+	var author = document.getElementById("post-author").innerHTML;
+	var mes = JSON.stringify({author:author,title:title});
 	var pop2 = document.querySelector('.p2');
-			
+			console.log(title);
 			var p2 = Popuper({
 			    wrap: pop2,
 			    type: 'success',
 			    confirm: function() {
 		    		//继续写博客
 		        //window.location="localhost:3008/showPost?author="+author;
-		        //var confirm = document.querySelector(".confirm");
-		        //confirm.setAttribute("href","/deletePost/<% decodeURIComponent(post.author) %>/<% decodeURIComponent(post.title) %>");
+		        /*var confirm = document.querySelector(".confirm");
+		        confirm.setAttribute("href",'/deletePost/' + encodeURIComponent(author) + '/' + encodeURIComponent(title));*/
+		        /*ajax('post',"/deletePost","application/json",mes,function(res){
+		        	console.log(res);
+		        })*/
+						ajax('get','/deletePost/' + encodeURIComponent(author) + '/' + encodeURIComponent(title), null,null,function(res){
+							if(res == 'success'){
+								window.location.href = '/user';
+							};
+						})
 			    },
 			    cancel: function() {
 			    	//查看博客

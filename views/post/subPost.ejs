@@ -6,7 +6,8 @@
 <% if( post.author == user.email) { %>
 
   <div class="author-editor">
-    <span><a href="/writePost/<%= post.author %>/<%= post.title %>">编辑</a></span><span id='post-delete'>删除</span>
+    <span class='post-control'><a href="/writePost/<%= post.author %>/<%= post.title %>">编辑</a></span>
+    <span class='post-control' id='post-delete'>删除</span>
   </div>
 <% }  %>
   </div>

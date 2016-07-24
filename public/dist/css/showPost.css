@@ -90,6 +90,21 @@ body {
 	margin-left: 10px;
 }
 
+/* 编辑删除样式 */
+.post-control{
+	display: inline-block;
+	margin-left:10px;
+	color:#878C88;
+	cursor:pointer;
+}
+.post-control:hover{
+	color:#A1A0A0;
+}
+.post-control a{
+	display-inline-block;
+	color:#878C88;
+	text-decoration: none;
+}
 aside{
 	width:300px;
 	float:right;
@@ -116,6 +131,7 @@ aside{
 /* .icon-agree:before { content: "\e761"; }
 .icon-collect:before { content: "\e733"; }  */
 
+/* 用户信息样式 */
 #user-about{
   
   overflow: hidden;

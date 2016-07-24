@@ -296,6 +296,7 @@ app.get('/postpage/hot/:item',function(req,res){
     if (err) {
       new_posts = [];
     }  
+    console.log(hot_posts);
    var hotPost = {
       new_posts:hot_posts,     
       newPage: hotPage,
@@ -409,14 +410,14 @@ app.get('/postpage/hot/:item',function(req,res){
   })
 
   // 文章删除
-  app.get('deletePost/:author/:title',function(req,res){
-   
+  app.get('/deletePost/:author/:title',function(req,res){
+    console.log('delete');
     Post.remove(req.params,function(err){
       if(err){
         console.log(err);
         return
       }
-      res.redirect('/user');
+      res.send('success');
     })
   })
 
