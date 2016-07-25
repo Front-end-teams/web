@@ -115,7 +115,7 @@ module.exports = function(app) {
 
 
   //登录页面
-  app.get('/login', function (req, res) {
+  //app.get('/login', function (req, res) {
    
     /*res.render('/login', {
         title: '登录',
@@ -123,7 +123,7 @@ module.exports = function(app) {
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
       });*/
-	});
+	//});
  /* app.post('/login/email',function(req,res){
     User.getEmail(decodeURIComponent(req.body.email),function(err,user){
       console.log("aaaa");
@@ -168,8 +168,8 @@ module.exports = function(app) {
         req.session.user = user;
         req.session.save();
         //req.flash('success', '登陆成功!');
-        //res.send("loginsuccess");
-        res.redirect('/');//登陆成功后跳转到主页
+        res.send("loginsuccess");
+        //res.redirect('/');//登陆成功后跳转到主页
       }
     });     
   });

@@ -5,6 +5,7 @@
 	
 		
 		var mask = document.getElementById("mask");
+		var regtab = document.getElementById("regtab");
 		var tabcard = new TabCard("regtab","defaultStyle","clickStyle");
 			tabcard.clear();
 	   		tabcard.click();
@@ -23,15 +24,6 @@
 			var logininp = loginForm.querySelectorAll("input");
 			var logintips = loginForm.querySelectorAll(".tip");
 			var loginsub = document.getElementById("loginsub");
-
-			/*	var loginfn=function(e){
-			var ev = e||window.e;
-			var target = ev.target||ev.srcElement;
-			var nextTarget = target.nextElementSibling||target.nextSibling;
-			target.style.border = "1px solid yellow";
-			//nextTarget.style.display = "block";
-			checkLog(target);
-		}*/
 
 		var regfn=function(e){
 			var ev = e||window.e;
@@ -261,8 +253,9 @@
 						ajax("post","/login","application/json",str,function(res){
 							console.log(res);
 							if(res == "loginsuccess"){
-								
-								location.href="/";
+								mask.style.display="none";
+								regtab.style.display="none";
+								window.location.reload();
 							}else{
 								return;
 							}
@@ -322,11 +315,12 @@
 	  };
 		
 
+  
+
+   
 		
 
 		
-
-
 
 
 	
