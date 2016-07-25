@@ -5,10 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');//解析json、url等的中间件
 var session = require('express-session');
+var domain = require('domain');
 var nodemailer = require('nodemailer');
 
 // var compression = require('compression');
-
+var domain = require('domain');
 //connect-mongo包实现在一个数据库连接中需要另一个连接
 var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
@@ -21,7 +22,29 @@ var app = express();
 var settings = require('./settings');
 
 var pagination = require('express-paginate');
+//配置domain模块
+// app.c(function(){
+	app.use(function(req,res,next){
+		var reqDomain = domain.create();
+		reqDomain.on('error',function(err){
+			console.log('捕获到错误');
+			res.send(500,err.stack);
+		});
+		reqDomain.run(next);
+	})
+// })
 
+process.on('uncaughtException',function(err){
+	console.error('uncaughtExpection Error');
+	if(typeof err === 'object') {
+		console.error('error:'+err.message);
+	}
+	if(err.stack) {
+		console.log(err.stack);
+	}else {
+		console.error('argument is not  an object');
+	}
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -48,6 +71,7 @@ app.use(session({
 }));
 
 app.use(flash());
+
 
 routes(app);
 
