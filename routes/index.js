@@ -949,7 +949,6 @@ Ques.getTen(null, page, num, function (err, questions, total,authorImg) {
         userQuestionsTotal:userQuestionsTotal,
         userCommentsTotal:arr.length,
         authorImg:authorImg,
-        userImg:userImg
       });
       });
     });
@@ -1001,7 +1000,6 @@ Ques.getMostHot(null, page, num, function (err, questions, total,authorImg) {
         userQuestionsTotal:userQuestionsTotal,
         userCommentsTotal:arr.length,
         authorImg:authorImg,
-        userImg:userImg
       });
       });
     });
@@ -1052,7 +1050,6 @@ Ques.getNoAnswer(null, page, num, function (err, questions, total,authorImg) {
         userQuestionsTotal:userQuestionsTotal,
         userCommentsTotal:arr.length,
         authorImg:authorImg,
-        userImg:userImg
       });
       });
     });
