@@ -170,9 +170,11 @@ function checkLogin(req, res, next) {
   if (!req.session.user) {
     
     res.redirect('/reg');
+  } else {
+    next();
   }
  
-  next();
+  
 }
 
 
@@ -201,7 +203,7 @@ function checkLogin(req, res, next) {
           if(err){
             hot_posts = [];
           }
-          Post.getTquestionen(null,hotPage,{agreeLength:-1,time:-1},function(err,recom_posts,recom_total,recom_userImg){
+          Post.getTen(null,hotPage,{agreeLength:-1,time:-1},function(err,recom_posts,recom_total,recom_userImg){
             if(err){
               console.log(err);
               return;

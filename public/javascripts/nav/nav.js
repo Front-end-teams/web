@@ -258,9 +258,7 @@
 						ajax("post","/login","application/json",str,function(res){
 							console.log(res);
 							if(res == "loginsuccess"){
-								mask.style.display="none";
-								regtab.style.display="none";
-								window.location.reload();
+								window.location.href = '/';
 							}else{
 								return;
 							}
