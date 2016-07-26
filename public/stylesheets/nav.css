@@ -76,18 +76,20 @@ font-size: 10px;
 
 
 
-
+.regLogin{
+  height:500px;
+  position:relative;
+}
 
   #regtab{
-    position:fixed;
+   position:absolute;
     width:360px;
     height:420px;
     top:50%;
     left:50%;
-    margin-left: -180px;
-    margin-top: -210px;
+    transform: translate(-50%,-50%);
     opacity: 1;
-    background:white scroll  0 0;
+    border:1px solid yellow;
   }
   .hide{
     display:none;
