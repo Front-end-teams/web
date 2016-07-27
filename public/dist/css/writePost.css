@@ -129,3 +129,11 @@ label.middle{
 	display: inline-block;
 	margin-left: 5px
 }
+
+.pop-href{
+	text-decoration: none;
+	color:#8C8C8C;
+}
+.pop-href:hover{
+	color:#ADADAD;
+}

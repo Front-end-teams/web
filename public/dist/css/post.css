@@ -143,7 +143,10 @@
   margin-left: -40px;
   overflow: hidden;
 }
-#headpic img{
+#headpic a{
+  display:inline-block;
+}
+#headpic a img{
   height: 80px;
   width: 80px;
 }

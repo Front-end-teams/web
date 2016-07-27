@@ -4,7 +4,8 @@
 
 	
 		
-		var mask = document.getElementById("mask");
+		//var mask = document.getElementById("mask");
+		var regtab = document.getElementById("regtab");
 		var tabcard = new TabCard("regtab","defaultStyle","clickStyle");
 			tabcard.clear();
 	   		tabcard.click();
@@ -12,6 +13,8 @@
 
 	  var regForm = document.getElementById("regForm");
 	  var loginForm = document.getElementById("loginForm");
+	
+
 	  if(regForm || loginForm) {
 			var login = document.getElementById("login");
 			var reg = document.getElementById("reg");
@@ -24,15 +27,6 @@
 			var logintips = loginForm.querySelectorAll(".tip");
 			var loginsub = document.getElementById("loginsub");
 
-			/*	var loginfn=function(e){
-			var ev = e||window.e;
-			var target = ev.target||ev.srcElement;
-			var nextTarget = target.nextElementSibling||target.nextSibling;
-			target.style.border = "1px solid yellow";
-			//nextTarget.style.display = "block";
-			checkLog(target);
-		}*/
-
 		var regfn=function(e){
 			var ev = e||window.e;
 			var target = ev.target||ev.srcElement;
@@ -43,9 +37,9 @@
 		}
 
 		if(reg!==null){
-			reg.onclick = function(){
+			 //reg.onclick = function(){
 				regtab.className="show";
-				mask.className="maskshow";
+				//mask.className="maskshow";
 	   		var tabPanel = tabcard.panel;
 	   		var input = tabPanel.querySelectorAll("input");
 	   		for(var i=0;i<input.length;i++){
@@ -84,7 +78,7 @@
 		  	EventUtil.addHandler(reginp[0],"blur",regCheckExist);
 
 		  	EventUtil.addHandler(reginp[1],"input",regfn);
-			};
+			//};
 		
 			
 	  };
@@ -116,9 +110,11 @@
 			});
    	}
 		if(login!==null){
-			login.onclick=  function(){
+			 //login.onclick=  function(){
+
 				regtab.className="show";
-				mask.className="maskshow";
+				//mask.className="maskshow";
+				loginForm.className = 'navform';
 		   		var tabPanel = tabcard.panel;
 		   		var input = tabPanel.querySelectorAll("input");
 		   		for(var i=0;i<input.length;i++){
@@ -158,13 +154,13 @@
 		   			});
 		   		}
 	   			
-			};
+			// };
 		};
 		
-		close.onclick = function(){
-			regtab.className= "hide";
-			mask.className = "maskhide";
-		};
+		// close.onclick = function(){
+		// 	regtab.className= "hide";
+		// 	mask.className = "maskhide";
+		// };
 
 		//注册的验证函数
 		var regResult={
@@ -238,7 +234,8 @@
 			ajax("post","/login/password","application/json",totalinfo,function(res){
 				if(res!=="match"){
 					tip.style.display = 'block';
-					tip.innerHTML = '用户名与密码不一致';
+					//tip.innerHTML = '用户名与密码不一致';
+					tip.innerHTML = res;
 					tip.style.color = "red";
 					// logResult.passwords=false;
 					return;
@@ -261,8 +258,7 @@
 						ajax("post","/login","application/json",str,function(res){
 							console.log(res);
 							if(res == "loginsuccess"){
-								
-								location.href="/";
+								window.location.href = '/';
 							}else{
 								return;
 							}
@@ -322,11 +318,12 @@
 	  };
 		
 
+  
+
+   
 		
 
 		
-
-
 
 
 	

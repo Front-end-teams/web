@@ -7,7 +7,7 @@
     <section class="pop-title"><h3>提示</h3></section>
     <section class="pop-content">是否删除该文章</section>
     <section class="pop-footer">
-      <a class="confirm" href="/deletePost/<%= post.author %>/<%= post.title  %>" >确定</a>
+      <a class="confirm" href=''>确定</a>
       <a class="cancel">取消</a>
     
     </section>
@@ -57,12 +57,7 @@
 		
 	</div>
 </div>
-<div class="relate-post">
-	<header class="relate-post-header">文章标签</header>
-	<div class="relate-post-detail">
-		
-	</div>
-</div>
+
 
 <% } else{ %>
 <div class="relate-post">
@@ -80,6 +75,7 @@
 
 <%- include ../footer %>
 <script type="text/javascript" src='/popout/popular.js'></script>
+<script type="text/javascript" src = '/dist/js/common.js'></script>
 <script type="text/javascript" src="/dist/js/showPost.min.js"></script>
 
 <%- include ../end %>

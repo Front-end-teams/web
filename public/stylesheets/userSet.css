@@ -176,6 +176,9 @@
 #user-img-label{
 	font-size:14px;
 }
+#user-img-upload{
+	width:240px;
+}
 /*邮箱验证*/
 
 #emailWrap{

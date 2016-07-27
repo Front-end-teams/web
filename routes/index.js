@@ -57,15 +57,15 @@ module.exports = function(app) {
 	})
 	//注册页面
 
-  /*app.get('/reg', function (req, res) {
-    res.render('/reg', {
+  app.get('/reg', function (req, res) {
+    res.render('reg/reg', {
       title: '注册',
       user: req.session.user,
       success: req.flash('success').toString(),
       error: req.flash('error').toString()
     });
 
-  });*/
+  });
   app.post('/reg/email', function (req, res) {
     var email = req.body.email;
     console.log(req.body);
@@ -114,31 +114,13 @@ module.exports = function(app) {
   });
 
 
-  //登录页面
-  app.get('/login', function (req, res) {
-   
-    /*res.render('/login', {
-        title: '登录',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
-      });*/
-	});
- /* app.post('/login/email',function(req,res){
-    User.getEmail(decodeURIComponent(req.body.email),function(err,user){
-      console.log("aaaa");
-      if(!user){     
-        res.send("邮箱不存在！");
-      }else{
-        res.send("exist");
-      }
-      
-    });
-  });*/
   app.post('/login/password',function(req,res){
     var md5 = crypto.createHash('md5'),
         password = md5.update(decodeURIComponent(req.body.password)).digest('hex');   
     User.getEmail(decodeURIComponent(req.body.email),function(err,user){
+      console.log(user);
+      console.log(password);
+      console.log(user.password);
       if(!user){     
         res.send("邮箱不存在！");
       }else{
@@ -151,7 +133,7 @@ module.exports = function(app) {
     });
       
   });
-  //app.post('/login', checkLogin);
+
   app.post('/login', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
@@ -168,8 +150,8 @@ module.exports = function(app) {
         req.session.user = user;
         req.session.save();
         //req.flash('success', '登陆成功!');
-        //res.send("loginsuccess");
-        res.redirect('/');//登陆成功后跳转到主页
+        res.send("loginsuccess");
+        //res.redirect('/');//登陆成功后跳转到主页
       }
     });     
   });
@@ -186,37 +168,26 @@ module.exports = function(app) {
 //用户权限函数
 function checkLogin(req, res, next) {
   if (!req.session.user) {
-    res.redirect('/login');
+    
+    res.redirect('/reg');
+  } else {
+    next();
   }
  
-  next();
+  
 }
 
-/*function checkNotLogin(req, res, next) {
-  if (req.session.user) {
-    req.flash('error', '已登录!'); 
-    //res.redirect('back');//返回之前的页面
-  }
-  next();//执行下一个路由
-}*/
 
 	//文章
 		
 	app.get('/', function(req, res, next) {
 
 	  res.render('index', { title: '前端交流',
-	  						
-	  						author: '0001',
-	  						tag: 'fort',
-						    time: 'now',
-						    user: req.session.user,
-						    Browse: 100,
-						    agree: 90,
-						    review: 23,
-						    post: 'hello world' });
+      user:req.session.user
+	  				});
 	});
 	//文章二级页面
-
+  app.get('/post',checkLogin);
   app.get('/post', function (req, res) {
   	var newPage = req.query.p ? parseInt(req.query.p) : 1;
     var hotPage = req.query.p ? parseInt(req.query.p) : 1;
@@ -296,6 +267,7 @@ app.get('/postpage/hot/:item',function(req,res){
     if (err) {
       new_posts = [];
     }  
+    console.log(hot_posts);
    var hotPost = {
       new_posts:hot_posts,     
       newPage: hotPage,
@@ -319,6 +291,7 @@ app.get('/postpage/hot/:item',function(req,res){
 })
  /*需要写文章的页面*/
   app.get('/writePost',checkLogin);
+
 	app.get('/writePost',function(req,res){
 		Post.getTags({},function(err,tags){
 			if(err){
@@ -409,14 +382,14 @@ app.get('/postpage/hot/:item',function(req,res){
   })
 
   // 文章删除
-  app.get('deletePost/:author/:title',function(req,res){
-   
+  app.get('/deletePost/:author/:title',function(req,res){
+    console.log('delete');
     Post.remove(req.params,function(err){
       if(err){
         console.log(err);
         return
       }
-      res.redirect('/user');
+      res.send('success');
     })
   })
 
@@ -935,6 +908,7 @@ app.post('/disagree',function(req,res){
 //     });
 //     });
 //   });
+app.get('/question',checkLogin);
 app.get('/question', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
     var page = req.query.p ? parseInt(req.query.p) : 1;
@@ -975,7 +949,6 @@ Ques.getTen(null, page, num, function (err, questions, total,authorImg) {
         userQuestionsTotal:userQuestionsTotal,
         userCommentsTotal:arr.length,
         authorImg:authorImg,
-        userImg:userImg
       });
       });
     });
@@ -1027,7 +1000,6 @@ Ques.getMostHot(null, page, num, function (err, questions, total,authorImg) {
         userQuestionsTotal:userQuestionsTotal,
         userCommentsTotal:arr.length,
         authorImg:authorImg,
-        userImg:userImg
       });
       });
     });
@@ -1078,7 +1050,6 @@ Ques.getNoAnswer(null, page, num, function (err, questions, total,authorImg) {
         userQuestionsTotal:userQuestionsTotal,
         userCommentsTotal:arr.length,
         authorImg:authorImg,
-        userImg:userImg
       });
       });
     });
@@ -1330,6 +1301,7 @@ app.post('/commentReply',function(req,res){
   //   });
   // });
  /*-----------------产生分页的模块,jobs表示数据库返回的jobs集合-------------*/
+
  app.get('/job-page',function(req,res){
     jobHunting.getAllJob(function(jobs){
        console.log(req.query.page);
@@ -1464,6 +1436,7 @@ app.get('/job-insert-succ', function(req, res){
     res.end();
 });
   /*------------------工作前5条迭代查询(正在开发中)-----------------*/
+app.get('/job-top5',checkLogin);
 app.get('/job-top5',function(req,res){
   jobHunting.Top5('',function(jobs){
     //console.assert(jobs,'这里出错了.....');

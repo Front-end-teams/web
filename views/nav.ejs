@@ -23,8 +23,8 @@
 			
 		<% } else { %>
 		
-			<li><a href="javascript:void(0)" id="login">登录</a></li>
-			<li><a href="javascript:void(0)" id="reg">注册</a></li>
+			<li><a href="/reg" id="login">登录</a></li>
+			<li><a href="/reg" id="reg">注册</a></li>
 			
 		<% } %>
 			<li><a href="/job-top5" id='nav-work'>工作</a></li>
@@ -36,83 +36,4 @@
 			
 		</ul>
 	</header>
-
-
-
-<div class="regLogin">
-	<div id="mask" class="maskhide"></div>
-	<div id="regtab" class="hide">
-		<!-- tabHead -->
-		<ul class="tab-nav">
-			<li><a href="javascript:void(0)" id="aLogin">登录</a></li>
-			<li><a href="javascript:void(0)" id="aReg">注册</a></li>
-			<button class="close" id="close"></button>
-		</ul>
-	 
-		<!-- tabPanel-->
-		<ul class="tab-bd">
-			<li>
-        <form id="loginForm" class="navform">
-          <p class="tip hide"></p>
-          	<div class="rlf-group">
-							<input class="ipt ipt-email" id="log-email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
-							
-						</div>
-						<div class="rlf-group">
-							<input class="ipt ipt-pwd" id="log-password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
-							
-						</div>
-						<div class="rlf-group" id="rl-pw">
-							<label class="rlf-autoin" hidefocus="true" for="auto-signin">
-							<input id="auto-signin" class="auto-cbx" type="checkbox" checked="checked">
-									下次自动登录
-							</label>
-							<a class="rlf-forget" hidefocus="true" target="_blank" href="/user/newforgot">忘记密码 </a>
-						</div>
-          	<div>
-          		<button type="submit" id="loginsub">立即登录</button>
-          	</div>
-          </form>
-      </li>
-			<li>
-	            <form id="regForm" class="navform regshow">
-	            
-	            	<div class="rlf-group">
-						<input class="ipt ipt-email" id="reg-email" type="text" placeholder="请输入注册邮箱" autocomplete="off" data-validate="require-mobile-phone" data-callback="checkusername" name="email" value="" maxlength="37">
-						<p class="tip hide"></p>
-					</div>
-					<div class="rlf-group">
-						<input class="ipt ipt-pwd" id="reg-password" type="password" autocomplete="off" maxlength="16" placeholder="6-16位密码，区分大小写，不能用空格" data-validate="require-password" name="password">
-						<p class="tip hide"></p>
-					</div>
-					<div class="rlf-group">
-						<input class="ipt-verify" id="validate" type="text" placeholder="请输入验证码" data-minlength="4" maxlength="4" data-callback="checkverity" data-validate="require-string"  name="verify">
-						<a class="verify-img-wrap" hidefocus="true" href="javascript:void(0)">
-							<!-- <img class="verify-img" src="/passport/user/verifycode?t=1463144492807"> -->
-							<img class="verify-img">
-						</a>
-						<a class="icon-refresh" hidefocus="true" href="javascript:void(0)"></a>
-						<p class="tip hide"></p>
-					</div>
-					<div>
-						<button  type="submit" id="regsub">立即注册</button>
-					</div>
-					
-				</form>
-				<div id="regsuccess" class="hide">
-		    		<p id="p1">注册成功!</p>
-		    		<span id="countdown">5</span>
-		    		<a href="/">去完善资料</a>
-		    	</div>
-	        </li>
-		</ul>
-	</div>
-</div>
-<script type="text/javascript" src="/dist/js/common.min.js"></script>
-<script type="text/javascript" src="/tab/tabcard.js"></script>
-<script type="text/javascript" src="/dist/js/nav.min.js"></script>
-
-
-
-
 
