@@ -44,8 +44,6 @@
   	//当图片加载完后增加jcrop类
 	
 			$("#upload-img").on("load",function(){
-				console.log("cheng");
-				console.log($("#upload-img"));
 				var api = $.Jcrop("#upload-img",{
 					boxWidth:300,
 					boxHeight:300,
@@ -56,18 +54,13 @@
 				api.setSelect([$("#upload-img").width()>$("#upload-img").height()?1/2*($("#upload-img").width()-$("#upload-img").height()):0,
 											$("#upload-img").width()>$("#upload-img").height()?0:1/2*($("#upload-img").height()-$("#upload-img").width()),
 											$("#upload-img").width()>$("#upload-img").height()?1/2*($("#upload-img").width()+$("#upload-img").height()):$("#upload-img").height(),
-											$("#upload-img").width()>$("#upload-img").height()?$("#upload-img").height():1/2*($("#upload-img").height()+$("#upload-img").width())]);
-				
+											$("#upload-img").width()>$("#upload-img").height()?$("#upload-img").height():1/2*($("#upload-img").height()+$("#upload-img").width())]);	
 			})
-
-		
-		})
-
-	
+		})	
 	})
 		//当选区框改变时触发的操作
 		function showPreview(coords){
-			console.log(coords);//返回的是相对于原图像裁切的宽高信息
+			//coords返回的是相对于原图像裁切的宽高信息
 					$("#x").val(coords.x);
 					$("#y").val(coords.y);
 					$("#w").val(coords.w);
@@ -76,7 +69,7 @@
 					if(parseInt(coords.w)>0){
 						var bigRx = $("#pre-big").width()/coords.w;
 						var bigRy = $("#pre-big").height()/coords.h;
-						console.log(bigRx)
+						
 						$("#crop-pre-big").css({
 							width:Math.round(bigRx*$("#upload-img").width())+"px",
 							height:Math.round(bigRy*$("#upload-img").height())+"px",
@@ -111,7 +104,7 @@
    
 		$("#upload-submit").on("click",function(e){
 			e.stopPropagation();
-			console.log("fjkdfajk");
+
 			$(".p2").css("display","none");
 
 			$.ajax({

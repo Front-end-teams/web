@@ -279,7 +279,7 @@ if(document.getElementById('save')){
 		}
 		console.log(sendResult);
 		
-		ajax("post","/post/update","application/json",JSON.stringify(sendResult),function(res){
+		ajax("put","/post/update","application/json",JSON.stringify(sendResult),function(res){
 			console.log(res);
 			
 			var pop2 = document.querySelector('.p2');

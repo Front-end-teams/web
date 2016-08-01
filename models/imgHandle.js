@@ -14,7 +14,6 @@ function newPath(oldpath,rWidth){
 }
 
 function imgCrop(param,callback){
-	console.log('imgCrop');
 	
 	var newpath = newPath(param.path,param.rWidth);
 	// var cropImg = function(){
@@ -47,7 +46,6 @@ function imgCrop(param,callback){
 				}
 				var writeStream = fs.createWriteStream(path.join("./public", newpath));
 				stdout.pipe(writeStream).on('finish',function(){
-					console.log("ccc");
 					callback(null,newpath.replace(/\\/g,"\/"));
 				})
 			})

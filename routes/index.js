@@ -430,7 +430,7 @@ app.get('/postpage/hot/:item',function(req,res){
   })
 
   //更新文章
-  app.post('/post/update',function(req,res){
+  app.put('/post/update',function(req,res){
     var artText=decodeURIComponent(req.body.post).substr(0,200);
     
     var tags = decodeURIComponent(req.body.tags).split(",");

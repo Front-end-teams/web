@@ -95,5 +95,5 @@ function scrollE(ele,str){
 				}	
 			}			
 		}		
-}
+} 
 })();
