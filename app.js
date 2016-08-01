@@ -1,4 +1,4 @@
-var express = require('express');
+﻿var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -48,7 +48,7 @@ process.on('uncaughtException',function(err){
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT || 3008);
+app.set('port', process.env.PORT || 80);
 // uncomment after placing your favicon in /public
 // app.use(compression());
 app.use(favicon(path.join(__dirname, 'public', 'favicon1.ico')));

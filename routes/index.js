@@ -1,4 +1,4 @@
-var Post = require("../models/post.js");
+﻿var Post = require("../models/post.js");
 //中间件multer的配置（实现上传功能）
 var upload = require('../models/multerUtil');
 
@@ -922,7 +922,7 @@ Ques.getTen(null, page, num, function (err, questions, total,authorImg) {
       if (err) {
         tags = [];
       }
-    Ques.getTen(req.session.user.email,null,null,function(err,userQuestions,userQuestionsTotal,userImg){
+    Ques.getTen("123456@11.com",null,null,function(err,userQuestions,userQuestionsTotal,userImg){
       quesComment.getAllCommentsOfOne(req.session.user.email,null,null,function(err,userComments,userCommentsTotal){
         var arr=[];
         for(var i=0,leng=userComments.length;i<leng;i++){
