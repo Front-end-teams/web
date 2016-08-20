@@ -100,7 +100,7 @@ gulp.task('watch',function(){
      }
 
     // 监听js
-    gulp.watch('public/javascripts/*.js', function(){
+    gulp.watch('public/javascripts/', function(){
         gulp.run('js');
     });
 

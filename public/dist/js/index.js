@@ -131,17 +131,20 @@ $(window).scroll(function(event) {
 	//介绍一的显示
 	if($(window).scrollTop() + $(window).height()  >$(".intro1").offset().top+ 1/2*$(".intro1").height()) {
 		$(".intro1 .intro1-text").animate({opacity: 1}, 1000);
+		$(".intro1 .intro1-img").css('backgroundImage','url("./images/intro1.png")')
 		$(".intro1 .intro1-img").animate({top:"5px",opacity:1},500);
 	}
 
 	//介绍二的显示
 	if($(window).scrollTop() + $(window).height() >$(".intro2").offset().top+ 1/2*$(".intro2").height() ) {
 		$(".intro2 .intro2-text").animate({opacity: 1}, 1000);
+		$(".intro2 .intro2-img").css('backgroundImage','url("./images/intro2.png")')
 		$(".intro2 .intro2-img").animate({top:"-30px",opacity:1},500);
 	}
 
 	if($(window).scrollTop() + $(window).height() >$(".intro3").offset().top+ 1/2*$(".intro3").height() ) {
 		$(".intro3 .intro3-text").animate({opacity: 1}, 1000);
+		$(".intro3 .intro3-img").css('backgroundImage','url("./images/intro3.png")')
 		$(".intro3 .intro3-img").animate({top:"5px",opacity:1},500);
 	}
 	

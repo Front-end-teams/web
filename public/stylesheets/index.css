@@ -179,7 +179,7 @@ html,body {
 .intro1 .intro1-img{
   top:50px;
   left:150px;
-  background-image: url('../images/intro1.png');
+  /* background-image: url('../images/intro1.png'); */
   
 }
 .intro1 .intro1-text{ 
@@ -195,7 +195,7 @@ html,body {
 .intro2 .intro2-img{
   top:50px;
   right:150px;
-  background-image: url('../images/intro2.png');
+  /* background-image: url('../images/intro2.png'); */
 
 }
 .intro2 .intro2-text{
@@ -207,7 +207,7 @@ html,body {
 .intro3 .intro3-img{
   top:50px;
   left:150px;
-  background-image: url('../images/intro3.png');
+  /* background-image: url('../images/intro3.png'); */
 
 }
 .intro3 .intro3-text{
